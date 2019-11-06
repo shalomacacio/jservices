@@ -22,4 +22,8 @@ class Servico extends Model implements Transformable
      */
     protected $fillable = ['descricao' ,'flg_comissao'];
 
+
+    protected $casts = [
+        'flg_comissao' => 'boolean'
+     ];
 }

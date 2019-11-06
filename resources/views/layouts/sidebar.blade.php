@@ -39,13 +39,19 @@
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-plus-square"></i>
-                    <p>Extras <i class="fa fa-angle-left right"></i></p>
+                    <p>Serviços <i class="fa fa-angle-left right"></i></p>
                   </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                         <a href="{{route('servico.index')}}" class="nav-link">
                             <i class="fa fa-circle-o nav-icon"></i>
-                            <p>Serviços</p>
+                            <p>Novo Serviço</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="{{route('servico.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Status Serviço</p>
                           </a>
                         </li>
                     </ul>

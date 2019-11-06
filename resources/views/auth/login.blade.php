@@ -25,11 +25,11 @@
                     <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                     <div class="input-group-append">
                         <span class="fa fa-lock input-group-text"></span>
-
+                        @if (Session::has('message'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>Teste</strong>
+                                <strong>{{Session::get('message')}}</strong>
                             </span>
-
+                        @endif
                     </div>
                 </div>
                 <div class="row">
