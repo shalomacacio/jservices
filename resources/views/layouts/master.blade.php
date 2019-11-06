@@ -42,7 +42,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Header -->
     @include('layouts.header')
         <!-- Sidebar -->
-    @include('layouts.sidebar') @yield('content')
+    @include('layouts.sidebar')
+
+        @yield('content')
         <!-- Footer -->
     @include('layouts.footer')
     </div>

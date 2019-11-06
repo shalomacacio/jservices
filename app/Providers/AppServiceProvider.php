@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //correção do "is not instantiable while building "
+        $this->app->register(RepositoryServiceProvider::class);
     }
 
     /**

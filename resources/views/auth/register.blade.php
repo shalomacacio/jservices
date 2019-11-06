@@ -1,4 +1,4 @@
-@extends('layouts.master') 
+@extends('layouts.master')
 @section('content')
 
 <body class="hold-transition register-page">
@@ -11,7 +11,7 @@
       <div class="card-body register-card-body">
         <p class="login-box-msg">{{ __('Register') }}</p>
 
-        <form action="{{ route('register') }}" method="post">
+        <form action="{{ route('user.store') }}" method="post">
           @csrf
           <div class="input-group mb-3">
             <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" placeholder="Enter Your Full Name"
