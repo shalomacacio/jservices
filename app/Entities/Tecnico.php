@@ -7,11 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class SolicitacaoStatus.
+ * Class Tecnico.
  *
  * @package namespace App\Entities;
  */
-class SolicitacaoStatus extends Model implements Transformable
+class Tecnico extends Model implements Transformable
 {
     use TransformableTrait;
 
@@ -20,6 +20,6 @@ class SolicitacaoStatus extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['nome','sobrenome', 'email', 'telefone'];
 
 }

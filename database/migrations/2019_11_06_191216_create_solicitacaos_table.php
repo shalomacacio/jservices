@@ -24,12 +24,9 @@ class CreateSolicitacaosTable extends Migration
             $table->integer('servico_id');
             $table->decimal('servico_vlr')->default(0.00);
             $table->string('forma_pagamento');
-            $table->decimal('base_comissao')->default(0.00);
             $table->string('tipo_aquisicao');
             $table->string('situacao')->default('pendente');
-            $table->integer('tecnico_id')->nullable();
             $table->decimal('comissao_atendimento')->default(0.00);
-            $table->decimal('comissao_tecnico')->default(0.00);
             $table->text('obs')->nullable();
 
             //campos padrao

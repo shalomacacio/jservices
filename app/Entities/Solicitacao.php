@@ -27,11 +27,8 @@ class Solicitacao extends Model implements Transformable
         'servico_id',
         'servico_vlr',
         'forma_pagamento',
-        'base_comissao',
         'tipo_aquisicao',
-        'tecnico_id',
         'comissao_atendimento',
-        'comissao_tecnico',
         'obs'
     ];
 
@@ -49,10 +46,6 @@ class Solicitacao extends Model implements Transformable
     //Relacionamentos
     public function servico(){
         return $this->belongsTo('App\Entities\Servico');
-    }
-
-    public function tecnico(){
-        return $this->belongsTo('App\Entities\User', 'tecnico_id', 'id');
     }
 
     //Regras de Negócio

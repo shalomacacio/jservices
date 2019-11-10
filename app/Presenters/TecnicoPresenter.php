@@ -2,15 +2,15 @@
 
 namespace App\Presenters;
 
-use App\Transformers\SolicitacaoStatusTransformer;
+use App\Transformers\TecnicoTransformer;
 use Prettus\Repository\Presenter\FractalPresenter;
 
 /**
- * Class SolicitacaoStatusPresenter.
+ * Class TecnicoPresenter.
  *
  * @package namespace App\Presenters;
  */
-class SolicitacaoStatusPresenter extends FractalPresenter
+class TecnicoPresenter extends FractalPresenter
 {
     /**
      * Transformer
@@ -19,6 +19,6 @@ class SolicitacaoStatusPresenter extends FractalPresenter
      */
     public function getTransformer()
     {
-        return new SolicitacaoStatusTransformer();
+        return new TecnicoTransformer();
     }
 }

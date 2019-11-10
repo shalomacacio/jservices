@@ -28,6 +28,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar');
     Route::resource('solicitacao', 'SolicitacaosController');
     Route::resource('servico', 'ServicosController');
+    Route::resource('tecnico', 'TecnicosController');
 });
 
 

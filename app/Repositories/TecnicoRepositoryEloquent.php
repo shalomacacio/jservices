@@ -4,16 +4,16 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\SolicitacaoStatusRepository;
-use App\Entities\SolicitacaoStatus;
-use App\Validators\SolicitacaoStatusValidator;
+use App\Repositories\TecnicoRepository;
+use App\Entities\Tecnico;
+use App\Validators\TecnicoValidator;
 
 /**
- * Class SolicitacaoStatusRepositoryEloquent.
+ * Class TecnicoRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class SolicitacaoStatusRepositoryEloquent extends BaseRepository implements SolicitacaoStatusRepository
+class TecnicoRepositoryEloquent extends BaseRepository implements TecnicoRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +22,7 @@ class SolicitacaoStatusRepositoryEloquent extends BaseRepository implements Soli
      */
     public function model()
     {
-        return SolicitacaoStatus::class;
+        return Tecnico::class;
     }
 
     /**
@@ -33,7 +33,7 @@ class SolicitacaoStatusRepositoryEloquent extends BaseRepository implements Soli
     public function validator()
     {
 
-        return SolicitacaoStatusValidator::class;
+        return TecnicoValidator::class;
     }
 
 
