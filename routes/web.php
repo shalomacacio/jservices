@@ -24,7 +24,9 @@ Route::post('/user', 'UsersController@store')->name('user.store');
 
 Route::group(['middleware'=>['auth']], function(){
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
-
+    Route::get('solicitacao/servicos', 'SolicitacaosController@servicos')->name('solicitacao.servicos');
+    Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar');
+    Route::resource('solicitacao', 'SolicitacaosController');
     Route::resource('servico', 'ServicosController');
 });
 

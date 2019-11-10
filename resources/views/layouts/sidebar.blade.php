@@ -28,12 +28,33 @@
                     <p>Dashboard</p>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a href="pages/widgets.html" class="nav-link">
-                    <i class="nav-icon fa fa-th"></i>
-                    <p>Solicitações</p>
-                  </a>
-                </li>
+
+                <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-th"></i>
+                          <p>Solicitações <i class="fa fa-angle-left right"></i></p>
+                        </a>
+                          <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                <a href="{{route('solicitacao.index')}}" class="nav-link">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Nova Solicitação</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="{{route('solicitacao.servicos')}}" class="nav-link">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Encaminhar Solicitação</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="{{route('solicitacao.index')}}" class="nav-link">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Auditoria</p>
+                                </a>
+                              </li>
+                          </ul>
+                      </li>
 
                 <li class="nav-header">CADASTROS</li>
                 <li class="nav-item has-treeview">
@@ -46,12 +67,6 @@
                         <a href="{{route('servico.index')}}" class="nav-link">
                             <i class="fa fa-circle-o nav-icon"></i>
                             <p>Novo Serviço</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="{{route('servico.index')}}" class="nav-link">
-                            <i class="fa fa-circle-o nav-icon"></i>
-                            <p>Status Serviço</p>
                           </a>
                         </li>
                     </ul>

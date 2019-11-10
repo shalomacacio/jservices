@@ -20,10 +20,11 @@ class Servico extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['descricao' ,'flg_comissao'];
+    protected $fillable = ['descricao' ,'comissao_atendimento', 'tip_comiss_atend', 'comissao_tecnico','tip_comiss_tec', 'comissao_supervisor', 'tip_comiss_sup'];
 
+    public function solicitacao()
+    {
+        return $this->belongsTo('App\Entities\Solicitacao');
+    }
 
-    protected $casts = [
-        'flg_comissao' => 'boolean'
-     ];
 }
