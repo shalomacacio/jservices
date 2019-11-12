@@ -25,7 +25,7 @@ class CreateSolicitacaosTable extends Migration
             $table->decimal('servico_vlr')->default(0.00);
             $table->string('forma_pagamento')->nullable();
             $table->string('tipo_aquisicao')->nullable();
-            $table->integer('solicitacao_status_id')->default(1);
+            $table->integer('status_solicitacao_id')->default(1);
             $table->decimal('comissao_atendimento')->default(0.00);
             $table->decimal('comissao_equipe')->default(0.00);
             $table->decimal('comissao_supervisor')->default(0.00);

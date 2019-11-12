@@ -132,7 +132,7 @@
                                 <th style="width: 10px">#</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th style="width: 40px">Situação</th>
+                                <th style="width: 40px">Status</th>
                                 <th style="width: 40px">Comissão </th>
                               </tr>
                             </thead>
@@ -142,7 +142,7 @@
                                         <td>{{ $solicitacao->id }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->status }}</td>
+                                        <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
                                         <td>R$ {{ $solicitacao->comissao_atendimento }}</td>
                                     </tr>
                                 @endforeach

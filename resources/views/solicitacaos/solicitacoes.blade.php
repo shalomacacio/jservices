@@ -51,7 +51,7 @@
                                         <td>{{ $solicitacao->id }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->solicitacaosStatuses->id }}</td>
+                                        <td>{{ $solicitacao->statusSolicitacao->desscricao }}</td>
                                     <td><a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-block btn-info">Atribuir</a></td>
                                     </tr>
                                 @endforeach

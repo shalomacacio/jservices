@@ -7,38 +7,35 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\SolicitacaoCreateRequest;
-use App\Http\Requests\SolicitacaoUpdateRequest;
-use App\Repositories\SolicitacaoRepository;
-use App\Validators\SolicitacaoValidator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Entities\Solicitacao;
+use App\Http\Requests\StatusSolicitacaoCreateRequest;
+use App\Http\Requests\StatusSolicitacaoUpdateRequest;
+use App\Repositories\StatusSolicitacaoRepository;
+use App\Validators\StatusSolicitacaoValidator;
 
 /**
- * Class SolicitacaosController.
+ * Class StatusSolicitacaosController.
  *
  * @package namespace App\Http\Controllers;
  */
-class SolicitacaosController extends Controller
+class StatusSolicitacaosController extends Controller
 {
     /**
-     * @var SolicitacaoRepository
+     * @var StatusSolicitacaoRepository
      */
     protected $repository;
 
     /**
-     * @var SolicitacaoValidator
+     * @var StatusSolicitacaoValidator
      */
     protected $validator;
 
     /**
-     * SolicitacaosController constructor.
+     * StatusSolicitacaosController constructor.
      *
-     * @param SolicitacaoRepository $repository
-     * @param SolicitacaoValidator $validator
+     * @param StatusSolicitacaoRepository $repository
+     * @param StatusSolicitacaoValidator $validator
      */
-    public function __construct(SolicitacaoRepository $repository, SolicitacaoValidator $validator)
+    public function __construct(StatusSolicitacaoRepository $repository, StatusSolicitacaoValidator $validator)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
@@ -52,81 +49,38 @@ class SolicitacaosController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        // $solicitacaos = $this->repository->all();
-        // $solicitacaos = $this->repository->findWhere(['user_id' => Auth::user()->id]);
-
-        $solicitacaos = $this->repository->scopeQuery(function($query){
-            return $query
-                ->where('user_id', Auth::user()->id)
-                // ->where('status', 1)
-                // ->take(3)
-                ->orderBy('created_at','desc');
-        })->paginate(5);
-
-        $servicos = DB::table('servicos')->distinct()->get();
+        $statusSolicitacaos = $this->repository->all();
 
         if (request()->wantsJson()) {
+
             return response()->json([
-                'data' => $solicitacaos,
+                'data' => $statusSolicitacaos,
             ]);
         }
 
-        return view('solicitacaos.index', compact('solicitacaos', 'servicos'));
-    }
-
-    public function encaminhar($id)
-    {
-        $solicitacao = $this->repository->find($id);
-        $tecnicos = DB::table('tecnicos')->distinct()->get();
-        return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
-    }
-
-    public function atribuir(Request $request)
-    {
-        return dd($request);
-    }
-
-    public function solicitacoes()
-    {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-        $solicitacaos = $this->repository->scopeQuery(function($query){
-            return $query
-                ->whereNotIn('status_solicitacao_id', ['3','4'])
-                // ->where('status', 1)
-                // ->take(3)
-                ->orderBy('created_at','desc');
-        })->paginate(5);
-
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $solicitacaos,
-            ]);
-        }
-
-        return view('solicitacaos.solicitacoes', compact('solicitacaos'));
+        return view('statusSolicitacaos.index', compact('statusSolicitacaos'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  SolicitacaoCreateRequest $request
+     * @param  StatusSolicitacaoCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(SolicitacaoCreateRequest $request)
+    public function store(StatusSolicitacaoCreateRequest $request)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-            $solicitacao = $this->repository->create($request->all());
+            $statusSolicitacao = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'Solicitacao created.',
-                'data'    => $solicitacao->toArray(),
+                'message' => 'StatusSolicitacao created.',
+                'data'    => $statusSolicitacao->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -156,16 +110,16 @@ class SolicitacaosController extends Controller
      */
     public function show($id)
     {
-        $solicitacao = $this->repository->find($id);
+        $statusSolicitacao = $this->repository->find($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $solicitacao,
+                'data' => $statusSolicitacao,
             ]);
         }
 
-        return view('solicitacaos.show', compact('solicitacao'));
+        return view('statusSolicitacaos.show', compact('statusSolicitacao'));
     }
 
     /**
@@ -177,32 +131,32 @@ class SolicitacaosController extends Controller
      */
     public function edit($id)
     {
-        $solicitacao = $this->repository->find($id);
+        $statusSolicitacao = $this->repository->find($id);
 
-        return view('solicitacaos.edit', compact('solicitacao'));
+        return view('statusSolicitacaos.edit', compact('statusSolicitacao'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  SolicitacaoUpdateRequest $request
+     * @param  StatusSolicitacaoUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(SolicitacaoUpdateRequest $request, $id)
+    public function update(StatusSolicitacaoUpdateRequest $request, $id)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $solicitacao = $this->repository->update($request->all(), $id);
+            $statusSolicitacao = $this->repository->update($request->all(), $id);
 
             $response = [
-                'message' => 'Solicitacao updated.',
-                'data'    => $solicitacao->toArray(),
+                'message' => 'StatusSolicitacao updated.',
+                'data'    => $statusSolicitacao->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -240,11 +194,11 @@ class SolicitacaosController extends Controller
         if (request()->wantsJson()) {
 
             return response()->json([
-                'message' => 'Solicitacao deleted.',
+                'message' => 'StatusSolicitacao deleted.',
                 'deleted' => $deleted,
             ]);
         }
 
-        return redirect()->back()->with('message', 'Solicitacao deleted.');
+        return redirect()->back()->with('message', 'StatusSolicitacao deleted.');
     }
 }
