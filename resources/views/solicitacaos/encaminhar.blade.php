@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Solicitação</h1>
+            <h1>Encaminhar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Nova Solicitação</li>
+              <li class="breadcrumb-item active">Encaminhar</li>
             </ol>
           </div>
         </div>
@@ -29,73 +29,59 @@
                 <!-- general form elements disabled -->
                 <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Nova Solicitação</h3>
+                    <h3 class="card-title">Encaminhar para Técnico</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                <form role="form" action="{{ route('solicitacao.store') }}" method="POST">
+                <form role="form" action="{{ route('solicitacao.atribuir') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-sm-4">
                         <!-- text input -->
                         <div class="form-group">
                             <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente}}">
+                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente}}" disabled>
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                         <!-- select -->
                         <div class="form-group">
                             <label>Serviço</label>
-                        <input type="text" class="form-control" name="servico_id" value="{{$solicitacao->servico->descricao}}">
+                        <input type="text" class="form-control" name="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
 
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <!-- select -->
                             <div class="form-group">
-                                <label>Equipamentos</label>
-                                <select class="form-control" name="tipo_aquisicao">
-                                    <option value=null>Nenhum</option>
-                                    <option value="comodato">Comodato</option>
-                                    <option value="venda">Venda</option>
+                                <label>Tipo Aquisição Equipamento</label>
+                                <select class="form-control" disabled>
+                                  <option>{{ $solicitacao->tipo_aquisicao }}</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <!-- select -->
                             <div class="form-group">
-                                <label>Serviço</label>
-                                <select class="form-control" name="servico_id">
+                                <label>Equipe</label>
+                                <select multiple class="form-control" name="equipe[]">
                                     @foreach( $tecnicos as $tecnico)
-                                        <option value="{{ $tecnico->id}}">{{ $tecnico->name }}</option>
+                                        <option value="{{ $tecnico->id}}">{{ $tecnico->nome }} {{ $tecnico->sobrenome }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- textarea -->
-                            <div class="form-group">
-                            <label>Observação</label>
-                            <textarea class="form-control" name="obs" rows="1" placeholder="Enter ..."></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                     <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info float-right">Adicionar</button>
+                  <button type="submit" class="btn btn-info float-right">Atribuir Equipe</button>
                 </div>
                 <!-- /.card-body -->
                 </div>
-                <input type="hidden" value="{{Auth::user()->id}}" name="user_id" />
-                <input type="hidden"  name="comissao_atendimento" />
-                <input type="hidden"  name="comissao_tecnico" />
+                    <input type="hidden" name="solicitacao_id" value="{{$solicitacao->id}}"/>
                 </form>
             <!-- /.card -->
             <!-- general form elements disabled -->

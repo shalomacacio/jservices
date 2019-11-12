@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Solicitação</h1>
+            <h1>Técnico</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Nova Solicitação</li>
+              <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+              <li class="breadcrumb-item active">Novo Técnico</li>
             </ol>
           </div>
         </div>
@@ -29,72 +29,41 @@
                 <!-- general form elements disabled -->
                 <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Nova Solicitação</h3>
+                    <h3 class="card-title">Novo Técnico</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                <form role="form" action="{{ route('solicitacao.store') }}" method="POST">
+                <form role="form" action="{{ route('tecnico.store') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                         <!-- text input -->
                         <div class="form-group">
-                            <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" placeholder="Nome do cliente ...">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" name="nome" placeholder="primeiro nome...">
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Serviço</label>
-                            <select class="form-control" name="servico_id">
-                                @foreach( $servicos as $servico)
-                                    <option value="{{ $servico->id}}">{{ $servico->descricao}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
-                                <label>Valor Serviço</label>
-                                <input type="text" class="form-control" name="servico_vlr" placeholder="R$ 0.00">
+                                <label>Sobrenome</label>
+                                <input type="text" class="form-control" name="sobrenome" placeholder="sobrenome...">
                             </div>
                         </div>
 
-                        <div class="col-sm-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Forma de Pagamento</label>
-                            <select class="form-control" name="forma_pagamento">
-                                <option value=null>Nenhum</option>
-                                <option value="avista">À Vista</option>
-                                <option value="boleto">Boleto</option>
-                                <option value="credito">Crédito</option>
-                            </select>
-                        </div>
-                        </div>
-
-                        <div class="col-sm-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Equipamentos</label>
-                            <select class="form-control" name="tipo_aquisicao">
-                                <option value=null>Nenhum</option>
-                                <option value="comodato">Comodato</option>
-                                <option value="venda">Venda</option>
-                            </select>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <!-- textarea -->
+                        <div class="col-sm-3">
+                            <!-- text input -->
                             <div class="form-group">
-                            <label>Observação</label>
-                            <textarea class="form-control" name="obs" rows="1" placeholder="Enter ..."></textarea>
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="email...">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input type="text" class="form-control" name="telefone" placeholder="sobrenome...">
                             </div>
                         </div>
                     </div>
@@ -105,9 +74,6 @@
                 </div>
                 <!-- /.card-body -->
                 </div>
-                <input type="hidden" value="{{Auth::user()->id}}" name="user_id" />
-                <input type="hidden"  name="comissao_atendimento" />
-                <input type="hidden"  name="comissao_tecnico" />
                 </form>
             <!-- /.card -->
             <!-- general form elements disabled -->
@@ -119,8 +85,7 @@
                       <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h3 class="card-title">Comissão: {{  $solicitacaos->sum('comissao_atendimento')  }}</h3>
+                                <h3 class="card-title">Técnicos</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -129,20 +94,18 @@
                             <thead>
                               <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Cliente</th>
-                                <th>Serviço </th>
-                                <th style="width: 40px">Situação</th>
-                                <th style="width: 40px">Comissão </th>
+                                <th>NOME</th>
+                                <th style="width: 40px">EMAIL</th>
+                                <th style="width: 40px">TELEFONE </th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($solicitacaos as $solicitacao)
+                                @foreach ($tecnicos as $tecnico)
                                     <tr>
-                                        <td>{{ $solicitacao->id }}</td>
-                                        <td>{{ $solicitacao->cliente }}</td>
-                                        <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->situacao }}</td>
-                                        <td>R$ {{ $solicitacao->comissao_atendimento }}</td>
+                                        <td>{{ $tecnico->id }}</td>
+                                        <td>{{ $tecnico->nome }} {{ $tecnico->sobrenome }}</td>
+                                        <td>{{ $tecnico->email }}</td>
+                                        <td>{{ $tecnico->telefone }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -151,7 +114,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $solicitacaos->render() }}
+                                {{-- {{ $tecnicos->render() }} --}}
                           </ul>
                         </div>
                       </div>

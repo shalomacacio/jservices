@@ -61,9 +61,9 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>Comissão Técnico</label>
-                        <input type="text" class="form-control" name="comissao_tecnico" placeholder="" required>
-                        Percentual % <input type="checkbox" name="tip_comiss_tec" value="percentual" >
-                        Fixo  R$     <input type="checkbox" name="tip_comiss_tec" value="fixo">
+                        <input type="text" class="form-control" name="comissao_equipe" placeholder="" required>
+                        Percentual % <input type="checkbox" name="tip_comiss_eq" value="percentual" >
+                        Fixo  R$     <input type="checkbox" name="tip_comiss_eq" value="fixo">
                       </div>
                     </div>
 
@@ -105,7 +105,7 @@
                                 <th style="width: 10px">#</th>
                                 <th>Serviço</th>
                                 <th style="width: 60px">Atendimento</th>
-                                <th style="width: 40px">Técnico</th>
+                                <th style="width: 40px">Equipe</th>
                                 <th style="width: 40px">Supervisor</th>
                               </tr>
                             </thead>
@@ -115,7 +115,7 @@
                                         <td>{{ $servico->id }}</td>
                                         <td>{{ $servico->descricao }}</td>
                                         <td>@if($servico->tip_comiss_atend == 'fixo') R$ @else %  @endif {{ $servico->comissao_atendimento }}</td>
-                                        <td>@if($servico->tip_comiss_tec == 'fixo') R$ @else %  @endif {{ $servico->comissao_tecnico }}</td>
+                                        <td>@if($servico->tip_comiss_eq == 'fixo') R$ @else %  @endif {{ $servico->comissao_equipe }}</td>
                                         <td>@if($servico->tip_comiss_sup == 'fixo') R$ @else %  @endif {{ $servico->comissao_supervisor }}</td>
                                     </tr>
                                 @endforeach

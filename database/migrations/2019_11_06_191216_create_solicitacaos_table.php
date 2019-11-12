@@ -23,11 +23,14 @@ class CreateSolicitacaosTable extends Migration
             $table->integer('user_id');
             $table->integer('servico_id');
             $table->decimal('servico_vlr')->default(0.00);
-            $table->string('forma_pagamento');
-            $table->string('tipo_aquisicao');
-            $table->string('situacao')->default('pendente');
+            $table->string('forma_pagamento')->nullable();
+            $table->string('tipo_aquisicao')->nullable();
+            $table->integer('solicitacao_status_id')->default(1);
             $table->decimal('comissao_atendimento')->default(0.00);
+            $table->decimal('comissao_equipe')->default(0.00);
+            $table->decimal('comissao_supervisor')->default(0.00);
             $table->text('obs')->nullable();
+            $table->tinyInteger('flg_ativo')->default(1);
 
             //campos padrao
             $table->rememberToken();

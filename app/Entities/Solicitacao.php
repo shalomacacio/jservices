@@ -25,10 +25,13 @@ class Solicitacao extends Model implements Transformable
         'cliente',
         'user_id',
         'servico_id',
+        'status_id',
         'servico_vlr',
         'forma_pagamento',
         'tipo_aquisicao',
         'comissao_atendimento',
+        'comissao_equipe',
+        'comissao_supervisor',
         'obs'
     ];
 
@@ -38,18 +41,31 @@ class Solicitacao extends Model implements Transformable
         $this->attributes['comissao_atendimento'] = $comissao;
     }
 
-    public function setComissaoTecnicoAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_tec, $this->servico_vlr, $this->servico->comissao_tecnico);
-        $this->attributes['comissao_tecnico'] = $comissao;
+    public function setComissaoEquipeAttribute(){
+        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_eq, $this->servico_vlr, $this->servico->comissao_equipe);
+        $this->attributes['comissao_equipe'] = $comissao;
+    }
+
+    public function setComissaoSupervisorAttribute(){
+        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_sup, $this->servico_vlr, $this->servico->comissao_supervisor);
+        $this->attributes['comissao_supervisor'] = $comissao;
     }
 
     //Relacionamentos
-    public function servico(){
+    public function servico()
+    {
         return $this->belongsTo('App\Entities\Servico');
     }
 
+    public function tecnicos()
+    {
+        return $this->belongsToMany('App\Entities\Tecnico')
+        ->withTimestamps();
+    }
+
     //Regras de Negócio
-    public function calcularComissao( $tipoComissao,$valor, $comissao ){
+    public function calcularComissao( $tipoComissao,$valor, $comissao )
+    {
         if($tipoComissao == 'percentual')
             return $valor * ($comissao/100);
         else{

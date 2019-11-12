@@ -22,4 +22,12 @@ class Tecnico extends Model implements Transformable
      */
     protected $fillable = ['nome','sobrenome', 'email', 'telefone'];
 
+
+    //Relacionamentos
+    public function solicitacoes()
+    {
+        return $this->belongsToMany('App\Entities\Solicitacao')
+        ->withTimestamps();
+    }
+
 }

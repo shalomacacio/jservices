@@ -20,8 +20,8 @@ class CreateServicosTable extends Migration
             $table->string('descricao')->unique();
 			$table->decimal('comissao_atendimento')->default(0); // em percentual %
 			$table->string('tip_comiss_atend')->notNul();
-			$table->decimal('comissao_tecnico')->default(0); // em percentual %
-			$table->string('tip_comiss_tec')->notNul();
+			$table->decimal('comissao_equipe')->default(0); // em percentual %
+			$table->string('tip_comiss_eq')->notNul();
 			$table->decimal('comissao_supervisor')->default(0); // em percentual %
 			$table->string('tip_comiss_sup')->notNul();
             $table->timestamps();

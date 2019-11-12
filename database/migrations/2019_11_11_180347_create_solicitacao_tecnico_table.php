@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSolicitacaosTecnicos extends Migration
+class CreateSolicitacaoTecnicoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSolicitacaosTecnicos extends Migration
      */
     public function up()
     {
-        Schema::create('solicitacaos_tecnicos', function (Blueprint $table) {
+        Schema::create('solicitacao_tecnico', function (Blueprint $table) {
             $table->integer('solicitacao_id')->unsigned()->nullable();
             $table->foreign('solicitacao_id')->references('id')
                   ->on('solicitacaos')->onDelete('cascade');
@@ -22,7 +22,7 @@ class CreateSolicitacaosTecnicos extends Migration
             $table->foreign('tecnico_id')->references('id')
                   ->on('tecnicos')->onDelete('cascade');
 
-            $table->decimal('comissao_tecnico');
+            $table->decimal('comissao_tecnico')->nullable();
 
             $table->timestamps();
         });
@@ -35,6 +35,6 @@ class CreateSolicitacaosTecnicos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solicitacaos_tecnicos');
+        Schema::dropIfExists('solicitacao_tecnico');
     }
 }

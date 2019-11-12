@@ -107,7 +107,8 @@
                 </div>
                 <input type="hidden" value="{{Auth::user()->id}}" name="user_id" />
                 <input type="hidden"  name="comissao_atendimento" />
-                <input type="hidden"  name="comissao_tecnico" />
+                <input type="hidden"  name="comissao_equipe" />
+                <input type="hidden"  name="comissao_supervisor" />
                 </form>
             <!-- /.card -->
             <!-- general form elements disabled -->
@@ -141,7 +142,7 @@
                                         <td>{{ $solicitacao->id }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->situacao }}</td>
+                                        <td>{{ $solicitacao->status }}</td>
                                         <td>R$ {{ $solicitacao->comissao_atendimento }}</td>
                                     </tr>
                                 @endforeach
