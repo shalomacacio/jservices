@@ -40,7 +40,7 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" class="form-control" name="nome" placeholder="primeiro nome...">
+                            <input type="text" class="form-control" name="nome" placeholder="primeiro nome..." required>
                         </div>
                         </div>
 
@@ -48,7 +48,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Sobrenome</label>
-                                <input type="text" class="form-control" name="sobrenome" placeholder="sobrenome...">
+                                <input type="text" class="form-control" name="sobrenome" placeholder="sobrenome..." required>
                             </div>
                         </div>
 
@@ -63,7 +63,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Telefone</label>
-                                <input type="text" class="form-control" name="telefone" placeholder="sobrenome...">
+                                <input type="text" class="form-control" name="telefone" placeholder="telefone..."required>
                             </div>
                         </div>
                     </div>

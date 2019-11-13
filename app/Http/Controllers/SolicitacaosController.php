@@ -52,9 +52,6 @@ class SolicitacaosController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        // $solicitacaos = $this->repository->all();
-        // $solicitacaos = $this->repository->findWhere(['user_id' => Auth::user()->id]);
-
         $solicitacaos = $this->repository->scopeQuery(function($query){
             return $query
                 ->where('user_id', Auth::user()->id)
@@ -62,15 +59,12 @@ class SolicitacaosController extends Controller
                 // ->take(3)
                 ->orderBy('created_at','desc');
         })->paginate(5);
-
         $servicos = DB::table('servicos')->distinct()->get();
-
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
             ]);
         }
-
         return view('solicitacaos.index', compact('solicitacaos', 'servicos'));
     }
 
@@ -83,27 +77,48 @@ class SolicitacaosController extends Controller
 
     public function atribuir(Request $request)
     {
-        return dd($request);
+        try {
+            $solicitacao = $this->repository->find($request->solicitacao_id);
+            $comissaoTecnico = $solicitacao->comissao_equipe / count($request->equipe);
+            //vincula solicitação a equipe
+            $solicitacao->tecnicos()->attach($request->equipe, ['comissao_tecnico'=> $comissaoTecnico]);
+            //atualiza o status para em andamento
+            $solicitacao->status_solicitacao_id = 2;
+            $solicitacao->save();
+
+            $response = [
+                'message' => 'Solicitacao Atribuida.',
+            ];
+            if ($request->wantsJson()) {
+                return response()->json($response);
+            }
+            return redirect()->route('solicitacoes')->with('message', $response['message']);
+        } catch (ValidatorException $e) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'error'   => true,
+                    'message' => $e->getMessageBag()
+                ]);
+            }
+            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+        }
     }
 
     public function solicitacoes()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
         $solicitacaos = $this->repository->scopeQuery(function($query){
             return $query
-                ->whereNotIn('status_solicitacao_id', ['3','4'])
-                // ->where('status', 1)
+                ->whereNotIn('status_solicitacao_id', ['3','4']) //3 - concluida , 4 - cancelada
+                // ->where('status_solicitacao_id', 1)
                 // ->take(3)
                 ->orderBy('created_at','desc');
         })->paginate(5);
-
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
             ]);
         }
-
         return view('solicitacaos.solicitacoes', compact('solicitacaos'));
     }
 
@@ -119,21 +134,15 @@ class SolicitacaosController extends Controller
     public function store(SolicitacaoCreateRequest $request)
     {
         try {
-
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
             $solicitacao = $this->repository->create($request->all());
-
             $response = [
                 'message' => 'Solicitacao created.',
                 'data'    => $solicitacao->toArray(),
             ];
-
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
-
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
             if ($request->wantsJson()) {
@@ -142,7 +151,6 @@ class SolicitacaosController extends Controller
                     'message' => $e->getMessageBag()
                 ]);
             }
-
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
     }
@@ -157,14 +165,11 @@ class SolicitacaosController extends Controller
     public function show($id)
     {
         $solicitacao = $this->repository->find($id);
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $solicitacao,
             ]);
         }
-
         return view('solicitacaos.show', compact('solicitacao'));
     }
 
@@ -178,7 +183,6 @@ class SolicitacaosController extends Controller
     public function edit($id)
     {
         $solicitacao = $this->repository->find($id);
-
         return view('solicitacaos.edit', compact('solicitacao'));
     }
 
@@ -197,34 +201,25 @@ class SolicitacaosController extends Controller
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
             $solicitacao = $this->repository->update($request->all(), $id);
-
             $response = [
                 'message' => 'Solicitacao updated.',
                 'data'    => $solicitacao->toArray(),
             ];
-
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
-
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
-
             if ($request->wantsJson()) {
-
                 return response()->json([
                     'error'   => true,
                     'message' => $e->getMessageBag()
                 ]);
             }
-
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -236,15 +231,12 @@ class SolicitacaosController extends Controller
     public function destroy($id)
     {
         $deleted = $this->repository->delete($id);
-
         if (request()->wantsJson()) {
-
             return response()->json([
                 'message' => 'Solicitacao deleted.',
                 'deleted' => $deleted,
             ]);
         }
-
         return redirect()->back()->with('message', 'Solicitacao deleted.');
     }
 }

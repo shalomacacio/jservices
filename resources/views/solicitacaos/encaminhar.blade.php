@@ -43,13 +43,11 @@
                             <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente}}" disabled>
                         </div>
                         </div>
-
                         <div class="col-sm-4">
                         <!-- select -->
                         <div class="form-group">
                             <label>Serviço</label>
                         <input type="text" class="form-control" name="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
-
                         </div>
                         </div>
 

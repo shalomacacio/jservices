@@ -40,7 +40,7 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" placeholder="Nome do cliente ...">
+                            <input type="text" class="form-control" name="cliente" placeholder="Nome do cliente ..." required>
                         </div>
                         </div>
 
@@ -48,7 +48,7 @@
                         <!-- select -->
                         <div class="form-group">
                             <label>Serviço</label>
-                            <select class="form-control" name="servico_id">
+                            <select class="form-control" name="servico_id" required>
                                 @foreach( $servicos as $servico)
                                     <option value="{{ $servico->id}}">{{ $servico->descricao}}</option>
                                 @endforeach
@@ -59,7 +59,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Valor Serviço</label>
-                                <input type="text" class="form-control" name="servico_vlr" placeholder="R$ 0.00">
+                                <input type="text" class="form-control" name="servico_vlr" placeholder="R$ 0.00" required>
                             </div>
                         </div>
 

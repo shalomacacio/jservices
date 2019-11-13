@@ -32,6 +32,7 @@ class Solicitacao extends Model implements Transformable
         'comissao_atendimento',
         'comissao_equipe',
         'comissao_supervisor',
+        'flg_autorizado',
         'obs'
     ];
 

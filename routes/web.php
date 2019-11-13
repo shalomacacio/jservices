@@ -13,7 +13,7 @@
 
 use Illuminate\Routing\RouteGroup;
 
-Route::get('/', function () {return view('welcome'); });
+Route::get('/', function () {return redirect()->route('login'); });
 
 Route::get('/login', 'DashboardController@login')->name('login');
 Route::get('/logout', 'DashboardController@logout')->name('logout');

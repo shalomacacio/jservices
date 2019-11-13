@@ -47,12 +47,6 @@
                                   <p>Solicitações</p>
                                 </a>
                               </li>
-                              <li class="nav-item">
-                                <a href="{{route('solicitacao.index')}}" class="nav-link">
-                                  <i class="fa fa-circle-o nav-icon"></i>
-                                  <p>Auditoria</p>
-                                </a>
-                              </li>
                           </ul>
                       </li>
 

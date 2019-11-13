@@ -17,7 +17,7 @@ class CreateStatusSolicitacaosTable extends Migration
 	{
 		Schema::create('status_solicitacaos', function(Blueprint $table) {
             $table->increments('id');
-            $table->text('descricao');
+            $table->text('descricao'); //3- concluido 4 - cancelado
             $table->timestamps();
 		});
 	}

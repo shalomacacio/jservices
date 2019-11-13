@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Encaminhar</h1>
+            <h1>Solicitações</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Encaminhar</li>
+              <li class="breadcrumb-item active">Solicitações</li>
             </ol>
           </div>
         </div>
@@ -30,7 +30,6 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">{{ \Carbon\Carbon::now()->format('d-M-y') }}</h3>
-                                <h3 class="card-title">Comissão: {{  $solicitacaos->sum('comissao_atendimento')  }}</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -41,8 +40,8 @@
                                 <th style="width: 10px">#</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th style="width: 40px">Situação</th>
-                                <th style="width: 40px">Ações </th>
+                                <th>Situação</th>
+                                <th style="width:300px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -51,8 +50,20 @@
                                         <td>{{ $solicitacao->id }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->statusSolicitacao->desscricao }}</td>
-                                    <td><a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-block btn-info">Atribuir</a></td>
+                                        <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
+                                        <td>
+                                          @if($solicitacao->status_solicitacao_id == '1')
+                                            <a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-info">Atribuir</a>
+                                            @else
+                                                <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"  name = "status_solicitacao_id" value="4">Cancelar</button>
+                                                    <button class="btn btn-success" type="submit"  onclick="return confirm('Deseja Concluir?')"          name = "status_solicitacao_id" value="3">Concluir</button>
+                                                    <button class="btn btn-info"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1">Autorizar</button>
+                                                </form>
+                                          @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -81,8 +92,8 @@
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
-
 </script>
+
 <!-- Bootstrap 4 -->
 <script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Morris.js charts -->
