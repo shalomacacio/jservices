@@ -18,7 +18,13 @@ class SolicitacaoValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [],
+        ValidatorInterface::RULE_CREATE =>
+        [
+            'cliente'      => 'required|max:255',
+            'servico_id'   => 'required|numeric',
+            'servico_vlr'   => 'required|numeric',
+
+        ],
         ValidatorInterface::RULE_UPDATE => [],
     ];
 }

@@ -67,7 +67,7 @@
               <p>Concluídos</p>
             </div>
             <div class="icon">
-              <i class="fas fa-calendar-times"></i>
+              <i class="fas fa-calendar-check"></i>
             </div>
             <a href="#" class="small-box-footer">Detalhes <i class="fa fa-arrow-circle-right"></i></a>
           </div>

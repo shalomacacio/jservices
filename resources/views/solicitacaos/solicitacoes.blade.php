@@ -41,7 +41,8 @@
                                 <th>Cliente</th>
                                 <th>Serviço </th>
                                 <th>Situação</th>
-                                <th style="width:300px">Ações </th>
+                                <th>Equipe</th>
+                                <th style="width:200px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -52,16 +53,35 @@
                                         <td>{{ $solicitacao->servico->descricao }}</td>
                                         <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
                                         <td>
+                                            <ul>
+                                              @foreach ($solicitacao->tecnicos as $tecnico)
+                                                @isset($tecnico)
+                                                {{$tecnico->nome}} {{$tecnico->sobrenome}}
+                                                @endisset
+                                              @endforeach
+                                              @empty($solicitacao->tecnicos)
+                                                Nenhum técnico atribuido
+                                              @endempty
+                                            </ul>
+                                        </td>
+                                        <td>
                                           @if($solicitacao->status_solicitacao_id == '1')
-                                            <a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-info">Atribuir</a>
-                                            @else
+                                            <a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-warning">Atribuir</a>
+                                            @elseif($solicitacao->status_solicitacao_id != '3')
                                                 <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
                                                     @csrf
                                                     @method('PUT')
                                                     <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"  name = "status_solicitacao_id" value="4">Cancelar</button>
                                                     <button class="btn btn-success" type="submit"  onclick="return confirm('Deseja Concluir?')"          name = "status_solicitacao_id" value="3">Concluir</button>
-                                                    <button class="btn btn-info"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1">Autorizar</button>
                                                 </form>
+                                            @elseif($solicitacao->status_solicitacao_id == '3')
+                                                <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button class="btn btn-info"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1">Validar</button>
+                                                        <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"> Invalidar  </button>
+
+                                                    </form>
                                           @endif
                                         </td>
                                     </tr>
@@ -72,7 +92,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $solicitacaos->render() }}
+                                {{-- {{ $solicitacaos->render() }} --}}
                           </ul>
                         </div>
                       </div>

@@ -77,7 +77,7 @@ class ServicosController extends Controller
             $servico = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'Servico created.',
+                'message' => 'Servico criado com sucesso.',
                 'data'    => $servico->toArray(),
             ];
 

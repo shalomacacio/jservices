@@ -30,7 +30,7 @@ class CreateSolicitacaosTable extends Migration
             $table->decimal('comissao_equipe')->default(0.00);
             $table->decimal('comissao_supervisor')->default(0.00);
             $table->text('obs')->nullable();
-            $table->tinyInteger('flg_autorizado')->default(0);
+            $table->tinyInteger('flg_autorizado')->nullable()->default(null);
 
             //campos padrao
             $table->rememberToken();

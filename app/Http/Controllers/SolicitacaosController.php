@@ -58,7 +58,7 @@ class SolicitacaosController extends Controller
                 // ->where('status', 1)
                 // ->take(3)
                 ->orderBy('created_at','desc');
-        })->paginate(5);
+        })->paginate(10);
         $servicos = DB::table('servicos')->distinct()->get();
         if (request()->wantsJson()) {
             return response()->json([
@@ -109,11 +109,12 @@ class SolicitacaosController extends Controller
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $solicitacaos = $this->repository->scopeQuery(function($query){
             return $query
-                ->whereNotIn('status_solicitacao_id', ['3','4']) //3 - concluida , 4 - cancelada
-                // ->where('status_solicitacao_id', 1)
+                // ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
+                ->where('status_solicitacao_id','<>',' 4')
+                ->where('flg_autorizado', null)
                 // ->take(3)
                 ->orderBy('created_at','desc');
-        })->paginate(5);
+        })->paginate(10);
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
