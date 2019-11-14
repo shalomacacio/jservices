@@ -55,7 +55,7 @@
                 <form role="form" action="{{ route('solicitacao.store') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                         <!-- text input -->
                         <div class="form-group">
                             <label>Cliente</label>
@@ -80,6 +80,19 @@
                                 <label>Valor Serviço</label>
                                 <input type="text" class="form-control" name="servico_vlr" placeholder="R$ 0.00" required>
                             </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                                <!-- select -->
+                                <div class="form-group">
+                                    <label>Tecnologia</label>
+                                    <select class="form-control" name="tecnologia_id">
+                                        @foreach ($tecnologias as $tecnologia)
+                                            <option value={{$tecnologia->id}}>{{$tecnologia->descricao}}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
                         </div>
 
                         <div class="col-sm-2">

@@ -25,6 +25,7 @@ class Solicitacao extends Model implements Transformable
         'cliente',
         'user_id',
         'servico_id',
+        'tecnologia_id',
         'status_solicitacao_id',
         'servico_vlr',
         'forma_pagamento',
@@ -67,6 +68,11 @@ class Solicitacao extends Model implements Transformable
     public function statusSolicitacao()
     {
         return $this->belongsTo('App\Entities\StatusSolicitacao');
+    }
+
+    public function tecnologias()
+    {
+        return $this->belongsTo('App\Entities\Tecnologia');
     }
 
     //Regras de Negócio

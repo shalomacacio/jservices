@@ -60,12 +60,13 @@ class SolicitacaosController extends Controller
                 ->orderBy('created_at','desc');
         })->paginate(10);
         $servicos = DB::table('servicos')->distinct()->get();
+        $tecnologias = DB::table('tecnologias')->distinct()->get();
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
             ]);
         }
-        return view('solicitacaos.index', compact('solicitacaos', 'servicos'));
+        return view('solicitacaos.index', compact('solicitacaos', 'servicos', 'tecnologias'));
     }
 
     public function encaminhar($id)

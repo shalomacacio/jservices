@@ -22,6 +22,7 @@ class CreateSolicitacaosTable extends Migration
             $table->string('cliente');
             $table->integer('user_id');
             $table->integer('servico_id');
+            $table->integer('tecnologia_id');
             $table->decimal('servico_vlr')->default(0.00);
             $table->string('forma_pagamento')->nullable();
             $table->string('tipo_aquisicao')->nullable();
