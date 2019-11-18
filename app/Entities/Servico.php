@@ -20,7 +20,7 @@ class Servico extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['descricao' ,'comissao_atendimento', 'tip_comiss_atend', 'comissao_equipe','tip_comiss_eq', 'comissao_supervisor', 'tip_comiss_sup'];
+    protected $fillable = ['categoria_servico_id' ,'descricao' , 'servico_vlr' ,'comissao_atendimento', 'tip_comiss_atend', 'comissao_equipe','tip_comiss_eq', 'comissao_supervisor', 'tip_comiss_sup'];
 
     public function solicitacao()
     {

@@ -38,123 +38,127 @@
           </ul>
       </div>
       @endif
-</section>
+    </section>
 
     <!-- Main content -->
     <section class="content">
-          <div class="col-md-12">
-            <!-- general form elements disabled -->
-            <div class="card card-warning">
-              <div class="card-header">
-                <h3 class="card-title">Novo Serviço</h3>
+      <div class="col-md-12">
+        <!-- general form elements disabled -->
+        <div class="card card-warning">
+          <div class="card-header">
+            <h3 class="card-title">Novo Serviço</h3>
+          </div>
+          <form role="form" action="{{ route('servico.store') }}" method="POST">
+          <!-- /.card-header -->
+          <div class="card-body">
+            @csrf
+            <div class="row">
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>Categoria</label>
+                  <select class="form-control" name="categoria_servico_id" required>
+                    @foreach( $categorias as $categoria)
+                      <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-              <form role="form" action="{{ route('servico.store') }}" method="POST">
-                @csrf
-                  <div class="row">
 
-                    <div class="col-sm-3">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Serviço</label>
-                        <input type="text" class="form-control" name="descricao" placeholder="Nome do serviço ..." required>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Comissao Atendimento</label>
-                        <input type="text" class="form-control" name="comissao_atendimento" placeholder="" required>
-                        Percentual % <input type="checkbox" name="tip_comiss_atend" value="percentual" >
-                        Fixo  R$ <input type="checkbox"  name="tip_comiss_atend" value="fixo" >
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Comissão Técnico</label>
-                        <input type="text" class="form-control" name="comissao_equipe" placeholder="" required>
-                        Percentual % <input type="checkbox" name="tip_comiss_eq" value="percentual" >
-                        Fixo  R$     <input type="checkbox" name="tip_comiss_eq" value="fixo">
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label> Comissão Supervisor</label>
-                        <input type="text" class="form-control" name="comissao_supervisor" placeholder="" required>
-                        Percentual % <input type="checkbox" name="tip_comiss_sup" value="percentual" >
-                        Fixo  R$ <input type="checkbox"  name="tip_comiss_sup" value="fixo" >
-                      </div>
-                    </div>
-                  </div>
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Serviço</label>
+                  <input type="text" class="form-control" name="descricao" placeholder="Nome do serviço ..." required>
+                </div>
               </div>
-              <!-- /.card-body -->
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-right">Adicionar</button>
-                    </div>
-                </form>
 
+              <div class="col-sm-3">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Valor</label>
+                  <input type="text" class="form-control" name="servico_vlr" placeholder="" >
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Comissao Atendimento</label>
+                  <input type="text" class="form-control" name="comissao_atendimento" placeholder="" required>
+                  Percentual % <input type="checkbox" name="tip_comiss_atend" value="percentual" >
+                  Fixo  R$ <input type="checkbox"  name="tip_comiss_atend" value="fixo" >
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Comissão Técnico</label>
+                  <input type="text" class="form-control" name="comissao_equipe" placeholder="" required>
+                  Percentual % <input type="checkbox" name="tip_comiss_eq" value="percentual" >
+                  Fixo  R$     <input type="checkbox" name="tip_comiss_eq" value="fixo">
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label> Comissão Supervisor</label>
+                  <input type="text" class="form-control" name="comissao_supervisor" placeholder="" required>
+                  Percentual % <input type="checkbox" name="tip_comiss_sup" value="percentual" >
+                  Fixo  R$ <input type="checkbox"  name="tip_comiss_sup" value="fixo" >
+                </div>
+              </div>
+            </div><!-- /.row -->
+          </div><!-- /.card-body -->
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary float-right">Adicionar</button>
+          </div>
+          </form>
+        </div><!-- /.card warning-->
+      </div><!-- /.col-m12 -->
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+
+            <div class="card-header">
+              <div class="d-flex justify-content-between">
+                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
+                <h3 class="card-title">Comissão:</h3>
+              </div>
             </div>
-            <!-- /.card -->
-            <!-- general form elements disabled -->
-              </div>
-            </div> <div class="row">
-                    <div class="col-md-12">
-                      <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h3 class="card-title">Comissão:</h3>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                          <table class="table table-bordered">
-                            <thead>
-                              <tr>
-                                <th style="width: 10px">#</th>
-                                <th>Serviço</th>
-                                <th style="width: 60px">Atendimento</th>
-                                <th style="width: 40px">Equipe</th>
-                                <th style="width: 40px">Supervisor</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($servicos as $servico)
-                                    <tr>
-                                        <td>{{ $servico->id }}</td>
-                                        <td>{{ $servico->descricao }}</td>
-                                        <td>@if($servico->tip_comiss_atend == 'fixo') R$ @else %  @endif {{ $servico->comissao_atendimento }}</td>
-                                        <td>@if($servico->tip_comiss_eq == 'fixo') R$ @else %  @endif {{ $servico->comissao_equipe }}</td>
-                                        <td>@if($servico->tip_comiss_sup == 'fixo') R$ @else %  @endif {{ $servico->comissao_supervisor }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                          </table>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer clearfix">
-                          <ul class="pagination pagination-sm m-0 float-right">
-                            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <!-- /.card -->
-                    </div>
-
-
-
-        </section>
-    </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                  <th style="width: 10px">#</th>
+                  <th>Serviço</th>
+                  <th style="width: 60px">Atendimento</th>
+                  <th style="width: 40px">Equipe</th>
+                  <th style="width: 40px">Supervisor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($servicos as $servico)
+                  <tr>
+                    <td>{{ $servico->id }}</td>
+                    <td>{{ $servico->descricao }}</td>
+                    <td>@if($servico->tip_comiss_atend == 'fixo') R$ @else %  @endif {{ $servico->comissao_atendimento }}</td>
+                    <td>@if($servico->tip_comiss_eq == 'fixo') R$ @else %  @endif {{ $servico->comissao_equipe }}</td>
+                    <td>@if($servico->tip_comiss_sup == 'fixo') R$ @else %  @endif {{ $servico->comissao_supervisor }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div><!-- /.card-body -->
+          </div><!-- /.card -->
+        </div><!-- /.col-m12 -->
+      </div><!-- /.row -->
+    </section>
 </div>
 
 @endsection

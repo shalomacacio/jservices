@@ -20,18 +20,34 @@ class CreateSolicitacaosTable extends Migration
 
             $table->string('cod_cliente')->nullable();
             $table->string('cliente');
-            $table->integer('user_id');
-            $table->integer('servico_id');
-            $table->integer('tecnologia_id');
-            $table->decimal('servico_vlr')->default(0.00);
+
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')
+                  ->on('users');
+
+            $table->integer('servico_id')->unsigned()->nullable();
+            $table->foreign('servico_id')->references('id')
+                  ->on('servicos');
+
+            $table->decimal('servico_vlr')->default(0.00); //servico_vlr
+
+            $table->integer('tecnologia_id')->unsigned()->nullable();
+            $table->foreign('tecnologia_id')->references('id')
+                  ->on('tecnologias');
+
+            $table->integer('status_solicitacao_id')->unsigned()->nullable();
+            $table->foreign('status_solicitacao_id')->references('id')
+                  ->on('status_solicitacaos');
+
             $table->string('forma_pagamento')->nullable();
             $table->string('tipo_aquisicao')->nullable();
-            $table->integer('status_solicitacao_id')->default(1);
+
             $table->decimal('comissao_atendimento')->default(0.00);
             $table->decimal('comissao_equipe')->default(0.00);
             $table->decimal('comissao_supervisor')->default(0.00);
-            $table->text('obs')->nullable();
+
             $table->tinyInteger('flg_autorizado')->nullable()->default(null);
+            $table->text('obs')->nullable();
 
             //campos padrao
             $table->rememberToken();

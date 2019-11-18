@@ -17,7 +17,14 @@ class CreateServicosTable extends Migration
 	{
 		Schema::create('servicos', function(Blueprint $table) {
             $table->increments('id');
+
+            $table->integer('categoria_servico_id')->unsigned();// Id da tabela categories
+            $table->foreign('categoria_servico_id')->references('id')->on('categoria_servicos'); // Define o campo como chave extrangeira (foreign key)
+
             $table->string('descricao')->unique();
+            $table->decimal('servico_vlr')->default(0.00);
+
+
 			$table->decimal('comissao_atendimento')->default(0); // em percentual %
 			$table->string('tip_comiss_atend')->notNul();
 			$table->decimal('comissao_equipe')->default(0); // em percentual %

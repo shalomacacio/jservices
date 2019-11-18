@@ -54,53 +54,65 @@
                 <div class="card-body">
                 <form role="form" action="{{ route('solicitacao.store') }}" method="POST">
                     @csrf
-                    <div class="row">
-                        <div class="col-sm-2">
-                        <!-- text input -->
-                        <div class="form-group">
-                            <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" placeholder="Nome do cliente ..." required>
-                        </div>
-                        </div>
 
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <!-- text input -->
+                          <div class="form-group">
+                              <label>Cliente</label>
+                              <input type="text" class="form-control" name="cliente" placeholder="Nome do cliente ..." required>
+                          </div>
+                        </div>
                         <div class="col-sm-2">
                         <!-- select -->
                         <div class="form-group">
-                            <label>Serviço</label>
-                            <select class="form-control" name="servico_id" required>
-                                @foreach( $servicos as $servico)
-                                    <option value="{{ $servico->id}}">{{ $servico->descricao}}</option>
+                            <label>Cagegoria</label>
+                            <select class="form-control" name="categoria_servico_id" id="categoria_servico_id"  required>
+                              <option value=null>-- Selecione --</option>
+                              @foreach( $categorias as $categoria)
+                                    <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
                                 @endforeach
                             </select>
                         </div>
                         </div>
-                        <div class="col-sm-2">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Valor Serviço</label>
-                                <input type="text" class="form-control" name="servico_vlr" placeholder="R$ 0.00" required>
-                            </div>
-                        </div>
 
                         <div class="col-sm-2">
-                                <!-- select -->
-                                <div class="form-group">
-                                    <label>Tecnologia</label>
-                                    <select class="form-control" name="tecnologia_id">
-                                        @foreach ($tecnologias as $tecnologia)
-                                            <option value={{$tecnologia->id}}>{{$tecnologia->descricao}}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
+                          <!-- select -->
+                          <div class="form-group">
+                              <label>Serviço</label>
+                              <select class="form-control" name="servico_id" id="servico_id"  required>
+                                <option value=null>-- Selecione --</option>
+                              </select>
+                          </div>
                         </div>
+                        <div class="col-sm-2">
+                          <!-- text input -->
+                          <div class="form-group">
+                              <label>Valor</label>
+                              <input type="text" class="form-control" name="servico_vlr" id="servico_vlr"  readonly>
+                          </div>
+                          </div>
+                    </div><!-- /.row -->
+                    <div class="row">
+                      <div class="col-sm-2">
+                      <!-- select -->
+                        <div class="form-group">
+                          <label>Tecnologia</label>
+                          <select class="form-control" name="tecnologia_id">
+                            <option value=null>--Selecione--</option>
+                            @foreach ($tecnologias as $tecnologia)
+                              <option value={{$tecnologia->id}}>{{$tecnologia->descricao}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
 
                         <div class="col-sm-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Forma de Pagamento</label>
                             <select class="form-control" name="forma_pagamento">
-                                <option value=null>Nenhum</option>
+                                <option value=null>--Selecione--</option>
                                 <option value="avista">À Vista</option>
                                 <option value="boleto">Boleto</option>
                                 <option value="credito">Crédito</option>
@@ -113,23 +125,22 @@
                         <div class="form-group">
                             <label>Equipamentos</label>
                             <select class="form-control" name="tipo_aquisicao">
-                                <option value=null>Nenhum</option>
+                                <option value=null>--Selecione--</option>
                                 <option value="comodato">Comodato</option>
                                 <option value="venda">Venda</option>
                             </select>
                         </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <!-- textarea -->
                             <div class="form-group">
                             <label>Observação</label>
-                            <textarea class="form-control" name="obs" rows="1" placeholder="Enter ..."></textarea>
+                            <textarea class="form-control" name="obs" rows="1" placeholder="Observação ..."></textarea>
                             </div>
                         </div>
                     </div>
+
                 </div>
                     <!-- /.card-body -->
                 <div class="card-footer">
@@ -173,7 +184,7 @@
                                     <tr>
                                         <td>{{ $solicitacao->id }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
-                                        <td>{{ $solicitacao->servico->descricao }}</td>
+                                        <td>{{ $solicitacao->servico->descricao}}</td>
                                         <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
                                         <td>R$ {{ $solicitacao->comissao_atendimento }}</td>
                                     </tr>
@@ -206,6 +217,48 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 
+</script>
+
+<script type="text/javascript">
+  $('select[name=categoria_servico_id]').change(function () {
+    ajaxServicos();
+  });
+
+  $('select[name=servico_id]').change(function () {
+    ajaxValor();
+  });
+
+  function ajaxServicos(){
+    $.ajax({
+        type: "GET",
+        data: {categoria_servico_id: $("#categoria_servico_id").val()},
+        url: "/solicitacao/ajaxServicos",
+        dataType: 'JSON',
+        success: function(response) {
+          $('select[name=servico_id]').empty();
+          // alert(categoria_servico_id.value );
+          if(categoria_servico_id){
+            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+          }
+          $.each(response.servicos, function (key, value) {
+
+            $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
+          })
+        }
+    });
+  }
+  function ajaxValor(){
+    $.ajax({
+        type: "GET",
+        data: {servico_id: $("#servico_id").val()},
+        url: "/solicitacao/ajaxValor",
+        dataType: 'JSON',
+        success: function(response) {
+          // alert(response.valor['servico_vlr']);
+          $('#servico_vlr').val(response.valor['servico_vlr']);
+        }
+    });
+  }
 </script>
 <!-- Bootstrap 4 -->
 <script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

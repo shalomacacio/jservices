@@ -39,19 +39,23 @@ class Solicitacao extends Model implements Transformable
 
     //Mutator
     public function setComissaoAtendimentoAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_atend, $this->servico_vlr, $this->servico->comissao_atendimento);
+        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_atend, $this->servico->servico_vlr, $this->servico->comissao_atendimento);
         $this->attributes['comissao_atendimento'] = $comissao;
     }
 
     public function setComissaoEquipeAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_eq, $this->servico_vlr, $this->servico->comissao_equipe);
+        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_eq, $this->servico->servico_vlr, $this->servico->comissao_equipe);
         $this->attributes['comissao_equipe'] = $comissao;
     }
 
     public function setComissaoSupervisorAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_sup, $this->servico_vlr, $this->servico->comissao_supervisor);
+        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_sup, $this->servico->servico_vlr, $this->servico->comissao_supervisor);
         $this->attributes['comissao_supervisor'] = $comissao;
     }
+
+    public function setServicoVlrAttribute(){
+      $this->attributes['servico_vlr'] = $this->servico->servico_vlr;
+  }
 
     //Relacionamentos
     public function servico()

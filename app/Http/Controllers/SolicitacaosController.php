@@ -13,7 +13,6 @@ use App\Repositories\SolicitacaoRepository;
 use App\Validators\SolicitacaoValidator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Entities\Solicitacao;
 
 /**
  * Class SolicitacaosController.
@@ -59,14 +58,33 @@ class SolicitacaosController extends Controller
                 // ->take(3)
                 ->orderBy('created_at','desc');
         })->paginate(10);
-        $servicos = DB::table('servicos')->distinct()->get();
+        $categorias = DB::table('categoria_servicos')->distinct()->get();
         $tecnologias = DB::table('tecnologias')->distinct()->get();
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
             ]);
         }
-        return view('solicitacaos.index', compact('solicitacaos', 'servicos', 'tecnologias'));
+        return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias'));
+    }
+
+    public function ajaxServicos(Request $request)
+    {
+      header('Content-Type: application/json; charset=utf-8');
+      $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
+      $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id )->get();
+      return response()->json([
+        'servicos' => $servicos
+      ]);
+    }
+
+    public function ajaxValor(Request $request)
+    {
+      header('Content-Type: application/json; charset=utf-8');
+      $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
+      return response()->json([
+        'valor' => $valor
+      ]);
     }
 
     public function encaminhar($id)
