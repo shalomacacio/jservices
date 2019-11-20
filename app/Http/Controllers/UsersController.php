@@ -88,7 +88,7 @@ class UsersController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('login');
         } catch (ValidatorException $e) {
             if ($request->wantsJson()) {
                 return response()->json([

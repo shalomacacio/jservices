@@ -35,9 +35,14 @@ class CreateSolicitacaosTable extends Migration
             $table->foreign('tecnologia_id')->references('id')
                   ->on('tecnologias');
 
-            $table->integer('status_solicitacao_id')->unsigned()->nullable();
+            $table->integer('status_solicitacao_id')->unsigned()->default(1);
             $table->foreign('status_solicitacao_id')->references('id')
                   ->on('status_solicitacaos');
+            // 1 - aberto
+            // 2 - encaminhado
+            // 3 - cancelado
+            // 4 - concluido
+            // 5 - pendente
 
             $table->string('forma_pagamento')->nullable();
             $table->string('tipo_aquisicao')->nullable();

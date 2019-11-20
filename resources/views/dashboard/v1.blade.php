@@ -95,8 +95,7 @@
       <!-- Main row -->
         <div class="row">
             @foreach ($tecnicos as $tecnico)
-
-
+            @if(count($tecnico->solicitacoes) >=1)
                 <!-- Left col -->
                 <div class="col-md-6">
                   <!-- TABLE: LATEST ORDERS -->
@@ -150,7 +149,9 @@
                   <!-- /.card -->
                 </div>
                 <!-- /.col -->
+                @endif
                 @endforeach
+
               </div>
               <!-- /.row -->
     </div>
