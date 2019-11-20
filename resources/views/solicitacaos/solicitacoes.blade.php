@@ -71,16 +71,19 @@
                                                 <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
                                                     @csrf
                                                     @method('PUT')
+                                                    @shield('solicitacao.atribuir')
                                                     <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"  name = "status_solicitacao_id" value="4">Cancelar</button>
                                                     <button class="btn btn-success" type="submit"  onclick="return confirm('Deseja Concluir?')"          name = "status_solicitacao_id" value="3">Concluir</button>
-                                                </form>
+                                                    @endshield
+                                                  </form>
                                             @elseif($solicitacao->status_solicitacao_id == '3')
                                                 <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
                                                         @csrf
                                                         @method('PUT')
+                                                        @shield('solicitacao.autorizar')
                                                         <button class="btn btn-info"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1">Validar</button>
                                                         <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"> Invalidar  </button>
-
+                                                        @endshield
                                                     </form>
                                           @endif
                                         </td>

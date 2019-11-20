@@ -125,6 +125,7 @@ class SolicitacaosController extends Controller
 
     public function solicitacoes()
     {
+
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $solicitacaos = $this->repository->scopeQuery(function($query){
             return $query

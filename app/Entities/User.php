@@ -2,19 +2,22 @@
 
 namespace App\Entities;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
+use Artesaos\Defender\Traits\HasDefender;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Hash;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User.
  *
  * @package namespace App\Entities;
  */
-class User extends Authenticatable
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Notifiable;
+  use Authenticatable, CanResetPassword, HasDefender;
 
 /**
      * The attributes that are mass assignable.
