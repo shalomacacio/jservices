@@ -27,6 +27,7 @@ class Solicitacao extends Model implements Transformable
         'servico_id',
         'tecnologia_id',
         'status_solicitacao_id',
+        'dt_conclusao',
         'servico_vlr',
         'forma_pagamento',
         'tipo_aquisicao',

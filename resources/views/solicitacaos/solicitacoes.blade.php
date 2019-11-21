@@ -29,7 +29,7 @@
                       <div class="card card-info">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('d-M-y') }}</h3>
+                                <h3 class="card-title">{{ \Carbon\Carbon::now('America/Fortaleza')->format('d-M-y') }}</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->

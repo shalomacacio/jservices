@@ -40,10 +40,11 @@ class CreateSolicitacaosTable extends Migration
                   ->on('status_solicitacaos');
             // 1 - aberto
             // 2 - encaminhado
-            // 3 - cancelado
-            // 4 - concluido
+            // 3 - concluido
+            // 4 - cancelado
             // 5 - pendente
 
+            $table->timestamp('dt_conclusao')->nullable();
             $table->string('forma_pagamento')->nullable();
             $table->string('tipo_aquisicao')->nullable();
 

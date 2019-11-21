@@ -95,7 +95,7 @@
       <!-- Main row -->
         <div class="row">
             @foreach ($tecnicos as $tecnico)
-            @if(count($tecnico->solicitacoes) >=1)
+            @if(count($tecnico->solicitacoes) >=1  )
                 <!-- Left col -->
                 <div class="col-md-6">
                   <!-- TABLE: LATEST ORDERS -->
@@ -126,8 +126,9 @@
                           </thead>
                           <tbody>
                               @foreach ($tecnico->solicitacoes as $solicitacao)
+                              @if($solicitacao->created_at >= \Carbon\Carbon::today() || $solicitacao->status_solicitacao_id != 3)
                               <tr>
-                                <td><a href="pages/examples/invoice.html">{{$solicitacao->created_at->format('d/m/Y')}}</a></td>
+                                <td><a href="#">{{$solicitacao->created_at->format('d/m/Y')}}</a></td>
                                 <td>{{$solicitacao->cliente}}</td>
                                 <td>{{$solicitacao->servico->descricao}}</td>
                                 <td>
@@ -139,6 +140,7 @@
                                     </span>
                                 </td>
                               </tr>
+                              @endif
                               @endforeach
                           </tbody>
                         </table>

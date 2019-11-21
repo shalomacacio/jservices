@@ -43,7 +43,13 @@ class DashboardController extends Controller
 
     public function dashboard(){
         $tecnicos =  $this->tecnicoRepository->all();
-        $solicitacaos = $this->solicitacaoRepository->all();
+
+        $solicitacaos = $this->solicitacaoRepository->scopeQuery(function($query){
+          return $query
+              ->where('created_at','>=' , Carbon::today())
+              ->whereOr('status_solicitacao_id','!=','3');
+        })->all();
+
         $abertos = $solicitacaos->where('status_solicitacao_id', '1'); //1 - aberto
         $andamento = $solicitacaos->where('status_solicitacao_id', '2'); //2 - andamentos
         $pendentes = $solicitacaos->where('status_solicitacao_id', '5'); //5 - pendente

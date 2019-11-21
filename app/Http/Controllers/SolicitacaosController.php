@@ -11,6 +11,7 @@ use App\Http\Requests\SolicitacaoCreateRequest;
 use App\Http\Requests\SolicitacaoUpdateRequest;
 use App\Repositories\SolicitacaoRepository;
 use App\Validators\SolicitacaoValidator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -222,7 +223,17 @@ class SolicitacaosController extends Controller
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-            $solicitacao = $this->repository->update($request->all(), $id);
+
+            //se for uma conclusão de solicitacao
+            if($request->status_solicitacao_id = 3){
+              $solicitacao = $this->repository->find($id);
+              $solicitacao->dt_conclusao = Carbon::now();
+              $solicitacao->save();
+            }
+            else{
+              $solicitacao = $this->repository->update($request->all(), $id);
+            }
+
             $response = [
                 'message' => 'Solicitacao updated.',
                 'data'    => $solicitacao->toArray(),

@@ -49,7 +49,7 @@
                               </li>
                           </ul>
                       </li>
-
+              @is('admin')
                 <li class="nav-header">CADASTROS</li>
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
@@ -96,6 +96,7 @@
                           </li>
                       </ul>
                   </li>
+                  @endis
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
