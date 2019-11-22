@@ -21,6 +21,7 @@ class ServicoValidator extends LaravelValidator
         ValidatorInterface::RULE_CREATE =>
         [
             'descricao' => 'required|unique:servicos|max:255',
+            'servico_vlr' => 'required|numeric|between:0.00,99.99',
             'comissao_atendimento' => 'numeric',
             'comissao_equipe' => 'numeric',
             'comissao_supervisor' => 'numeric',
