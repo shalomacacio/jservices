@@ -79,7 +79,7 @@ class UsersController extends Controller
             $user = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'User created.',
+                'message' => 'Usuario criado com sucesso.',
                 'data'    => $user->toArray(),
             ];
 
@@ -88,7 +88,7 @@ class UsersController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->route('login');
+            return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
             if ($request->wantsJson()) {
                 return response()->json([

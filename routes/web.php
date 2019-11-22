@@ -12,16 +12,16 @@
 */
 
   Route::get('/', function () {return redirect()->route('login'); });
-  Route::get('/register', 'DashboardController@register')->name('register');
   Route::get('/login', 'DashboardController@login')->name('login');
   Route::post('/auth', 'DashboardController@auth')->name('auth');
-  Route::resource('user', 'UsersController');
+
 
 Route::group(['middleware'=>['auth']], function(){
 
     Route::get('/logout', 'DashboardController@logout')->name('logout');
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
-
+    // Route::get('/register', 'DashboardController@register')->name('register');
+    Route::resource('user', 'UsersController');
 
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
     Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar');
