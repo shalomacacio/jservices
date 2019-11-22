@@ -55,7 +55,7 @@ class SolicitacaosController extends Controller
         $solicitacaos = $this->repository->scopeQuery(function($query){
             return $query
                 ->where('user_id', Auth::user()->id)
-                // ->where('status', 1)
+                ->whereBetween('created_at', [Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])
                 // ->take(3)
                 ->orderBy('created_at','desc');
         })->paginate(10);
@@ -227,6 +227,7 @@ class SolicitacaosController extends Controller
             //se for uma conclusão de solicitacao
             if($request->status_solicitacao_id = 3){
               $solicitacao = $this->repository->find($id);
+              $solicitacao->status_solicitacao_id = 3;
               $solicitacao->dt_conclusao = Carbon::now();
               $solicitacao->save();
             }

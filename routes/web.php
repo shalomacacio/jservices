@@ -11,13 +11,11 @@
 |
 */
 
-use Illuminate\Routing\RouteGroup;
-
-Route::get('/', function () {return redirect()->route('login'); });
-Route::get('/register', 'DashboardController@register')->name('register');
-Route::get('/login', 'DashboardController@login')->name('login');
-Route::post('/auth', 'DashboardController@auth')->name('auth');
-Route::resource('user', 'UsersController');
+  Route::get('/', function () {return redirect()->route('login'); });
+  Route::get('/register', 'DashboardController@register')->name('register');
+  Route::get('/login', 'DashboardController@login')->name('login');
+  Route::post('/auth', 'DashboardController@auth')->name('auth');
+  Route::resource('user', 'UsersController');
 
 Route::group(['middleware'=>['auth']], function(){
 
