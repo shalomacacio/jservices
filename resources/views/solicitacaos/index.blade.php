@@ -66,7 +66,7 @@
                         <div class="col-sm-2">
                         <!-- select -->
                         <div class="form-group">
-                            <label>Cagegoria</label>
+                            <label>Categoria</label>
                             <select class="form-control" name="categoria_servico_id" id="categoria_servico_id"  required>
                               <option value=null>-- Selecione --</option>
                               @foreach( $categorias as $categoria)

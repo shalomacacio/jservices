@@ -30,6 +30,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir');
     Route::resource('solicitacao', 'SolicitacaosController');
     Route::resource('categoriaServicos', 'CategoriaServicosController');
+    Route::resource('tecnologia', 'TecnologiasController');
     Route::resource('servico', 'ServicosController');
     Route::resource('tecnico', 'TecnicosController');
 });

@@ -38,6 +38,7 @@
                             <thead>
                               <tr>
                                 <th style="width: 10px">#</th>
+                                <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
                                 <th>Situação</th>
@@ -49,6 +50,7 @@
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
                                         <td>{{ $solicitacao->id }}</td>
+                                        <td>{{ $solicitacao->created_at->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
                                         <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
