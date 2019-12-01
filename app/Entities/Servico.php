@@ -5,6 +5,7 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Servico.
@@ -14,17 +15,37 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Servico extends Model implements Transformable
 {
     use TransformableTrait;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['categoria_servico_id' ,'descricao' , 'servico_vlr' ,'comissao_atendimento', 'tip_comiss_atend', 'comissao_equipe','tip_comiss_eq', 'comissao_supervisor', 'tip_comiss_sup'];
+    protected $fillable =
+      [
+        'categoria_servico_id',
+        'descricao' ,
+        'servico_vlr',
+        'pontuacao',
+      ];
 
     public function solicitacao()
     {
         return $this->belongsTo('App\Entities\Solicitacao');
     }
+
+    public function categoriaServico()
+    {
+        return $this->belongsTo('App\Entities\CategoriaServico');
+    }
+
+    public function comissaos()
+    {
+        return $this->belongsToMany('App\Entities\Comissao')
+        ->withTimestamps();
+    }
+
+
 
 }

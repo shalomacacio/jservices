@@ -48,13 +48,11 @@
           <div class="card-header">
             <h3 class="card-title">Novo Usuário</h3>
           </div>
-          <form role="form" action="{{ route('user.store') }}" method="POST">
+          <form role="form" action="{{ route('users.store') }}" method="POST">
           <!-- /.card-header -->
           <div class="card-body">
             @csrf
             <div class="row">
-
-
 
               <div class="col-sm-3">
                 <!-- text input -->
@@ -115,7 +113,7 @@
                   <th style="width: 10px">#</th>
                   <th>Nome</th>
                   <th>Email</th>
-                  <th style="width: 200px">Ações</th>
+                  <th style="width: 170px">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -124,7 +122,14 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }} {{ $user->sobrenome }}</td>
                     <td>{{ $user->email}}</td>
-                    <td>em breve</td>
+                    <td>
+                        <form action="{{route('users.destroy', $user->id)}}" method="POST">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
+                        </form>
+                        <a type="button" class="btn btn-warning float-left" href="{{route('users.edit', $user->id)}}" >Editar </a>
+                      </td>
                   </tr>
                   @endforeach
                 </tbody>

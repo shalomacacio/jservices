@@ -111,11 +111,11 @@
                         <!-- select -->
                         <div class="form-group">
                             <label>Forma de Pagamento</label>
-                            <select class="form-control" name="forma_pagamento">
+                            <select class="form-control" name="tipo_pagamento_id">
                                 <option value=null>--Selecione--</option>
-                                <option value="avista">À Vista</option>
-                                <option value="boleto">Boleto</option>
-                                <option value="credito">Crédito</option>
+                                @foreach ($tipoPagamentos as $tipo)
+                                <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
+                              @endforeach
                             </select>
                         </div>
                         </div>
@@ -124,15 +124,29 @@
                         <!-- select -->
                         <div class="form-group">
                             <label>Equipamentos</label>
-                            <select class="form-control" name="tipo_aquisicao">
+                            <select class="form-control" name="tipo_aquisicao_id">
                                 <option value=null>--Selecione--</option>
-                                <option value="comodato">Comodato</option>
-                                <option value="venda">Venda</option>
+                                @foreach ($tipoAquisicaos as $tipo)
+                                  <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
+                                @endforeach
                             </select>
                         </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-2">
+                          <!-- select -->
+                          <div class="form-group">
+                              <label>Como coheceu ?</label>
+                              <select class="form-control" name="tipo_midia_id">
+                                  <option value=null>--Selecione--</option>
+                                  @foreach ($tipoMidia as $tipo)
+                                    <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                          </div>
+
+                        <div class="col-sm-4">
                             <!-- textarea -->
                             <div class="form-group">
                             <label>Observação</label>
@@ -164,7 +178,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h3 class="card-title">Comissão: {{  $solicitacaos->sum('comissao_atendimento')  }}</h3>
+                                <h3 class="card-title">Comissão: {{ $solicitacaos->sum('comissao_atendimento')  }}</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -197,7 +211,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $solicitacaos->render() }}
+                            {{ $solicitacaos->render() }}
                           </ul>
                         </div>
                       </div>

@@ -20,7 +20,7 @@ class TecnicoValidator extends LaravelValidator
     protected $rules = [
         ValidatorInterface::RULE_CREATE =>
         [
-            'nome'      => 'required|unique:tecnicos|max:255',
+            'nome'      => 'required|max:255',
             'sobrenome' => 'required|max:255',
             'email'     => 'email|unique:tecnicos',
             'telefone'  => 'required|numeric',

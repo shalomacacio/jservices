@@ -26,9 +26,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 254);
 
-            //campos de permissao
-            $table->string('status')->default('active');
-            $table->string('permission')->default('user');
+            // $table->integer('tipo_usuario_id')->unsigned()->nullable();
+            // $table->foreign('tipo_usuario_id')->references('id')->on('tipo_usuarios');
 
             //campos padrao
             $table->rememberToken();

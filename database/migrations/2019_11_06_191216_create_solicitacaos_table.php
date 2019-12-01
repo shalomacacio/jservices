@@ -44,9 +44,18 @@ class CreateSolicitacaosTable extends Migration
             // 4 - cancelado
             // 5 - pendente
 
+            $table->timestamp('dt_agendamento')->nullable();
             $table->timestamp('dt_conclusao')->nullable();
-            $table->string('forma_pagamento')->nullable();
-            $table->string('tipo_aquisicao')->nullable();
+
+            $table->integer('tipo_pagamento_id')->unsigned()->nullable();
+            $table->foreign('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
+
+            $table->integer('tipo_midia_id')->unsigned()->nullable();
+            $table->foreign('tipo_midia_id')->references('id')->on('tipo_midias');
+
+            $table->integer('tipo_aquisicao_id')->unsigned()->nullable();
+            $table->foreign('tipo_aquisicao_id')->references('id')->on('tipo_aquisicaos');
+
 
             $table->decimal('comissao_atendimento')->default(0.00);
             $table->decimal('comissao_equipe')->default(0.00);
@@ -56,7 +65,6 @@ class CreateSolicitacaosTable extends Migration
             $table->text('obs')->nullable();
 
             //campos padrao
-            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
 		});

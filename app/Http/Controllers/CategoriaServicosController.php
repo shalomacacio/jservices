@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\CategoriaServicosCreateRequest;
-use App\Http\Requests\CategoriaServicosUpdateRequest;
-use App\Repositories\CategoriaServicosRepository;
-use App\Validators\CategoriaServicosValidator;
+use App\Http\Requests\CategoriaServicoCreateRequest;
+use App\Http\Requests\CategoriaServicoUpdateRequest;
+use App\Repositories\CategoriaServicoRepository;
+use App\Validators\CategoriaServicoValidator;
+
 
 /**
  * Class CategoriaServicosController.
@@ -19,23 +20,24 @@ use App\Validators\CategoriaServicosValidator;
  */
 class CategoriaServicosController extends Controller
 {
+
     /**
-     * @var CategoriaServicosRepository
+     * @var CategoriaServicoRepository
      */
     protected $repository;
 
     /**
-     * @var CategoriaServicosValidator
+     * @var CategoriaServicoValidator
      */
     protected $validator;
 
     /**
      * CategoriaServicosController constructor.
      *
-     * @param CategoriaServicosRepository $repository
-     * @param CategoriaServicosValidator $validator
+     * @param CategoriaServicoRepository $repository
+     * @param CategoriaServicoValidator $validator
      */
-    public function __construct(CategoriaServicosRepository $repository, CategoriaServicosValidator $validator)
+    public function __construct(CategoriaServicoRepository $repository, CategoriaServicoValidator $validator)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
@@ -64,13 +66,13 @@ class CategoriaServicosController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CategoriaServicosCreateRequest $request
+     * @param  CategoriaServicoCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(CategoriaServicosCreateRequest $request)
+    public function store(CategoriaServicoCreateRequest $request)
     {
         try {
 
@@ -139,14 +141,14 @@ class CategoriaServicosController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  CategoriaServicosUpdateRequest $request
+     * @param  CategoriaServicoUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(CategoriaServicosUpdateRequest $request, $id)
+    public function update(CategoriaServicoUpdateRequest $request, $id)
     {
         try {
 
@@ -164,7 +166,7 @@ class CategoriaServicosController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('categoriaServicos.index')->with('message', $response['message']);
         } catch (ValidatorException $e) {
 
             if ($request->wantsJson()) {

@@ -3,23 +3,23 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Entities\CategoriaServicos;
+use App\Entities\Comissao;
 
 /**
- * Class CategoriaServicosTransformer.
+ * Class ComissaoTransformer.
  *
  * @package namespace App\Transformers;
  */
-class CategoriaServicosTransformer extends TransformerAbstract
+class ComissaoTransformer extends TransformerAbstract
 {
     /**
-     * Transform the CategoriaServicos entity.
+     * Transform the Comissao entity.
      *
-     * @param \App\Entities\CategoriaServicos $model
+     * @param \App\Entities\Comissao $model
      *
      * @return array
      */
-    public function transform(CategoriaServicos $model)
+    public function transform(Comissao $model)
     {
         return [
             'id'         => (int) $model->id,

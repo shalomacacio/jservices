@@ -58,7 +58,7 @@
                   </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                        <a href="{{route('servico.index')}}" class="nav-link">
+                        <a href="{{route('servicos.index')}}" class="nav-link">
                             <i class="fa fa-circle-o nav-icon"></i>
                             <p>Novo Serviço</p>
                           </a>
@@ -88,11 +88,51 @@
                     </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                          <a href="{{route('user.index')}}" class="nav-link">
+                          <a href="{{route('users.index')}}" class="nav-link">
                               <i class="fa fa-circle-o nav-icon"></i>
                               <p>Novo Usuário</p>
                             </a>
                           </li>
+                      </ul>
+                  </li>
+
+                  <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-plus-square"></i>
+                      <p>Parâmetros <i class="fa fa-angle-left right"></i></p>
+                    </a>
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                          <a href="{{route('categoriaServicos.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Categoria Servios</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="{{route('statusSolicitacao.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Status Solicitacao</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="{{route('tipoMidias.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Tipo Mídia</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="{{route('tipoPagamento.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Tipo Pagamento</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="{{route('tipoAquisicao.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Tipo Aquisição Equipamento</p>
+                          </a>
+                        </li>
+
                       </ul>
                   </li>
 

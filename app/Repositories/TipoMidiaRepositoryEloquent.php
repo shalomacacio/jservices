@@ -4,16 +4,16 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\CategoriaServicosRepository;
-use App\Entities\CategoriaServicos;
-use App\Validators\CategoriaServicosValidator;
+use App\Repositories\TipoMidiaRepository;
+use App\Entities\TipoMidia;
+use App\Validators\TipoMidiaValidator;
 
 /**
- * Class CategoriaServicosRepositoryEloquent.
+ * Class TipoMidiaRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class CategoriaServicosRepositoryEloquent extends BaseRepository implements CategoriaServicosRepository
+class TipoMidiaRepositoryEloquent extends BaseRepository implements TipoMidiaRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +22,7 @@ class CategoriaServicosRepositoryEloquent extends BaseRepository implements Cate
      */
     public function model()
     {
-        return CategoriaServicos::class;
+        return TipoMidia::class;
     }
 
     /**
@@ -33,7 +33,7 @@ class CategoriaServicosRepositoryEloquent extends BaseRepository implements Cate
     public function validator()
     {
 
-        return CategoriaServicosValidator::class;
+        return TipoMidiaValidator::class;
     }
 
 

@@ -61,12 +61,15 @@ class SolicitacaosController extends Controller
         })->paginate(10);
         $categorias = DB::table('categoria_servicos')->distinct()->get();
         $tecnologias = DB::table('tecnologias')->distinct()->get();
+        $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
+        $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
+        $tipoMidia = DB::table('tipo_midias')->distinct()->get();
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
             ]);
         }
-        return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias'));
+        return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia'));
     }
 
     public function ajaxServicos(Request $request)

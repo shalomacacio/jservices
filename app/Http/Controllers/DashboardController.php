@@ -11,6 +11,7 @@ use App\Repositories\TecnicoRepository;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Carbon;
+use Carbon\CarbonPeriod;
 use Auth;
 
 class DashboardController extends Controller
@@ -50,12 +51,14 @@ class DashboardController extends Controller
               ->whereOr('status_solicitacao_id','!=','3');
         })->all();
 
+        $dias = CarbonPeriod::create(Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth());
+
         $abertos = $solicitacaos->where('status_solicitacao_id', '1'); //1 - aberto
         $andamento = $solicitacaos->where('status_solicitacao_id', '2'); //2 - andamentos
         $pendentes = $solicitacaos->where('status_solicitacao_id', '5'); //5 - pendente
         $concluidos = $solicitacaos->where('status_solicitacao_id', '3'); //3 - concluido
 
-        return view('dashboard.v1', compact('tecnicos', 'solicitacaos', 'abertos','andamento', 'pendentes', 'concluidos'));
+        return view('dashboard.v1', compact('tecnicos', 'solicitacaos', 'abertos','andamento', 'pendentes', 'concluidos', 'dias'));
     }
 
     public function auth(Request $request)

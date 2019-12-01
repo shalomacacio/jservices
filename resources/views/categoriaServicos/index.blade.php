@@ -58,7 +58,7 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Descricao</label>
-                  <input type="text" class="form-control" name="descricao" placeholder="descricao" required>
+                  <input type="text" class="form-control" name="descricao" placeholder="descricao"  required>
                 </div>
               </div>
 
@@ -88,6 +88,7 @@
                   <tr>
                   <th style="width: 10px">#</th>
                   <th>Descrição</th>
+                  <th style="width: 200px">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,6 +96,14 @@
                   <tr>
                     <td>{{ $categoria->id }}</td>
                     <td>{{ $categoria->descricao }}</td>
+                    <td>
+                    <form action="{{route('categoriaServicos.destroy', $categoria->id )}}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')"  >DELETE</button>
+                    </form>
+                    <a type="button" class="btn btn-warning float-right" href="{{route('categoriaServicos.edit', $categoria->id )}}">Editar</a>
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

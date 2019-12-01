@@ -2,15 +2,15 @@
 
 namespace App\Presenters;
 
-use App\Transformers\CategoriaServicosTransformer;
+use App\Transformers\CategoriaServicoTransformer;
 use Prettus\Repository\Presenter\FractalPresenter;
 
 /**
- * Class CategoriaServicosPresenter.
+ * Class CategoriaServicoPresenter.
  *
  * @package namespace App\Presenters;
  */
-class CategoriaServicosPresenter extends FractalPresenter
+class CategoriaServicoPresenter extends FractalPresenter
 {
     /**
      * Transformer
@@ -19,6 +19,6 @@ class CategoriaServicosPresenter extends FractalPresenter
      */
     public function getTransformer()
     {
-        return new CategoriaServicosTransformer();
+        return new CategoriaServicoTransformer();
     }
 }

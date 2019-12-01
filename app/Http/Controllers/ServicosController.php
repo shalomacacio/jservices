@@ -131,8 +131,9 @@ class ServicosController extends Controller
     public function edit($id)
     {
         $servico = $this->repository->find($id);
+        $categorias = DB::table('categoria_servicos')->distinct()->get();
 
-        return view('servicos.edit', compact('servico'));
+        return view('servicos.edit', compact('servico', 'categorias'));
     }
 
     /**
@@ -163,7 +164,7 @@ class ServicosController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('servicos.index')->with('message', $response['message']);
         } catch (ValidatorException $e) {
 
             if ($request->wantsJson()) {

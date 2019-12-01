@@ -21,14 +21,8 @@ class ServicoValidator extends LaravelValidator
         ValidatorInterface::RULE_CREATE =>
         [
             'descricao' => 'required|unique:servicos|max:255',
-            'servico_vlr' => 'required|numeric|between:0.00,99.99',
-            'comissao_atendimento' => 'numeric',
-            'comissao_equipe' => 'numeric',
-            'comissao_supervisor' => 'numeric',
-            'tip_comiss_atend' => 'required',
-            'tip_comiss_eq' => 'required',
-            'tip_comiss_sup' => 'required',
-
+            'servico_vlr' => 'required|numeric|between:0.00,999.99',
+            'pontuacao' => 'required|numeric|between:0.25,4.0',
         ],
         ValidatorInterface::RULE_UPDATE =>
         [

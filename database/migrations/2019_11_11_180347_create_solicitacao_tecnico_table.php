@@ -24,7 +24,9 @@ class CreateSolicitacaoTecnicoTable extends Migration
 
             $table->decimal('comissao_tecnico')->nullable();
 
+            //campos padrao
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -90,7 +90,30 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
+      <!--AGENDA -->
+      <div class="col-md-12">
+        <div class="card-ghost">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              @foreach ($dias as $dia)
+              <li class="nav-item"><a class="nav-link @if($dia->format('d') == \Carbon\Carbon::now()->format('d') ) active @endif" href="#{{$dia->format('d')}}" data-toggle="tab">{{$dia->format('d')}}</a></li>
+              @endforeach
+            </ul>
+          </div><!-- /.card-header -->
 
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="post">
+              @foreach ($dias as $dia)
+                <div class="active tab-pane" id="{{$dia->format('d')}}">{{ $dia }} 2</div>
+              @endforeach
+              </div>
+            </div>
+          </div><!-- /.card-body -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+      </div>
+      <!-- /.col -->
 
       <!-- Main row -->
         <div class="row">

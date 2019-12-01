@@ -23,7 +23,9 @@ class CreateTecnicosTable extends Migration
             //campos de autenticação
             $table->string('email', 80)->unique();
             $table->string('telefone')->unique();
+            //campos padrao
             $table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

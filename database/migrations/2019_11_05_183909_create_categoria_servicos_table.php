@@ -18,7 +18,9 @@ class CreateCategoriaServicosTable extends Migration
 		Schema::create('categoria_servicos', function(Blueprint $table) {
             $table->increments('id');
             $table->string('descricao');
+            //campos padrao
             $table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

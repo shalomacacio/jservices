@@ -48,7 +48,7 @@
           <div class="card-header">
             <h3 class="card-title">Novo Serviço</h3>
           </div>
-          <form role="form" action="{{ route('servico.store') }}" method="POST">
+          <form role="form" action="{{ route('servicos.store') }}" method="POST">
           <!-- /.card-header -->
           <div class="card-body">
             @csrf
@@ -65,7 +65,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-6">
+              <div class="col-sm-3">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Serviço</label>
@@ -81,35 +81,14 @@
                 </div>
               </div>
 
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Comissao Atendimento</label>
-                  <input type="text" class="form-control" name="comissao_atendimento" placeholder="" required>
-                  Percentual % <input type="checkbox" name="tip_comiss_atend" value="percentual" >
-                  Fixo  R$ <input type="checkbox"  name="tip_comiss_atend" value="fixo" >
+                  <label>Pontuacao</label>
+                  <input type="text" class="form-control" name="pontuacao" placeholder="" >
                 </div>
               </div>
 
-              <div class="col-sm-4">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Comissão Técnico</label>
-                  <input type="text" class="form-control" name="comissao_equipe" placeholder="" required>
-                  Percentual % <input type="checkbox" name="tip_comiss_eq" value="percentual" >
-                  Fixo  R$     <input type="checkbox" name="tip_comiss_eq" value="fixo">
-                </div>
-              </div>
-
-              <div class="col-sm-4">
-                <!-- text input -->
-                <div class="form-group">
-                  <label> Comissão Supervisor</label>
-                  <input type="text" class="form-control" name="comissao_supervisor" placeholder="" required>
-                  Percentual % <input type="checkbox" name="tip_comiss_sup" value="percentual" >
-                  Fixo  R$ <input type="checkbox"  name="tip_comiss_sup" value="fixo" >
-                </div>
-              </div>
             </div><!-- /.row -->
           </div><!-- /.card-body -->
 
@@ -126,8 +105,7 @@
 
             <div class="card-header">
               <div class="d-flex justify-content-between">
-                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                <h3 class="card-title">Comissão:</h3>
+                <h3 class="card-title">Serviços Cadastrados</h3>
               </div>
             </div>
             <!-- /.card-header -->
@@ -137,9 +115,9 @@
                   <tr>
                   <th style="width: 10px">#</th>
                   <th>Serviço</th>
-                  <th style="width: 60px">Atendimento</th>
-                  <th style="width: 40px">Equipe</th>
-                  <th style="width: 40px">Supervisor</th>
+                  <th>Valor</th>
+                  <th>Pontuação</th>
+                  <th style="width: 170px">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -147,9 +125,17 @@
                   <tr>
                     <td>{{ $servico->id }}</td>
                     <td>{{ $servico->descricao }}</td>
-                    <td>@if($servico->tip_comiss_atend == 'fixo') R$ @else %  @endif {{ $servico->comissao_atendimento }}</td>
-                    <td>@if($servico->tip_comiss_eq == 'fixo') R$ @else %  @endif {{ $servico->comissao_equipe }}</td>
-                    <td>@if($servico->tip_comiss_sup == 'fixo') R$ @else %  @endif {{ $servico->comissao_supervisor }}</td>
+                    <td>{{ $servico->servico_vlr }}</td>
+                    <td>{{ $servico->pontuacao }}</td>
+                    <td>
+                    <form action="{{route('servicos.destroy', $servico->id)}}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
+                    </form>
+                    <a type="button" class="btn btn-warning float-left" href="{{route('servicos.edit', $servico->id)}}" >Editar </a>
+                  </td>
+
                   </tr>
                   @endforeach
                 </tbody>

@@ -5,6 +5,7 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Solicitacao.
@@ -14,6 +15,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Solicitacao extends Model implements Transformable
 {
     use TransformableTrait;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +31,7 @@ class Solicitacao extends Model implements Transformable
         'status_solicitacao_id',
         'dt_conclusao',
         'servico_vlr',
-        'forma_pagamento',
+        'tipo_pagamento_id',
         'tipo_aquisicao',
         'comissao_atendimento',
         'comissao_equipe',
@@ -73,6 +75,11 @@ class Solicitacao extends Model implements Transformable
     public function statusSolicitacao()
     {
         return $this->belongsTo('App\Entities\StatusSolicitacao');
+    }
+
+    public function tiposPagamento()
+    {
+        return $this->belongsTo('App\Entities\TipoPagamento');
     }
 
     public function tecnologias()

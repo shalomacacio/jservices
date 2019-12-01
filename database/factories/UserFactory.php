@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -14,12 +15,11 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Entities\User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => Str::random(10),
+        'name' => 'Administrador',
+        'email' => 'admin@jnetce.com.br',
+        'password' => '@jnet7168',
+        'tipo_usuario_id' => 1,
     ];
 });
