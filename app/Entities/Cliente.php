@@ -22,6 +22,8 @@ class Cliente extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $connection = 'pgsql';
+    protected $table = "public.mk_pessoas";
+    protected $fillable = ['codpessoa' , 'nome_razaosocial'];
 
 }

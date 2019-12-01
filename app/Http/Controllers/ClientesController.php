@@ -11,6 +11,8 @@ use App\Http\Requests\ClienteCreateRequest;
 use App\Http\Requests\ClienteUpdateRequest;
 use App\Repositories\ClienteRepository;
 use App\Validators\ClienteValidator;
+use Illuminate\Support\Facades\DB;
+use App\Entities\Cliente;
 
 /**
  * Class ClientesController.
@@ -49,7 +51,11 @@ class ClientesController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $clientes = $this->repository->all();
+        // $clientes = $this->repository->findWhere(['codpessoa'=> '45777']);
+        $clientes = DB::connection('pgsql')->select('select * from mk_pessoas limit 1');
+        // $clientes = Cliente::where('codpessoa', '=','45777' );
+
+        return dd($clientes);
 
         if (request()->wantsJson()) {
 

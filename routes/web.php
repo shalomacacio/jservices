@@ -32,7 +32,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('tecnologia', 'TecnologiasController');
     Route::resource('servicos', 'ServicosController');
     Route::resource('tecnico', 'TecnicosController');
-    Route::resource('cliente', 'ClientesController');
+    Route::resource('clientes', 'ClientesController');
     Route::resource('comissao', 'ComissaosController');
 
     //parametros
