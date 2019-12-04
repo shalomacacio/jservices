@@ -17,7 +17,7 @@ class CreateTipoComissaosTable extends Migration
 	{
 		Schema::create('tipo_comissaos', function(Blueprint $table) {
             $table->increments('id');
-            $table->text('descricao');
+            $table->string('descricao')->unique();
             //campos padrao
             $table->timestamps();
             $table->softDeletes();

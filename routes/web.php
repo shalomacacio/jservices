@@ -23,7 +23,9 @@ Route::group(['middleware'=>['auth']], function(){
 
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
     Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar');
+    Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
+
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
     Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir');
 
@@ -33,7 +35,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('servicos', 'ServicosController');
     Route::resource('tecnico', 'TecnicosController');
     Route::resource('clientes', 'ClientesController');
-    Route::resource('comissao', 'ComissaosController');
+    Route::resource('comissaos', 'ComissaosController');
 
     //parametros
     Route::resource('tipoUsuario', 'TipoUsuariosController');
@@ -42,6 +44,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('tipoPagamento', 'TipoPagamentosController');
     Route::resource('statusSolicitacao', 'StatusSolicitacaosController');
     Route::resource('categoriaServicos', 'CategoriaServicosController');
+    Route::resource('comissaoServicos', 'ComissaoServicosController');
 
 });
 

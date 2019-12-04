@@ -10,10 +10,12 @@ use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\SolicitacaoCreateRequest;
 use App\Http\Requests\SolicitacaoUpdateRequest;
 use App\Repositories\SolicitacaoRepository;
+use App\Repositories\ComissaoRepository;
 use App\Validators\SolicitacaoValidator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Entities\Comissao;
 
 /**
  * Class SolicitacaosController.
@@ -26,6 +28,7 @@ class SolicitacaosController extends Controller
      * @var SolicitacaoRepository
      */
     protected $repository;
+    protected $comissaoRepository;
 
     /**
      * @var SolicitacaoValidator
@@ -38,10 +41,11 @@ class SolicitacaosController extends Controller
      * @param SolicitacaoRepository $repository
      * @param SolicitacaoValidator $validator
      */
-    public function __construct(SolicitacaoRepository $repository, SolicitacaoValidator $validator)
+    public function __construct(SolicitacaoRepository $repository, ComissaoRepository $comissaoRepository, SolicitacaoValidator $validator)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
+        $this->comissaoRepository =  $comissaoRepository;
     }
 
     /**
@@ -59,17 +63,29 @@ class SolicitacaosController extends Controller
                 // ->take(3)
                 ->orderBy('created_at','desc');
         })->paginate(10);
+
         $categorias = DB::table('categoria_servicos')->distinct()->get();
         $tecnologias = DB::table('tecnologias')->distinct()->get();
         $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
         $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
         $tipoMidia = DB::table('tipo_midias')->distinct()->get();
+        $comissaos = DB::table('comissaos as c')
+                          ->where('funcionario_id', Auth::user()->id)
+                          ->join('solicitacaos as s', 's.id', '=', 'c.solicitacao_id')
+                          ->join('servicos as ss', 'ss.id', '=', 'c.servico_id')
+                          ->select('c.id','c.dt_referencia','c.comissao_vlr' , 's.cliente', 'ss.descricao')
+                          ->get();
+
+
+
+
+
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
             ]);
         }
-        return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia'));
+        return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos'));
     }
 
     public function ajaxServicos(Request $request)
@@ -88,6 +104,16 @@ class SolicitacaosController extends Controller
       $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
       return response()->json([
         'valor' => $valor
+      ]);
+    }
+
+    public function ajaxCliente(Request $request)
+    {
+      header('Content-Type: application/json; charset=utf-8');
+      $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->cod_cliente]);
+
+      return response()->json([
+        'result' => $cliente
       ]);
     }
 
@@ -135,7 +161,7 @@ class SolicitacaosController extends Controller
             return $query
                 // ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
                 ->where('status_solicitacao_id','<>',' 4')
-                ->where('flg_autorizado', null)
+                // ->where('flg_autorizado', null)
                 // ->take(3)
                 ->orderBy('created_at','desc');
         })->paginate(10);
@@ -161,6 +187,9 @@ class SolicitacaosController extends Controller
         try {
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
             $solicitacao = $this->repository->create($request->all());
+            $comissao = $this->comissaoRepository->createComissaoAtendimeto($solicitacao);
+
+
             $response = [
                 'message' => 'Solicitacao created.',
                 'data'    => $solicitacao->toArray(),
@@ -170,6 +199,7 @@ class SolicitacaosController extends Controller
             }
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'error'   => true,

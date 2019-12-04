@@ -56,11 +56,23 @@
                     @csrf
 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-2">
+                            <label>Codigo</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <button type="button" id="search" class="btn btn-info"><i class="fas fa-search">
+                                    </i></button>
+                                </div>
+                                <!-- /btn-group -->
+                                <input type="text" class="form-control"  name="cod_cliente" id="cod_cliente">
+                              </div>
+                        </div>
+
+                        <div class="col-sm-4">
                         <!-- text input -->
                           <div class="form-group">
                               <label>Cliente</label>
-                              <input type="text" class="form-control" name="cliente" placeholder="Nome do cliente ..." required>
+                              <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome do cliente ..." required>
                           </div>
                         </div>
                         <div class="col-sm-2">
@@ -133,7 +145,7 @@
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                           <!-- select -->
                           <div class="form-group">
                               <label>Como coheceu ?</label>
@@ -146,7 +158,16 @@
                           </div>
                           </div>
 
-                        <div class="col-sm-4">
+                          <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Agendar para:<param name="" value=""></label>
+                                <input type="date" class="form-control" name="dt_agendamento"  >
+                            </div>
+                            </div>
+
+
+                        <div class="col-sm-12">
                             <!-- textarea -->
                             <div class="form-group">
                             <label>Observação</label>
@@ -178,7 +199,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h3 class="card-title">Comissão: {{ $solicitacaos->sum('comissao_atendimento')  }}</h3>
+                                <h3 class="card-title">Comissão: {{ $comissaos->sum('comissao_vlr')  }}</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -187,22 +208,22 @@
                             <thead>
                               <tr>
                                 <th style="width: 10px">#</th>
-                                <th style="width: 40px">Data</th>
+                                <th style="width: 120px">Data</th>
                                 <th>Cliente</th>
                                 <th style="width: 120px">Serviço </th>
-                                <th style="width: 40px">Status</th>
                                 <th style="width: 40px">Comissão </th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($solicitacaos as $solicitacao)
+                                @foreach ($comissaos as $comissao)
                                     <tr>
-                                        <td>{{ $solicitacao->id }}</td>
-                                        <td>{{ $solicitacao->created_at->format('d/m/Y') }}</td>
-                                        <td>{{ $solicitacao->cliente }}</td>
-                                        <td>{{ $solicitacao->servico->descricao}}</td>
-                                        <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
-                                        <td>R$ {{ $solicitacao->comissao_atendimento }}</td>
+                                        <td>{{ $comissao->id }}</td>
+                                        <td>{{ $comissao->dt_referencia }}</td>
+                                        <td>{{ $comissao->cliente }}</td>
+                                        <td>{{ $comissao->descricao }}</td>
+                                        <td>{{ $comissao->comissao_vlr }}</td>
+
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -211,7 +232,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                            {{ $solicitacaos->render() }}
+                            {{-- {{ $comissaos->render() }} --}}
                           </ul>
                         </div>
                       </div>
@@ -244,6 +265,15 @@
     ajaxValor();
   });
 
+  // $('#cod_cliente').change(function () {
+  //   ajaxCliente();
+  // });
+
+
+  $('#search').click( function () {
+    ajaxCliente();
+  });
+
   function ajaxServicos(){
     $.ajax({
         type: "GET",
@@ -260,6 +290,19 @@
 
             $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
           })
+        }
+    });
+  }
+
+  function ajaxCliente(){
+    $.ajax({
+        type: "GET",
+        data: {cod_cliente: $("#cod_cliente").val()},
+        url: "/solicitacao/ajaxCliente",
+        dataType: 'JSON',
+        success: function(response) {
+          // console.log(response.result[0]['nome_razaosocial']);
+          $('#cliente').val(response.result[0]['nome_razaosocial']);
         }
     });
   }

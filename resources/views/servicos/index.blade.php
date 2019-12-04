@@ -52,7 +52,7 @@
           <!-- /.card-header -->
           <div class="card-body">
             @csrf
-            <div class="row">
+           <div class="row">
 
               <div class="col-sm-3">
                 <div class="form-group">
@@ -65,7 +65,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-3">
+              <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Serviço</label>
@@ -84,14 +84,55 @@
               <div class="col-sm-3">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Pontuacao</label>
+                  <label>Pontos</label>
                   <input type="text" class="form-control" name="pontuacao" placeholder="" >
                 </div>
               </div>
 
+              <div class="col-sm-3">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Comissão Atendimento</label>
+                  <input type="text" class="form-control" name="comissao_atendimento" >
+                </div>
+              </div>
+
+
+              <div class="col-sm-1">
+                  <!-- checkbox -->
+                  <div class="form-group">
+                    <br/>
+                    @foreach($tipoComissaos as $tipo)
+                    <div class="form-check">
+                    <input class="form-check-input" name="tipo_comissao_atendimento" value="{{$tipo->id}}" type="checkbox">
+                    <label class="form-check-label">{{ $tipo->descricao }}</label>
+                    </div>
+                    @endforeach
+                  </div>
+                </div>
+
+              <div class="col-sm-3">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Comissão Equipe</label>
+                  <input type="text" class="form-control" name="comissao_equipe" >
+                </div>
+              </div>
+
+              <div class="col-sm-1">
+                  <!-- checkbox -->
+                  <div class="form-group">
+                    <br/>
+                    @foreach($tipoComissaos as $tipo)
+                    <div class="form-check">
+                    <input class="form-check-input" name="tipo_comissao_equipe" value="{{$tipo->id}}" type="checkbox">
+                    <label class="form-check-label">{{ $tipo->descricao }}</label>
+                    </div>
+                    @endforeach
+                  </div>
+                </div>
             </div><!-- /.row -->
           </div><!-- /.card-body -->
-
           <div class="card-footer">
             <button type="submit" class="btn btn-primary float-right">Adicionar</button>
           </div>
@@ -117,6 +158,8 @@
                   <th>Serviço</th>
                   <th>Valor</th>
                   <th>Pontuação</th>
+                  <th>Comiss Atend</th>
+                  <th>Comiss Eq</th>
                   <th style="width: 170px">Ações</th>
                   </tr>
                 </thead>
@@ -127,6 +170,8 @@
                     <td>{{ $servico->descricao }}</td>
                     <td>{{ $servico->servico_vlr }}</td>
                     <td>{{ $servico->pontuacao }}</td>
+                    <td>@if($servico->tipo_comissao_atendimento == 1) R$  @endif {{ $servico->comissao_atendimento }}@if($servico->tipo_comissao_atendimento == 2) %  @endif </td>
+                    <td>@if($servico->tipo_comissao_equipe == 1) R$  @endif {{ $servico->comissao_equipe }}@if($servico->tipo_comissao_equipe == 2) %  @endif </td>
                     <td>
                     <form action="{{route('servicos.destroy', $servico->id)}}" method="POST">
                       @csrf
@@ -134,8 +179,7 @@
                       <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
                     </form>
                     <a type="button" class="btn btn-warning float-left" href="{{route('servicos.edit', $servico->id)}}" >Editar </a>
-                  </td>
-
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

@@ -13,17 +13,21 @@ class TipoComissaoSeeder extends Seeder
     public function run()
     {
         //
+        $this->createTipoComissao();
     }
 
 
     private function createTipoComissao()
     {
+
       TipoComissao::create([
-        'descricao' => 'Percentual',
+        'descricao' => 'R$',
       ]);
 
       TipoComissao::create([
-        'descricao' => 'Valor Fixo',
+        'descricao' => '%',
       ]);
+
+
     }
 }

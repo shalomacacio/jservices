@@ -23,15 +23,28 @@ class Comissao extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-      'descricao',
-      'valor',
-      'tipo_comissao_id'
+      'dt_referencia',
+      'funcionario_id',
+      'solicitacao_id',
+      'servico_id',
+      'servico_vlr',
+      'servico_comissao',
+      'servico_tipo_comissao_id',
+      'comissao_vlr'
     ];
 
-    public function servicos()
-    {
-        return $this->belongsToMany('App\Entities\Servico')
-        ->withTimestamps();
+    public function comissionar($servicoVlr, $servicoComissao, $tipoComissao){
+      $comissao = 0;
+      if($tipoComissao == 1){
+        $comissao = $servicoVlr;
+      } elseif ($tipoComissao == 2){
+        $comissao = ($servicoComissao/100) * $servicoVlr;
+      }
+      return $comissao;
     }
 
+    public function solicitacao()
+    {
+        return $this->belongsTo('App\Entities\Solicitacao');
+    }
 }

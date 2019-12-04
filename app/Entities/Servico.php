@@ -28,6 +28,10 @@ class Servico extends Model implements Transformable
         'descricao' ,
         'servico_vlr',
         'pontuacao',
+        'comissao_atendimento',
+        'tipo_comissao_atendimento',
+        'comissao_equipe',
+        'tipo_comissao_equipe',
       ];
 
     public function solicitacao()
@@ -39,13 +43,6 @@ class Servico extends Model implements Transformable
     {
         return $this->belongsTo('App\Entities\CategoriaServico');
     }
-
-    public function comissaos()
-    {
-        return $this->belongsToMany('App\Entities\Comissao')
-        ->withTimestamps();
-    }
-
 
 
 }

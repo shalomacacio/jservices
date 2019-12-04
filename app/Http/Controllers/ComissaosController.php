@@ -11,6 +11,7 @@ use App\Http\Requests\ComissaoCreateRequest;
 use App\Http\Requests\ComissaoUpdateRequest;
 use App\Repositories\ComissaoRepository;
 use App\Validators\ComissaoValidator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ComissaosController.
@@ -50,6 +51,7 @@ class ComissaosController extends Controller
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $comissaos = $this->repository->all();
+        $tipoComissaos = DB::table('tipo_comissaos')->get();
 
         if (request()->wantsJson()) {
 
@@ -58,7 +60,7 @@ class ComissaosController extends Controller
             ]);
         }
 
-        return view('comissaos.index', compact('comissaos'));
+        return view('comissaos.index', compact('comissaos', 'tipoComissaos'));
     }
 
     /**
@@ -132,8 +134,9 @@ class ComissaosController extends Controller
     public function edit($id)
     {
         $comissao = $this->repository->find($id);
+        $tipoComissaos = DB::table('tipo_comissaos')->get();
 
-        return view('comissaos.edit', compact('comissao'));
+        return view('comissaos.edit', compact('comissao', 'tipoComissaos'));
     }
 
     /**
@@ -164,7 +167,7 @@ class ComissaosController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->route('comissaos.index')->with('message', $response['message']);
         } catch (ValidatorException $e) {
 
             if ($request->wantsJson()) {

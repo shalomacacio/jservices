@@ -13,27 +13,11 @@ class ComissaoTableSeeder extends Seeder
      */
     public function run()
     {
-      $this->createComissao();
+      // $this->createComissao();
     }
 
-    private function createComissao()
-    {
-      Comissao::create([
-        'descricao' => 'Adesao Interna',
-        'valor' => '10',
-        'tipo_comissao_id' => '1',
-      ]);
+    // private function createComissao()
+    // {
 
-      Comissao::create([
-        'descricao' => 'Adesao Externa',
-        'valor' => '8.00',
-        'tipo_comissao_id' => '1',
-      ]);
-
-      Comissao::create([
-        'descricao' => 'Adesao Tecnico',
-        'valor' => '8.00',
-        'tipo_comissao_id' => '2',
-      ]);
-    }
+    // }
 }

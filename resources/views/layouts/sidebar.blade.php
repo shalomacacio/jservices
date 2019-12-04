@@ -132,7 +132,6 @@
                             <p>Tipo Aquisição Equipamento</p>
                           </a>
                         </li>
-
                       </ul>
                   </li>
 

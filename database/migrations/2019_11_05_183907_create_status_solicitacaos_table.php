@@ -19,6 +19,7 @@ class CreateStatusSolicitacaosTable extends Migration
             $table->increments('id');
             $table->text('descricao'); //3- concluido 4 - cancelado
             $table->timestamps();
+            $table->softDeletes();
 		});
 	}
 

@@ -7,6 +7,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\ComissaoRepository;
 use App\Entities\Comissao;
 use App\Validators\ComissaoValidator;
+use DB;
 
 /**
  * Class ComissaoRepositoryEloquent.
@@ -44,5 +45,35 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
+
+    public function createComissaoAtendimeto($solicitacao)
+    {
+      $comissao = new Comissao();
+      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->funcionario_id = $solicitacao->user_id;
+      $comissao->solicitacao_id = $solicitacao->id;
+      $comissao->servico_id = $solicitacao->servico->id;
+      $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
+      $comissao->servico_comissao = $solicitacao->servico->comissao_atendimento;
+      $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_atendimento;
+      $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id);
+      $comissao->save();
+    }
+
+    public function createComissaoEquipe($solicitacao)
+    {
+      $comissao = new Comissao();
+      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->funcionario_id = $solicitacao->user_id;
+      $comissao->solicitacao_id = $solicitacao->id;
+      $comissao->servico_id = $solicitacao->servico->id;
+      $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
+      $comissao->servico_comissao = $solicitacao->servico->comissao_equipe;
+      $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_equipe;
+      $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id);
+      $comissao->save();
+    }
+
+
 }

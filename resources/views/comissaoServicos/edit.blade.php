@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Serviços</h1>
+            <h1>Comissão Serviço</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
-              <li class="breadcrumb-item active">Novo Serviço</li>
+              <li class="breadcrumb-item active">Editar Comissão Serviço</li>
             </ol>
           </div>
         </div>
@@ -46,32 +46,20 @@
         <!-- general form elements disabled -->
         <div class="card card-warning">
           <div class="card-header">
-            <h3 class="card-title">Editar Serviço</h3>
+            <h3 class="card-title">Editar comissão Serviço</h3>
           </div>
-          <form role="form" action="{{ route('servicos.update', $servico->id) }}" method="POST">
+          <form role="form" action="{{ route('comissaoServicos.update', $comissaoServico->id) }}" method="POST">
           <!-- /.card-header -->
           <div class="card-body">
             @csrf
             @method('PUT')
-           <div class="row">
+            <div class="row">
 
               <div class="col-sm-3">
-                <div class="form-group">
-                  <label>Categoria</label>
-                  <select class="form-control" name="categoria_servico_id" required>
-                    <option value="{{ $servico->categoria_servico_id}}">{{ $servico->categoriaServico->descricao}}</option>
-                    @foreach( $categorias as $categoria)
-                      <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-
-              <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Serviço</label>
-                <input type="text" class="form-control" name="descricao" value="{{$servico->descricao}}" required>
+                  <label>Descrição</label>
+                  <input type="text" class="form-control" name="descricao" value="{{ $comissaoServico->descricao }}" required>
                 </div>
               </div>
 
@@ -79,70 +67,32 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Valor</label>
-                  <input type="text" class="form-control" name="servico_vlr"  value="{{$servico->servico_vlr}}" >
+                  <input type="text" class="form-control" name="vlr" value="{{ $comissaoServico->vlr }}" >
                 </div>
               </div>
 
               <div class="col-sm-3">
-                <!-- text input -->
+
                 <div class="form-group">
-                  <label>Pontos</label>
-                  <input type="text" class="form-control" name="pontuacao"  value="{{$servico->pontuacao}}"  >
-                </div>
-              </div>
-
-              <div class="col-sm-3">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Comissão Atendimento</label>
-                  <input type="text" class="form-control" name="comissao_atendimento"  value="{{$servico->comissao_atendimento}}"  >
-                </div>
-              </div>
-
-
-              <div class="col-sm-1">
-                  <!-- checkbox -->
-                  <div class="form-group">
-                    <br/>
-                    @foreach($tipoComissaos as $tipo)
-                    <div class="form-check">
-                    <input class="form-check-input" name="tipo_comissao_atendimento"
-                    value="{{$tipo->id}}" type="checkbox" @if($tipo->id == $servico->tipo_comissao_atendimento) checked @endif>
-                    <label class="form-check-label">{{ $tipo->descricao }}</label>
-                    </div>
+                  <label>Tipo Comissão </label>
+                  <select class="form-control" name="tipo_comissao_id" required>
+                    @foreach( $tipoComissaos as $tipo)
+                      <option value="{{ $tipo->id}}">{{ $tipo->descricao}}</option>
                     @endforeach
-                  </div>
-                </div>
-
-              <div class="col-sm-3">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Comissão Equipe</label>
-                  <input type="text" class="form-control" name="comissao_equipe"  value="{{$servico->comissao_equipe}}" >
+                  </select>
                 </div>
               </div>
 
-              <div class="col-sm-1">
-                  <!-- checkbox -->
-                  <div class="form-group">
-                    <br/>
-                    @foreach($tipoComissaos as $tipo)
-                    <div class="form-check">
-                    <input class="form-check-input" name="tipo_comissao_equipe"
-                    value="{{$tipo->id}}" type="checkbox" @if($tipo->id == $servico->tipo_comissao_equipe) checked @endif >
-                    <label class="form-check-label">{{ $tipo->descricao }}</label>
-                    </div>
-                    @endforeach
-                  </div>
-                </div>
             </div><!-- /.row -->
           </div><!-- /.card-body -->
+
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary float-right">Adicionar</button>
+            <button type="submit" class="btn btn-primary float-right">Concluir</button>
           </div>
           </form>
         </div><!-- /.card warning-->
       </div><!-- /.col-m12 -->
+
     </section>
 </div>
 

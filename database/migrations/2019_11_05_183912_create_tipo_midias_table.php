@@ -17,7 +17,7 @@ class CreateTipoMidiasTable extends Migration
 	{
 		Schema::create('tipo_midias', function(Blueprint $table) {
             $table->increments('id');
-            $table->text('descricao');
+            $table->string('descricao')->unique();
             //campos padrao
             $table->timestamps();
             $table->softDeletes();

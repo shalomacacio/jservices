@@ -17,7 +17,7 @@ class CreateTipoAquisicaosTable extends Migration
 	{
 		Schema::create('tipo_aquisicaos', function(Blueprint $table) {
             $table->increments('id');
-            $table->text('descricao');
+            $table->string('descricao')->unique();
             //campos padrao
             $table->timestamps();
             $table->softDeletes();

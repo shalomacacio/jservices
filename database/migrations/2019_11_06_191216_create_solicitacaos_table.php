@@ -56,12 +56,6 @@ class CreateSolicitacaosTable extends Migration
             $table->integer('tipo_aquisicao_id')->unsigned()->nullable();
             $table->foreign('tipo_aquisicao_id')->references('id')->on('tipo_aquisicaos');
 
-
-            $table->decimal('comissao_atendimento')->default(0.00);
-            $table->decimal('comissao_equipe')->default(0.00);
-            $table->decimal('comissao_supervisor')->default(0.00);
-
-            $table->tinyInteger('flg_autorizado')->nullable()->default(null);
             $table->text('obs')->nullable();
 
             //campos padrao

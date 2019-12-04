@@ -33,28 +33,25 @@ class Solicitacao extends Model implements Transformable
         'servico_vlr',
         'tipo_pagamento_id',
         'tipo_aquisicao',
-        'comissao_atendimento',
-        'comissao_equipe',
-        'comissao_supervisor',
-        'flg_autorizado',
+
         'obs'
     ];
 
     //Mutator
-    public function setComissaoAtendimentoAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_atend, $this->servico->servico_vlr, $this->servico->comissao_atendimento);
-        $this->attributes['comissao_atendimento'] = $comissao;
-    }
+    // public function setComissaoAtendimentoAttribute(){
+    //     $comissao  =  $this->calcularComissao($this->servico->tip_comiss_atend, $this->servico->servico_vlr, $this->servico->comissao_atendimento);
+    //     $this->attributes['comissao_atendimento'] = $comissao;
+    // }
 
-    public function setComissaoEquipeAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_eq, $this->servico->servico_vlr, $this->servico->comissao_equipe);
-        $this->attributes['comissao_equipe'] = $comissao;
-    }
+    // public function setComissaoEquipeAttribute(){
+    //     $comissao  =  $this->calcularComissao($this->servico->tip_comiss_eq, $this->servico->servico_vlr, $this->servico->comissao_equipe);
+    //     $this->attributes['comissao_equipe'] = $comissao;
+    // }
 
-    public function setComissaoSupervisorAttribute(){
-        $comissao  =  $this->calcularComissao($this->servico->tip_comiss_sup, $this->servico->servico_vlr, $this->servico->comissao_supervisor);
-        $this->attributes['comissao_supervisor'] = $comissao;
-    }
+    // public function setComissaoSupervisorAttribute(){
+    //     $comissao  =  $this->calcularComissao($this->servico->tip_comiss_sup, $this->servico->servico_vlr, $this->servico->comissao_supervisor);
+    //     $this->attributes['comissao_supervisor'] = $comissao;
+    // }
 
     public function setServicoVlrAttribute(){
       $this->attributes['servico_vlr'] = $this->servico->servico_vlr;
@@ -87,13 +84,9 @@ class Solicitacao extends Model implements Transformable
         return $this->belongsTo('App\Entities\Tecnologia');
     }
 
-    //Regras de Negócio
-    public function calcularComissao( $tipoComissao,$valor, $comissao )
+    public function comissaos()
     {
-        if($tipoComissao == 'percentual')
-            return $valor * ($comissao/100);
-        else{
-            return $comissao;
-        }
+        return $this->hasMany('App\Entities\Tecnologia');
     }
+
 }

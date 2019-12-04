@@ -21,8 +21,9 @@ class DatabaseSeeder extends Seeder
         TipoComissaoSeeder::class,
         TipoMidiaSeeder::class,
         TipoPagamentoSeeder::class,
-        ComissaoTableSeeder::class,
+        TecnicoTableSeeder::class,
         UserRoleTableSeeder::class,
+        ServicoTableSeeder::class,
       ]);
 
     }

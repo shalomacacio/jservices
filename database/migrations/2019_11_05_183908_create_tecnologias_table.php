@@ -17,7 +17,7 @@ class CreateTecnologiasTable extends Migration
 	{
 		Schema::create('tecnologias', function(Blueprint $table) {
             $table->increments('id');
-            $table->text('descricao'); //pacpon  gpon radio
+            $table->string('descricao')->unique(); //pacpon  gpon radio
             //campos padrao
             $table->timestamps();
             $table->softDeletes();

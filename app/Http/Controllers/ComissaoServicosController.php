@@ -7,36 +7,36 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\ServicoCreateRequest;
-use App\Http\Requests\ServicoUpdateRequest;
-use App\Repositories\ServicoRepository;
-use App\Validators\ServicoValidator;
+use App\Http\Requests\ComissaoServicoCreateRequest;
+use App\Http\Requests\ComissaoServicoUpdateRequest;
+use App\Repositories\ComissaoServicoRepository;
+use App\Validators\ComissaoServicoValidator;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class ServicosController.
+ * Class ComissaoServicosController.
  *
  * @package namespace App\Http\Controllers;
  */
-class ServicosController extends Controller
+class ComissaoServicosController extends Controller
 {
     /**
-     * @var ServicoRepository
+     * @var ComissaoServicoRepository
      */
     protected $repository;
 
     /**
-     * @var ServicoValidator
+     * @var ComissaoServicoValidator
      */
     protected $validator;
 
     /**
-     * ServicosController constructor.
+     * ComissaoServicosController constructor.
      *
-     * @param ServicoRepository $repository
-     * @param ServicoValidator $validator
+     * @param ComissaoServicoRepository $repository
+     * @param ComissaoServicoValidator $validator
      */
-    public function __construct(ServicoRepository $repository, ServicoValidator $validator)
+    public function __construct(ComissaoServicoRepository $repository, ComissaoServicoValidator $validator)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
@@ -50,40 +50,44 @@ class ServicosController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $servicos = $this->repository->all();
-        $categorias = DB::table('categoria_servicos')->distinct()->get();
-        $tipoComissaos  = DB::table('tipo_comissaos')->get();
+        $comissaoServicos = $this->repository->all();
+        $tipoComissaos = DB::table('tipo_comissaos')->get();
+        $servicos = DB::table('servicos')->get();
 
         if (request()->wantsJson()) {
+
             return response()->json([
-                'data' => $servicos,
+                'data' => $comissaoServicos,
             ]);
         }
 
-      return view('servicos.index', compact('servicos', 'categorias', 'tipoComissaos'));
+        return view('comissaoServicos.index', compact('comissaoServicos', 'tipoComissaos', 'servicos'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ServicoCreateRequest $request
+     * @param  ComissaoServicoCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(ServicoCreateRequest $request)
+    public function store(ComissaoServicoCreateRequest $request)
     {
         try {
+
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-            $servico = $this->repository->create($request->all());
+
+            $comissaoServico = $this->repository->create($request->all());
 
             $response = [
-                'message' => 'Servico criado com sucesso.',
-                'data'    => $servico->toArray(),
+                'message' => 'ComissaoServico created.',
+                'data'    => $comissaoServico->toArray(),
             ];
 
             if ($request->wantsJson()) {
+
                 return response()->json($response);
             }
 
@@ -109,16 +113,16 @@ class ServicosController extends Controller
      */
     public function show($id)
     {
-        $servico = $this->repository->find($id);
+        $comissaoServico = $this->repository->find($id);
 
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $servico,
+                'data' => $comissaoServico,
             ]);
         }
 
-        return view('servicos.show', compact('servico'));
+        return view('comissaoServicos.show', compact('comissaoServico'));
     }
 
     /**
@@ -130,34 +134,34 @@ class ServicosController extends Controller
      */
     public function edit($id)
     {
-        $servico = $this->repository->find($id);
-        $categorias = DB::table('categoria_servicos')->distinct()->get();
-        $tipoComissaos  = DB::table('tipo_comissaos')->get();
+        $comissaoServico = $this->repository->find($id);
+        $tipoComissaos = DB::table('tipo_comissaos')->get();
+        $servicos = DB::table('servicos')->get();
 
-        return view('servicos.edit', compact('servico', 'categorias', 'tipoComissaos'));
+        return view('comissaoServicos.edit', compact('comissaoServico', 'tipoComissaos','servicos' ));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  ServicoUpdateRequest $request
+     * @param  ComissaoServicoUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(ServicoUpdateRequest $request, $id)
+    public function update(ComissaoServicoUpdateRequest $request, $id)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $servico = $this->repository->update($request->all(), $id);
+            $comissaoServico = $this->repository->update($request->all(), $id);
 
             $response = [
-                'message' => 'Servico updated.',
-                'data'    => $servico->toArray(),
+                'message' => 'ComissaoServico updated.',
+                'data'    => $comissaoServico->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -165,7 +169,7 @@ class ServicosController extends Controller
                 return response()->json($response);
             }
 
-            return redirect()->route('servicos.index')->with('message', $response['message']);
+            return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
 
             if ($request->wantsJson()) {
@@ -195,11 +199,11 @@ class ServicosController extends Controller
         if (request()->wantsJson()) {
 
             return response()->json([
-                'message' => 'Servico deleted.',
+                'message' => 'ComissaoServico deleted.',
                 'deleted' => $deleted,
             ]);
         }
 
-        return redirect()->back()->with('message', 'Servico deleted.');
+        return redirect()->back()->with('message', 'ComissaoServico deleted.');
     }
 }
