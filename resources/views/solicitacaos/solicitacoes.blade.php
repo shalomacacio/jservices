@@ -66,6 +66,19 @@
                                               @endempty
                                             </ul>
                                         </td>
+                                        <td>
+                                            @if($solicitacao->status_solicitacao_id == '1')
+                                            <a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-warning">Atribuir</a>
+                                            @endif
+                                            <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"  name = "status_solicitacao_id" value="4">Cancelar</button>
+                                                <button class="btn btn-success" type="submit"  onclick="return confirm('Deseja Concluir?')"          name = "status_solicitacao_id" value="3">Concluir</button>
+
+                                              </form>
+                                        </td>
 
                                     </tr>
                                 @endforeach

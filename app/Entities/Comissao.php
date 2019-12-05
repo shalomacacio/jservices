@@ -36,7 +36,7 @@ class Comissao extends Model implements Transformable
     public function comissionar($servicoVlr, $servicoComissao, $tipoComissao){
       $comissao = 0;
       if($tipoComissao == 1){
-        $comissao = $servicoVlr;
+        $comissao = $servicoComissao;
       } elseif ($tipoComissao == 2){
         $comissao = ($servicoComissao/100) * $servicoVlr;
       }

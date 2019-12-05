@@ -112,6 +112,13 @@ class SolicitacaosController extends Controller
       header('Content-Type: application/json; charset=utf-8');
       $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->cod_cliente]);
 
+      if($cliente == null){
+        return response()->json([
+          'error'   => true,
+          'message' => " Cliente não encontrado"
+        ]);
+      }
+
       return response()->json([
         'result' => $cliente
       ]);
@@ -263,6 +270,9 @@ class SolicitacaosController extends Controller
               $solicitacao->status_solicitacao_id = 3;
               $solicitacao->dt_conclusao = Carbon::now();
               $solicitacao->save();
+
+              $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
+
             }
             else{
               $solicitacao = $this->repository->update($request->all(), $id);

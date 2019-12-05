@@ -63,16 +63,21 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
 
     public function createComissaoEquipe($solicitacao)
     {
-      $comissao = new Comissao();
-      $comissao->dt_referencia = $solicitacao->created_at;
-      $comissao->funcionario_id = $solicitacao->user_id;
-      $comissao->solicitacao_id = $solicitacao->id;
-      $comissao->servico_id = $solicitacao->servico->id;
-      $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
-      $comissao->servico_comissao = $solicitacao->servico->comissao_equipe;
-      $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_equipe;
-      $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id);
-      $comissao->save();
+
+      foreach( $solicitacao->tecnicos as $tecnico ){
+
+        $comissao = new Comissao();
+        $comissao->dt_referencia = $solicitacao->dt_conclusao;
+        $comissao->funcionario_id = $tecnico->id;
+        $comissao->solicitacao_id = $solicitacao->id;
+        $comissao->servico_id = $solicitacao->servico->id;
+        $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
+        $comissao->servico_comissao = $solicitacao->servico->comissao_equipe;
+        $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_equipe;
+        $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id)/count($solicitacao->tecnicos);
+        $comissao->save();
+      }
+
     }
 
 

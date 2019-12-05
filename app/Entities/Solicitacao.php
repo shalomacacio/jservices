@@ -32,26 +32,10 @@ class Solicitacao extends Model implements Transformable
         'dt_conclusao',
         'servico_vlr',
         'tipo_pagamento_id',
-        'tipo_aquisicao',
-
+        'tipo_midia',
+        'tipo_aquisicao_id',
         'obs'
     ];
-
-    //Mutator
-    // public function setComissaoAtendimentoAttribute(){
-    //     $comissao  =  $this->calcularComissao($this->servico->tip_comiss_atend, $this->servico->servico_vlr, $this->servico->comissao_atendimento);
-    //     $this->attributes['comissao_atendimento'] = $comissao;
-    // }
-
-    // public function setComissaoEquipeAttribute(){
-    //     $comissao  =  $this->calcularComissao($this->servico->tip_comiss_eq, $this->servico->servico_vlr, $this->servico->comissao_equipe);
-    //     $this->attributes['comissao_equipe'] = $comissao;
-    // }
-
-    // public function setComissaoSupervisorAttribute(){
-    //     $comissao  =  $this->calcularComissao($this->servico->tip_comiss_sup, $this->servico->servico_vlr, $this->servico->comissao_supervisor);
-    //     $this->attributes['comissao_supervisor'] = $comissao;
-    // }
 
     public function setServicoVlrAttribute(){
       $this->attributes['servico_vlr'] = $this->servico->servico_vlr;

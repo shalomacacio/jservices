@@ -199,7 +199,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h3 class="card-title">Comissão: {{ $comissaos->sum('comissao_vlr')  }}</h3>
+                                <h1 class="card-title">Comissão R$: {{number_format($comissaos->sum('comissao_vlr'),2)  }}</h1>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -210,7 +210,7 @@
                                 <th style="width: 10px">#</th>
                                 <th style="width: 120px">Data</th>
                                 <th>Cliente</th>
-                                <th style="width: 120px">Serviço </th>
+                                <th style="width: 200px">Serviço </th>
                                 <th style="width: 40px">Comissão </th>
                               </tr>
                             </thead>
@@ -221,7 +221,7 @@
                                         <td>{{ $comissao->dt_referencia }}</td>
                                         <td>{{ $comissao->cliente }}</td>
                                         <td>{{ $comissao->descricao }}</td>
-                                        <td>{{ $comissao->comissao_vlr }}</td>
+                                        <td>R$ {{ $comissao->comissao_vlr }}</td>
 
 
                                     </tr>
@@ -301,8 +301,14 @@
         url: "/solicitacao/ajaxCliente",
         dataType: 'JSON',
         success: function(response) {
-          // console.log(response.result[0]['nome_razaosocial']);
-          $('#cliente').val(response.result[0]['nome_razaosocial']);
+          if(response.error){
+            alert("Erro:"+ response.message);
+          } else {
+            $('#cliente').val(response.result[0]['nome_razaosocial']);
+          }
+        },
+        error: function(response){
+          alert("A conexão com MKSOLUTION falhou!")
         }
     });
   }
