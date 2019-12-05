@@ -29,10 +29,11 @@ class Solicitacao extends Model implements Transformable
         'servico_id',
         'tecnologia_id',
         'status_solicitacao_id',
+        'dt_agendamento',
         'dt_conclusao',
         'servico_vlr',
         'tipo_pagamento_id',
-        'tipo_midia',
+        'tipo_midia_id',
         'tipo_aquisicao_id',
         'obs'
     ];
@@ -47,9 +48,9 @@ class Solicitacao extends Model implements Transformable
         return $this->belongsTo('App\Entities\Servico');
     }
 
-    public function tecnicos()
+    public function users()
     {
-        return $this->belongsToMany('App\Entities\Tecnico')
+        return $this->belongsToMany('App\Entities\User')
         ->withTimestamps();
     }
 
@@ -70,7 +71,7 @@ class Solicitacao extends Model implements Transformable
 
     public function comissaos()
     {
-        return $this->hasMany('App\Entities\Tecnologia');
+        return $this->hasMany('App\Entities\Comissao');
     }
 
 }

@@ -207,23 +207,23 @@
                           <table class="table table-bordered">
                             <thead>
                               <tr>
-                                <th style="width: 10px">#</th>
-                                <th style="width: 120px">Data</th>
+                                <th style="width: 100px">Data</th>
+                                <th>Codigo</th>
                                 <th>Cliente</th>
                                 <th style="width: 200px">Serviço </th>
+                                <th style="width: 40px">Status </th>
                                 <th style="width: 40px">Comissão </th>
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($comissaos as $comissao)
                                     <tr>
-                                        <td>{{ $comissao->id }}</td>
-                                        <td>{{ $comissao->dt_referencia }}</td>
-                                        <td>{{ $comissao->cliente }}</td>
-                                        <td>{{ $comissao->descricao }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
+                                        <td>{{ $comissao->solicitacao->cod_cliente }}</td>
+                                        <td>{{ $comissao->solicitacao->cliente }}</td>
+                                        <td>{{ $comissao->servico->descricao }}</td>
+                                        <td>{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>R$ {{ $comissao->comissao_vlr }}</td>
-
-
                                     </tr>
                                 @endforeach
                             </tbody>

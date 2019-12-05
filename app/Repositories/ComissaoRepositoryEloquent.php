@@ -64,7 +64,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissaoEquipe($solicitacao)
     {
 
-      foreach( $solicitacao->tecnicos as $tecnico ){
+      foreach( $solicitacao->users as $tecnico ){
 
         $comissao = new Comissao();
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
@@ -74,10 +74,14 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
         $comissao->servico_comissao = $solicitacao->servico->comissao_equipe;
         $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_equipe;
-        $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id)/count($solicitacao->tecnicos);
+        $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id)/count($solicitacao->users);
         $comissao->save();
       }
 
+    }
+
+    public function deleteComissao($solicitacaoId){
+      $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->delete();
     }
 
 

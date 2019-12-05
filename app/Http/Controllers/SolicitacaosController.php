@@ -12,10 +12,13 @@ use App\Http\Requests\SolicitacaoUpdateRequest;
 use App\Repositories\SolicitacaoRepository;
 use App\Repositories\ComissaoRepository;
 use App\Validators\SolicitacaoValidator;
+use App\Validators\ComissaoServicoValidator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
+
+use Illuminate\Validation\Rule;
 
 /**
  * Class SolicitacaosController.
@@ -24,295 +27,394 @@ use App\Entities\Comissao;
  */
 class SolicitacaosController extends Controller
 {
-    /**
-     * @var SolicitacaoRepository
-     */
-    protected $repository;
-    protected $comissaoRepository;
+  /**
+   * @var SolicitacaoRepository
+   */
+  protected $repository;
+  protected $comissaoRepository;
 
-    /**
-     * @var SolicitacaoValidator
-     */
-    protected $validator;
+  /**
+   * @var SolicitacaoValidator
+   */
+  protected $validator;
 
-    /**
-     * SolicitacaosController constructor.
-     *
-     * @param SolicitacaoRepository $repository
-     * @param SolicitacaoValidator $validator
-     */
-    public function __construct(SolicitacaoRepository $repository, ComissaoRepository $comissaoRepository, SolicitacaoValidator $validator)
-    {
-        $this->repository = $repository;
-        $this->validator  = $validator;
-        $this->comissaoRepository =  $comissaoRepository;
-    }
+  /**
+   * SolicitacaosController constructor.
+   *
+   * @param SolicitacaoRepository $repository
+   * @param SolicitacaoValidator $validator
+   */
+  public function __construct(SolicitacaoRepository $repository, ComissaoRepository $comissaoRepository, SolicitacaoValidator $validator)
+  {
+    $this->repository = $repository;
+    $this->validator  = $validator;
+    $this->comissaoRepository =  $comissaoRepository;
+  }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $solicitacaos = $this->repository->scopeQuery(function($query){
-            return $query
-                ->where('user_id', Auth::user()->id)
-                ->whereBetween('created_at', [Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])
-                // ->take(3)
-                ->orderBy('created_at','desc');
-        })->paginate(10);
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+    $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+    $solicitacaos = $this->repository->scopeQuery(function ($query) {
+      return $query
+        ->where('user_id', Auth::user()->id)
+        ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        ->orderBy('created_at', 'desc');
+    })->paginate(10);
 
-        $categorias = DB::table('categoria_servicos')->distinct()->get();
-        $tecnologias = DB::table('tecnologias')->distinct()->get();
-        $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
-        $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
-        $tipoMidia = DB::table('tipo_midias')->distinct()->get();
-        $comissaos = DB::table('comissaos as c')
-                          ->where('funcionario_id', Auth::user()->id)
-                          ->join('solicitacaos as s', 's.id', '=', 'c.solicitacao_id')
-                          ->join('servicos as ss', 'ss.id', '=', 'c.servico_id')
-                          ->select('c.id','c.dt_referencia','c.comissao_vlr' , 's.cliente', 'ss.descricao')
-                          ->get();
+    $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $tecnologias = DB::table('tecnologias')->distinct()->get();
+    $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
+    $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
+    $tipoMidia = DB::table('tipo_midias')->distinct()->get();
 
+    $comissaos = $this->comissaoRepository
+              ->findWhereBetween('created_at',
+              [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()],
+              ['*'])->where('funcionario_id', Auth::user()->id);
 
-
-
-
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $solicitacaos,
-            ]);
-        }
-        return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos'));
-    }
-
-    public function ajaxServicos(Request $request)
-    {
-      header('Content-Type: application/json; charset=utf-8');
-      $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
-      $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id )->get();
+    if (request()->wantsJson()) {
       return response()->json([
-        'servicos' => $servicos
+        'data' => $solicitacaos,
+      ]);
+    }
+    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos'));
+  }
+
+  public function ajaxServicos(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
+    $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
+    return response()->json([
+      'servicos' => $servicos
+    ]);
+  }
+
+  public function ajaxValor(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
+    return response()->json([
+      'valor' => $valor
+    ]);
+  }
+
+  public function ajaxCliente(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->cod_cliente]);
+
+    if ($cliente == null) {
+      return response()->json([
+        'error'   => true,
+        'message' => " Cliente não encontrado"
       ]);
     }
 
-    public function ajaxValor(Request $request)
-    {
-      header('Content-Type: application/json; charset=utf-8');
-      $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
-      return response()->json([
-        'valor' => $valor
-      ]);
-    }
+    return response()->json([
+      'result' => $cliente
+    ]);
+  }
 
-    public function ajaxCliente(Request $request)
-    {
-      header('Content-Type: application/json; charset=utf-8');
-      $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->cod_cliente]);
+  public function encaminhar($id)
+  {
+    $solicitacao = $this->repository->find($id);
+    $tecnicos = DB::table('users')->where('tipo_usuario_id', 3)->get();
+    return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
+  }
 
-      if($cliente == null){
+  public function atribuir(Request $request)
+  {
+    try {
+      $solicitacao = $this->repository->find($request->solicitacao_id);
+      //vincula solicitação a equipe
+      $solicitacao->users()->attach($request->equipe);
+      //atualiza o status para em andamento
+      $solicitacao->status_solicitacao_id = 2;
+      $solicitacao->save();
+
+      $response = [
+        'message' => 'Solicitacao Atribuida.',
+      ];
+      if ($request->wantsJson()) {
+        return response()->json($response);
+      }
+      return redirect()->route('solicitacoes')->with('message', $response['message']);
+    } catch (ValidatorException $e) {
+      if ($request->wantsJson()) {
         return response()->json([
           'error'   => true,
-          'message' => " Cliente não encontrado"
+          'message' => $e->getMessageBag()
         ]);
       }
+      return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+    }
+  }
 
+  public function solicitacoes()
+  {
+
+    $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+    $solicitacaos = $this->repository->scopeQuery(function ($query) {
+      return $query
+        ->whereNotIn('status_solicitacao_id', ['3','4']) // , 4 - cancelada
+        // ->where('status_solicitacao_id', '<>', ' 4')
+        // ->where('flg_autorizado', null)
+        // ->take(3)
+        ->orderBy('created_at', 'desc');
+    })->paginate(10);
+    if (request()->wantsJson()) {
       return response()->json([
-        'result' => $cliente
+        'data' => $solicitacaos,
       ]);
     }
+    return view('solicitacaos.solicitacoes', compact('solicitacaos'));
+  }
 
-    public function encaminhar($id)
-    {
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  SolicitacaoCreateRequest $request
+   *
+   * @return \Illuminate\Http\Response
+   *
+   * @throws \Prettus\Validator\Exceptions\ValidatorException
+   */
+  public function store(SolicitacaoCreateRequest $request)
+  {
+    try {
+      $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+      $solicitacao = $this->repository->create($request->all());
+      $comissao = $this->comissaoRepository->createComissaoAtendimeto($solicitacao);
+
+
+      $response = [
+        'message' => 'Solicitacao created.',
+        'data'    => $solicitacao->toArray(),
+      ];
+      if ($request->wantsJson()) {
+        return response()->json($response);
+      }
+      return redirect()->back()->with('message', $response['message']);
+    } catch (ValidatorException $e) {
+
+      if ($request->wantsJson()) {
+        return response()->json([
+          'error'   => true,
+          'message' => $e->getMessageBag()
+        ]);
+      }
+      return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+    }
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  int $id
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function show($id)
+  {
+    $solicitacao = $this->repository->find($id);
+    if (request()->wantsJson()) {
+      return response()->json([
+        'data' => $solicitacao,
+      ]);
+    }
+    return view('solicitacaos.show', compact('solicitacao'));
+  }
+
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int $id
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function edit($id)
+  {
+    $solicitacao = $this->repository->find($id);
+    return view('solicitacaos.edit', compact('solicitacao'));
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  SolicitacaoUpdateRequest $request
+   * @param  string            $id
+   *
+   * @return Response
+   *
+   * @throws \Prettus\Validator\Exceptions\ValidatorException
+   */
+  public function concluir($id)
+  {
+    try {
+      $solicitacao = $this->repository->find($id);
+      $solicitacao->status_solicitacao_id = 3;
+      $solicitacao->dt_conclusao = Carbon::now();
+      $solicitacao->save();
+
+      $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
+
+      $response = [
+        'message' => 'Solicitacao updated.',
+        'data'    => $solicitacao->toArray(),
+      ];
+
+      return redirect()->back()->with('message', $response['message']);
+
+    } catch (ValidatorException $e) {
+      // if ($request->wantsJson()) {
+      //   return response()->json([
+      //     'error'   => true,
+      //     'message' => $e->getMessageBag()
+      //   ]);
+      // }
+      return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+    }
+
+  }
+
+
+  public function update(SolicitacaoUpdateRequest $request, $id)
+  {
+    try {
+
+      $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
+
+      //se for uma conclusão de solicitacao
+      if ($request->status_solicitacao_id = 3) {
         $solicitacao = $this->repository->find($id);
-        $tecnicos = DB::table('tecnicos')->distinct()->get();
-        return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
+        $solicitacao->status_solicitacao_id = 3;
+        $solicitacao->dt_conclusao = Carbon::now();
+        $solicitacao->save();
+
+        $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
+      } else {
+        $solicitacao = $this->repository->update($request->all(), $id);
+      }
+
+      $response = [
+        'message' => 'Solicitacao updated.',
+        'data'    => $solicitacao->toArray(),
+      ];
+      if ($request->wantsJson()) {
+        return response()->json($response);
+      }
+      return redirect()->back()->with('message', $response['message']);
+    } catch (ValidatorException $e) {
+      if ($request->wantsJson()) {
+        return response()->json([
+          'error'   => true,
+          'message' => $e->getMessageBag()
+        ]);
+      }
+      return redirect()->back()->withErrors($e->getMessageBag())->withInput();
     }
+  }
 
-    public function atribuir(Request $request)
-    {
-        try {
-            $solicitacao = $this->repository->find($request->solicitacao_id);
-            $comissaoTecnico = $solicitacao->comissao_equipe / count($request->equipe);
-            //vincula solicitação a equipe
-            $solicitacao->tecnicos()->attach($request->equipe, ['comissao_tecnico'=> $comissaoTecnico]);
-            //atualiza o status para em andamento
-            $solicitacao->status_solicitacao_id = 2;
-            $solicitacao->save();
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int $id
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy($id)
+  {
+    $comissaoDeleted = $this->comissaoRepository->deleteComissao($id);
+    $deleted = $this->repository->delete($id);
 
-            $response = [
-                'message' => 'Solicitacao Atribuida.',
-            ];
-            if ($request->wantsJson()) {
-                return response()->json($response);
-            }
-            return redirect()->route('solicitacoes')->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+    if (request()->wantsJson()) {
+      return response()->json([
+        'message' => 'Solicitacao deleted.',
+        'deleted' => $deleted,
+      ]);
     }
+    return redirect()->back()->with('message', 'Solicitacao deleted.');
+  }
 
-    public function solicitacoes()
-    {
+  public function actions(Request $request, $id)
+  {
 
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $solicitacaos = $this->repository->scopeQuery(function($query){
-            return $query
-                // ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
-                ->where('status_solicitacao_id','<>',' 4')
-                // ->where('flg_autorizado', null)
-                // ->take(3)
-                ->orderBy('created_at','desc');
-        })->paginate(10);
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $solicitacaos,
-            ]);
-        }
-        return view('solicitacaos.solicitacoes', compact('solicitacaos'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  SolicitacaoCreateRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
-    public function store(SolicitacaoCreateRequest $request)
-    {
-        try {
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-            $solicitacao = $this->repository->create($request->all());
-            $comissao = $this->comissaoRepository->createComissaoAtendimeto($solicitacao);
-
-
-            $response = [
-                'message' => 'Solicitacao created.',
-                'data'    => $solicitacao->toArray(),
-            ];
-            if ($request->wantsJson()) {
-                return response()->json($response);
-            }
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $solicitacao = $this->repository->find($id);
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $solicitacao,
-            ]);
-        }
-        return view('solicitacaos.show', compact('solicitacao'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $solicitacao = $this->repository->find($id);
-        return view('solicitacaos.edit', compact('solicitacao'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  SolicitacaoUpdateRequest $request
-     * @param  string            $id
-     *
-     * @return Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
-    public function update(SolicitacaoUpdateRequest $request, $id)
-    {
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            //se for uma conclusão de solicitacao
-            if($request->status_solicitacao_id = 3){
-              $solicitacao = $this->repository->find($id);
-              $solicitacao->status_solicitacao_id = 3;
-              $solicitacao->dt_conclusao = Carbon::now();
-              $solicitacao->save();
-
-              $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
-
-            }
-            else{
-              $solicitacao = $this->repository->update($request->all(), $id);
-            }
-
-            $response = [
-                'message' => 'Solicitacao updated.',
-                'data'    => $solicitacao->toArray(),
-            ];
-            if ($request->wantsJson()) {
-                return response()->json($response);
-            }
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
+    switch ($request->action) {
+      case 1:
+        //cancelar
         $deleted = $this->repository->delete($id);
         if (request()->wantsJson()) {
-            return response()->json([
-                'message' => 'Solicitacao deleted.',
-                'deleted' => $deleted,
-            ]);
+          return response()->json([
+            'message' => 'Solicitacao deleted.',
+            'deleted' => $deleted,
+          ]);
         }
         return redirect()->back()->with('message', 'Solicitacao deleted.');
+        break;
+      case 2:
+        //concluir
+        try {
+          $solicitacao = $this->repository->find($id);
+          $solicitacao->status_solicitacao_id = 3;
+          $solicitacao->dt_conclusao = Carbon::now();
+          $solicitacao->save();
+
+          $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
+
+          $response = [
+            'message' => 'Serviço Concluido',
+            'data'    => $solicitacao->toArray(),
+          ];
+          return redirect()->back()->with('message', $response['message']);
+        } catch (ValidatorException $e) {
+          if ($request->wantsJson()) {
+            return response()->json([
+              'error'   => true,
+              'message' => $e->getMessageBag()
+            ]);
+          }
+          return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+        }
+
+        break;
+      case 3:
+        // encaminhar
+        $solicitacao = $this->repository->find($id);
+        $tecnicos = DB::table('users')->where('tipo_usuario_id', 3)->get();
+        return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
+        break;
+      case 4:
+        // autorizar
+        try {
+          $comissoes = $this->comissaoRepository->findWhere(['solicitacao_id' => $id]);
+          // return dd($comissoes);
+          foreach ($comissoes as $comissao) {
+            $comissao->flg_autorizado = 1;
+            $comissao->save();
+          }
+
+          $response = [
+            'message' => 'Comissao autorizada',
+            'data'    => $comissoes->toArray(),
+          ];
+          return redirect()->back()->with('message', $response['message']);
+        } catch (ValidatorException $e) {
+          if ($request->wantsJson()) {
+            return response()->json([
+              'error'   => true,
+              'message' => $e->getMessageBag()
+            ]);
+          }
+          return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+        }
+
+        break;
     }
+  }
 }

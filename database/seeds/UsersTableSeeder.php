@@ -23,8 +23,47 @@ class UsersTableSeeder extends Seeder
         'name' => 'Administrador',
         'email' => 'admin@jnetce.com.br',
         'password' => '@jnet7168',
+        'tipo_usuario_id' => '1',
       ]);
       // Exibe uma informação no console durante o processo de seed
       $this->command->info('usuario Administrador criado');
+
+      User::create([
+        'name' => 'HARISSON',
+        'sobrenome' => 'CRISTIAN',
+        'email' => 'harisson@jnetce.com.br',
+        'password' => '123456',
+        'tipo_usuario_id' => '3',
+      ]);
+
+      User::create([
+        'name' => 'LUIZ',
+        'sobrenome' => 'HENRIQUE',
+        'email' => 'luizhenrique@jnetce.com.br',
+        'password' => '123456',
+        'tipo_usuario_id' => '3',
+      ]);
+
+      User::create([
+        'name' => 'RENAN',
+        'sobrenome' => 'SANTOS',
+        'email' => 'renansantos@jnet.ce.com.br',
+        'password' => '123456',
+        'tipo_usuario_id' => '3',
+      ]);
+
+      User::create([
+        'name' => 'RENAN',
+        'sobrenome' => 'SILVA',
+        'email' => 'renansilva@jnetce.com.br',
+        'password' => '123456',
+        'tipo_usuario_id' => '3',
+      ]);
     }
 }
+
+
+
+
+
+

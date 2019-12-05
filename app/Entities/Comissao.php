@@ -17,11 +17,15 @@ class Comissao extends Model implements Transformable
     use TransformableTrait;
     use SoftDeletes;
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
+    public $incrementing = false;
+
     protected $fillable = [
       'dt_referencia',
       'funcionario_id',
@@ -46,5 +50,10 @@ class Comissao extends Model implements Transformable
     public function solicitacao()
     {
         return $this->belongsTo('App\Entities\Solicitacao');
+    }
+
+    public function servico()
+    {
+        return $this->belongsTo('App\Entities\Servico');
     }
 }

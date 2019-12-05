@@ -51,8 +51,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 
     public function setPasswordAttribute($value)
-	{
-		$this->attributes['password'] = env('PASSWORD_HASH') ? Hash::make($value) : $value;
+	  {
+		  $this->attributes['password'] = env('PASSWORD_HASH') ? Hash::make($value) : $value;
     }
+
+    //Relacionamentos
+    public function solicitacaos()
+    {
+      return $this->belongsToMany('App\Entities\Solicitacao')
+      ->withTimestamps();
+    }
+
 
 }

@@ -23,11 +23,12 @@ Route::group(['middleware'=>['auth']], function(){
 
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
     Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar');
+    Route::get('solicitacao/{id}/actions', 'SolicitacaosController@actions')->name('solicitacao.actions');
     Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
-
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
     Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir');
+    Route::get('solicitacao/{id}/concluir', 'SolicitacaosController@concluir')->name('solicitacao.concluir');
 
     Route::resource('users', 'UsersController');
     Route::resource('solicitacao', 'SolicitacaosController');

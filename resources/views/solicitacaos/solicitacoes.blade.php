@@ -19,6 +19,25 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
+
+      @if(Session::has('message'))
+      <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h5><i class="icon fas fa-check"></i>Sucesso</h5>
+          {{Session::get('message')}}
+      </div>
+      @elseif($errors->any())
+      <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h5><i class="icon fas fa-check"></i>Erro</h5>
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
+
     </section>
 
     <!-- Main content -->
@@ -43,7 +62,7 @@
                                 <th>Serviço </th>
                                 <th>Situação</th>
                                 <th>Equipe</th>
-                                <th style="width:200px">Ações </th>
+                                <th>Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -55,29 +74,29 @@
                                         <td>{{ $solicitacao->servico->descricao }}</td>
                                         <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
                                         <td>
-                                            <ul>
-                                              @foreach ($solicitacao->tecnicos as $tecnico)
+
+                                              @foreach ($solicitacao->users as $tecnico)
                                                 @isset($tecnico)
-                                                {{$tecnico->nome}} {{$tecnico->sobrenome}}
+                                                {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
                                                 @endisset
                                               @endforeach
-                                              @empty($solicitacao->tecnicos)
+                                              @empty($solicitacao->users)
                                                 Nenhum técnico atribuido
                                               @endempty
-                                            </ul>
+
                                         </td>
                                         <td>
-                                            @if($solicitacao->status_solicitacao_id == '1')
-                                            <a href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" type="button" class="btn btn-warning">Atribuir</a>
+                                        <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
+                                            @if($solicitacao->status_solicitacao_id == 1)
+                                            <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" onclick="return confirm('Deseja encaminhar para um téncico ?')"><i class="fa fa-motorcycle"></i></a>
                                             @endif
-                                            <form action="{{ route('solicitacao.update', $solicitacao->id)}}" method="post">
-                                                @csrf
-                                                @method('PUT')
-
-                                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"  name = "status_solicitacao_id" value="4">Cancelar</button>
-                                                <button class="btn btn-success" type="submit"  onclick="return confirm('Deseja Concluir?')"          name = "status_solicitacao_id" value="3">Concluir</button>
-
-                                              </form>
+                                            @if($solicitacao->status_solicitacao_id == 2)
+                                              <a class="btn btn-success" href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
+                                            @endif
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
+                                        </form>
                                         </td>
 
                                     </tr>

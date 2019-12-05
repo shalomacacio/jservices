@@ -66,7 +66,7 @@
                                 <label>Equipe</label>
                                 <select multiple class="form-control" name="equipe[]">
                                     @foreach( $tecnicos as $tecnico)
-                                        <option value="{{ $tecnico->id}}">{{ $tecnico->nome }} {{ $tecnico->sobrenome }}</option>
+                                        <option value="{{ $tecnico->id}}">{{ $tecnico->name }} {{ $tecnico->sobrenome }}</option>
                                     @endforeach
                                 </select>
                             </div>

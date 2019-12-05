@@ -117,14 +117,13 @@
 
       <!-- Main row -->
         <div class="row">
-            @foreach ($tecnicos as $tecnico)
-            @if(count($tecnico->solicitacoes) >=1  )
+
                 <!-- Left col -->
                 <div class="col-md-6">
                   <!-- TABLE: LATEST ORDERS -->
                   <div class="card card-info">
                     <div class="card-header border-transparent">
-                    <h3 class="card-title">{{$tecnico->nome}} {{$tecnico->sobrenome}}</h3>
+                    <h3 class="card-title">Fulano de Tal</h3>
 
                       <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-widget="collapse">
@@ -148,23 +147,18 @@
                           </tr>
                           </thead>
                           <tbody>
-                              @foreach ($tecnico->solicitacoes as $solicitacao)
-                              @if($solicitacao->created_at >= \Carbon\Carbon::today() || $solicitacao->status_solicitacao_id != 3)
                               <tr>
-                                <td><a href="#">{{$solicitacao->created_at->format('d/m/Y')}}</a></td>
-                                <td>{{$solicitacao->cliente}}</td>
-                                <td>{{$solicitacao->servico->descricao}}</td>
+                                <td><a href="#">Data</a></td>
+                                <td>Ciclano</td>
+                                <td>Coia boa</td>
                                 <td>
-                                    <span class="badge
-                                        @if($solicitacao->status_solicitacao_id == '4' || $solicitacao->status_solicitacao_id == '5' ) badge-danger
-                                          @elseif($solicitacao->status_solicitacao_id == '2' ) badge-warning
-                                          @else badge-success
-                                        @endif ">{{$solicitacao->statusSolicitacao->descricao}}
+                                    <span class="badge badge-success">
+                                      concluido
                                     </span>
                                 </td>
                               </tr>
-                              @endif
-                              @endforeach
+
+
                           </tbody>
                         </table>
                       </div>
@@ -174,8 +168,8 @@
                   <!-- /.card -->
                 </div>
                 <!-- /.col -->
-                @endif
-                @endforeach
+
+
 
               </div>
               <!-- /.row -->

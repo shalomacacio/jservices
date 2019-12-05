@@ -27,6 +27,10 @@ class TipoUsuarioSeeder extends Seeder
       ]);
 
       TipoUsuario::create([
+        'descricao' => 'TÉCNICO',
+      ]);
+
+      TipoUsuario::create([
         'descricao' => 'FINANCEIRO',
       ]);
 
