@@ -59,19 +59,28 @@ class Solicitacao extends Model implements Transformable
         return $this->belongsTo('App\Entities\StatusSolicitacao');
     }
 
-    public function tiposPagamento()
+    public function tipoPagamento()
     {
         return $this->belongsTo('App\Entities\TipoPagamento');
     }
 
-    public function tecnologias()
+    public function tipoMidia()
+    {
+        return $this->belongsTo('App\Entities\TipoMidia');
+    }
+
+    public function tipoAquisicao()
+    {
+        return $this->belongsTo('App\Entities\TipoAquisicao');
+    }
+    public function tecnologia()
     {
         return $this->belongsTo('App\Entities\Tecnologia');
     }
 
-    public function comissaos()
+    public function categoriaServico()
     {
-        return $this->hasMany('App\Entities\Comissao');
+        return $this->belongsTo('App\Entities\CategoriaServico');
     }
 
 }

@@ -11,6 +11,7 @@ use App\Http\Requests\EscalaCreateRequest;
 use App\Http\Requests\EscalaUpdateRequest;
 use App\Repositories\EscalaRepository;
 use App\Validators\EscalaValidator;
+use DB;
 
 /**
  * Class EscalasController.
@@ -51,6 +52,11 @@ class EscalasController extends Controller
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $escalas = $this->repository->all();
 
+        $users = DB::table('users as u')
+                      ->join('role_user as ru','u.id','=','ru.user_id')
+                      ->where('u.id', '<>' ,1)
+                      ->get();
+
         if (request()->wantsJson()) {
 
             return response()->json([
@@ -58,7 +64,7 @@ class EscalasController extends Controller
             ]);
         }
 
-        return view('escalas.index', compact('escalas'));
+        return view('escalas.index', compact('escalas', 'users'));
     }
 
     /**
@@ -73,6 +79,8 @@ class EscalasController extends Controller
     public function store(EscalaCreateRequest $request)
     {
         try {
+
+
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 

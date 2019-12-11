@@ -7,11 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Escala.
+ * Class Report.
  *
  * @package namespace App\Entities;
  */
-class Escala extends Model implements Transformable
+class Report extends Model implements Transformable
 {
     use TransformableTrait;
 
@@ -20,13 +20,6 @@ class Escala extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['dt_escala'];
-
-
-    public function users(){
-      return $this->hasMany('App\Entities\User');
-    }
-
-
+    protected $fillable = [];
 
 }

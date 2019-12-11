@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Usuarios</h1>
+            <h1>Serviços</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
-              <li class="breadcrumb-item active">Novo Usuário</li>
+              <li class="breadcrumb-item active">Novo Serviço</li>
             </ol>
           </div>
         </div>
@@ -46,51 +46,28 @@
         <!-- general form elements disabled -->
         <div class="card card-warning">
           <div class="card-header">
-            <h3 class="card-title">Novo Usuário</h3>
+            <h3 class="card-title">Novo Serviço</h3>
           </div>
-          <form role="form" action="{{ route('users.store') }}" method="POST">
+        <form role="form" action="{{ route ('user.groups.store')}}" method="POST" >
           <!-- /.card-header -->
           <div class="card-body">
             @csrf
-            <div class="row">
+           <div class="row">
 
               <div class="col-sm-3">
-                <!-- text input -->
                 <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" class="form-control" name="name" placeholder="Nome do usuarios ..." required>
+                  <label>Categoria</label>
+                  <select class="form-control" name="role_id" required>
+                    @foreach( $roles as $role)
+                      <option value="{{ $role->id}}">{{ $role->name}}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
 
-              <div class="col-sm-4">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Sobrenome</label>
-                  <input type="text" class="form-control" name="sobrenome" placeholder="da Silva  ..." required>
-                </div>
-              </div>
-
-              <div class="col-sm-3">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" class="form-control" name="email" placeholder="fulano@jnetce.com.br" required>
-                </div>
-              </div>
-
-              <div class="col-sm-2">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Password</label>
-                  <input type="password" class="form-control" name="password" required >
-                </div>
-              </div>
-
-            </div><!-- /.row -->
-            <div class="row">
               <div class="col-sm-12">
               <!-- checkbox -->
-              @foreach($roles as $role)
+              @foreach($permissions as $permission)
 
               {{-- @if(($loop->iteration%3) == 0 ) --}}
               <div class="col-sm-6">
@@ -98,17 +75,27 @@
                 <div class="form-group clearfix">
 
                   <div class="icheck-primary d-inline">
-                    <input type="checkbox" id="roles" name="roles[]" value="{{$role->id}}" >
-                    <label for="roles"> {{ $role->name}} </label>
+                  <input type="checkbox" id="permissions" name="permissions[]" value="{{$permission->id}}">
+                    <label for="permissions"> {{ $permission->readable_name}} </label>
                   </div>
+
+                  {{-- <div class="icheck-primary d-inline">
+                    <input type="checkbox" id="checkboxPrimary2">
+                    <label for="checkboxPrimary2"> {{ $permission->readable_name}}  </label>
+                  </div>
+
+                  <div class="icheck-primary d-inline">
+                    <input type="checkbox" id="checkboxPrimary3" disabled>
+                    <label for="checkboxPrimary3">Deletar</label>
+                  </div> --}}
+
                 </div>
               </div>
               {{-- @endif --}}
               @endforeach
             </div>
-            </div>
+            </div><!-- /.row -->
           </div><!-- /.card-body -->
-
           <div class="card-footer">
             <button type="submit" class="btn btn-primary float-right">Adicionar</button>
           </div>
@@ -122,7 +109,7 @@
 
             <div class="card-header">
               <div class="d-flex justify-content-between">
-                <h3 class="card-title">Usuários Cadastrados</h3>
+                <h3 class="card-title">Serviços Cadastrados</h3>
               </div>
             </div>
             <!-- /.card-header -->
@@ -130,26 +117,17 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Nome</th>
-                  <th>Email</th>
+                  <th>Grupo</th>
+                  <th>Permissoes</th>
                   <th style="width: 170px">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($users as $user)
+                  @foreach ($roles as $role)
                   <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }} {{ $user->sobrenome }}</td>
-                    <td>{{ $user->email}}</td>
-                    <td>
-                        <form action="{{route('users.destroy', $user->id)}}" method="POST">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
-                        </form>
-                        <a type="button" class="btn btn-warning float-left" href="{{route('users.edit', $user->id)}}" >Editar </a>
-                      </td>
+                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->name }}</td>
                   </tr>
                   @endforeach
                 </tbody>

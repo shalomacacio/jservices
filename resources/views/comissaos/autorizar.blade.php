@@ -19,25 +19,6 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
-
-      @if(Session::has('message'))
-      <div class="alert alert-success alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-          {{Session::get('message')}}
-      </div>
-      @elseif($errors->any())
-      <div class="alert alert-danger alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <h5><i class="icon fas fa-check"></i>Erro</h5>
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-    @endif
-
     </section>
 
     <!-- Main content -->
@@ -60,53 +41,28 @@
                                 <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th>Situação</th>
                                 <th>Equipe</th>
+                                <th>Valor</th>
                                 <th>Ações </th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($solicitacaos as $solicitacao)
+                                @foreach ($comissaos as $comissao)
                                     <tr>
-                                        <td>{{ $solicitacao->id }}</td>
-                                        <td>{{ $solicitacao->created_at->format('d/m/Y') }}</td>
-                                        <td>{{ $solicitacao->cliente }}</td>
-                                        <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
+                                        <td>{{ $comissao->id }}</td>
+                                        <td>{{ $comissao->dt_referencia }}</td>
+                                        <td>{{ $comissao->solicitacao->cliente }}</td>
+                                        <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
                                         <td>
-
-                                              @foreach ($solicitacao->users as $tecnico)
-                                                @isset($tecnico)
-                                                {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
-                                                @endisset
-                                              @endforeach
-                                              @empty($solicitacao->users)
-                                                Nenhum técnico atribuido
-                                              @endempty
-
+                                          @foreach ($comissao->funcionarios as $funcionario)
+                                          {{ $funcionario->name}}
+                                          @endforeach
                                         </td>
+                                        <td>{{ $comissao->comissao_vlr}}</td>
                                         <td>
-                                        <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
-
-                                            @if($solicitacao->status_solicitacao_id == 1)
-                                            @is(['admin', 'supervisor'])
-                                            <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" onclick="return confirm('Deseja encaminhar para um téncico ?')"><i class="fa fa-motorcycle"></i></a>
-                                            @endis
-                                            @endif
-                                            @if($solicitacao->status_solicitacao_id == 2)
-                                            @is(['admin', 'auditor'])
-                                              <a class="btn btn-success" href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
-                                            @endis
-                                            @endif
-                                            @if($solicitacao->status_solicitacao_id != 3)
-                                            <a class="btn btn-info" href="{{route('solicitacao.edit', $solicitacao->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
-                                            @endif
-                                          </form>
+                                            <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
+                                            <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"><i class="fas fa-times"></i></button>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>

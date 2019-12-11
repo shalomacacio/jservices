@@ -62,5 +62,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
       ->withTimestamps();
     }
 
+    public function comissaos()
+    {
+      return $this->hasMany('App\Entities\Comissao', 'funcionario_id');
+    }
+
+
 
 }

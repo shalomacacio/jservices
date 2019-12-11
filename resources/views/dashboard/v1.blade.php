@@ -3,176 +3,71 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Dashboard</h1>
-        </div>
-        <!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard v1</li>
-          </ol>
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-  </div>
+  <section class="content-header">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-12">
+                <div class="callout callout-info">
+                  <h5><i class="fa fa-calendar"></i> DIA:</h5>
+                  <center>BOTÕES PRA PASSAR CALENDÁRIO</center>
+                </div>
+              </div>
+          </div>
+      </div><!-- /.container-fluid -->
+  </section>
   <!-- /.content-header -->
-
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <!-- Small boxes (Stat box) -->
+      <!-- Main row -->
       <div class="row">
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-info">
-            <div class="inner">
-            <h3>{{ count($solicitacaos) }}</h3>
-
-              <p>Serviços Diário</p>
+        <!-- Left col -->
+        <div class="col-md-6">
+          <!-- TABLE: LATEST ORDERS -->
+          <div class="card card-info">
+            <div class="card-header border-transparent">
+              <h3 class="card-title">Fulano de Tal </h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-widget="collapse">
+                  <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-widget="remove">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
             </div>
-            <div class="icon">
-              <i class="fas fa-clipboard-list"></i>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Servico</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Ciclano</td>
+                      <td>Coia boa</td>
+                      <td>
+                      <span class="badge badge-success">
+                        concluido
+                      </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            <!-- /.table-responsive -->
             </div>
-            <a href="{{route('solicitacoes')}}" class="small-box-footer">Detalhes <i class="fa fa-arrow-circle-right"></i></a>
           </div>
+          <!-- /.card -->
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>{{ count($andamento) }}</h3>
-              <p>Em Andamento</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-route"></i>
-            </div>
-          <a href="{{route('solicitacoes')}}" class="small-box-footer">Detalhes <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-success">
-            <div class="inner">
-              <h3>{{count($concluidos)}}</h3>
-
-              <p>Concluídos</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-calendar-check"></i>
-            </div>
-            <a href="{{route('solicitacoes')}}" class="small-box-footer">Detalhes <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-danger">
-            <div class="inner">
-            <h3>{{count($pendentes)}}</h3>
-
-              <p>Pendentes</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <a href="{{route('solicitacoes')}}" class="small-box-footer">Detalhes <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
+        <!-- /.col -->
       </div>
       <!-- /.row -->
-      <!--AGENDA -->
-      <div class="col-md-12">
-        <div class="card-ghost">
-          <div class="card-header p-2">
-            <ul class="nav nav-pills">
-              @foreach ($dias as $dia)
-              <li class="nav-item"><a class="nav-link @if($dia->format('d') == \Carbon\Carbon::now()->format('d') ) active @endif" href="#{{$dia->format('d')}}" data-toggle="tab">{{$dia->format('d')}}</a></li>
-              @endforeach
-            </ul>
-          </div><!-- /.card-header -->
-
-          <div class="card-body">
-            <div class="tab-content">
-              <div class="post">
-              @foreach ($dias as $dia)
-                <div class="active tab-pane" id="{{$dia->format('d')}}">{{ $dia }} 2</div>
-              @endforeach
-              </div>
-            </div>
-          </div><!-- /.card-body -->
-        </div>
-        <!-- /.nav-tabs-custom -->
-      </div>
-      <!-- /.col -->
-
-      <!-- Main row -->
-        <div class="row">
-
-                <!-- Left col -->
-                <div class="col-md-6">
-                  <!-- TABLE: LATEST ORDERS -->
-                  <div class="card card-info">
-                    <div class="card-header border-transparent">
-                    <h3 class="card-title">Fulano de Tal</h3>
-
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-widget="collapse">
-                          <i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-widget="remove">
-                          <i class="fa fa-times"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                      <div class="table-responsive">
-                        <table class="table m-0">
-                          <thead>
-                          <tr>
-                            <th>Data</th>
-                            <th>Cliente</th>
-                            <th>Servico</th>
-                            <th>Status</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                <td><a href="#">Data</a></td>
-                                <td>Ciclano</td>
-                                <td>Coia boa</td>
-                                <td>
-                                    <span class="badge badge-success">
-                                      concluido
-                                    </span>
-                                </td>
-                              </tr>
-
-
-                          </tbody>
-                        </table>
-                      </div>
-                      <!-- /.table-responsive -->
-                    </div>
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <!-- /.col -->
-
-
-
-              </div>
-              <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
   </section>

@@ -9,17 +9,36 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Encaminhar</h1>
+            <h1>Escala</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Encaminhar</li>
+              <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
+              <li class="breadcrumb-item active">Nova Escala</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
+
+     {{-- alerts --}}
+     @if(Session::has('message'))
+     <div class="alert alert-success alert-dismissible">
+       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+       <h5><i class="icon fas fa-check"></i>Sucesso</h5>
+       {{Session::get('message')}}
+     </div>
+     @elseif($errors->any())
+     <div class="alert alert-danger alert-dismissible">
+       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+       <h5><i class="icon fas fa-check"></i>Erro</h5>
+         <ul>
+           @foreach ($errors->all() as $error)
+               <li>{{ $error }}</li>
+           @endforeach
+         </ul>
+     </div>
+     @endif
 
     <!-- Main content -->
     <section class="content">
@@ -29,44 +48,28 @@
                 <!-- general form elements disabled -->
                 <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Encaminhar para Técnico</h3>
+                    <h3 class="card-title">Nova Escala</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                <form role="form" action="{{ route('solicitacao.atribuir') }}" method="POST">
+                <form role="form" action="{{ route('escalas.store') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                         <!-- text input -->
                         <div class="form-group">
-                            <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente}}" disabled>
-                        </div>
-                        </div>
-                        <div class="col-sm-4">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Serviço</label>
-                        <input type="text" class="form-control" name="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
+                            <label>Data:</label>
+                            <input type="date" class="form-control" name="dt_escala"  required>
                         </div>
                         </div>
 
                         <div class="col-sm-4">
                             <!-- select -->
                             <div class="form-group">
-                                <label>Tipo Aquisição Equipamento</label>
-                                <select class="form-control" disabled>
-                                  <option>{{ $solicitacao->tipo_aquisicao }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <!-- select -->
-                            <div class="form-group">
-                                <label>Equipe</label>
-                                <select multiple class="form-control" name="equipe[]" required>
-                                    @foreach( $tecnicos as $tecnico)
-                                        <option value="{{ $tecnico->id}}">{{ $tecnico->name }} {{ $tecnico->sobrenome }}</option>
+                                <label>Colaboradores</label>
+                                <select multiple class="form-control" name="users[]" required>
+                                    @foreach( $users as $user)
+                                        <option value="{{ $user->id}}">{{ $user->name }} {{ $user->sobrenome }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -75,17 +78,55 @@
                 </div>
                     <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info float-right">Atribuir Equipe</button>
+                  <button type="submit" class="btn btn-info float-right">Adicionar</button>
                 </div>
                 <!-- /.card-body -->
                 </div>
-                    <input type="hidden" name="solicitacao_id" value="{{$solicitacao->id}}"/>
                 </form>
             <!-- /.card -->
             <!-- general form elements disabled -->
               </div>
             </div>
 
+            <div class="row">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">Técnicos</h3>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th style="width: 10px">#</th>
+                                <th>NOME</th>
+                                <th style="width: 40px">EMAIL</th>
+                                <th style="width: 40px">TELEFONE </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($escalas as $escala)
+                                    <tr>
+                                        <td>{{ $escala->dt_escala }}</td>
+                                        <td>{{ $escala->user->name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                          <ul class="pagination pagination-sm m-0 float-right">
+                                {{-- {{ $tecnicos->render() }} --}}
+                          </ul>
+                        </div>
+                      </div>
+                      <!-- /.card -->
+                    </div>
+            </div><!-- /.row -->
         </section>
     </div>
 </div>

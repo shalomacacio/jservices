@@ -12,6 +12,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
 use Illuminate\Support\Facades\DB;
+use Artesaos\Defender\Facades\Defender;
 
 /**
  * Class UsersController.
@@ -40,6 +41,9 @@ class UsersController extends Controller
     {
         $this->repository = $repository;
         $this->validator  = $validator;
+        //pemissions
+
+
     }
 
     /**
@@ -51,6 +55,7 @@ class UsersController extends Controller
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $users = $this->repository->all();
+        $roles = DB::table('roles')->get();
         if (request()->wantsJson()) {
 
             return response()->json([
@@ -58,9 +63,39 @@ class UsersController extends Controller
             ]);
         }
 
-        return view('users.index', compact('users'));
+        return view('users.index', compact('users', 'roles'));
     }
 
+
+    public function groups()
+    {
+      $roles = DB::table('roles')->get();
+      $permissions = DB::table('permissions')->groupBy('name')->get();
+      // return $permissions;
+      return view('users.groups', compact('roles', 'permissions'));
+    }
+
+    public function groupStore(Request $request)
+    {
+      $roleId = $request->role_id;
+
+      $role = Defender::findRoleById($roleId);
+      $permissions = Defender::findPermissionById($request->permissions);
+
+      foreach($permissions as $permission){
+        $role->attachPermission($permission);
+      }
+
+      $response = [
+        'message' => 'Permissao atribuida com sucesso.',
+    ];
+
+    if ($request->wantsJson()) {
+        return response()->json($response);
+    }
+    return redirect()->back()->with('message', $response['message']);
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -77,6 +112,10 @@ class UsersController extends Controller
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
             $user = $this->repository->create($request->all());
+            foreach($request->roles as $role ){
+              $result = Defender::findRoleById($role);
+              $user->attachRole($result);
+            }
 
             $response = [
                 'message' => 'Usuario criado com sucesso.',

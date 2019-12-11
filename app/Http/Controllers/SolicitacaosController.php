@@ -131,6 +131,7 @@ class SolicitacaosController extends Controller
   public function atribuir(Request $request)
   {
     try {
+
       $solicitacao = $this->repository->find($request->solicitacao_id);
       //vincula solicitação a equipe
       $solicitacao->users()->attach($request->equipe);
@@ -162,7 +163,7 @@ class SolicitacaosController extends Controller
     $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
     $solicitacaos = $this->repository->scopeQuery(function ($query) {
       return $query
-        ->whereNotIn('status_solicitacao_id', ['3','4']) // , 4 - cancelada
+        ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
         // ->where('status_solicitacao_id', '<>', ' 4')
         // ->where('flg_autorizado', null)
         // ->take(3)
@@ -241,7 +242,14 @@ class SolicitacaosController extends Controller
   public function edit($id)
   {
     $solicitacao = $this->repository->find($id);
-    return view('solicitacaos.edit', compact('solicitacao'));
+
+    $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $tecnologias = DB::table('tecnologias')->distinct()->get();
+    $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
+    $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
+    $tipoMidia = DB::table('tipo_midias')->distinct()->get();
+
+    return view('solicitacaos.edit', compact('solicitacao', 'categorias','tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia' ));
   }
 
   /**

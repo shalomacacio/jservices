@@ -63,6 +63,40 @@ class ComissaosController extends Controller
         return view('comissaos.index', compact('comissaos', 'tipoComissaos'));
     }
 
+
+    public function comissoes()
+    {
+        $comissaos = $this->repository->findWhere([
+          'flg_autorizado' => null
+        ]);
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'data' => $comissaos,
+            ]);
+        }
+        return view('comissaos.comissoes', compact('comissaos'));
+    }
+
+    public function autorizar(Request $request, $id)
+    {
+      $comissao = $this->repository->find($id);
+      $comissao->flg_autorizado = $request->flg_autorizado;
+      $comissao->save();
+
+      $response = [
+        'message' => 'Realizado com Sucesso.',
+        'data'    => $comissao->toArray(),
+      ];
+
+      if ($request->wantsJson()) {
+          return response()->json($response);
+      }
+
+      return redirect()->route('comissao.comissoes')->with('message', $response['message']);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
