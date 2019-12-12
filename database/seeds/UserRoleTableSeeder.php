@@ -25,6 +25,12 @@ class UserRoleTableSeeder extends Seeder
       $roleAtendimento = Defender::createRole('atendimento');
       $roleSupervisor = Defender::createRole('supervisor');
       $roleAuditor = Defender::createRole('auditor');
+      $roleSuporte = Defender::createRole('suporte');
+
+      $usersSuporte = User::find([2,3,4,5]);
+      foreach($usersSuporte as $user){
+        $user->attachRole($roleSuporte);
+      }
 
     }
 }

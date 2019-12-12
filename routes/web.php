@@ -21,7 +21,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
-    Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar')->middleware('needsRole:admin');
+    Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar')->middleware('needsRole:admin|supervisor, true');
     Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
@@ -39,6 +39,8 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('comissaos/comissoes', 'ComissaosController@comissoes')->name('comissao.comissoes')->middleware('needsRole:admin|auditor, true');;
     Route::put('comissaos/{id}/autorizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');;
     Route::resource('comissaos', 'ComissaosController');
+    Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
+    Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
     Route::resource('escalas', 'EscalasController');
 
     //parametros

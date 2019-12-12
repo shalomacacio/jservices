@@ -17,16 +17,7 @@ class CreateEscalasTable extends Migration
 	{
 		Schema::create('escalas', function(Blueprint $table) {
       $table->increments('id');
-      $table->date('dt_escala');
-
-      $table->integer('user_id')->unsigned();
-      $table->foreign('user_id')->references('id')
-            ->on('users');
-
-      $table->integer('solicitacao_id')->unsigned()->nullable();
-      $table->foreign('solicitacao_id')->references('id')
-            ->on('solicitacaos');
-
+      $table->date('dt_escala')->unique();
       $table->timestamps();
 		});
 	}

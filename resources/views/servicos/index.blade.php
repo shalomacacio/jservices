@@ -160,7 +160,7 @@
                   <th>Pontuação</th>
                   <th>Comiss Atend</th>
                   <th>Comiss Eq</th>
-                  <th style="width: 170px">Ações</th>
+                  <th style="width: 150px">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,12 +173,12 @@
                     <td>@if($servico->tipo_comissao_atendimento == 1) R$  @endif {{ $servico->comissao_atendimento }}@if($servico->tipo_comissao_atendimento == 2) %  @endif </td>
                     <td>@if($servico->tipo_comissao_equipe == 1) R$  @endif {{ $servico->comissao_equipe }}@if($servico->tipo_comissao_equipe == 2) %  @endif </td>
                     <td>
-                    <form action="{{route('servicos.destroy', $servico->id)}}" method="POST">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
-                    </form>
-                    <a type="button" class="btn btn-warning float-left" href="{{route('servicos.edit', $servico->id)}}" >Editar </a>
+                      <form action="{{route('servicos.destroy', $servico->id)}}" method="POST">
+                        <a class="btn btn-info" href="{{route('servicos.edit', $servico->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Usuário ?')"><i class="fas fa-trash"></i></button>
+                      </form>
                     </td>
                   </tr>
                   @endforeach

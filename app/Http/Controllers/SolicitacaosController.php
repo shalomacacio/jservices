@@ -124,7 +124,10 @@ class SolicitacaosController extends Controller
   public function encaminhar($id)
   {
     $solicitacao = $this->repository->find($id);
-    $tecnicos = DB::table('users')->where('tipo_usuario_id', 3)->get();
+    $tecnicos = DB::table('users as u')
+                      ->join('role_user as ru','u.id','=','ru.user_id')
+                      ->where('u.id', '<>' ,1)
+                      ->get();
     return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
   }
 
@@ -350,79 +353,4 @@ class SolicitacaosController extends Controller
     return redirect()->back()->with('message', 'Solicitacao deleted.');
   }
 
-  public function actions(Request $request, $id)
-  {
-
-    switch ($request->action) {
-      case 1:
-        //cancelar
-        $deleted = $this->repository->delete($id);
-        if (request()->wantsJson()) {
-          return response()->json([
-            'message' => 'Solicitacao deleted.',
-            'deleted' => $deleted,
-          ]);
-        }
-        return redirect()->back()->with('message', 'Solicitacao deleted.');
-        break;
-      case 2:
-        //concluir
-        try {
-          $solicitacao = $this->repository->find($id);
-          $solicitacao->status_solicitacao_id = 3;
-          $solicitacao->dt_conclusao = Carbon::now();
-          $solicitacao->save();
-
-          $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
-
-          $response = [
-            'message' => 'Serviço Concluido',
-            'data'    => $solicitacao->toArray(),
-          ];
-          return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-          if ($request->wantsJson()) {
-            return response()->json([
-              'error'   => true,
-              'message' => $e->getMessageBag()
-            ]);
-          }
-          return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-
-        break;
-      case 3:
-        // encaminhar
-        $solicitacao = $this->repository->find($id);
-        $tecnicos = DB::table('users')->where('tipo_usuario_id', 3)->get();
-        return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
-        break;
-      case 4:
-        // autorizar
-        try {
-          $comissoes = $this->comissaoRepository->findWhere(['solicitacao_id' => $id]);
-          // return dd($comissoes);
-          foreach ($comissoes as $comissao) {
-            $comissao->flg_autorizado = 1;
-            $comissao->save();
-          }
-
-          $response = [
-            'message' => 'Comissao autorizada',
-            'data'    => $comissoes->toArray(),
-          ];
-          return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-          if ($request->wantsJson()) {
-            return response()->json([
-              'error'   => true,
-              'message' => $e->getMessageBag()
-            ]);
-          }
-          return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-
-        break;
-    }
-  }
 }

@@ -14,7 +14,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
-              <li class="breadcrumb-item active">Editar Usuário</li>
+              <li class="breadcrumb-item active">Novo Usuário</li>
             </ol>
           </div>
         </div>
@@ -67,7 +67,7 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Sobrenome</label>
-                  <input type="text" class="form-control" name="sobrenome" value="{{ $user->sobrenome }}" required>
+                  <input type="text" class="form-control" name="sobrenome"  value="{{ $user->sobrenome }}" required>
                 </div>
               </div>
 
@@ -75,7 +75,7 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Email</label>
-                  <input type="email" class="form-control" name="email" {{ $user->email }}required>
+                  <input type="email" class="form-control" name="email"  value="{{ $user->email }}" required>
                 </div>
               </div>
 
@@ -83,33 +83,39 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" class="form-control" name="password" {{ $user->password }} required >
+                  <input type="password" class="form-control" name="password" required >
                 </div>
               </div>
 
             </div><!-- /.row -->
+            <div class="row">
+              <div class="col-sm-12">
+              <!-- checkbox -->
+              @foreach($roles as $role)
+
+              {{-- @if(($loop->iteration%3) == 0 ) --}}
+              <div class="col-sm-6">
+                <!-- checkbox -->
+                <div class="form-group clearfix">
+
+                  <div class="icheck-primary d-inline">
+                    <input type="checkbox" id="roles" name="roles[]" value="{{$role->id}}" >
+                    <label for="roles"> {{ $role->name}} </label>
+                  </div>
+                </div>
+              </div>
+              {{-- @endif --}}
+              @endforeach
+            </div>
+            </div>
           </div><!-- /.card-body -->
 
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary float-right">Concluir</button>
+            <button type="submit" class="btn btn-primary float-right">Adicionar</button>
           </div>
           </form>
         </div><!-- /.card warning-->
       </div><!-- /.col-m12 -->
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-
-            <div class="card-header">
-              <div class="d-flex justify-content-between">
-                <h3 class="card-title">Usuários Cadastrados</h3>
-              </div>
-            </div>
-            <!-- /.card-header -->
-          </div><!-- /.card -->
-        </div><!-- /.col-m12 -->
-      </div><!-- /.row -->
     </section>
 </div>
 

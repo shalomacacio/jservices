@@ -171,8 +171,9 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = $this->repository->find($id);
+        $roles = DB::table('roles')->get();
 
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -192,6 +193,12 @@ class UsersController extends Controller
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             $user = $this->repository->update($request->all(), $id);
+
+            $user->syncRoles($request->roles);
+            // foreach($request->roles as $role ){
+            //   $result = Defender::findRoleById($role);
+            //   $user->attachRole($result);
+            // }
 
             $response = [
                 'message' => 'User updated.',

@@ -50,7 +50,7 @@
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
                                         <td>{{ $solicitacao->id }}</td>
-                                        <td>{{ $solicitacao->created_at->format('d/m/Y') }}</td>
+                                        <td>{{ $solicitacao->dt_agendamento->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
                                         <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>

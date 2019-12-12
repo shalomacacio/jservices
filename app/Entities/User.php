@@ -67,6 +67,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
       return $this->hasMany('App\Entities\Comissao', 'funcionario_id');
     }
 
-
+    public function escalas()
+    {
+      return $this->belongsToMany('App\Entities\Escala');
+    }
 
 }

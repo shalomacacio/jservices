@@ -69,25 +69,22 @@
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
                                         <td>{{ $solicitacao->id }}</td>
-                                        <td>{{ $solicitacao->created_at->format('d/m/Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
                                         <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
                                         <td>
-
-                                              @foreach ($solicitacao->users as $tecnico)
-                                                @isset($tecnico)
+                                            @foreach ($solicitacao->users as $tecnico)
+                                              @isset($tecnico)
                                                 {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
-                                                @endisset
-                                              @endforeach
-                                              @empty($solicitacao->users)
-                                                Nenhum técnico atribuido
-                                              @endempty
-
+                                              @endisset
+                                            @endforeach
+                                            @empty($solicitacao->users)
+                                              Nenhum técnico atribuido
+                                            @endempty
                                         </td>
                                         <td>
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
-
                                             @if($solicitacao->status_solicitacao_id == 1)
                                             @is(['admin', 'supervisor'])
                                             <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" onclick="return confirm('Deseja encaminhar para um téncico ?')"><i class="fa fa-motorcycle"></i></a>
@@ -106,7 +103,6 @@
                                             @endif
                                           </form>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -143,13 +143,13 @@
                     <td>{{ $user->name }} {{ $user->sobrenome }}</td>
                     <td>{{ $user->email}}</td>
                     <td>
-                        <form action="{{route('users.destroy', $user->id)}}" method="POST">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
-                        </form>
-                        <a type="button" class="btn btn-warning float-left" href="{{route('users.edit', $user->id)}}" >Editar </a>
-                      </td>
+                      <form action="{{route('users.destroy', $user->id)}}" method="POST">
+                        <a class="btn btn-info" href="{{route('users.edit', $user->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Usuário ?')"><i class="fas fa-trash"></i></button>
+                      </form>
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

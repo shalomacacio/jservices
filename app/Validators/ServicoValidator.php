@@ -28,5 +28,10 @@ class ServicoValidator extends LaravelValidator
         [
 
         ],
+
+    ];
+    protected $messages = [
+      'servico_vlr.numeric' => 'O campo VALOR deve ser numerico dividido por ponto',
+      'descricao.unique' => 'já existe um SERVICO com este nome',
     ];
 }

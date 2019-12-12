@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <label>Tipo Aquisição Equipamento</label>
                                 <select class="form-control" disabled>
-                                  <option>{{ $solicitacao->tipo_aquisicao }}</option>
+                                  <option>{{ $solicitacao->tipoAquisicao->descricao }}</option>
                                 </select>
                             </div>
                         </div>

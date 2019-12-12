@@ -88,7 +88,7 @@
                   <tr>
                   <th style="width: 10px">#</th>
                   <th>Descrição</th>
-                  <th style="width: 200px">Ações</th>
+                  <th style="width: 150px">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -97,12 +97,12 @@
                     <td>{{ $categoria->id }}</td>
                     <td>{{ $categoria->descricao }}</td>
                     <td>
-                    <form action="{{route('categoriaServicos.destroy', $categoria->id )}}" method="POST">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')"  >DELETE</button>
-                    </form>
-                    <a type="button" class="btn btn-warning float-right" href="{{route('categoriaServicos.edit', $categoria->id )}}">Editar</a>
+                      <form action="{{route('categoriaServicos.destroy', $categoria->id)}}" method="POST">
+                        <a class="btn btn-info" href="{{route('categoriaServicos.edit', $categoria->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Usuário ?')"><i class="fas fa-trash"></i></button>
+                      </form>
                     </td>
                   </tr>
                   @endforeach

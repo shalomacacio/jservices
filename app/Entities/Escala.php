@@ -20,13 +20,12 @@ class Escala extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['dt_escala'];
-
+    protected $fillable = ['dt_escala', 'user_id'];
 
     public function users(){
-      return $this->hasMany('App\Entities\User');
+      return $this->belongsToMany('App\Entities\User');
     }
 
-
+    protected $dates = ['dt_escala'];
 
 }

@@ -18,7 +18,13 @@ class EscalaValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [],
+        ValidatorInterface::RULE_CREATE => [
+          'dt_escala'=>'required|unique:escalas'
+        ],
         ValidatorInterface::RULE_UPDATE => [],
+    ];
+
+    protected $messages = [
+      'dt_escala.unique' => 'Esta Escala já existe',
     ];
 }

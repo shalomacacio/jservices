@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Validators\UserValidator;
 use App\Repositories\UserRepository;
 use App\Repositories\SolicitacaoRepository;
-use App\Repositories\TecnicoRepository;
+use App\Repositories\TipoMidiaRepository;
+use App\Repositories\EscalaRepository;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Carbon;
@@ -19,14 +20,16 @@ class DashboardController extends Controller
 
     protected $repository;
     protected $solicitacaoRepository;
-    protected $tecnicoRepository;
+    protected $tipoMidiaRepository;
+    protected $escalaRepository;
 
 
-    public function __construct(UserRepository $repository, SolicitacaoRepository $solicitacaoRepository, TecnicoRepository $tecnicoRepository)
+    public function __construct(UserRepository $repository, SolicitacaoRepository $solicitacaoRepository, EscalaRepository $escalaRepository, TipoMidiaRepository $tipoMidiaRepository)
     {
         $this->repository = $repository;
-        $this->tecnicoRepository = $tecnicoRepository;
+        $this->escalaRepository = $escalaRepository;
         $this->solicitacaoRepository = $solicitacaoRepository;
+        $this->tipoMidiaRepository = $tipoMidiaRepository;
     }
     public function login(){
         return view('auth.login');
@@ -43,22 +46,24 @@ class DashboardController extends Controller
     }
 
     public function dashboard(){
-        $tecnicos =  $this->tecnicoRepository->all();
 
-        $solicitacaos = $this->solicitacaoRepository->scopeQuery(function($query){
+        $solicitacaos = $this->solicitacaoRepository->scopeQuery(function ($query) {
           return $query
-              ->where('created_at','>=' , Carbon::today())
-              ->whereOr('status_solicitacao_id','!=','3');
-        })->all();
+            ->orderBy('created_at', 'desc');
+        })->get();
 
-        $dias = CarbonPeriod::create(Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth());
+        $atendimentosDiario = $solicitacaos->where('dt_agendamento','=' ,Carbon::now()->format('Y-m-d 00:00:00'));
 
-        $abertos = $solicitacaos->where('status_solicitacao_id', '1'); //1 - aberto
-        $andamento = $solicitacaos->where('status_solicitacao_id', '2'); //2 - andamentos
-        $pendentes = $solicitacaos->where('status_solicitacao_id', '5'); //5 - pendente
-        $concluidos = $solicitacaos->where('status_solicitacao_id', '3'); //3 - concluido
+        $atendimentos = $atendimentosDiario->count();
+        $andamento = count($atendimentosDiario->where('status_solicitacao_id','=' ,2));
+        $concluidos = count($atendimentosDiario->where('status_solicitacao_id','=' , 3));
 
-        return view('dashboard.v1', compact('tecnicos', 'solicitacaos', 'abertos','andamento', 'pendentes', 'concluidos', 'dias'));
+        $pendentes = count($solicitacaos
+                            ->where('dt_agendamento','<=' ,Carbon::now()->format('Y-m-d 00:00:00'))
+                            ->where('dt_conclusao', null));
+
+
+        return view('dashboard.v1', compact('solicitacaos', 'atendimentos','andamento', 'concluidos', 'pendentes'));
     }
 
     public function auth(Request $request)

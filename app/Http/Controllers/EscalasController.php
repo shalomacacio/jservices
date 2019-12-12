@@ -12,6 +12,7 @@ use App\Http\Requests\EscalaUpdateRequest;
 use App\Repositories\EscalaRepository;
 use App\Validators\EscalaValidator;
 use DB;
+use Carbon\Carbon;
 
 /**
  * Class EscalasController.
@@ -67,6 +68,25 @@ class EscalasController extends Controller
         return view('escalas.index', compact('escalas', 'users'));
     }
 
+    public function agenda(){
+      $escalas = $this->repository->scopeQuery(function ($query) {
+        return $query
+          ->whereDate('dt_escala', Carbon::now());
+      })->get();
+      return view('escalas.agenda', compact('escalas'));
+    }
+
+    public function search(Request $request){
+
+      $escalas = $this->repository->scopeQuery(function ($query) use ($request) {
+        return $query
+          ->whereDate('dt_escala', $request->dt_escala);
+      })->get();
+
+      return view('escalas.agenda', compact('escalas', 'request'));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -80,15 +100,14 @@ class EscalasController extends Controller
     {
         try {
 
-
+          // return dd($request);
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $escala = $this->repository->create($request->all());
-
+            // $escala = $this->repository->create($request->all());
+            $escala = $this->repository->createHasMany($request->all());
             $response = [
                 'message' => 'Escala created.',
-                'data'    => $escala->toArray(),
+                // 'data'    => $escala->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -140,8 +159,11 @@ class EscalasController extends Controller
     public function edit($id)
     {
         $escala = $this->repository->find($id);
-
-        return view('escalas.edit', compact('escala'));
+        $users = DB::table('users as u')
+        ->join('role_user as ru','u.id','=','ru.user_id')
+        ->where('u.id', '<>' ,1)
+        ->get();
+        return view('escalas.edit', compact('escala', 'users'));
     }
 
     /**

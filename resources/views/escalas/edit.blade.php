@@ -13,8 +13,8 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Cadastro</a></li>
-              <li class="breadcrumb-item active">Nova Escala</li>
+              <li class="breadcrumb-item"><a href="#">Escala</a></li>
+              <li class="breadcrumb-item active">Editar Escala</li>
             </ol>
           </div>
         </div>
@@ -48,18 +48,19 @@
                 <!-- general form elements disabled -->
                 <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Nova Escala</h3>
+                    <h3 class="card-title">Editar Escala</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                <form role="form" action="{{ route('escalas.store') }}" method="POST">
+                <form role="form" action="{{ route('escalas.update', $escala->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-sm-3">
                         <!-- text input -->
                         <div class="form-group">
                             <label>Data:</label>
-                            <input type="date" class="form-control" name="dt_escala"  required>
+                        <input type="date" class="form-control" name="dt_escala" value="{{$escala->dt_escala}}" required>
                         </div>
                         </div>
 
@@ -87,53 +88,6 @@
             <!-- general form elements disabled -->
               </div>
             </div>
-
-            <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-
-                <div class="card-header">
-                  <div class="d-flex justify-content-between">
-                    <h3 class="card-title">Escalas Cadastradas</h3>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Data</th>
-                      <th>Colaboradores</th>
-                      <th>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($escalas as $escala)
-                      <tr>
-                        <td>{{ $escala->id }}</td>
-                        <td>{{ $escala->dt_escala }}</td>
-                        <td>
-                          @foreach ($escala->users as $user)
-                            {{$user->name}} {{$user->sobrenome}}  /
-                          @endforeach
-                        </td>
-                        <td>
-                          <form action="{{route('escalas.destroy', $escala->id)}}" method="POST">
-                            <a class="btn btn-info" href="{{route('escalas.edit', $escala->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Escala ?')"><i class="fas fa-trash"></i></button>
-                          </form>
-                        </td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div><!-- /.card-body -->
-              </div><!-- /.card -->
-            </div><!-- /.col-m12 -->
-          </div><!-- /.row -->
         </section>
     </div>
 </div>

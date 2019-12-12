@@ -40,8 +40,3 @@ class TipoPagamentoSeeder extends Seeder
     }
 }
 
-$tipoUsuario_create_permission =  Defender::createPermission('tipoUsuario.create', 'Criar tipoUsuario');
-$tipoUsuario_update_permission =  Defender::createPermission('tipoUsuario.update', 'Alterar tipoUsuario');
-$tipoUsuario_delete_permission =  Defender::createPermission('tipoUsuario.delete', 'Deletar tipoUsuario');
-$tipoUsuario_list_permission =  Defender::createPermission('tipoUsuario.index',   'Listar tipoUsuario');
-$tipoUsuario_show_permission =  Defender::createPermission('tipoUsuario.show',   'Visualizar tipoUsuario');

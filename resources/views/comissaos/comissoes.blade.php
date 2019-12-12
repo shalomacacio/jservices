@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Solicitações</h1>
+            <h1>Autorizar Comissões</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Solicitações</li>
+              <li class="breadcrumb-item"><a href="#">Comissão</a></li>
+              <li class="breadcrumb-item active">Comissões</li>
             </ol>
           </div>
         </div>
@@ -64,7 +64,7 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
-                                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"><i class="fas fa-times"></i></button>
+                                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"><i class="fab fa-creative-commons-nc"></i></button>
                                             </form>
                                         </td>
                                     </tr>

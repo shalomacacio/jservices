@@ -24,4 +24,8 @@ class TipoMidia extends Model implements Transformable
      */
     protected $fillable = ['descricao'];
 
+    public function solicitacaos(){
+     return  $this->belongsTo('App\Entities\Solicitacao');
+    }
+
 }

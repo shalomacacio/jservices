@@ -6,6 +6,8 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\EscalaRepository;
 use App\Entities\Escala;
+use App\Entities\User;
+
 use App\Validators\EscalaValidator;
 
 /**
@@ -44,5 +46,13 @@ class EscalaRepositoryEloquent extends BaseRepository implements EscalaRepositor
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
+      public function createHasMany($request){
+        $users = User::find($request['users']);
+        $escala = new Escala();
+        $escala->dt_escala = $request['dt_escala'];
+        $escala->save();
+        $escala->users()->attach($users);
+    }
+
 }
