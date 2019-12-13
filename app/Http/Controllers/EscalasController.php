@@ -182,11 +182,11 @@ class EscalasController extends Controller
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $escala = $this->repository->update($request->all(), $id);
+            $escala = $this->repository->updateHasMany($request->all(), $id);
 
             $response = [
                 'message' => 'Escala updated.',
-                'data'    => $escala->toArray(),
+                // 'data'    => $escala->toArray(),
             ];
 
             if ($request->wantsJson()) {

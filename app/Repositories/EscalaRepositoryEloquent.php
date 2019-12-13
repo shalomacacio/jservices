@@ -55,4 +55,13 @@ class EscalaRepositoryEloquent extends BaseRepository implements EscalaRepositor
         $escala->users()->attach($users);
     }
 
+    public function updateHasMany($request, $id){
+
+      $escala = Escala::find($id);
+      $escala->users()->detach();
+      $escala->dt_escala = $request['dt_escala'];
+      $escala->save();
+      $escala->users()->attach($request['users']);
+  }
+
 }
