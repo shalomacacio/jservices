@@ -72,7 +72,7 @@
                                         <td>{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
                                         <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
+                                        <td>{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>
                                             @foreach ($solicitacao->users as $tecnico)
                                               @isset($tecnico)
@@ -87,7 +87,7 @@
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
                                             @if($solicitacao->status_solicitacao_id == 1)
                                             @is(['admin', 'supervisor'])
-                                            <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" onclick="return confirm('Deseja encaminhar para um téncico ?')"><i class="fa fa-motorcycle"></i></a>
+                                            <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
                                             @endis
                                             @endif
                                             @if($solicitacao->status_solicitacao_id == 2)
@@ -111,7 +111,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{-- {{ $solicitacaos->render() }} --}}
+                                {{ $solicitacaos->render() }}
                           </ul>
                         </div>
                       </div>

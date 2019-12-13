@@ -63,7 +63,7 @@ class SolicitacaosController extends Controller
       return $query
         ->where('user_id', Auth::user()->id)
         ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-        ->orderBy('created_at', 'desc');
+        ->orderBy('dt_agendamento', 'desc');
     })->paginate(10);
 
     $categorias = DB::table('categoria_servicos')->distinct()->get();
@@ -167,8 +167,8 @@ class SolicitacaosController extends Controller
     $solicitacaos = $this->repository->scopeQuery(function ($query) {
       return $query
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
-        // ->where('status_solicitacao_id', '<>', ' 4')
-        // ->where('flg_autorizado', null)
+        ->where('dt_conclusao', '>=', Carbon::now()->format('Y-m-d 00:00:00'))
+        ->where('dt_conclusao', null)
         // ->take(3)
         ->orderBy('created_at', 'desc');
     })->paginate(10);

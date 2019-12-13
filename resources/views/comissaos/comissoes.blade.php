@@ -41,7 +41,7 @@
                                 <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th>Equipe</th>
+                                <th>Funcionário</th>
                                 <th>Valor</th>
                                 <th>Ações </th>
                               </tr>
@@ -53,11 +53,7 @@
                                         <td>{{ $comissao->dt_referencia }}</td>
                                         <td>{{ $comissao->solicitacao->cliente }}</td>
                                         <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
-                                        <td>
-                                          @foreach ($comissao->funcionarios as $funcionario)
-                                          {{ $funcionario->name}}
-                                          @endforeach
-                                        </td>
+                                        <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
                                         <td>{{ $comissao->comissao_vlr}}</td>
                                         <td>
                                             <form action="{{ route('comissao.autorizar', $comissao->id)}}" method="post">

@@ -53,11 +53,7 @@
                                         <td>{{ $comissao->dt_referencia }}</td>
                                         <td>{{ $comissao->solicitacao->cliente }}</td>
                                         <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
-                                        <td>
-                                          @foreach ($comissao->funcionarios as $funcionario)
-                                          {{ $funcionario->name}}
-                                          @endforeach
-                                        </td>
+                                        <td>{{ $comissao->user->name}}</td>
                                         <td>{{ $comissao->comissao_vlr}}</td>
                                         <td>
                                             <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>

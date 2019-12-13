@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Entities\TipoUsuario;
+use App\Entities\Solicitacao;
 
 class TipoUsuarioSeeder extends Seeder
 {
@@ -12,34 +12,9 @@ class TipoUsuarioSeeder extends Seeder
      */
     public function run()
     {
-        //
-        $this->createTipoUsuarios();
+
+      $solicitacoes = factory(App\Entities\Solicitacao::class, 60)->create();
     }
 
-    private function createTipoUsuarios()
-    {
-      TipoUsuario::create([
-        'descricao' => 'ADMINISTRADOR',
-      ]);
 
-      TipoUsuario::create([
-        'descricao' => 'ATENDIMENTO',
-      ]);
-
-      TipoUsuario::create([
-        'descricao' => 'TÉCNICO',
-      ]);
-
-      TipoUsuario::create([
-        'descricao' => 'FINANCEIRO',
-      ]);
-
-      TipoUsuario::create([
-        'descricao' => 'SUPERVISOR',
-      ]);
-
-      TipoUsuario::create([
-        'descricao' => 'VENDEDOR',
-      ]);
-    }
 }

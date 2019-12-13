@@ -47,14 +47,14 @@
               <div class="col-sm-4 invoice-col">
                 Data Inicial
                 <address>
-                  <strong>Admin, Inc.</strong><br>
+                  <strong>{{ \Carbon\Carbon::parse($request->dt_inicio)->format('d/m/Y')}}</strong><br>
                 </address>
               </div>
               <!-- /.col -->
               <div class="col-sm-4 invoice-col">
                 Data Final
                 <address>
-                  <strong>John Doe</strong><br>
+                  <strong>{{ \Carbon\Carbon::parse($request->dt_fim)->format('d/m/Y')}}</strong><br>
                 </address>
               </div>
               <!-- /.col -->
@@ -63,9 +63,10 @@
             <center><h3>RELATÓRIO DE COMISSÕES POR FUNCIONÁRIO E PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
-          @foreach ($users as $user)
+          @foreach ($comissaos as $user => $lista)
+
           <div class="col-12">
-          <p class="lead"><b>Funcionário: {{$user->name}} {{$user->sobrenome}}</b></p>
+          <p class="lead"><b>Funcionário:{{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
           </div>
 
             <div class="row">
@@ -81,7 +82,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  @foreach($user->comissaos as $comissao)
+                  @foreach($lista as $comissao)
                   <tr>
                     <td>{{\Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
                     <td>{{$comissao->solicitacao->cliente}}</td>
@@ -93,10 +94,10 @@
                   </tbody>
                     <tr>
                       <th colspan="4">Subtotal:</th>
-                      <th >R$ {{ number_format($user->comissaos->sum('comissao_vlr'), 2)  }}</th>
+                    <th >R$ {{ number_format($lista->sum('comissao_vlr'), 2) }}</th>
                     </tr>
                   <tfoot>
-
+                    GERAL
                   </tfoot>
                 </table>
               </div>
@@ -105,6 +106,40 @@
           <br/>
 
           @endforeach
+
+          <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-6">
+              <p class="lead"></p>
+              <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+
+              </p>
+            </div>
+            <!-- /.col -->
+            <div class="col-6">
+
+
+              <div class="table-responsive">
+                <table class="table">
+                  <tr>
+
+                    <th colspan="3">Total:</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th><h4>R$ {{ number_format($comissao->sum('comissao_vlr'),2) }}</h4></th>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
 
             <!-- this row will not appear when printing -->
             <div class="row no-print">

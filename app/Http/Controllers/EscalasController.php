@@ -80,7 +80,7 @@ class EscalasController extends Controller
 
       $escalas = $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
-          ->whereDate('dt_escala', $request->dt_escala);
+          ->where('dt_escala', $request->dt_escala);
       })->get();
 
       return view('escalas.agenda', compact('escalas', 'request'));

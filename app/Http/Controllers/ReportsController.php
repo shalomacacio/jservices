@@ -71,63 +71,22 @@ class ReportsController extends Controller
     {
         $this->userRepository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
 
-        $users =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-          $queryB = $query->where('flg_autorizado', '<>', null)
+        $comissaos =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
+          return $query->where('flg_autorizado', '<>', null)
                   ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                   ->whereDate ('dt_referencia', '<=', $request->dt_fim);
 
-          return $query->select('*')
-              ->join('users as u','u.id','=','comissaos.funcionario_id')
-              ->union($queryB);
-        })->get();
+        })->get()->groupBy('funcionario_id');
 
-      // return dd($users);
+      // return dd($comissaos);
 
         if (request()->wantsJson()) {
             return response()->json([
-                'data' => $users,
+                'data' => $comissaos,
             ]);
         }
 
-        return view('reports.users', compact('users'));
+        return view('reports.users', compact('comissaos', 'request'));
     }
-
-    public function comissoes(Request $request)
-    {
-        $this->comissaoRepository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-        // $comissoes = Comissao::where('flg_autorizado', '<>', null)
-        //         ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
-        //         ->whereDate ('dt_referencia', '<=', $request->dt_fim)
-        //         ->get();
-
-        $comissoes = $this->comissaoRepository->scopeQuery(function($query) use ($request){
-                  return $query
-                  ->where ('dt_referencia', '>=', $request->dt_inicio)
-                  ->where ('dt_referencia', '<=', $request->dt_fim)
-                  ->join('users','users.id','=','comissaos.funcionario_id');
-                })->get();
-
-        // $comissoes = DB::table('comissaos')
-        //               ->join('users', 'users.id', '=', 'comissaos.funcionario_id')
-        //               ->join('solicitacaos', 'solicitacaos.id', '=', 'comissaos.solicitacao_id')
-        //               ->select(DB::raw('MAX(dt_referencia) as data'),'users.name','solicitacaos.cliente', DB::raw('SUM(comissao_vlr) as subtotal'))
-        //               ->where('dt_referencia', '>=', $request->dt_inicio)
-        //               ->where('dt_referencia', '<=', $request->dt_fim)
-        //               ->groupBy([ DB::raw('users.name, solicitacaos.cliente WITH ROLLUP' )])
-        //               ->get();
-
-      return dd($comissoes);
-
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $comissoes,
-            ]);
-        }
-
-        return view('reports.comissoes', compact('comissoes', 'request'));
-    }
-
-
 
 }

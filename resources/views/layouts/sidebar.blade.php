@@ -175,13 +175,7 @@
                           <li class="nav-item">
                             <a href="{{ route('reports.formFunc') }}" class="nav-link">
                               <i class="fa fa-circle-o nav-icon"></i>
-                              <p>Usuário por Período</p>
-                            </a>
-                          </li>
-                          <li class="nav-item">
-                            <a href="{{ route('reports.formCom') }}" class="nav-link">
-                              <i class="fa fa-circle-o nav-icon"></i>
-                              <p>Comissao por Período</p>
+                              <p>Por Usuário e Período</p>
                             </a>
                           </li>
                       </ul>

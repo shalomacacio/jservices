@@ -8,7 +8,7 @@
           <div class="row">
               <div class="col-12">
                 <div class="callout callout-info">
-                <h5><i class="fa fa-calendar"></i> DIA:@isset($request->dt_escala)  {{$request->dt_escala}} @endisset</h5>
+                <h5><i class="fa fa-calendar"></i> DIA:@isset($request->dt_escala) {{ \Carbon\Carbon::parse($request->dt_escala)->format('d/m/Y')}} @endisset</h5>
                     <center>
                     <form action="{{ route('escalas.search')}}" method="GET">
                         <div class="input-group input-group-sm" style="width: 200px;">
@@ -40,7 +40,7 @@
           <!-- TABLE: LATEST ORDERS -->
           <div class="card card-info">
             <div class="card-header border-transparent">
-              <h3 class="card-title">{{ $user->name }} {{ $user->sobrenome }} </h3>
+              <h3 class="card-title">{{ $user->name }}  {{ $user->sobrenome }} </h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-widget="collapse">
                   <i class="fa fa-minus"></i>
@@ -63,7 +63,7 @@
                   </thead>
                   <tbody>
                     @foreach ($user->solicitacaos as $solicitacao)
-                    @if ($solicitacao->dt_agendamento == $escala->dt_escala)
+                    @if (\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') == \Carbon\Carbon::parse( $escala->dt_escala )->format('Y-m-d') )
                     <tr>
                       <td>{{ $solicitacao->cliente }}</td>
                       <td>{{ $solicitacao->servico->descricao }}</td>

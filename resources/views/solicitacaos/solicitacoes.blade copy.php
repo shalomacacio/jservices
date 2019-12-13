@@ -52,8 +52,8 @@
                                         <td>{{ $solicitacao->id }}</td>
                                         <td>{{ $solicitacao->dt_agendamento->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
-                                        <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
+                                        <td>{{ $solicitacao->servico_id }}</td>
+                                        <td>{{ $solicitacao->status_solicitacao_id}}</td>
                                         <td>
                                             <ul>
                                               @foreach ($solicitacao->tecnicos as $tecnico)
