@@ -96,7 +96,7 @@
                   </tbody>
                     <tr>
                       <th colspan="5">Subtotal:</th>
-                    <th >R$ {{ number_format($lista->sum('comissao_vlr'), 2) }}</th>
+                    <th >R$ {{ number_format($lista->where('flg_autorizado', 1)->sum('comissao_vlr'), 2) }}</th>
                     </tr>
                   <tfoot>
                     GERAL
