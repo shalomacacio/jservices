@@ -78,6 +78,7 @@
                     <th>Cliente</th>
                     <th>Serviço</th>
                     <th>Valor </th>
+                    <th>Status </th>
                     <th>Comissao</th>
                   </tr>
                   </thead>
@@ -88,12 +89,13 @@
                     <td>{{$comissao->solicitacao->cliente}}</td>
                     <td>{{$comissao->servico->categoriaServico->descricao}} {{$comissao->servico->descricao}}</td>
                     <td>{{$comissao->servico->servico_vlr}}</td>
-                    <td>R$ {{$comissao->comissao_vlr}}</td>
+                    <td>@if($comissao->flg_autorizado) AUTORIZADO @else NÃO AUTORIZADO @endif</td>
+                    @if($comissao->flg_autorizado) <td>R$ {{$comissao->comissao_vlr}}</td> @else <td style="color:red">R$ -{{$comissao->comissao_vlr}}</td> @endif
                   </tr>
                   @endforeach
                   </tbody>
                     <tr>
-                      <th colspan="4">Subtotal:</th>
+                      <th colspan="5">Subtotal:</th>
                     <th >R$ {{ number_format($lista->sum('comissao_vlr'), 2) }}</th>
                     </tr>
                   <tfoot>
@@ -132,7 +134,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th><h4>R$ {{ number_format($comissao->sum('comissao_vlr'),2) }}</h4></th>
+                    <th><h4>R$ {{ number_format($comissao->where('flg_autorizado', 1)->sum('comissao_vlr'),2) }}</h4></th>
                   </tr>
                 </table>
               </div>

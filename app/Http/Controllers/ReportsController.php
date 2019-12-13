@@ -72,7 +72,7 @@ class ReportsController extends Controller
         $this->userRepository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
 
         $comissaos =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-          return $query->where('flg_autorizado', '<>', null)
+          return $query->whereNotNull('flg_autorizado')
                   ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                   ->whereDate ('dt_referencia', '<=', $request->dt_fim);
 
