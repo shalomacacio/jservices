@@ -60,13 +60,13 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
-            <center><h3>RELATÓRIO DE COMISSÕES POR FUNCIONÁRIO E PERÍODO </h3></center>
+            <center><h3>RELATÓRIO DE SERVIÇOS POR FUNCIONÁRIO E PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
-          @foreach ($comissaos as $user => $lista)
+          @foreach ($solicitacaos as $user => $solics)
 
           <div class="col-12">
-          <p class="lead"><b>Funcionário:{{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
+            <p class="lead"><b>Funcionário: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
           </div>
 
             <div class="row">
@@ -74,33 +74,25 @@
                 <table class="table table-striped table-sm ">
                   <thead>
                   <tr>
-                    <th>Data</th>
-                    <th>Cliente</th>
                     <th>Serviço</th>
-                    <th>Valor </th>
-                    <th>Status </th>
-                    <th>Comissao</th>
+                    <th style="width: 100px" >Quantidade </th>
                   </tr>
                   </thead>
                   <tbody>
-                  @foreach($lista as $comissao)
+
+                  @foreach ($solics->groupby('descricao') as $servico => $servicos)
                   <tr>
-                    <td>{{\Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
-                    <td>{{$comissao->solicitacao->cliente}}</td>
-                    <td>{{$comissao->servico->categoriaServico->descricao}} {{$comissao->servico->descricao}}</td>
-                    <td>{{$comissao->servico->servico_vlr}}</td>
-                    <td>@if($comissao->flg_autorizado) AUTORIZADO @else NÃO AUTORIZADO @endif</td>
-                    @if($comissao->flg_autorizado) <td>R$ {{$comissao->comissao_vlr}}</td> @else <td style="color:red">R$ -{{$comissao->comissao_vlr}}</td> @endif
+                    <td>{{ $servico }}</td>
+                    <td style="text-align: center">{{ $servicos->count() }}</td>
                   </tr>
+
                   @endforeach
+
                   </tbody>
                     <tr>
-                      <th colspan="5">Subtotal:</th>
-                    <th >R$ {{ number_format($lista->where('flg_autorizado', 1)->sum('comissao_vlr'), 2) }}</th>
+                      <th>Subtotal:</th>
+                    <th style="text-align: center"> {{ $solics->count()}}</th>
                     </tr>
-                  <tfoot>
-                    GERAL
-                  </tfoot>
                 </table>
               </div>
               <!-- /.col -->
@@ -112,29 +104,31 @@
           <div class="row">
             <!-- accepted payments column -->
             <div class="col-6">
-              <p class="lead"></p>
+              <p class="lead">Servicos:</p>
               <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-
+                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
+                plugg
+                dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
               </p>
             </div>
             <!-- /.col -->
             <div class="col-6">
-
+              <p class="lead">Período Due 2/22/2014</p>
 
               <div class="table-responsive">
                 <table class="table">
-                  <tr>
+                  @foreach ($solicitacaos->groupby('servico_id') as $descricao => $servicos )
+                    @foreach ($servicos as $servico)
+                    <tr>
+                      <th style="width:50%">{{ $descricao }}:</th>
+                      <th style="width:50%"> {{ $servicos->count('servico_id') }}:</th>
+                    </tr>
 
-                    <th colspan="3">Total:</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th><h4>R$ {{ number_format($comissao->where('flg_autorizado', 1)->sum('comissao_vlr'),2) }}</h4></th>
+                    @endforeach
+                  @endforeach
+                  <tr>
+                    <th>Total:</th>
+                    <td>$265.24</td>
                   </tr>
                 </table>
               </div>

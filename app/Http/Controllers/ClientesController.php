@@ -52,10 +52,11 @@ class ClientesController extends Controller
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         // $clientes = $this->repository->findWhere(['codpessoa'=> '45777']);
-        $clientes = DB::connection('pgsql')->select('select * from mk_pessoas limit 1');
-        // $clientes = Cliente::where('codpessoa', '=','45777' );
+        // $clientes = DB::connection('pgsql')->select('select * from mk_pessoas limit 1');
+            $clientes = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =45800');
 
-        return dd($clientes);
+
+        // return dd($clientes);
 
         if (request()->wantsJson()) {
 

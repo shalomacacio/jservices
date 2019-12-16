@@ -42,42 +42,83 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="col-md-6">
-        <!-- general form elements disabled -->
-        <div class="card card-warning">
-          <div class="card-header">
-            <h3 class="card-title">Buscar Relatório</h3>
-          </div>
-          <form role="form" action="{{ route('reports.users') }}" method="GET">
-          <!-- /.card-header -->
-          <div class="card-body">
-            @csrf
-           <div class="row">
-
-              <div class="col-sm-6">
+      <div class="col-md-12">
+      <!-- general form elements disabled -->
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title">Relatório de Comissões </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <form role="form" action="{{ route('reports.comissoes') }}" method="GET">
+            <div class="row">
+              <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Data Início</label>
                   <input type="date" class="form-control" name="dt_inicio" required>
                 </div>
               </div>
-
-              <div class="col-sm-6">
-                <!-- text input -->
+              <div class="col-sm-4">
                 <div class="form-group">
-                  <label>Data Final</label>
+                  <label>Data Fim</label>
                   <input type="date" class="form-control" name="dt_fim" required>
                 </div>
               </div>
+              <div class="col-sm-4">
+                <!-- select -->
+                <div class="form-group">
+                  <label>Funcionário</label>
+                  <select class="form-control" name="funcionario_id">
+                    <option value="0">-- TODOS --</option>
+                    @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
 
-            </div><!-- /.row -->
-          </div><!-- /.card-body -->
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary float-right">Pesquisar</button>
-          </div>
-          </form>
-        </div><!-- /.card warning-->
-      </div><!-- /.col-m12 -->
+            </div>
+
+            {{-- <div class="row">
+              <div class="col-sm-4">
+                <!-- checkbox -->
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label">Checkbox</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Checkbox checked</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- radio -->
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radio1">
+                    <label class="form-check-label">Radio</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radio1" checked>
+                    <label class="form-check-label">Radio checked</label>
+                  </div>
+                </div>
+              </div>
+            </div> --}}
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary float-right">Pesquisar</button>
+        </div>
+        <!-- /.card-body -->
+      </form>
+      </div>
+      <!-- /.card -->
+      <!-- general form elements disabled -->
+      <!-- /.card -->
+    </div>
     </section>
 </div>
 

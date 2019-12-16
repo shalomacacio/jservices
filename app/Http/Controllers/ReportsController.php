@@ -11,6 +11,7 @@ use App\Entities\Comissao;
 
 use App\Repositories\ReportRepository;
 use App\Repositories\ComissaoRepository;
+use App\Repositories\SolicitacaoRepository;
 use App\Repositories\UserRepository;
 
 use DB;
@@ -29,6 +30,7 @@ class ReportsController extends Controller
      */
     protected $repository;
     protected $comissaoRepository;
+    protected $solicitacaoRepository;
     protected $userRepository;
 
 
@@ -38,11 +40,12 @@ class ReportsController extends Controller
      * @param ReportRepository $repository
      * @param ReportValidator $validator
      */
-    public function __construct(ReportRepository $repository, UserRepository $userRepository, ComissaoRepository $comissaoRepository)
+    public function __construct(ReportRepository $repository, UserRepository $userRepository, ComissaoRepository $comissaoRepository, SolicitacaoRepository $solicitacaoRepository)
     {
         $this->repository = $repository;
         $this->comissaoRepository = $comissaoRepository;
         $this->userRepository = $userRepository;
+        $this->solicitacaoRepository = $solicitacaoRepository;
     }
 
     /**
@@ -55,38 +58,83 @@ class ReportsController extends Controller
         return view('reports.index');
     }
 
-    public function formFunc()
+    public function comissaoForm()
     {
-        return view('reports.formFunc');
+      $users = $this->userRepository->all();
+      return view('reports.comissaoForm', compact('users'));
     }
 
-    public function formCom()
+    public function servicosForm()
     {
-        return view('reports.formCom');
+      $users = $this->userRepository->all();
+      return view('reports.servicosForm', compact('users'));
     }
 
-
-
-    public function users(Request $request)
+    public function comissoes(Request $request)
     {
-        $this->userRepository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+        if($request->funcionario_id != 0){
+          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
+            return $query->whereNotNull('flg_autorizado')
+                    ->where('funcionario_id', '=' , $request->funcionario_id)
+                    ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
+                    ->whereDate ('dt_referencia', '<=', $request->dt_fim);
 
-        $comissaos =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-          return $query->whereNotNull('flg_autorizado')
-                  ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
-                  ->whereDate ('dt_referencia', '<=', $request->dt_fim);
+          })->get();
+        } else {
+          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
+            return $query->whereNotNull('flg_autorizado')
+                    ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
+                    ->whereDate ('dt_referencia', '<=', $request->dt_fim);
 
-        })->get()->groupBy('funcionario_id');
+          })->get();
 
-      // return dd($comissaos);
+        }
 
+        $comissaos = $result->groupBy('funcionario_id');
+
+        $total = $result->sum('comissao_vlr');
+
+      // return dd($total);
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $comissaos,
             ]);
         }
+        return view('reports.comissoes', compact('comissaos', 'request', 'total'));
+    }
 
-        return view('reports.users', compact('comissaos', 'request'));
+    public function servicos(Request $request)
+    {
+        if($request->user_id != 0){
+          $result =  $this->solicitacaoRepository->scopeQuery(function($query) use ($request) {
+            return $query
+                    ->where('user_id', '=' , $request->user_id)
+                    ->join('users as u', 'u.id', '=', 'user_id')
+                    ->join('servicos as s', 's.id', '=', 'servico_id')
+                    ->whereDate ('solicitacaos.created_at', '>=', $request->dt_inicio)
+                    ->whereDate ('solicitacaos.created_at', '<=', $request->dt_fim);
+
+          })->get();
+        } else {
+          $result =  $this->solicitacaoRepository->scopeQuery(function($query) use ($request) {
+            return $query
+                    ->join('users as u', 'u.id', '=', 'user_id')
+                    ->join('servicos as s', 's.id', '=', 'servico_id')
+                    ->whereDate ('solicitacaos.created_at', '>=', $request->dt_inicio)
+                    ->whereDate ('solicitacaos.created_at', '<=', $request->dt_fim);
+          })->get();
+        }
+
+        $solicitacaos = $result->groupBy('user_id');
+
+        $total = $result->count();
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'data' => $solicitacaos,
+            ]);
+        }
+        return view('reports.servicos', compact('solicitacaos', 'request', 'total'));
     }
 
 }

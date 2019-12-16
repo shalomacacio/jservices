@@ -172,10 +172,24 @@
                       <p>Comissões <i class="fa fa-angle-left right"></i></p>
                     </a>
                       <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                          <a href="{{ route('reports.comissaos.form') }}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Por Atendente</p>
+                          </a>
+                        </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-plus-square"></i>
+                      <p>Servicos <i class="fa fa-angle-left right"></i></p>
+                    </a>
+                      <ul class="nav nav-treeview">
                           <li class="nav-item">
-                            <a href="{{ route('reports.formFunc') }}" class="nav-link">
+                            <a href="{{ route('reports.servicos.form') }}" class="nav-link">
                               <i class="fa fa-circle-o nav-icon"></i>
-                              <p>Por Usuário e Período</p>
+                              <p>Por Tipo de Serviço</p>
                             </a>
                           </li>
                       </ul>
