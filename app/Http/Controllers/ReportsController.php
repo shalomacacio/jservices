@@ -12,6 +12,7 @@ use App\Entities\Comissao;
 use App\Repositories\ReportRepository;
 use App\Repositories\ComissaoRepository;
 use App\Repositories\SolicitacaoRepository;
+use App\Repositories\TipoMidiaRepository;
 use App\Repositories\UserRepository;
 
 use DB;
@@ -28,10 +29,10 @@ class ReportsController extends Controller
     /**
      * @var ReportRepository
      */
-    protected $repository;
     protected $comissaoRepository;
     protected $solicitacaoRepository;
     protected $userRepository;
+    protected $tipoMidiaRepository;
 
 
     /**
@@ -40,11 +41,15 @@ class ReportsController extends Controller
      * @param ReportRepository $repository
      * @param ReportValidator $validator
      */
-    public function __construct(ReportRepository $repository, UserRepository $userRepository, ComissaoRepository $comissaoRepository, SolicitacaoRepository $solicitacaoRepository)
+    public function __construct(
+        UserRepository $userRepository,
+        ComissaoRepository $comissaoRepository,
+        TipoMidiaRepository $tipoMidiaRepository,
+        SolicitacaoRepository $solicitacaoRepository)
     {
-        $this->repository = $repository;
         $this->comissaoRepository = $comissaoRepository;
         $this->userRepository = $userRepository;
+        $this->tipoMidiaRepository = $tipoMidiaRepository;
         $this->solicitacaoRepository = $solicitacaoRepository;
     }
 
@@ -125,7 +130,7 @@ class ReportsController extends Controller
           })->get();
         }
 
-        $solicitacaos = $result->groupBy('user_id');
+        $solicitacaos = $result;
 
         $total = $result->count();
 
@@ -136,5 +141,26 @@ class ReportsController extends Controller
         }
         return view('reports.servicos', compact('solicitacaos', 'request', 'total'));
     }
+
+    public function midias()
+    {
+      $result =  $this->solicitacaoRepository->scopeQuery(function($query) {
+        return $query
+                ->join('tipo_midias as tm', 'tm.id', '=', 'tipo_midia_id');
+                // ->whereIn('categoria_servico_id', [1, 5]);
+
+      })->get();
+
+      $solicitacaos = $result;
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'data' => $solicitacaos,
+            ]);
+        }
+        return view('reports.midias', compact('solicitacaos'));
+    }
+
+
 
 }

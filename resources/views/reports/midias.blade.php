@@ -43,7 +43,7 @@
               <!-- /.col -->
             </div>
             <!-- info row -->
-            <div class="row invoice-info">
+           {{-- <div class="row invoice-info">
               <div class="col-sm-4 invoice-col">
                 Data Inicial
                 <address>
@@ -51,56 +51,53 @@
                 </address>
               </div>
               <!-- /.col -->
-              <div class="col-sm-4 invoice-col">
+               <div class="col-sm-4 invoice-col">
                 Data Final
                 <address>
                   <strong>{{ \Carbon\Carbon::parse($request->dt_fim)->format('d/m/Y')}}</strong><br>
                 </address>
               </div>
               <!-- /.col -->
-            </div>
+            </div>--}}
             <!-- /.row -->
-            <center><h3>RELATÓRIO DE SERVIÇOS POR FUNCIONÁRIO E PERÍODO </h3></center>
+            <center><h3>RELATÓRIO DE CONTATO POR TIPO DE MÍDIA</h3></center>
             <br/>
             <!-- Table row -->
-          @foreach ($solicitacaos->groupby('user_id') as $user => $solics)
 
-          <div class="col-12">
-            <p class="lead"><b>Funcionário: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
-          </div>
+
 
             <div class="row">
               <div class="col-12 table-responsive">
                 <table class="table table-striped table-sm ">
                   <thead>
                   <tr>
-                    <th>Serviço</th>
+                    <th>Mídia</th>
                     <th style="width: 100px" >Quantidade </th>
                   </tr>
                   </thead>
                   <tbody>
 
-                  @foreach ($solics->groupby('descricao') as $descricao => $servicoList )
 
-                      <tr>
+
+                        @foreach ($solicitacaos->groupby('tipo_midia_id') as $midia => $midias)
+                        @foreach ($midias->groupby('descricao') as $descricao => $midiaList )
+                        <tr>
                         <td>{{ $descricao }}</td>
-                        <td style="text-align: center">{{ $servicoList->count() }}</td>
+                        <td style="text-align: center">{{ $midiaList->count() }}</td>
                       </tr>
+                        @endforeach
+                        @endforeach
 
-                  @endforeach
+
 
                   </tbody>
-                    <tr>
-                      <th>Subtotal:</th>
-                    <th style="text-align: center"> {{ $solics->count()}}</th>
-                    </tr>
                 </table>
               </div>
               <!-- /.col -->
             </div>
           <br/>
 
-          @endforeach
+
 
           <div class="row">
             <!-- accepted payments column -->
@@ -115,7 +112,7 @@
             <div class="col-1"></div>
             <!-- /.col -->
             <div class="col-6">
-              <p class="lead">Período {{ \Carbon\Carbon::parse($request->dt_inicio)->format('d/m/Y')}} até  {{ \Carbon\Carbon::parse($request->dt_fim)->format('d/m/Y')}}</p>
+              <p class="lead">Subtotais </p>
 
               <div class="table-responsive">
                 <table class="table">

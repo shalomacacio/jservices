@@ -80,7 +80,7 @@
 
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
               <div class="col-sm-4">
                 <!-- checkbox -->
                 <div class="form-group">
@@ -107,7 +107,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
         </div>
         <div class="card-footer">
           <button type="submit" class="btn btn-primary float-right">Pesquisar</button>

@@ -57,6 +57,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('reports/comissoes', 'ReportsController@comissoes')->name('reports.comissoes');
     Route::get('reports/servicosForm', 'ReportsController@servicosForm')->name('reports.servicos.form');
     Route::get('reports/servicos', 'ReportsController@servicos')->name('reports.servicos');
+    Route::get('reports/midias', 'ReportsController@midias')->name('reports.midias');
 
 
 });

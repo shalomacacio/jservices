@@ -63,7 +63,7 @@
             <center><h3>RELATÓRIO DE SERVIÇOS POR FUNCIONÁRIO E PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
-          @foreach ($solicitacaos->groupby('user_id') as $user => $solics)
+          @foreach ($solicitacaos as $user => $solics)
 
           <div class="col-12">
             <p class="lead"><b>Funcionário: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
@@ -80,12 +80,11 @@
                   </thead>
                   <tbody>
 
-                  @foreach ($solics->groupby('descricao') as $descricao => $servicoList )
-
-                      <tr>
-                        <td>{{ $descricao }}</td>
-                        <td style="text-align: center">{{ $servicoList->count() }}</td>
-                      </tr>
+                  @foreach ($solics->groupby('descricao') as $servico => $servicos)
+                  <tr>
+                    <td>{{ $servico }}</td>
+                    <td style="text-align: center">{{ $servicos->count() }}</td>
+                  </tr>
 
                   @endforeach
 
@@ -104,32 +103,31 @@
 
           <div class="row">
             <!-- accepted payments column -->
-            <div class="col-5">
-              <p class="lead">Impressão:</p>
+            <div class="col-6">
+              <p class="lead">Servicos:</p>
               <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                Utilizar tamnho de papel A4 deixar as configurações de margens e escala
-                no modo Padrão e marcar somente a opção Cabeçalho e Rodapé para o caso
-                de utilizar enumeração de páginas.
+                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
+                plugg
+                dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
               </p>
             </div>
-            <div class="col-1"></div>
             <!-- /.col -->
             <div class="col-6">
-              <p class="lead">Período {{ \Carbon\Carbon::parse($request->dt_inicio)->format('d/m/Y')}} até  {{ \Carbon\Carbon::parse($request->dt_fim)->format('d/m/Y')}}</p>
+              <p class="lead">Período Due 2/22/2014</p>
 
               <div class="table-responsive">
                 <table class="table">
-                  @foreach ($solicitacaos->groupby('descricao')->sortBy('servico_id') as $descricao => $servicos )
+                  @foreach ($solicitacaos as $descricao => $servicos )
                     <tr>
                       <th style="width:50%">{{ $descricao }}:</th>
-                      <td style="width:50%"> {{ $servicos->count()}}</td>
+                      <th style="width:50%"> {{ $descricao->count()}}</th>
                     </tr>
 
 
                   @endforeach
                   <tr>
-                    <th>TOTAL:</th>
-                    <th>{{ $solicitacaos->count() }}</th>
+                    <th>Total:</th>
+                    <td>$265.24</td>
                   </tr>
                 </table>
               </div>
