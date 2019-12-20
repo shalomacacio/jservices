@@ -59,13 +59,13 @@
                                 <li class="nav-item">
                                 <a href="{{route('escalas.agenda')}}" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Agenda</p>
+                                    <p>Escala</p>
                                   </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('escalas.index')}}" class="nav-link">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p> Escala</p>
+                                        <p> Nova Escala</p>
                                       </a>
                                     </li>
                             </ul>
