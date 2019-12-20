@@ -12,6 +12,7 @@ use App\Http\Requests\ComissaoUpdateRequest;
 use App\Repositories\ComissaoRepository;
 use App\Validators\ComissaoValidator;
 use Illuminate\Support\Facades\DB;
+use App\Entities\Comissao;
 
 /**
  * Class ComissaosController.
@@ -77,6 +78,32 @@ class ComissaosController extends Controller
         }
         return view('comissaos.comissoes', compact('comissaos'));
     }
+
+    public function pesquisar()
+    {
+        $users = DB::table('users')->get();
+        return view('comissaos.pesquisar', compact('users'));
+    }
+
+    public function search(Request $request){
+      $users = DB::table('users')->get();
+      $result= $this->repository->scopeQuery(function ($query) use ($request) {
+        return $query
+          ->where('flg_autorizado', 1)
+          ->whereDate('dt_referencia', '>=' , $request->dt_inicio)
+          ->whereDate('dt_referencia', '<=' , $request->dt_fim);
+      })->get();
+
+      if($request->funcionario_id == 0){
+        $comissaos = $result;
+      } else{
+        $comissaos = $result->where('funcionario_id', $request->funcionario_id);
+      }
+
+
+      return view('comissaos.pesquisar', compact('comissaos', 'users'));
+    }
+
 
     public function autorizar(Request $request, $id)
     {

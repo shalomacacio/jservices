@@ -52,8 +52,9 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                <form role="form" action="{{ route('solicitacao.store') }}" method="POST">
+                <form role="form" action="{{ route('solicitacao.update' , $solicitacao->id )}}" method="POST">
                     @csrf
+                    @method('PUT')
 
                     <div class="row">
                         <div class="col-sm-2">
@@ -80,7 +81,7 @@
                         <div class="form-group">
                             <label>Categoria</label>
                             <select class="form-control" name="categoria_servico_id" id="categoria_servico_id"  required>
-                              <option value={{$solicitacao->categoria_id}}>{{$solicitacao->servico->categoriaServico->descricao}}</option>
+                              <option value={{$solicitacao->servico->categoriaServico->id}}>{{$solicitacao->servico->categoriaServico->descricao}}</option>
                               @foreach( $categorias as $categoria)
                                     <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
                                 @endforeach

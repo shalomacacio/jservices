@@ -77,6 +77,9 @@
                       </div>
                       <!-- /.card -->
                     </div>
+                  </div>
+                </div>
+            </div>
         </section>
     </div>
 </div>

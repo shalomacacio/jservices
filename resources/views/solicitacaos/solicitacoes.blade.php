@@ -96,7 +96,7 @@
                                             @endis
                                             @endif
                                             @if($solicitacao->status_solicitacao_id != 3)
-                                            <a class="btn btn-info" href="{{route('solicitacao.edit', $solicitacao->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                                            <a class="btn btn-info" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>

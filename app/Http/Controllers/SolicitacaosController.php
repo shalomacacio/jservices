@@ -298,18 +298,9 @@ class SolicitacaosController extends Controller
     try {
 
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-      //se for uma conclusão de solicitacao
-      if ($request->status_solicitacao_id = 3) {
-        $solicitacao = $this->repository->find($id);
-        $solicitacao->status_solicitacao_id = 3;
-        $solicitacao->dt_conclusao = Carbon::now();
-        $solicitacao->save();
-
-        $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
-      } else {
         $solicitacao = $this->repository->update($request->all(), $id);
-      }
+        $comissao = $this->comissaoRepository->updateComissaoAtendimeto($solicitacao);
+
 
       $response = [
         'message' => 'Solicitacao updated.',
@@ -318,7 +309,7 @@ class SolicitacaosController extends Controller
       if ($request->wantsJson()) {
         return response()->json($response);
       }
-      return redirect()->back()->with('message', $response['message']);
+      return redirect()->route('solicitacao.index')->with('message', $response['message']);
     } catch (ValidatorException $e) {
       if ($request->wantsJson()) {
         return response()->json([
@@ -339,7 +330,7 @@ class SolicitacaosController extends Controller
    */
   public function destroy($id)
   {
-    $comissaoDeleted = $this->comissaoRepository->deleteComissao($id);
+    $comissaoDeleted = $this->comissaoRepository->deleteComissaoGrupo($id);
     $deleted = $this->repository->delete($id);
 
     if (request()->wantsJson()) {

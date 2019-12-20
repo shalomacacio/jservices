@@ -319,7 +319,6 @@
         url: "/solicitacao/ajaxValor",
         dataType: 'JSON',
         success: function(response) {
-          // alert(response.valor['servico_vlr']);
           $('#servico_vlr').val(response.valor['servico_vlr']);
         }
     });

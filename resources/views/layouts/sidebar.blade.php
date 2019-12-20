@@ -84,6 +84,12 @@
                           <p>Comissões</p>
                         </a>
                       </li>
+                      <li class="nav-item">
+                        <a href="{{route('comissao.pesquisar')}}" class="nav-link">
+                          <i class="fa fa-circle-o nav-icon"></i>
+                          <p>Pesquisar</p>
+                        </a>
+                      </li>
                   </ul>
               </li>
 

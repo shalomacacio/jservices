@@ -33,7 +33,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     */
     public function validator()
     {
-
         return ComissaoValidator::class;
     }
 
@@ -61,6 +60,13 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $comissao->save();
     }
 
+    public function updateComissaoAtendimeto($solicitacao)
+    {
+      $comissao = Comissao::where('solicitacao_id', $solicitacao->id)->where('funcionario_id', $solicitacao->user_id)->get();
+      $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_id);
+      $this->createComissaoAtendimeto($solicitacao);
+    }
+
     public function createComissaoEquipe($solicitacao)
     {
 
@@ -77,12 +83,14 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id)/count($solicitacao->users);
         $comissao->save();
       }
-
     }
 
-    public function deleteComissao($solicitacaoId){
+    public function deleteComissaoIndividual($solicitacaoId, $usuarioId){
+      $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->where('funcionario_id', $usuarioId)->delete();
+    }
+
+    public function deleteComissaoGrupo($solicitacaoId){
       $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->delete();
     }
-
 
 }
