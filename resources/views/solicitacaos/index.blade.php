@@ -119,10 +119,10 @@
                         </div>
                       </div>
 
-                        <div class="col-sm-2">
+                      <div class="col-sm-2">
                         <!-- select -->
                         <div class="form-group">
-                            <label>Forma de Pagamento</label>
+                            <label>Forma Pag</label>
                             <select class="form-control" name="tipo_pagamento_id">
                                 <option value=null>--Selecione--</option>
                                 @foreach ($tipoPagamentos as $tipo)
@@ -130,9 +130,9 @@
                               @endforeach
                             </select>
                         </div>
-                        </div>
+                      </div>
 
-                        <div class="col-sm-2">
+                      <div class="col-sm-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Equipamentos</label>
@@ -143,7 +143,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        </div>
+                      </div>
 
                         <div class="col-sm-3">
                           <!-- select -->
