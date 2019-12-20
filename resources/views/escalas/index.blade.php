@@ -112,7 +112,7 @@
                       @foreach ($escalas as $escala)
                       <tr>
                         <td>{{ $escala->id }}</td>
-                        <td>{{ $escala->dt_escala }}</td>
+                        <td>{{ \Carbon\Carbon::parse($escala->dt_escala)->format('d/m/Y') }}</td>
                         <td>
                           @foreach ($escala->users as $user)
                             {{$user->name}} {{$user->sobrenome}}  /

@@ -51,7 +51,9 @@ class EscalasController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $escalas = $this->repository->all();
+        $result = $this->repository->all();
+
+        $escalas = $result->where('dt_escala', '>=' , Carbon::now()->format('Y-m-d 00:00:00'));
 
         $users = DB::table('users as u')
                       ->join('role_user as ru','u.id','=','ru.user_id')
