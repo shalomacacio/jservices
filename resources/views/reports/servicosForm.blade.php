@@ -80,34 +80,17 @@
 
             </div>
 
-            {{-- <div class="row">
+            <div class="row">
               <div class="col-sm-4">
                 <!-- checkbox -->
                 <div class="form-group">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label">Checkbox</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" checked>
-                    <label class="form-check-label">Checkbox checked</label>
+                    <input class="form-check-input" type="checkbox" name="flg_concluidos" >
+                    <label class="form-check-label">Concluídos</label>
                   </div>
                 </div>
               </div>
-              <div class="col-sm-4">
-                <!-- radio -->
-                <div class="form-group">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radio1">
-                    <label class="form-check-label">Radio</label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radio1" checked>
-                    <label class="form-check-label">Radio checked</label>
-                  </div>
-                </div>
-              </div>
-            </div> --}}
+            </div>
         </div>
         <div class="card-footer">
           <button type="submit" class="btn btn-primary float-right">Pesquisar</button>

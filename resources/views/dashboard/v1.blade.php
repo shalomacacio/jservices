@@ -11,9 +11,24 @@
         </div>
         <!-- /.col -->
         <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard v1</li>
+          <ol class="breacumb float-sm-right ">
+            <form action="{{ route('escalas.search')}}" method="GET">
+              <div class="input-group input-group-sm" style="width: 400px;">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-default" disabled>DE</button>
+                </div>
+                <input type="date" name="dt_escala" class="form-control" placeholder="Search" >
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-default" disabled>ATÉ</button>
+                </div>
+
+                <input type="date" name="dt_escala" class="form-control" placeholder="Search" required>
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                </div>
+
+              </div>
+            </form>
           </ol>
         </div>
         <!-- /.col -->

@@ -142,6 +142,8 @@ class ReportsController extends Controller
         return view('reports.servicos', compact('solicitacaos', 'request', 'total'));
     }
 
+
+
     public function midias()
     {
       $result =  $this->solicitacaoRepository->scopeQuery(function($query) {

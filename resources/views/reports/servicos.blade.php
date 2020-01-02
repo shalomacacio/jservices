@@ -74,25 +74,31 @@
                 <table class="table table-striped table-sm ">
                   <thead>
                   <tr>
+                    {{-- <th>ServiçoList</th> --}}
+                    <th>Data</th>
                     <th>Serviço</th>
+                    <th>Status</th>
                     <th style="width: 100px" >Quantidade </th>
                   </tr>
                   </thead>
                   <tbody>
 
                   @foreach ($solics->groupby('descricao') as $descricao => $servicoList )
-
+                    @foreach ($servicoList as $item)
                       <tr>
-                        <td>{{ $descricao }}</td>
+                      {{-- <td>{{ $servicoList }}</td> --}}
+                        <td>{{ \Carbon\Carbon::parse($item->dt_conclusao)->format('d/m/Y') }}</td>
+                        <td>{{ $item->descricao }}</td>
+                        <td>{{ $item->statusSolicitacao->descricao }}</td>
                         <td style="text-align: center">{{ $servicoList->count() }}</td>
                       </tr>
-
+                      @endforeach
                   @endforeach
 
                   </tbody>
                     <tr>
-                      <th>Subtotal:</th>
-                    <th style="text-align: center"> {{ $solics->count()}}</th>
+                      <th colspan="3">Subtotal:</th>
+                      <th style="text-align: center"> {{ $solics->count()}}</th>
                     </tr>
                 </table>
               </div>
