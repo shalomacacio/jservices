@@ -162,19 +162,22 @@ class SolicitacaosController extends Controller
 
   public function solicitacoes()
   {
-
     $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+
     $solicitacaos = $this->repository->scopeQuery(function ($query) {
       return $query
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
         ->where('dt_conclusao', null)
+        ->where('user_id', Auth::user()->id)
         ->orderBy('created_at', 'desc');
     })->paginate(10);
+
     if (request()->wantsJson()) {
       return response()->json([
         'data' => $solicitacaos,
       ]);
     }
+
     return view('solicitacaos.solicitacoes', compact('solicitacaos'));
   }
 
