@@ -90,7 +90,7 @@
                         <td>{{ \Carbon\Carbon::parse($item->dt_conclusao)->format('d/m/Y') }}</td>
                         <td>{{ $item->descricao }}</td>
                         <td>{{ $item->statusSolicitacao->descricao }}</td>
-                        <td style="text-align: center">{{ $servicoList->count() }}</td>
+                        <td></td>
                       </tr>
                       @endforeach
                   @endforeach
