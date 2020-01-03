@@ -62,7 +62,7 @@ class DashboardController extends Controller
                             ->where('dt_agendamento','<=' ,Carbon::now()->format('Y-m-d 00:00:00'))
                             ->where('dt_conclusao', null));
 
-        return view('dashboard.v1', compact('solicitacaos', 'atendimentos','andamento', 'concluidos', 'pendentes'));
+        return view('dashboard.dash', compact('solicitacaos', 'atendimentos','andamento', 'concluidos', 'pendentes'));
     }
 
     public function auth(Request $request)

@@ -6,7 +6,21 @@
   <section class="content-header">
       <div class="container-fluid">
           <div class="row">
-              <div class="col-12">
+            <div class="col-md-6 col-sm-6 col-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Pontos Disponívies</span>
+                <span class="info-box-number"><h4>{{ $totalPontos - $sumPontos }}</h4></span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+
+
+            <div class="col-md-6 col-sm-6 col-12">
                 <div class="callout callout-info">
                 <h5><i class="fa fa-calendar"></i> DIA:@isset($request->dt_escala) {{ \Carbon\Carbon::parse($request->dt_escala)->format('d/m/Y')}} @endisset</h5>
                     <center>
@@ -31,17 +45,14 @@
       <!-- Main row -->
       <div class="row">
         <!-- Left col -->
-
-        @foreach ($escalas as $escala)
-          @foreach ($escala->users as $user)
-
-
+        @foreach ($escala->users as $user)
         <div class="col-md-6">
           <!-- TABLE: LATEST ORDERS -->
           <div class="card card-info">
             <div class="card-header border-transparent">
               <h3 class="card-title">{{ $user->name }}  {{ $user->sobrenome }} </h3>
               <div class="card-tools">
+
                 <button type="button" class="btn btn-tool" data-widget="collapse">
                   <i class="fa fa-minus"></i>
                 </button>
@@ -97,7 +108,6 @@
           </div>
           <!-- /.card -->
         </div>
-        @endforeach
         @endforeach
         <!-- /.col -->
       </div>

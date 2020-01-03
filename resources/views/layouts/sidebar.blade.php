@@ -22,13 +22,14 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item has-treeview ">
+              @is(['admin', 'supervisor'])
+              <li class="nav-item has-treeview ">
                   <a href="{!! route('dashboard') !!}" class="nav-link ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                   </a>
                 </li>
-
+              @endis
                 <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-th"></i>
@@ -44,7 +45,7 @@
                               <li class="nav-item">
                                 <a href="{{route('solicitacoes')}}" class="nav-link">
                                   <i class="fa fa-circle-o nav-icon"></i>
-                                  <p>Solicitações</p>
+                                  <p>Minhas Solicitações</p>
                                 </a>
                               </li>
                           </ul>
@@ -62,12 +63,14 @@
                                     <p>Escala</p>
                                   </a>
                                 </li>
+                                @is(['admin', 'supervisor'])
                                 <li class="nav-item">
-                                    <a href="{{route('escalas.index')}}" class="nav-link">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p> Nova Escala</p>
-                                      </a>
-                                    </li>
+                                  <a href="{{route('escalas.index')}}" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p> Nova Escala</p>
+                                  </a>
+                                </li>
+                                @endis
                             </ul>
                         </li>
               @is('admin')

@@ -204,25 +204,25 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                          <table class="table table-bordered">
+                          <table class="table table-sm table-striped table-hover table-bordered " >
                             <thead>
                               <tr>
-                                <th style="width: 100px">Data</th>
-                                <th>Codigo</th>
+                                <th class="d-none d-sm-table-cell"style="width: 100px">Data</th>
+                                <th class="d-none d-sm-table-cell">Codigo</th>
                                 <th>Cliente</th>
-                                <th style="width: 200px">Serviço </th>
-                                <th style="width: 40px">Status </th>
+                                <th class="d-none d-sm-table-cell" style="width: 200px">Serviço </th>
+                                <th class="d-none d-sm-table-cell" style="width: 40px">Status </th>
                                 <th style="width: 40px">Comissão </th>
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($comissaos as $comissao)
                                     <tr>
-                                        <td>{{ \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
-                                        <td>{{ $comissao->solicitacao->cod_cliente }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $comissao->solicitacao->cod_cliente }}</td>
                                         <td>{{ $comissao->solicitacao->cliente }}</td>
-                                        <td>{{ $comissao->servico->descricao }}</td>
-                                        <td>{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $comissao->servico->descricao }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>R$ {{ $comissao->comissao_vlr }}</td>
                                     </tr>
                                 @endforeach

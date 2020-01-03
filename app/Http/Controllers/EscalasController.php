@@ -71,21 +71,37 @@ class EscalasController extends Controller
     }
 
     public function agenda(){
-      $escalas = $this->repository->scopeQuery(function ($query) {
+      $escala = $this->repository->scopeQuery(function ($query) {
         return $query
           ->whereDate('dt_escala', Carbon::now());
-      })->get();
-      return view('escalas.agenda', compact('escalas'));
+      })->first();
+      $totalPontos = $escala->users->count()*4;
+
+      $sumPontos = DB::table('solicitacaos as s')
+                    ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
+                    ->whereNull('s.deleted_at')
+                    ->where('s.dt_agendamento', '>=' , Carbon::now()->format('Y-m-d 00:00:00'))
+                    ->where('s.dt_agendamento', '<=' , Carbon::now()->format('Y-m-d 11:59:59'))
+                    ->sum('serv.pontuacao');
+      return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
     }
 
     public function search(Request $request){
 
-      $escalas = $this->repository->scopeQuery(function ($query) use ($request) {
+      $escala = $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
           ->where('dt_escala', $request->dt_escala);
-      })->get();
+      })->first();
 
-      return view('escalas.agenda', compact('escalas', 'request'));
+      $totalPontos = $escala->users->count()*4;
+
+      $sumPontos = DB::table('solicitacaos as s')
+                    ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
+                    ->whereNull('s.deleted_at')
+                    ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
+                    ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
+                    ->sum('serv.pontuacao');
+      return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
     }
 
 
