@@ -199,7 +199,9 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h1 class="card-title">Comissão R$: {{number_format($comissaos->sum('comissao_vlr'),2)  }}</h1>
+                                <h1 class="card-title">AGUARDANDO R$: {{number_format($comissaos->where('flg_autorizado', '=',  3 )->sum('comissao_vlr'),2)  }}</h1>
+                                <h1 class="card-title">NÃO AUTORIZADO R$: {{number_format($comissaos->where('flg_autorizado', '=',  0 )->sum('comissao_vlr'),2)  }}</h1>
+                                <h1 class="card-title">AUTORIZADO R$: {{number_format($comissaos->where('flg_autorizado', '=',  1 )->sum('comissao_vlr'),2)  }}</h1>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -222,7 +224,7 @@
                                         <td style="text">{{ $comissao->solicitacao->cliente }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $comissao->servico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td> @if($comissao->flg_autorizado == null ) aguard @elseif($comissao->flg_autorizado == 0) nao @elseif($comissao->flg_autorizado == 1) sim @endif </td>
+                                        <td> @if($comissao->flg_autorizado == 3 ) aguard @elseif($comissao->flg_autorizado == 0) nao @elseif($comissao->flg_autorizado == 1) sim @endif </td>
                                         <td  style="color: @if($comissao->flg_autorizado != 1 ) red  @endif ">R$ {{ $comissao->comissao_vlr }}</td>
                                     </tr>
                                 @endforeach

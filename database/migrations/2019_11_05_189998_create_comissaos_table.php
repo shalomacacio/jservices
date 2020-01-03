@@ -25,7 +25,7 @@ class CreateComissaosTable extends Migration
             $table->decimal('servico_vlr');
             $table->decimal('servico_comissao');
             $table->integer('servico_tipo_comissao_id');
-            $table->tinyInteger('flg_autorizado')->nullable();
+            $table->tinyInteger('flg_autorizado')->default(3);
 
             // $table->primary(['solicitacao_id', 'funcionario_id'])->unique();
 

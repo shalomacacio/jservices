@@ -77,12 +77,16 @@ class SolicitacaosController extends Controller
               [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()],
               ['*'])->where('funcionario_id', Auth::user()->id);
 
+    $aguardando = $comissaos->where('flg_autorizado', '=', 3)->sum('comissao_vlr');
+    $nAutorizado = $comissaos->where('flg_autorizado', '=', 0)->sum('comissao_vlr');
+    $autorizado = $comissaos->where('flg_autorizado', '=', 1)->sum('comissao_vlr');
+
     if (request()->wantsJson()) {
       return response()->json([
         'data' => $solicitacaos,
       ]);
     }
-    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos'));
+    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando'));
   }
 
   public function ajaxServicos(Request $request)

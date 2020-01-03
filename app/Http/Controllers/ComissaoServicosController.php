@@ -55,7 +55,6 @@ class ComissaoServicosController extends Controller
         $servicos = DB::table('servicos')->get();
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $comissaoServicos,
             ]);
@@ -78,7 +77,6 @@ class ComissaoServicosController extends Controller
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
             $comissaoServico = $this->repository->create($request->all());
 
             $response = [
