@@ -208,10 +208,10 @@
                             <thead>
                               <tr>
                                 <th class="d-none d-sm-table-cell"style="width: 100px">Data</th>
-                                <th class="d-none d-sm-table-cell">Codigo</th>
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell" style="width: 200px">Serviço </th>
                                 <th class="d-none d-sm-table-cell" style="width: 40px">Status </th>
+                                <th style="width: 40px">Autorizado</th>
                                 <th style="width: 40px">Comissão </th>
                               </tr>
                             </thead>
@@ -219,11 +219,11 @@
                                 @foreach ($comissaos as $comissao)
                                     <tr>
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $comissao->solicitacao->cod_cliente }}</td>
-                                        <td>{{ $comissao->solicitacao->cliente }}</td>
+                                        <td style="text">{{ $comissao->solicitacao->cliente }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $comissao->servico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td>R$ {{ $comissao->comissao_vlr }}</td>
+                                        <td> @if($comissao->flg_autorizado == null ) aguard @elseif($comissao->flg_autorizado == 0) nao @elseif($comissao->flg_autorizado == 1) sim @endif </td>
+                                        <td  style="color: @if($comissao->flg_autorizado != 1 ) red  @endif ">R$ {{ $comissao->comissao_vlr }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
