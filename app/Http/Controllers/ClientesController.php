@@ -208,4 +208,30 @@ class ClientesController extends Controller
 
         return redirect()->back()->with('message', 'Cliente deleted.');
     }
+
+    public function autocomplete(Request $request)
+    {
+      $cli = "%".$request->input('query')."%";
+
+      $datasMK = DB::connection('pgsql')->select('select nome_razaosocial from mk_pessoas where nome_razaosocial LIKE ?', [$cli]);
+      $datasJS = DB::connection('mysql')->select('select nome_razaosocial from clientes where nome_razaosocial LIKE ?', [$cli]);
+
+      // $datas = DB::table('clientes')
+      // ->select("nome_razaosocial")
+      // ->where("nome_razaosocial","LIKE", [$cli])
+      // ->get();
+      $datas = $datasJS;
+
+      if($datas == null){
+        $datas =  $datasMK;
+      }
+
+      $dataModified = array();
+      foreach ($datas as $data)
+      {
+        $dataModified[] = $data->nome_razaosocial;
+      }
+
+     return response($dataModified);
+    }
 }

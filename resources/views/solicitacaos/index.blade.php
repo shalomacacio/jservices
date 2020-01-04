@@ -69,12 +69,13 @@
                         </div>
 
                         <div class="col-sm-4">
-                        <!-- text input -->
                           <div class="form-group">
-                              <label>Cliente</label>
-                              <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Nome do cliente ..." required>
+                            <label>Cliente</label>
+                             <input type="text" class="form-control" name="cliente" id="typeahead" data-provide="typeahead" data-items="4" >
                           </div>
                         </div>
+
+
                         <div class="col-sm-2">
                         <!-- select -->
                         <div class="form-group">
@@ -252,10 +253,38 @@
 <script src="/dist/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Morris.js charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="/dist/plugins/morris/morris.min.js"></script>
+<!-- Sparkline -->
+<script src="/dist/plugins/sparkline/jquery.sparkline.min.js"></script>
+<!-- jvectormap -->
+<script src="/dist/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/dist/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/dist/plugins/knob/jquery.knob.js"></script>
+<!-- daterangepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<script src="/dist/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="/dist/plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="/dist/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Slimscroll -->
+<script src="/dist/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="/dist/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.js"></script>
+<!-- Select2 -->
+<script src="/dist/plugins/select2/select2.full.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+
 <script>
   $.widget.bridge('uibutton', $.ui.button)
-
 </script>
 
 <script type="text/javascript">
@@ -267,14 +296,28 @@
     ajaxValor();
   });
 
-  // $('#cod_cliente').change(function () {
-  //   ajaxCliente();
-  // });
+  var path = "{{ route('autocomplete') }}";
+  $("#typeahead").typeahead({
+    // source : ["DANIELE MEDEIROS DA COSTA ACACIO", "PAULO MARIA DA SILVA"]
+    source : function (query, process){
+      return $.get(path, {query: query}, function(data){
+          console.log(data);
+          return process(data)
+      });
+    }
+  });
+
+      //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
 
 
   $('#search').click( function () {
     ajaxCliente();
   });
+
+
 
   function ajaxServicos(){
     $.ajax({
@@ -325,34 +368,20 @@
         }
     });
   }
+
+  function ajaxAutoComplete(){
+      $.ajax({
+        type: "GET",
+        data: {cliente: $("#cliente").val()},
+        url: "{{ route('autocomplete') }}",
+        dataType: 'JSON',
+        success: function(response) {
+          console.log(response);
+          return response;
+        }
+    });
+  }
+
 </script>
-<!-- Bootstrap 4 -->
-<script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="/dist/plugins/morris/morris.min.js"></script>
-<!-- Sparkline -->
-<script src="/dist/plugins/sparkline/jquery.sparkline.min.js"></script>
-<!-- jvectormap -->
-<script src="/dist/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/dist/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="/dist/plugins/knob/jquery.knob.js"></script>
-<!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-<script src="/dist/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="/dist/plugins/datepicker/bootstrap-datepicker.js"></script>
-<!-- Bootstrap WYSIHTML5 -->
-<script src="/dist/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<!-- Slimscroll -->
-<script src="/dist/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="/dist/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/dist/js/demo.js"></script>
+
 @stop

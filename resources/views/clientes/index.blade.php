@@ -9,142 +9,202 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Serviços</h1>
+            <h1>Cliente</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
-              <li class="breadcrumb-item active">Novo Serviço</li>
+              <li class="breadcrumb-item"><a href="#">Cliente</a></li>
+              <li class="breadcrumb-item active">Novo Cliente</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
 
+
       {{-- alerts --}}
       @if(Session::has('message'))
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-        {{Session::get('message')}}
-      </div>
-      @elseif($errors->any())
-      <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Erro</h5>
-          <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-      </div>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-check"></i>Sucesso</h5>
+            {{Session::get('message')}}
+        </div>
+        @elseif($errors->any())
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-check"></i>Erro</h5>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
       @endif
     </section>
-
     <!-- Main content -->
     <section class="content">
-      <div class="col-md-12">
-        <!-- general form elements disabled -->
-        <div class="card card-warning">
-          <div class="card-header">
-            <h3 class="card-title">Novo Serviço</h3>
-          </div>
-          <form role="form" action="{{ route('servicos.store') }}" method="POST">
-          <!-- /.card-header -->
-          <div class="card-body">
-            @csrf
-            <div class="row">
-
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label>Categoria</label>
-                  <select class="form-control" name="categoria_servico_id" required>
-                    @foreach( $categorias as $categoria)
-                      <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
-                    @endforeach
-                  </select>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+                <!-- general form elements disabled -->
+                <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Novo Cliente</h3>
                 </div>
-              </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                <form role="form" action="{{ route('clientes.store') }}" method="POST">
+                    @csrf
 
-              <div class="col-sm-3">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Serviço</label>
-                  <input type="text" class="form-control" name="descricao" placeholder="Nome do serviço ..." required>
+                    <div class="row">
+                      <input class="typeahead form-control" type="text">
+
+                        <div class="col-sm-3">
+                            <label>Codigo</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <button type="button" id="search" class="btn btn-info"><i class="fas fa-search">
+                                    </i></button>
+                                </div>
+                                <!-- /btn-group -->
+                                <input type="text" class="form-control"  name="cod_cliente" id="cod_cliente">
+                              </div>
+                        </div>
+
+                        <div class="col-sm-9">
+                        <!-- text input -->
+                          <div class="form-group">
+                              <label>Nome / Razão Social</label>
+                              <input type="text" class="form-control" name="nome_razaosocial" id="nome_razaosocial"  required>
+                          </div>
+                        </div>
+
+
+                    </div><!-- /.row -->
+
+                    <div class="row">
+
+                      <div class="col-sm-3">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>Data Nascimento</label>
+                          <input type="date" class="form-control" name="dt_nascimento" id="dt_nascimento"  required>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-3">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>CPF</label>
+                          <input type="text" class="form-control" name="cpf" id="cpf"  required>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-3">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>Telefone</label>
+                          <input type="text" class="form-control" name="tel" id="tel"  required>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-3">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>Celular</label>
+                          <input type="text" class="form-control" name="cel" id="cel"  required>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-sm-5">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>Endereco</label>
+                          <input type="text" class="form-control" name="endereco" id="endereco" required>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-1">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>N°</label>
+                          <input type="text" class="form-control" name="num" id="num" required>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-3">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>Bairro</label>
+                          <input type="text" class="form-control" name="bairro" id="bairro" required>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-3">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label>Cidade</label>
+                          <input type="text" class="form-control" name="cidade" id="cidade" required>
+                        </div>
+                      </div>
+
+                    </div>
                 </div>
-              </div>
-
-              <div class="col-sm-3">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Valor</label>
-                  <input type="text" class="form-control" name="servico_vlr" placeholder="" >
+                    <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-info float-right">Adicionar</button>
                 </div>
-              </div>
-
-              <div class="col-sm-3">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Pontuacao</label>
-                  <input type="text" class="form-control" name="pontuacao" placeholder="" >
+                <!-- /.card-body -->
                 </div>
-              </div>
-
-            </div><!-- /.row -->
-          </div><!-- /.card-body -->
-
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary float-right">Adicionar</button>
-          </div>
-          </form>
-        </div><!-- /.card warning-->
-      </div><!-- /.col-m12 -->
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-
-            <div class="card-header">
-              <div class="d-flex justify-content-between">
-                <h3 class="card-title">Serviços Cadastrados</h3>
+                <input type="hidden" value="{{Auth::user()->id}}" name="user_id" />
+                </form>
+            <!-- /.card -->
+            <!-- general form elements disabled -->
               </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Serviço</th>
-                  <th>Valor</th>
-                  <th>Pontuação</th>
-                  <th style="width: 170px">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($servicos as $servico)
-                  <tr>
-                    <td>{{ $servico->id }}</td>
-                    <td>{{ $servico->descricao }}</td>
-                    <td>{{ $servico->servico_vlr }}</td>
-                    <td>{{ $servico->pontuacao }}</td>
-                    <td>
-                    <form action="{{route('servicos.destroy', $servico->id)}}" method="POST">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger float-right" onclick="return confirm('Deseja excluir ?')" >Excluir</button>
-                    </form>
-                    <a type="button" class="btn btn-warning float-left" href="{{route('servicos.edit', $servico->id)}}" >Editar </a>
-                  </td>
 
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div><!-- /.card-body -->
-          </div><!-- /.card -->
-        </div><!-- /.col-m12 -->
-      </div><!-- /.row -->
-    </section>
+            <div class="row">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <table class="table table-sm table-striped table-hover table-bordered " >
+                            <thead>
+                              <tr>
+                                <th class="d-none d-sm-table-cell"style="width: 100px">Data</th>
+                                <th>Cliente</th>
+                                <th class="d-none d-sm-table-cell" style="width: 200px">CPF </th>
+                                <th class="d-none d-sm-table-cell" style="width: 40px">Status </th>
+                                <th style="width: 40px">Autorizado</th>
+                                <th style="width: 40px">Comissão </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>fulano</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                          <ul class="pagination pagination-sm m-0 float-right">
+                            {{-- {{ $comissaos->render() }} --}}
+                          </ul>
+                        </div>
+                      </div>
+                      <!-- /.card -->
+                    </div>
+            </div><!-- /.row -->
+        </section>
+    </div>
 </div>
 
 @endsection
@@ -159,6 +219,94 @@
   $.widget.bridge('uibutton', $.ui.button)
 
 </script>
+
+<script type="text/javascript">
+  $('select[name=categoria_servico_id]').change(function () {
+    ajaxServicos();
+  });
+
+  $('select[name=servico_id]').change(function () {
+    ajaxValor();
+  });
+
+  // $('#cod_cliente').change(function () {
+  //   ajaxCliente();
+  // });
+
+
+  $('#search').click( function () {
+    ajaxCliente();
+  });
+
+  function ajaxServicos(){
+    $.ajax({
+        type: "GET",
+        data: {categoria_servico_id: $("#categoria_servico_id").val()},
+        url: "/solicitacao/ajaxServicos",
+        dataType: 'JSON',
+        success: function(response) {
+          $('select[name=servico_id]').empty();
+          // alert(categoria_servico_id.value );
+          if(categoria_servico_id){
+            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+          }
+          $.each(response.servicos, function (key, value) {
+
+            $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
+          })
+        }
+    });
+  }
+
+  function ajaxCliente(){
+    $.ajax({
+        type: "GET",
+        data: {cod_cliente: $("#cod_cliente").val()},
+        url: "/solicitacao/ajaxCliente",
+        dataType: 'JSON',
+        success: function(response) {
+          if(response.error){
+            alert("Erro:"+ response.message);
+          } else {
+            $('#cliente').val(response.result[0]['nome_razaosocial']);
+          }
+        },
+        error: function(response){
+          alert("A conexão com MKSOLUTION falhou!")
+        }
+    });
+  }
+  function ajaxValor(){
+    $.ajax({
+        type: "GET",
+        data: {servico_id: $("#servico_id").val()},
+        url: "/solicitacao/ajaxValor",
+        dataType: 'JSON',
+        success: function(response) {
+          $('#servico_vlr').val(response.valor['servico_vlr']);
+        }
+    });
+  }
+
+</script>
+<!-- TYPEHEAD -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+<script type="text/javascript">
+  var path = "{{ route('autocomplete') }}";
+
+  $('input.typeahead').typeahead({
+      source:  function (query, process) {
+      return $.get(path, { query: query }, function (data) {
+        console.log(data)
+              return process(data);
+
+          });
+      }
+  });
+
+</script>
+
+
 <!-- Bootstrap 4 -->
 <script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Morris.js charts -->
@@ -188,4 +336,5 @@
 <script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+
 @stop

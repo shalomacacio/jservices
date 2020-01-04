@@ -35,6 +35,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('tecnologia', 'TecnologiasController');
     Route::resource('servicos', 'ServicosController');
     Route::resource('tecnico', 'TecnicosController');
+    Route::get('autocomplete', 'ClientesController@autocomplete')->name('autocomplete');
     Route::resource('clientes', 'ClientesController');
     Route::get('comissaos/comissoes', 'ComissaosController@comissoes')->name('comissao.comissoes')->middleware('needsRole:admin|auditor, true');;
     Route::put('comissaos/{id}/autorizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');;
@@ -44,6 +45,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
     Route::resource('escalas', 'EscalasController');
+
 
     //parametros
     Route::resource('tipoUsuario', 'TipoUsuariosController');
