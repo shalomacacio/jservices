@@ -34,22 +34,21 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                          <div class="table-responsive">
                           <table class="table table-bordered">
                             <thead>
                               <tr>
-                                <th style="width: 10px">#</th>
                                 <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
                                 <th>Funcionário</th>
                                 <th>Valor</th>
-                                <th>Ações </th>
+                                <th style="width: 180px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($comissaos as $comissao)
                                     <tr>
-                                        <td>{{ $comissao->id }}</td>
                                         <td>{{ $comissao->dt_referencia }}</td>
                                         <td>{{ $comissao->solicitacao->cliente }}</td>
                                         <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
@@ -67,6 +66,7 @@
                                 @endforeach
                             </tbody>
                           </table>
+                        </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
@@ -121,8 +121,6 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 @stop

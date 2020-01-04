@@ -56,7 +56,7 @@
                     @csrf
 
                     <div class="row">
-                        <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                             <label>Codigo</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -68,7 +68,7 @@
                               </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-12 col-sm-12 col-md-4">
                           <div class="form-group">
                             <label>Cliente</label>
                              <input type="text" class="form-control" name="cliente" id="typeahead" data-provide="typeahead" data-items="4" >
@@ -76,7 +76,7 @@
                         </div>
 
 
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Categoria</label>
@@ -89,7 +89,7 @@
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                           <!-- select -->
                           <div class="form-group">
                               <label>Serviço</label>
@@ -98,7 +98,7 @@
                               </select>
                           </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                           <!-- text input -->
                           <div class="form-group">
                               <label>Valor</label>
@@ -107,7 +107,7 @@
                           </div>
                     </div><!-- /.row -->
                     <div class="row">
-                      <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                       <!-- select -->
                         <div class="form-group">
                           <label>Tecnologia</label>
@@ -120,7 +120,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Forma Pag</label>
@@ -133,7 +133,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Equipamentos</label>
@@ -146,7 +146,7 @@
                         </div>
                       </div>
 
-                        <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                           <!-- select -->
                           <div class="form-group">
                               <label>Como coheceu ?</label>
@@ -159,7 +159,7 @@
                           </div>
                           </div>
 
-                          <div class="col-sm-3">
+                          <div class="col-12 col-sm-12 col-md-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Agendar para:<param name="" value=""></label>
@@ -168,7 +168,7 @@
                             </div>
 
 
-                        <div class="col-sm-12">
+                            <div class="col-12 col-sm-12 col-md-12">
                             <!-- textarea -->
                             <div class="form-group">
                             <label>Observação</label>
@@ -228,7 +228,7 @@
               <!-- fix for small devices only -->
               <div class="clearfix hidden-md-up"></div>
 
-              <div class="col-12 col-sm-6 col-md-4">
+              <div class="col-12 col-sm-12 col-md-4">
                 <div class="info-box mb-3">
                   <span class="info-box-icon bg-success elevation-1"><i class="fas fa-dollar"></i></span>
                   <div class="info-box-content">
@@ -256,12 +256,12 @@
                           <table class="table table-sm table-striped table-hover table-bordered " >
                             <thead>
                               <tr>
-                                <th class="d-none d-sm-table-cell"style="width: 100px">Data</th>
+                                <th class="d-none d-sm-table-cell" >Data</th>
                                 <th>Cliente</th>
-                                <th class="d-none d-sm-table-cell" style="width: 200px">Serviço </th>
-                                <th class="d-none d-sm-table-cell" style="width: 40px">Status </th>
-                                <th style="width: 40px">Autorizado</th>
-                                <th style="width: 40px">Comissão </th>
+                                <th class="d-none d-sm-table-cell">Serviço </th>
+                                <th class="d-none d-sm-table-cell">Status </th>
+                                <th>Autorizado</th>
+                                <th>Comissão </th>
                               </tr>
                             </thead>
                             <tbody>

@@ -53,28 +53,26 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                          <div class="table-responsive">
+                        <div class="table-responsive">
                           <table class="table table-bordered">
                             <thead>
                               <tr>
-                                <th style="width: 10px">#</th>
-                                <th>Data</th>
+                                <th class="d-none d-sm-table-cell">Data</th>
                                 <th>Cliente</th>
-                                <th>Serviço </th>
-                                <th>Situação</th>
-                                <th>Equipe</th>
-                                <th style="width: 400px">Ações </th>
+                                <th class="d-none d-sm-table-cell">Serviço </th>
+                                <th class="d-none d-sm-table-cell">Situação</th>
+                                <th class="d-none d-sm-table-cell">Equipe</th>
+                                <th style="width: 180px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
-                                        <td>{{ $solicitacao->id }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->cliente }}</td>
-                                        <td>{{ $solicitacao->servico->descricao }}</td>
-                                        <td>{{ $solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->servico->descricao }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
+                                        <td class="d-none d-sm-table-cell">
                                             @foreach ($solicitacao->users as $tecnico)
                                               @isset($tecnico)
                                                 {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
@@ -160,8 +158,6 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 @stop

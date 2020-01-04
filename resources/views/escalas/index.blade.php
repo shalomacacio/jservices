@@ -99,10 +99,10 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                  <div class="table-responsive">
                   <table class="table table-bordered">
                     <thead>
                       <tr>
-                      <th style="width: 10px">#</th>
                       <th>Data</th>
                       <th>Colaboradores</th>
                       <th>Ações</th>
@@ -111,7 +111,6 @@
                     <tbody>
                       @foreach ($escalas as $escala)
                       <tr>
-                        <td>{{ $escala->id }}</td>
                         <td>{{ \Carbon\Carbon::parse($escala->dt_escala)->format('d/m/Y') }}</td>
                         <td>
                           @foreach ($escala->users as $user)
@@ -130,6 +129,7 @@
                       @endforeach
                     </tbody>
                   </table>
+                </div>
                 </div><!-- /.card-body -->
               </div><!-- /.card -->
             </div><!-- /.col-m12 -->
@@ -175,8 +175,6 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 @stop

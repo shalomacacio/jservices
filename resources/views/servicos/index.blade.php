@@ -54,7 +54,7 @@
             @csrf
            <div class="row">
 
-              <div class="col-sm-3">
+              <div class="col-12 col-sm-12 col-md-3">
                 <div class="form-group">
                   <label>Categoria</label>
                   <select class="form-control" name="categoria_servico_id" required>
@@ -65,7 +65,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-6">
+              <div class="col-12 col-sm-12 col-md-6">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Serviço</label>
@@ -73,7 +73,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-3">
+              <div class="col-12 col-sm-12 col-md-3">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Valor</label>
@@ -81,7 +81,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-3">
+              <div class="col-12 col-sm-12 col-md-3">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Pontos</label>
@@ -89,7 +89,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-3">
+              <div class="col-12 col-sm-12 col-md-3">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Comissão Atendimento</label>
@@ -98,7 +98,7 @@
               </div>
 
 
-              <div class="col-sm-1">
+              <div class="col-12 col-sm-12 col-md-1">
                   <!-- checkbox -->
                   <div class="form-group">
                     <br/>
@@ -111,7 +111,7 @@
                   </div>
                 </div>
 
-              <div class="col-sm-3">
+                <div class="col-12 col-sm-12 col-md-3">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Comissão Equipe</label>
@@ -119,7 +119,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-1">
+              <div class="col-12 col-sm-12 col-md-1">
                   <!-- checkbox -->
                   <div class="form-group">
                     <br/>
@@ -151,6 +151,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              <div class="table-responsive">
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -184,6 +185,7 @@
                   @endforeach
                 </tbody>
               </table>
+            </div>
             </div><!-- /.card-body -->
           </div><!-- /.card -->
         </div><!-- /.col-m12 -->
@@ -228,8 +230,7 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
+
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 @stop

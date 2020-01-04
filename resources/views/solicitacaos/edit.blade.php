@@ -57,7 +57,7 @@
                     @method('PUT')
 
                     <div class="row">
-                        <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                             <label>Codigo</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -69,14 +69,14 @@
                               </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-12 col-sm-12 col-md-4">
                         <!-- text input -->
                           <div class="form-group">
                               <label>Cliente</label>
                               <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->cliente}}" required>
                           </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Categoria</label>
@@ -89,7 +89,7 @@
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                           <!-- select -->
                           <div class="form-group">
                               <label>Serviço</label>
@@ -98,7 +98,7 @@
                               </select>
                           </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                           <!-- text input -->
                           <div class="form-group">
                               <label>Valor</label>
@@ -107,7 +107,7 @@
                           </div>
                     </div><!-- /.row -->
                     <div class="row">
-                      <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                       <!-- select -->
                         <div class="form-group">
                           <label>Tecnologia</label>
@@ -120,7 +120,7 @@
                         </div>
                       </div>
 
-                        <div class="col-sm-2">
+                      <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Forma de Pagamento</label>
@@ -133,7 +133,7 @@
                         </div>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
                             <label>Equipamentos</label>
@@ -146,7 +146,7 @@
                         </div>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-12 col-sm-12 col-md-3">
                           <!-- select -->
                           <div class="form-group">
                               <label>Como coheceu ?</label>
@@ -159,7 +159,7 @@
                           </div>
                           </div>
 
-                          <div class="col-sm-3">
+                          <div class="col-12 col-sm-12 col-md-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Agendar para:<param name="" value=""></label>
@@ -168,7 +168,7 @@
                             </div>
 
 
-                        <div class="col-sm-12">
+                            <div class="col-12 col-sm-12 col-md-12">
                             <!-- textarea -->
                             <div class="form-group">
                             <label>Observação</label>
@@ -304,8 +304,6 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 @stop

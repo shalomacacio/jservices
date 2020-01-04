@@ -13,6 +13,7 @@ use App\Repositories\ClienteRepository;
 use App\Validators\ClienteValidator;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Cliente;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ClientesController.
@@ -51,12 +52,10 @@ class ClientesController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        // $clientes = $this->repository->findWhere(['codpessoa'=> '45777']);
-        // $clientes = DB::connection('pgsql')->select('select * from mk_pessoas limit 1');
-            $clientes = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =45800');
-
-
-        // return dd($clientes);
+        $clientes = $this->repository->scopeQuery(function ($query) {
+          return $query
+            ->where('user_id', Auth::user()->id);
+        })->get();
 
         if (request()->wantsJson()) {
 

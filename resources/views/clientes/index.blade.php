@@ -56,9 +56,7 @@
                     @csrf
 
                     <div class="row">
-                      <input class="typeahead form-control" type="text">
-
-                        <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                             <label>Codigo</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -70,7 +68,7 @@
                               </div>
                         </div>
 
-                        <div class="col-sm-9">
+                        <div class="col-12 col-sm-12 col-md-9">
                         <!-- text input -->
                           <div class="form-group">
                               <label>Nome / Razão Social</label>
@@ -83,7 +81,7 @@
 
                     <div class="row">
 
-                      <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                         <!-- text input -->
                         <div class="form-group">
                           <label>Data Nascimento</label>
@@ -91,7 +89,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                         <!-- text input -->
                         <div class="form-group">
                           <label>CPF</label>
@@ -99,7 +97,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                         <!-- text input -->
                         <div class="form-group">
                           <label>Telefone</label>
@@ -107,7 +105,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                         <!-- text input -->
                         <div class="form-group">
                           <label>Celular</label>
@@ -118,7 +116,7 @@
 
                     <div class="row">
 
-                      <div class="col-sm-5">
+                      <div class="col-12 col-sm-12 col-md-5">
                         <!-- text input -->
                         <div class="form-group">
                           <label>Endereco</label>
@@ -126,7 +124,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-1">
+                      <div class="col-12 col-sm-12 col-md-1">
                         <!-- text input -->
                         <div class="form-group">
                           <label>N°</label>
@@ -134,7 +132,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                         <!-- text input -->
                         <div class="form-group">
                           <label>Bairro</label>
@@ -142,7 +140,7 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-3">
+                      <div class="col-12 col-sm-12 col-md-3">
                         <!-- text input -->
                         <div class="form-group">
                           <label>Cidade</label>
@@ -170,7 +168,7 @@
                       <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
+                                <h3 class="card-title">Clientes</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -178,18 +176,28 @@
                           <table class="table table-sm table-striped table-hover table-bordered " >
                             <thead>
                               <tr>
-                                <th class="d-none d-sm-table-cell"style="width: 100px">Data</th>
+                                <th class="d-none d-sm-table-cell"style="width: 100px">Data </th>
                                 <th>Cliente</th>
-                                <th class="d-none d-sm-table-cell" style="width: 200px">CPF </th>
-                                <th class="d-none d-sm-table-cell" style="width: 40px">Status </th>
-                                <th style="width: 40px">Autorizado</th>
-                                <th style="width: 40px">Comissão </th>
+                                <th class="d-none d-sm-table-cell" style="width: 100px">CPF </th>
+                                <th style="width: 100px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
+                              @foreach($clientes as $cliente)
                               <tr>
-                                <td>fulano</td>
+                                <td class="d-none d-sm-table-cell" >{{ \Carbon\Carbon::parse($cliente->created_at)->format('d/m/Y') }}</td>
+                                <td>{{ $cliente->nome_razaosocial }}</td>
+                                <td class="d-none d-sm-table-cell" >{{ $cliente->cpf }}</td>
+                                <td>
+                                  <form action="{{route('clientes.destroy', $cliente->id)}}" method="POST">
+                                    <a class="btn btn-info" href="{{route('clientes.edit', $cliente->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Cliente ?')"><i class="fas fa-trash"></i></button>
+                                  </form>
+                                </td>
                               </tr>
+                              @endforeach
                             </tbody>
                           </table>
                         </div>
@@ -217,78 +225,9 @@
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
-
 </script>
 
-<script type="text/javascript">
-  $('select[name=categoria_servico_id]').change(function () {
-    ajaxServicos();
-  });
 
-  $('select[name=servico_id]').change(function () {
-    ajaxValor();
-  });
-
-  // $('#cod_cliente').change(function () {
-  //   ajaxCliente();
-  // });
-
-
-  $('#search').click( function () {
-    ajaxCliente();
-  });
-
-  function ajaxServicos(){
-    $.ajax({
-        type: "GET",
-        data: {categoria_servico_id: $("#categoria_servico_id").val()},
-        url: "/solicitacao/ajaxServicos",
-        dataType: 'JSON',
-        success: function(response) {
-          $('select[name=servico_id]').empty();
-          // alert(categoria_servico_id.value );
-          if(categoria_servico_id){
-            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
-          }
-          $.each(response.servicos, function (key, value) {
-
-            $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
-          })
-        }
-    });
-  }
-
-  function ajaxCliente(){
-    $.ajax({
-        type: "GET",
-        data: {cod_cliente: $("#cod_cliente").val()},
-        url: "/solicitacao/ajaxCliente",
-        dataType: 'JSON',
-        success: function(response) {
-          if(response.error){
-            alert("Erro:"+ response.message);
-          } else {
-            $('#cliente').val(response.result[0]['nome_razaosocial']);
-          }
-        },
-        error: function(response){
-          alert("A conexão com MKSOLUTION falhou!")
-        }
-    });
-  }
-  function ajaxValor(){
-    $.ajax({
-        type: "GET",
-        data: {servico_id: $("#servico_id").val()},
-        url: "/solicitacao/ajaxValor",
-        dataType: 'JSON',
-        success: function(response) {
-          $('#servico_vlr').val(response.valor['servico_vlr']);
-        }
-    });
-  }
-
-</script>
 <!-- TYPEHEAD -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <script type="text/javascript">
@@ -332,8 +271,6 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 
