@@ -53,6 +53,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                          <div class="table-responsive">
                           <table class="table table-bordered">
                             <thead>
                               <tr>
@@ -62,7 +63,7 @@
                                 <th>Serviço </th>
                                 <th>Situação</th>
                                 <th>Equipe</th>
-                                <th>Ações </th>
+                                <th style="width: 400px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -107,6 +108,7 @@
                                 @endforeach
                             </tbody>
                           </table>
+                          </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">

@@ -193,16 +193,62 @@
             <!-- general form elements disabled -->
               </div>
             </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box">
+                  <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-exclamation-triangle"></i></span>
 
+                  <div class="info-box-content">
+                    <span class="info-box-text">AGUARDANDO</span>
+                    <span class="info-box-number">
+                      <small>R$:</small>
+                       {{number_format($comissaos->where('flg_autorizado', '=',  3 )->sum('comissao_vlr'),2)  }}
+                    </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-danger elevation-1"><i class="fab fa-creative-commons-nc"></i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">NÃO AUTORIZADO</span>
+                    <small>R$:</small>
+                    {{number_format($comissaos->where('flg_autorizado', '=',  0 )->sum('comissao_vlr'),2)  }}
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+
+              <!-- fix for small devices only -->
+              <div class="clearfix hidden-md-up"></div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-success elevation-1"><i class="fas fa-dollar"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">AUTORIZADO</span>
+                    <small>R$:</small>
+                    {{number_format($comissaos->where('flg_autorizado', '=',  1 )->sum('comissao_vlr'),2)  }}
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+
+            </div>
+            <!-- /.row -->
             <div class="row">
                     <div class="col-md-12">
                       <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">{{ \Carbon\Carbon::now()->format('F') }}</h3>
-                                <h1 class="card-title">AGUARDANDO R$: {{number_format($comissaos->where('flg_autorizado', '=',  3 )->sum('comissao_vlr'),2)  }}</h1>
-                                <h1 class="card-title">NÃO AUTORIZADO R$: {{number_format($comissaos->where('flg_autorizado', '=',  0 )->sum('comissao_vlr'),2)  }}</h1>
-                                <h1 class="card-title">AUTORIZADO R$: {{number_format($comissaos->where('flg_autorizado', '=',  1 )->sum('comissao_vlr'),2)  }}</h1>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -301,7 +347,7 @@
     // source : ["DANIELE MEDEIROS DA COSTA ACACIO", "PAULO MARIA DA SILVA"]
     source : function (query, process){
       return $.get(path, {query: query}, function(data){
-          console.log(data);
+          // console.log(data);
           return process(data)
       });
     }
