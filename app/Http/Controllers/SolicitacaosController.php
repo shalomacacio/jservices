@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
+use App\Entities\Escala;
 
 use Illuminate\Validation\Rule;
 
@@ -128,20 +129,24 @@ class SolicitacaosController extends Controller
   public function encaminhar($id)
   {
     $solicitacao = $this->repository->find($id);
-    $tecnicos = DB::table('users as u')
-                      ->join('role_user as ru','u.id','=','ru.user_id')
-                      ->where('u.id', '<>' ,1)
-                      ->get();
+
+    $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
+                      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
+                      ->first();
+
+    $tecnicos = $escala->users;
+
     return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
   }
 
   public function reencaminhar($id)
   {
     $solicitacao = $this->repository->find($id);
-    $tecnicos = DB::table('users as u')
-                      ->join('role_user as ru','u.id','=','ru.user_id')
-                      ->where('u.id', '<>' ,1)
-                      ->get();
+    $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
+                      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
+                      ->first();
+
+    $tecnicos = $escala->users;
     return view('solicitacaos.reencaminhar', compact('solicitacao', 'tecnicos'));
   }
 

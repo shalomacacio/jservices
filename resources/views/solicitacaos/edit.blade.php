@@ -123,7 +123,7 @@
                       <div class="col-12 col-sm-12 col-md-2">
                         <!-- select -->
                         <div class="form-group">
-                            <label>Forma de Pagamento</label>
+                            <label>Forma de Pag</label>
                             <select class="form-control" name="tipo_pagamento_id">
                               <option value={{$solicitacao->tipo_pagamento_id}}>{{$solicitacao->tipoPagamento->descricao}}</option>
                                 @foreach ($tipoPagamentos as $tipo)
@@ -163,7 +163,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Agendar para:<param name="" value=""></label>
-                                <input type="date" class="form-control" name="dt_agendamento"  >
+                                <input type="date" class="form-control" name="dt_agendamento" value="{{\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') }}"  >
                             </div>
                             </div>
 
