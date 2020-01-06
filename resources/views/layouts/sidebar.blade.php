@@ -46,7 +46,7 @@
                               <li class="nav-item">
                                 <a href="{{route('solicitacoes')}}" class="nav-link">
                                   <i class="fa fa-circle-o nav-icon"></i>
-                                  <p>Minhas Solicitações</p>
+                                  <p>Solicitações</p>
                                 </a>
                               </li>
 
