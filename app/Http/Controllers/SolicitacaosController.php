@@ -135,6 +135,16 @@ class SolicitacaosController extends Controller
     return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
   }
 
+  public function reencaminhar($id)
+  {
+    $solicitacao = $this->repository->find($id);
+    $tecnicos = DB::table('users as u')
+                      ->join('role_user as ru','u.id','=','ru.user_id')
+                      ->where('u.id', '<>' ,1)
+                      ->get();
+    return view('solicitacaos.reencaminhar', compact('solicitacao', 'tecnicos'));
+  }
+
   public function atribuir(Request $request)
   {
     try {
@@ -153,6 +163,40 @@ class SolicitacaosController extends Controller
         return response()->json($response);
       }
       return redirect()->route('solicitacoes')->with('message', $response['message']);
+    } catch (ValidatorException $e) {
+      if ($request->wantsJson()) {
+        return response()->json([
+          'error'   => true,
+          'message' => $e->getMessageBag()
+        ]);
+      }
+      return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+    }
+  }
+
+  public function reatribuir(Request $request)
+  {
+    try {
+
+      $solicitacao = $this->repository->find($request->solicitacao_id);
+      // Detach all roles from the user...
+      $solicitacao->users()->detach();
+      $solicitacao->save();
+
+      //vincula solicitação a equipe
+      $solicitacao->users()->attach($request->equipe);
+      //atualiza o status para em andamento
+      $solicitacao->status_solicitacao_id = 2;
+      $solicitacao->dt_agendamento = $request->dt_agendamento;
+      $solicitacao->save();
+
+      $response = [
+        'message' => 'Solicitacao Atribuida.',
+      ];
+      if ($request->wantsJson()) {
+        return response()->json($response);
+      }
+      return redirect()->route('solicitacoes.fila')->with('message', $response['message']);
     } catch (ValidatorException $e) {
       if ($request->wantsJson()) {
         return response()->json([
@@ -183,6 +227,25 @@ class SolicitacaosController extends Controller
     }
 
     return view('solicitacaos.solicitacoes', compact('solicitacaos'));
+  }
+
+  public function fila()
+  {
+    $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+
+    $solicitacaos = $this->repository->scopeQuery(function ($query) {
+      return $query
+        ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
+        ->where('dt_conclusao', null)
+        ->orderBy('created_at', 'desc');
+    })->paginate(10);
+
+    if (request()->wantsJson()) {
+      return response()->json([
+        'data' => $solicitacaos,
+      ]);
+    }
+    return view('solicitacaos.fila', compact('solicitacaos'));
   }
 
   /**

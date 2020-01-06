@@ -48,6 +48,14 @@
                                   <p>Minhas Solicitações</p>
                                 </a>
                               </li>
+                              @is('admin', 'supervisor')
+                              <li class="nav-item">
+                                <a href="{{route('solicitacoes.fila')}}" class="nav-link">
+                                  <i class="fa fa-circle-o nav-icon"></i>
+                                  <p>Fila de Atendimento</p>
+                                </a>
+                              </li>
+                              @endis
                           </ul>
                       </li>
 

@@ -75,7 +75,10 @@ class EscalasController extends Controller
         return $query
           ->whereDate('dt_escala', Carbon::now());
       })->first();
-      $totalPontos = $escala->users->count()*4;
+
+      // return dd($escala);
+
+      $totalPontos =  $escala->users->count()*4;
 
       $sumPontos = DB::table('solicitacaos as s')
                     ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
@@ -91,9 +94,9 @@ class EscalasController extends Controller
       $escala = $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
           ->where('dt_escala', $request->dt_escala);
-      })->first();
+      })->get();
 
-      $totalPontos = $escala->users->count()*4;
+      $totalPontos =  $escala->users->count()*4;
 
       $sumPontos = DB::table('solicitacaos as s')
                     ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
@@ -102,6 +105,10 @@ class EscalasController extends Controller
                     ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
                     ->sum('serv.pontuacao');
       return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
+    }
+
+    public function pendentes(){
+
     }
 
 
