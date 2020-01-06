@@ -216,8 +216,10 @@
 
                   <div class="info-box-content">
                     <span class="info-box-text">NÃO AUTORIZADO</span>
+                    <span class="info-box-number">
                     <small>R$:</small>
                     {{number_format($comissaos->where('flg_autorizado', '=',  0 )->sum('comissao_vlr'),2)  }}
+                    </span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -233,8 +235,10 @@
                   <span class="info-box-icon bg-success elevation-1"><i class="fas fa-dollar"></i></span>
                   <div class="info-box-content">
                     <span class="info-box-text">AUTORIZADO</span>
+                    <span class="info-box-number">
                     <small>R$:</small>
                     {{number_format($comissaos->where('flg_autorizado', '=',  1 )->sum('comissao_vlr'),2)  }}
+                    </span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -253,6 +257,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                          <div class="table-responsive">
                           <table class="table table-sm table-striped table-hover table-bordered " >
                             <thead>
                               <tr>
@@ -262,6 +267,7 @@
                                 <th class="d-none d-sm-table-cell">Status </th>
                                 <th>Autorizado</th>
                                 <th>Comissão </th>
+                                <th>Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -273,10 +279,19 @@
                                         <td class="d-none d-sm-table-cell">{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
                                         <td> @if($comissao->flg_autorizado == 3 ) aguard @elseif($comissao->flg_autorizado == 0) nao @elseif($comissao->flg_autorizado == 1) sim @endif </td>
                                         <td  style="color: @if($comissao->flg_autorizado != 1 ) red  @endif ">R$ {{ $comissao->comissao_vlr }}</td>
+                                        <td>
+                                          <form action="{{route('solicitacao.destroy', $comissao->solicitacao->id)}}" method="POST">
+                                            <a class="btn btn-info btn-sm" href="{{route('solicitacao.edit', $comissao->solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-sm"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
+                                          </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                           </table>
+                        </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">

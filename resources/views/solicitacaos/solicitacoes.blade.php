@@ -86,14 +86,14 @@
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
                                             @if($solicitacao->status_solicitacao_id == 2)
                                             @is(['admin', 'auditor'])
-                                              <a class="btn btn-success" href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
+                                              <a class="btn btn-success btn-sm" href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
                                             @endis
                                             @endif
                                             @if($solicitacao->status_solicitacao_id != 3)
-                                            <a class="btn btn-info" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
+                                            <a class="btn btn-info btn-sm" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-danger"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
+                                            <button class="btn btn-danger btn-sm"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
                                             @endif
                                           </form>
                                         </td>

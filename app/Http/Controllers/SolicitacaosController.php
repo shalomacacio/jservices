@@ -236,7 +236,6 @@ class SolicitacaosController extends Controller
       return $query
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
         ->where('dt_conclusao', null)
-        ->where('user_id', Auth::user()->id)
         ->orderBy('created_at', 'desc');
     })->paginate(10);
 
