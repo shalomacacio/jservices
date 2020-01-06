@@ -74,7 +74,7 @@ class EscalasController extends Controller
       $escala = $this->repository->scopeQuery(function ($query) {
         return $query
           ->whereDate('dt_escala', Carbon::now());
-      })->first();
+      })->firstOrFail();
 
       // return dd($escala);
 

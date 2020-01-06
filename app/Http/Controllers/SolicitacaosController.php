@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\SolicitacaoCreateRequest;
@@ -103,7 +104,7 @@ class SolicitacaosController extends Controller
   public function ajaxValor(Request $request)
   {
     header('Content-Type: application/json; charset=utf-8');
-    $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
+    $valor = DB::table('servicos')->where('id', $request->servico_id)->firstOrFail();
     return response()->json([
       'valor' => $valor
     ]);
@@ -130,23 +131,37 @@ class SolicitacaosController extends Controller
   {
     $solicitacao = $this->repository->find($id);
 
-    $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
-                      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
-                      ->first();
+    try {
+      $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
+      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
+      ->firstOrFail();
 
-    $tecnicos = $escala->users;
+      $tecnicos = $escala->users;
 
-    return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+      $message = 'não existe escala cadastrada para a data: '. Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') ;
+      return redirect()->back()->withErrors( $message);
+      //return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+    }
+    return view('solicitacaos.reencaminhar', compact('solicitacao', 'tecnicos'));
   }
 
   public function reencaminhar($id)
   {
     $solicitacao = $this->repository->find($id);
+
     $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
                       ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
-                      ->first();
-
-    $tecnicos = $escala->users;
+                      ->firstOrFail();
+    try {
+      $tecnicos = $escala->users;
+    } catch (\ModelNotFoundException $e) {
+        return response()->json([
+          'error'   => true,
+          'message' => $e->getMessageBag()
+        ]);
+      return redirect()->back()->withErrors($e->getMessageBag())->withInput();
+    }
     return view('solicitacaos.reencaminhar', compact('solicitacao', 'tecnicos'));
   }
 
