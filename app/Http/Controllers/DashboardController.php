@@ -77,7 +77,7 @@ class DashboardController extends Controller
             if(env('PASSWORD_HASH')){
                 Auth::attempt($data, false);
             }else{
-                $user = $this->repository->findWhere(['email'=>$request->get('email') ])->firstOrFail();
+                $user = $this->repository->findWhere(['email'=>$request->get('email') ])->first();
 
                 if(!$user){
                     throw new Exception("Email inválido");
