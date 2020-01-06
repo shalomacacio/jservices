@@ -83,7 +83,7 @@
                                             @endempty
                                         </td>
                                         <td>
-                                          @if($solicitacao->status_solicitacao_id != 2)
+                                          @if($solicitacao->status_solicitacao_id == 1)
                                           <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
                                           @elseif($solicitacao->status_solicitacao_id == 2)
                                           <a class="btn btn-danger"  href="{{route('solicitacao.reencaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
