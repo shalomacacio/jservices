@@ -13,6 +13,7 @@ use App\Repositories\EscalaRepository;
 use App\Validators\EscalaValidator;
 use DB;
 use Carbon\Carbon;
+use App\Entities\Escala;
 
 /**
  * Class EscalasController.
@@ -71,40 +72,58 @@ class EscalasController extends Controller
     }
 
     public function agenda(){
-      $escala = $this->repository->scopeQuery(function ($query) {
-        return $query
-          ->whereDate('dt_escala', Carbon::now());
-      })->firstOrFail();
+      try {
+        $escala = Escala::where('dt_escala', '>=' , Carbon::now()->format('Y-m-d 00:00:00' ))
+                          ->where('dt_escala', '<=' , Carbon::now()->format('Y-m-d 11:59:59' ))
+                          ->firstOrFail();
 
-      // return dd($escala);
+        $totalPontos =  $escala->users->count()*4;
+        $sumPontos = DB::table('solicitacaos as s')
+        ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
+        ->whereNull('s.deleted_at')
+        ->where('s.dt_agendamento', '>=' , Carbon::now()->format('Y-m-d 00:00:00'))
+        ->where('s.dt_agendamento', '<=' , Carbon::now()->format('Y-m-d 11:59:59'))
+        ->sum('serv.pontuacao');
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
 
-      $totalPontos =  $escala->users->count()*4;
-
-      $sumPontos = DB::table('solicitacaos as s')
-                    ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
-                    ->whereNull('s.deleted_at')
-                    ->where('s.dt_agendamento', '>=' , Carbon::now()->format('Y-m-d 00:00:00'))
-                    ->where('s.dt_agendamento', '<=' , Carbon::now()->format('Y-m-d 11:59:59'))
-                    ->sum('serv.pontuacao');
-      return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        $message = 'não existe escala cadastrada ';
+        $escala = null;
+        $totalPontos = 0;
+        $sumPontos = 0;
+        // return redirect()->route('escalas.agenda')->withErrors( $message);
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ))->withErrors( $message);
+      }
     }
 
     public function search(Request $request){
 
-      $escala = $this->repository->scopeQuery(function ($query) use ($request) {
-        return $query
-          ->where('dt_escala', $request->dt_escala);
-      })->get();
+      try {
 
-      $totalPontos =  $escala->users->count()*4;
+        $escala = Escala::where('dt_escala', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00' ))
+        ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59' ))
+        ->firstOrFail();
 
-      $sumPontos = DB::table('solicitacaos as s')
-                    ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
-                    ->whereNull('s.deleted_at')
-                    ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
-                    ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
-                    ->sum('serv.pontuacao');
-      return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
+        $totalPontos =  $escala->users->count()*4;
+
+        $sumPontos = DB::table('solicitacaos as s')
+                      ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
+                      ->whereNull('s.deleted_at')
+                      ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
+                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
+                      ->sum('serv.pontuacao');
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
+
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        $message = 'não existe escala cadastrada ';
+        $escala = null;
+        $totalPontos = 0;
+        $sumPontos = 0;
+        // return redirect()->route('escalas.agenda')->withErrors( $message);
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ))->withErrors( $message);
+      }
+
+
     }
 
     public function pendentes(){

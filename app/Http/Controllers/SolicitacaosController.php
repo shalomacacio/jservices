@@ -104,7 +104,7 @@ class SolicitacaosController extends Controller
   public function ajaxValor(Request $request)
   {
     header('Content-Type: application/json; charset=utf-8');
-    $valor = DB::table('servicos')->where('id', $request->servico_id)->firstOrFail();
+    $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
     return response()->json([
       'valor' => $valor
     ]);

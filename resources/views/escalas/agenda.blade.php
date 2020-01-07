@@ -3,13 +3,33 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+
+     {{-- alerts --}}
+     @if(Session::has('message'))
+     <div class="alert alert-success alert-dismissible">
+       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+       <h5><i class="icon fas fa-check"></i>Sucesso</h5>
+       {{Session::get('message')}}
+     </div>
+     @elseif($errors->any())
+     <div class="alert alert-danger alert-dismissible">
+       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+       <h5><i class="icon fas fa-check"></i>Erro</h5>
+         <ul>
+           @foreach ($errors->all() as $error)
+               <li>{{ $error }}</li>
+           @endforeach
+         </ul>
+     </div>
+     @endif
+
+
   <section class="content-header">
       <div class="container-fluid">
           <div class="row">
             <div class="col-md-6 col-sm-6 col-12">
               <div class="info-box">
                 <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
-
                 <div class="info-box-content">
                   <span class="info-box-text">Pontos Disponívies</span>
                 <span class="info-box-number"><h4>{{ $totalPontos - $sumPontos }}</h4></span>
@@ -18,8 +38,6 @@
               </div>
               <!-- /.info-box -->
             </div>
-
-
             <div class="col-md-6 col-sm-6 col-12">
                 <div class="callout callout-info">
                 <h5><i class="fa fa-calendar"></i> DIA:@isset($request->dt_escala) {{ \Carbon\Carbon::parse($request->dt_escala)->format('d/m/Y')}} @endisset</h5>
@@ -39,6 +57,7 @@
       </div><!-- /.container-fluid -->
   </section>
   <!-- /.content-header -->
+  @isset($escala)
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
@@ -116,6 +135,7 @@
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
+  @endisset
 </div>
 <!-- /.content-wrapper -->
 @endsection
