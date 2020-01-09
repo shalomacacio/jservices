@@ -74,8 +74,8 @@ class EscalasController extends Controller
     public function agenda(Request $request){
 
       try {
-        $escala = Escala::where('dt_escala', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00' ))
-        ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59' ))
+        $escala = Escala::where('dt_escala', '>=' , Carbon::now()->format('Y-m-d 00:00:00' ))
+        ->where('dt_escala', '<=' , Carbon::now()->format('Y-m-d 11:59:59' ))
         ->firstOrFail();
 
         $totalPontos =  $escala->users->sum('max_ponto') ;
