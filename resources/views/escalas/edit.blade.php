@@ -60,7 +60,7 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Data:</label>
-                        <input type="date" class="form-control" name="dt_escala" value="{{$escala->dt_escala}}" required>
+                        <input type="date" class="form-control" name="dt_escala" value="{{ \Carbon\Carbon::parse($escala->dt_escala)->format('Y-m-d')}}" required>
                         </div>
                         </div>
 
