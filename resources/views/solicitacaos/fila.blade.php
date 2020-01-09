@@ -57,13 +57,13 @@
                           <table class="table table-bordered">
                             <thead>
                               <tr>
-                                <th class="d-none d-sm-table-cell">Data</th>
+                                <th class="d-none d-sm-table-cell" style="width: 30px">Data</th>
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
                                 <th class="d-none d-sm-table-cell">Situação</th>
                                 <th class="d-none d-sm-table-cell">Atendente</th>
                                 <th class="d-none d-sm-table-cell">Equipe</th>
-                                <th style="width: 110px">Ações </th>
+                                <th style="width: 140px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -95,6 +95,7 @@
                                           <a class="btn btn-danger  btn-sm" title="reagendar" href="{{route('solicitacao.reagendar', $solicitacao->id)}}"><i class="fa fa-calendar"></i></a>
                                           <a class="btn btn-success btn-sm" title="concluir"  href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
                                           @endif
+                                          <a class="btn btn-info btn-sm"  href="{{route('solicitacao.integracao', $solicitacao->id)}}" ><i class="fa fa-eye"></i></a>
 
                                         </td>
                                     </tr>

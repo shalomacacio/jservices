@@ -57,7 +57,7 @@
                     @method('PUT')
 
                     <div class="row">
-                      <div class="col-12 col-sm-12 col-md-2">
+                      <div class="col-12 col-sm-12 col-md-3">
                             <label>Codigo</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -65,85 +65,51 @@
                                     </i></button>
                                 </div>
                                 <!-- /btn-group -->
-                                <input type="text" class="form-control"  name="codpessoa" value="{{$solicitacao->codpessoa}}" id="codpessoa" required>
+                                <input type="text" class="form-control"  name="codpessoa" value="{{$solicitacao->codpessoa}}" id="codpessoa" @if($solicitacao->codpessoa != null) disabled @endif>
                               </div>
                         </div>
 
-                        <div class="col-12 col-sm-12 col-md-4">
+                        <div class="col-12 col-sm-12 col-md-6">
                         <!-- text input -->
                           <div class="form-group">
                               <label>Cliente</label>
                               <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->cliente->nome_razaosocial}}" disabled>
                           </div>
                         </div>
-                        <div class="col-12 col-sm-12 col-md-2">
-                          <!-- select -->
-                          <div class="form-group">
-                              <label>Categoria</label>
-                              <input type="text" class="form-control" name="categoria_servico_id" id="categoria_servico_id" value="{{$solicitacao->servico->categoriaServico->descricao}}" disabled>
-                          </div>
-                        </div>
-
-                        <div class="col-12 col-sm-12 col-md-2">
-                          <!-- select -->
-                          <div class="form-group">
-                              <label>Serviço</label>
-                              <input type="text" class="form-control" name="servico_id" id="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
-
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-2">
-                          <!-- text input -->
-                          <div class="form-group">
-                              <label>Valor</label>
-                              <input type="text" class="form-control" name="servico_vlr" id="servico_vlr" value="{{$solicitacao->servico_vlr}}"  disabled>
-                          </div>
-                          </div>
-                    </div><!-- /.row -->
-                    <div class="row">
-                      <div class="col-12 col-sm-12 col-md-2">
-                      <!-- select -->
-                        <div class="form-group">
-                          <label>Tecnologia</label>
-                          <input type="text" class="form-control" name="tecnologia_id" id="tecnologia_id" value="{{$solicitacao->tecnologia->descricao}}" disabled>
-                        </div>
-                      </div>
-
-                      <div class="col-12 col-sm-12 col-md-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Forma de Pag</label>
-                            <input type="text" class="form-control" name="tecnologia_id" id="tecnologia_id" value="{{$solicitacao->tipoPagamento->descricao}}" disabled>
-                        </div>
-                        </div>
-
-                        <div class="col-12 col-sm-12 col-md-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Equipamentos</label>
-                            <input type="text" class="form-control" name="tipo_aquisicao_id" id="tipo_aquisicao_id" value="{{$solicitacao->tipoAquisicao->descricao}}" disabled>
-                        </div>
-                        </div>
 
                         <div class="col-12 col-sm-12 col-md-3">
-                          <!-- select -->
-                          <div class="form-group">
-                              <label>Como coheceu ?</label>
-                              <input type="text" class="form-control" name="tipo_midia_id" id="tipo_midia_id" value="{{$solicitacao->tipoMidia->descricao}}" disabled>
-
-                          </div>
-                          </div>
-
-                          <div class="col-12 col-sm-12 col-md-3">
-                            <!-- text input -->
+                          <!-- text input -->
                             <div class="form-group">
-                                <label>Agendar para:<param name="" value=""></label>
-                                <input type="date" class="form-control" name="dt_agendamento" value="{{\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') }}"  disabled>
+                                <label>Data de Nascimento</label>
+                                <input type="text" class="form-control" name="dt_nascimento" id="dt_nascimento" value="{{$solicitacao->cliente->dt_nascimento }}" disabled>
                             </div>
                           </div>
 
+                        <div class="col-12 col-sm-12 col-md-4">
+                          <!-- text input -->
+                            <div class="form-group">
+                                <label>CPF</label>
+                                <input type="text" class="form-control" name="cpf" id="cpf" value="{{$solicitacao->cliente->cpf}}" disabled>
+                            </div>
+                          </div>
 
-                            <div class="col-12 col-sm-12 col-md-5">
+                          <div class="col-12 col-sm-12 col-md-4">
+                            <!-- text input -->
+                              <div class="form-group">
+                                  <label>Telefone</label>
+                                  <input type="text" class="form-control" name="tel" id="tel" value="{{$solicitacao->cliente->tel}}" disabled>
+                              </div>
+                          </div>
+
+                          <div class="col-12 col-sm-12 col-md-4">
+                            <!-- text input -->
+                              <div class="form-group">
+                                  <label>Celular</label>
+                                  <input type="text" class="form-control" name="cel" id="cel" value="{{$solicitacao->cliente->cel}}" disabled>
+                              </div>
+                          </div>
+
+                          <div class="col-12 col-sm-12 col-md-5">
                             <!-- textarea -->
                             <label>Endereço</label>
                             <div class="form-group">
@@ -173,6 +139,72 @@
                               <label>Cidade</label>
                               <input type="text" class="form-control"  name="cidade"  id="cidade" value="{{ $solicitacao->cliente->cidade }}" disabled>                          </div>
                         </div>
+
+                        <div class="col-12 col-sm-12 col-md-4">
+                          <!-- select -->
+                          <div class="form-group">
+                              <label>Categoria</label>
+                              <input type="text" class="form-control" name="categoria_servico_id" id="categoria_servico_id" value="{{$solicitacao->servico->categoriaServico->descricao}}" disabled>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-4">
+                          <!-- select -->
+                          <div class="form-group">
+                              <label>Serviço</label>
+                              <input type="text" class="form-control" name="servico_id" id="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
+
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4">
+                          <!-- text input -->
+                          <div class="form-group">
+                              <label>Valor</label>
+                              <input type="text" class="form-control" name="servico_vlr" id="servico_vlr" value="{{$solicitacao->servico_vlr}}"  disabled>
+                          </div>
+                          </div>
+                    </div><!-- /.row -->
+                    <div class="row">
+                      <div class="col-12 col-sm-12 col-md-4">
+                      <!-- select -->
+                        <div class="form-group">
+                          <label>Tecnologia</label>
+                          <input type="text" class="form-control" name="tecnologia_id" id="tecnologia_id" value="{{$solicitacao->tecnologia->descricao}}" disabled>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-sm-12 col-md-4">
+                        <!-- select -->
+                        <div class="form-group">
+                            <label>Forma de Pag</label>
+                            <input type="text" class="form-control" name="tecnologia_id" id="tecnologia_id" value="{{$solicitacao->tipoPagamento->descricao}}" disabled>
+                        </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-4">
+                        <!-- select -->
+                        <div class="form-group">
+                            <label>Equipamentos</label>
+                            <input type="text" class="form-control" name="tipo_aquisicao_id" id="tipo_aquisicao_id" value="{{$solicitacao->tipoAquisicao->descricao}}" disabled>
+                        </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-4">
+                          <!-- select -->
+                          <div class="form-group">
+                              <label>Como coheceu ?</label>
+                              <input type="text" class="form-control" name="tipo_midia_id" id="tipo_midia_id" value="{{$solicitacao->tipoMidia->descricao}}" disabled>
+
+                          </div>
+                        </div>
+
+                          <div class="col-12 col-sm-12 col-md-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Agendar para:<param name="" value=""></label>
+                                <input type="date" class="form-control" name="dt_agendamento" value="{{\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') }}"  disabled>
+                            </div>
+                          </div>
 
                         <div class="col-12 col-sm-12 col-md-12">
                           <div class="form-group">
