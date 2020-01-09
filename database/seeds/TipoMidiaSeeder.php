@@ -18,7 +18,19 @@ class TipoMidiaSeeder extends Seeder
     private function createTipoMidia()
     {
       TipoMidia::create([
-        'descricao' => 'INDICAÇÃO',
+        'descricao' => 'VENDA EXTERNA',
+      ]);
+
+      TipoMidia::create([
+        'descricao' => 'INDICAÇAO',
+      ]);
+
+      TipoMidia::create([
+        'descricao' => 'INSTAGRAM',
+      ]);
+
+      TipoMidia::create([
+        'descricao' => 'FACEBOOK',
       ]);
 
       TipoMidia::create([
@@ -26,17 +38,28 @@ class TipoMidiaSeeder extends Seeder
       ]);
 
       TipoMidia::create([
-        'descricao' => 'RADIO',
+        'descricao' => 'BANNER',
       ]);
 
       TipoMidia::create([
-        'descricao' => 'PROP VOLANTE',
+        'descricao' => 'STATUS WHATS',
       ]);
 
       TipoMidia::create([
-        'descricao' => 'REDES SOCIAIS',
+        'descricao' => 'VENDA ATIVA',
       ]);
 
+      TipoMidia::create([
+        'descricao' => 'TECNICO NA RUA',
+      ]);
+
+      TipoMidia::create([
+        'descricao' => 'OUTRO PONTO',
+      ]);
+
+      TipoMidia::create([
+        'descricao' => 'PESQUISA WEB',
+      ]);
 
     }
 }
