@@ -42,7 +42,7 @@
                                   <p>Nova Solicitação</p>
                                 </a>
                               </li>
-                              @is('admin')
+                              @is(['admin','controlador'])
                               <li class="nav-item">
                                 <a href="{{route('solicitacoes')}}" class="nav-link">
                                   <i class="fa fa-circle-o nav-icon"></i>
@@ -72,7 +72,7 @@
                                     <p>Escala</p>
                                   </a>
                                 </li>
-                                @is(['admin', 'supervisor'])
+                                @is(['admin', 'supervisor', 'controlador'])
                                 <li class="nav-item">
                                   <a href="{{route('escalas.index')}}" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>

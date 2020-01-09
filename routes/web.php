@@ -22,17 +22,17 @@ Route::group(['middleware'=>['auth']], function(){
 
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
     Route::get('solicitacoes/fila', 'SolicitacaosController@fila')->name('solicitacoes.fila');
-    Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar')->middleware('needsRole:admin|supervisor, true');
-    Route::get('solicitacao/{id}/reagendar', 'SolicitacaosController@reagendar')->name('solicitacao.reagendar')->middleware('needsRole:admin|supervisor, true');
+    Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar')->middleware('needsRole:admin|controlador, true');
+    Route::get('solicitacao/{id}/reagendar', 'SolicitacaosController@reagendar')->name('solicitacao.reagendar')->middleware('needsRole:admin|controlador, true');
 
     Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
     Route::get('solicitacao/{id}/integracao', 'SolicitacaosController@integracao')->name('solicitacao.integracao')->middleware('needsRole:admin|supervisor, true');
     Route::put('solicitacao/integrar', 'SolicitacaosController@integrar')->name('solicitacao.integrar')->middleware('needsRole:admin|supervisor, true');
-    Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir')->middleware('needsRole:admin|supervisor, true');
-    Route::post('solicitacao/reatribuir', 'SolicitacaosController@reatribuir')->name('solicitacao.reatribuir')->middleware('needsRole:admin|supervisor, true');
-    Route::get('solicitacao/{id}/concluir', 'SolicitacaosController@concluir')->name('solicitacao.concluir')->middleware('needsRole:admin|supervisor, true');
+    Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir')->middleware('needsRole:admin|controlador, true');
+    Route::post('solicitacao/reatribuir', 'SolicitacaosController@reatribuir')->name('solicitacao.reatribuir')->middleware('needsRole:admin|controlador, true');
+    Route::get('solicitacao/{id}/concluir', 'SolicitacaosController@concluir')->name('solicitacao.concluir')->middleware('needsRole:admin|controlador, true');
 
     Route::get('users/groups', 'UsersController@groups')->name('user.groups')->middleware('needsRole:admin');
     Route::post('users/groupStore', 'UsersController@groupStore')->name('user.groups.store')->middleware('needsRole:admin');

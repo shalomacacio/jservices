@@ -81,7 +81,7 @@
                           <!-- text input -->
                             <div class="form-group">
                                 <label>Data de Nascimento</label>
-                                <input type="text" class="form-control" name="dt_nascimento" id="dt_nascimento" value="{{$solicitacao->cliente->dt_nascimento }}" disabled>
+                                <input type="text" class="form-control" name="dt_nascimento" id="dt_nascimento" value="{{\Carbon\Carbon::parse($solicitacao->cliente->dt_nascimento)->format('d/m/Y') }}" disabled>
                             </div>
                           </div>
 
@@ -109,7 +109,7 @@
                               </div>
                           </div>
 
-                          <div class="col-12 col-sm-12 col-md-5">
+                          <div class="col-12 col-sm-12 col-md-4">
                             <!-- textarea -->
                             <label>Endereço</label>
                             <div class="form-group">
@@ -118,7 +118,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-12 col-md-1">
+                        <div class="col-12 col-sm-12 col-md-2">
                           <!-- text input -->
                           <div class="form-group">
                               <label>Num</label>
@@ -202,7 +202,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label>Agendar para:<param name="" value=""></label>
-                                <input type="date" class="form-control" name="dt_agendamento" value="{{\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') }}"  disabled>
+                                <input type="date" class="form-control" name="dt_agendamento" value="{{\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}"  disabled>
                             </div>
                           </div>
 

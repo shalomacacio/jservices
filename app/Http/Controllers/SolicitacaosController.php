@@ -209,7 +209,7 @@ class SolicitacaosController extends Controller
       $solicitacao->save();
 
       $response = [
-        'message' => 'Solicitacao Atribuida.',
+        'message' => 'Solicitacao Reagendada.',
       ];
       if ($request->wantsJson()) {
         return response()->json($response);
@@ -280,7 +280,6 @@ class SolicitacaosController extends Controller
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
       $solicitacao = $this->repository->create($request->all());
       $comissao = $this->comissaoRepository->createComissaoAtendimeto($solicitacao);
-
 
       $response = [
         'message' => 'Solicitacao created.',
