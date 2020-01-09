@@ -23,8 +23,8 @@ class Solicitacao extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'cod_cliente',
-        'cliente',
+        'codpessoa',
+        'cliente_id',
         'user_id',
         'servico_id',
         'tecnologia_id',
@@ -54,6 +54,11 @@ class Solicitacao extends Model implements Transformable
         ->withTimestamps();
     }
 
+    public function user()
+    {
+      return $this->belongsTo('App\Entities\User');
+    }
+
     public function statusSolicitacao()
     {
         return $this->belongsTo('App\Entities\StatusSolicitacao');
@@ -81,6 +86,11 @@ class Solicitacao extends Model implements Transformable
     public function categoriaServico()
     {
         return $this->belongsTo('App\Entities\CategoriaServico');
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo('App\Entities\Cliente');
     }
 
 }

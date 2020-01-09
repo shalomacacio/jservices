@@ -99,12 +99,11 @@ class EscalasController extends Controller
     public function search(Request $request){
 
       try {
-
         $escala = Escala::where('dt_escala', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00' ))
         ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59' ))
         ->firstOrFail();
 
-        $totalPontos =  $escala->users->count()*4;
+        $totalPontos =  $escala->users->sum('max_ponto') ;
 
         $sumPontos = DB::table('solicitacaos as s')
                       ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
@@ -112,7 +111,10 @@ class EscalasController extends Controller
                       ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
                       ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
                       ->sum('serv.pontuacao');
-        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ));
+
+        $pontosDisponiveis = $totalPontos - $sumPontos;
+
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));
 
       } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         $message = 'não existe escala cadastrada ';

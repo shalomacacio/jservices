@@ -65,7 +65,7 @@
                                     </i></button>
                                 </div>
                                 <!-- /btn-group -->
-                                <input type="text" class="form-control"  name="cod_cliente" id="cod_cliente" value="{{$cliente->cod}}">
+                                <input type="text" class="form-control"  name="codpessoa" id="codpessoa" value="{{$cliente->cod}}">
                               </div>
                         </div>
 

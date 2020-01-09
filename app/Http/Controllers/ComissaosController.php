@@ -68,7 +68,7 @@ class ComissaosController extends Controller
     public function comissoes()
     {
         $comissaos = $this->repository->findWhere([
-          'flg_autorizado' => null
+          'flg_autorizado' => 3
         ]);
 
         if (request()->wantsJson()) {
@@ -89,7 +89,6 @@ class ComissaosController extends Controller
       $users = DB::table('users')->get();
       $result= $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
-          ->where('flg_autorizado', 1)
           ->whereDate('dt_referencia', '>=' , $request->dt_inicio)
           ->whereDate('dt_referencia', '<=' , $request->dt_fim);
       })->get();

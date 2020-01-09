@@ -79,7 +79,7 @@ class ReportsController extends Controller
     {
         if($request->funcionario_id != 0){
           $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-            return $query->whereNotNull('flg_autorizado')
+            return $query->whereIn('flg_autorizado', [0,1])
                     ->where('funcionario_id', '=' , $request->funcionario_id)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
@@ -87,7 +87,7 @@ class ReportsController extends Controller
           })->get();
         } else {
           $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-            return $query->whereNotNull('flg_autorizado')
+            return $query->whereIn('flg_autorizado', [0,1])
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
 
@@ -97,7 +97,7 @@ class ReportsController extends Controller
 
         $comissaos = $result->groupBy('funcionario_id');
 
-        $total = $result->sum('comissao_vlr');
+        $total = $result->where('flg_autorizado', '=' , 1)->sum('comissao_vlr');
 
       // return dd($total);
         if (request()->wantsJson()) {

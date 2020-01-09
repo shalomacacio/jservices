@@ -86,17 +86,17 @@
                   @foreach($lista as $comissao)
                   <tr>
                     <td>{{\Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
-                    <td>{{$comissao->solicitacao->cliente}}</td>
+                    <td>{{$comissao->solicitacao->cliente->nome_razaosocial}}</td>
                     <td>{{$comissao->servico->categoriaServico->descricao}} {{$comissao->servico->descricao}}</td>
                     <td>{{$comissao->servico->servico_vlr}}</td>
-                    <td>@if($comissao->flg_autorizado) AUTORIZADO @else NÃO AUTORIZADO @endif</td>
+                    <td>@if($comissao->flg_autorizado == 1) AUTORIZADO @else NÃO AUTORIZADO @endif</td>
                     @if($comissao->flg_autorizado) <td>R$ {{$comissao->comissao_vlr}}</td> @else <td style="color:red">R$ -{{$comissao->comissao_vlr}}</td> @endif
                   </tr>
                   @endforeach
                   </tbody>
                     <tr>
                       <th colspan="5">Subtotal:</th>
-                    <th >R$ {{ number_format($lista->where('flg_autorizado', 1)->sum('comissao_vlr'), 2) }}</th>
+                    <th >R$ {{ number_format($lista->where('flg_autorizado', '=',  1)->sum('comissao_vlr'), 2) }}</th>
                     </tr>
                 </table>
               </div>

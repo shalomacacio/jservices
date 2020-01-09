@@ -23,7 +23,6 @@
      </div>
      @endif
 
-
   <section class="content-header">
       <div class="container-fluid">
           <div class="row">
@@ -32,7 +31,7 @@
                 <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Pontos Disponívies</span>
-                <span class="info-box-number"><h4>{{ $totalPontos - $sumPontos }}</h4></span>
+                <span class="info-box-number"><h4>@isset($pontosDisponiveis) {{ $pontosDisponiveis }} @endisset</h4></span>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -71,13 +70,7 @@
             <div class="card-header border-transparent">
               <h3 class="card-title">{{ $user->name }}  {{ $user->sobrenome }} </h3>
               <div class="card-tools">
-
-                <button type="button" class="btn btn-tool" data-widget="collapse">
-                  <i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-widget="remove">
-                  <i class="fa fa-times"></i>
-                </button>
+                <span class="badge badge-danger">MAX PONTOS: {{ $user->max_ponto }}   </span>
               </div>
             </div>
             <!-- /.card-header -->
@@ -95,7 +88,7 @@
                     @foreach ($user->solicitacaos as $solicitacao)
                     @if (\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') == \Carbon\Carbon::parse( $escala->dt_escala )->format('Y-m-d') )
                     <tr>
-                      <td>{{ $solicitacao->cliente }}</td>
+                      <td>{{ $solicitacao->cliente->nome_razaosocial }}</td>
                       <td>{{ $solicitacao->servico->descricao }}</td>
                       <td>
                       <span class="badge

@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Relatórios</h1>
+            <h1>Pesquisar Comissões</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Relatorios</a></li>
-              <li class="breadcrumb-item active">Buscar Relatório</li>
+              <li class="breadcrumb-item"><a href="#">Comissao</a></li>
+              <li class="breadcrumb-item active">Pesquisar</li>
             </ol>
           </div>
         </div>
@@ -46,7 +46,7 @@
       <!-- general form elements disabled -->
       <div class="card card-warning">
         <div class="card-header">
-          <h3 class="card-title">Relatório de Serviços </h3>
+          <h3 class="card-title">Comissões por Período</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -112,7 +112,7 @@
                     <tr>
                         <td>{{ $comissao->id }}</td>
                         <td>{{ $comissao->dt_referencia }}</td>
-                        <td>{{ $comissao->solicitacao->cliente }}</td>
+                        <td>{{ $comissao->solicitacao->cliente->nome_razaosocial }}</td>
                         <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
                         <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
                         <td>{{ $comissao->comissao_vlr}}</td>
@@ -120,7 +120,7 @@
                             <form action="{{ route('comissao.autorizar', $comissao->id)}}" method="post">
                                 @csrf
                                 @method('PUT')
-                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Anular Comissao ?')"   name = "flg_autorizado" >Anular</button>
+                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Anular Comissao ?')"   name = "flg_autorizado" value="3" >Anular</button>
                             </form>
                         </td>
                     </tr>

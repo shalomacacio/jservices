@@ -18,8 +18,8 @@ class CreateSolicitacaosTable extends Migration
 		Schema::create('solicitacaos', function(Blueprint $table) {
             $table->increments('id');
 
-            $table->string('cod_cliente')->nullable();
-            $table->string('cliente');
+            $table->bigInteger('cliente_id')->nullable();
+            $table->string('codpessoa')->nullable();
 
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')

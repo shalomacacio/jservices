@@ -26,7 +26,7 @@ $factory->define(App\Entities\User::class, function (Faker $faker) {
 
 $factory->define(App\Entities\Solicitacao::class, function (Faker $faker) {
   return [
-      'cod_cliente' => $faker->randomDigit(2,0,9999),
+      'codpessoa' => $faker->randomDigit(2,0,9999),
       'cliente' => $faker->name,
       'user_id' => App\Entities\User::all()->random()->id,
       'servico_id' => App\Entities\Servico::all()->random()->id,

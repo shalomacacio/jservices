@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Reencaminhar</h1>
+            <h1>Reagendar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Reencaminhar</li>
+              <li class="breadcrumb-item active">Reagendar</li>
             </ol>
           </div>
         </div>
@@ -29,7 +29,7 @@
                 <!-- general form elements disabled -->
                 <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Reencaminhar para Técnico</h3>
+                    <h3 class="card-title">Reagendar Solicitacao</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -40,7 +40,7 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente}}" disabled>
+                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente->nome_razaosocial}}" disabled>
                         </div>
                         </div>
                         <div class="col-sm-4">
@@ -60,17 +60,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <!-- select -->
-                            <div class="form-group">
-                                <label>Equipe</label>
-                                <select multiple class="form-control" name="equipe[]" required>
-                                    @foreach( $tecnicos as $tecnico)
-                                        <option value="{{ $tecnico->id}}">{{ $tecnico->name }} {{ $tecnico->sobrenome }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+
 
                         <div class="col-sm-4">
                           <!-- select -->
@@ -83,7 +73,7 @@
                 </div>
                     <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info float-right">Atribuir Equipe</button>
+                  <button type="submit" class="btn btn-info float-right">Reagendar</button>
                 </div>
                 <!-- /.card-body -->
                 </div>

@@ -42,7 +42,7 @@
                                   <p>Nova Solicitação</p>
                                 </a>
                               </li>
-                              @is('admin', 'supervisor')
+                              @is('admin')
                               <li class="nav-item">
                                 <a href="{{route('solicitacoes')}}" class="nav-link">
                                   <i class="fa fa-circle-o nav-icon"></i>

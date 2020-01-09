@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Solicitações</h1>
+            <h1>Fila de Atendimento</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Solicitações</li>
+              <li class="breadcrumb-item active">Fila </li>
             </ol>
           </div>
         </div>
@@ -61,17 +61,19 @@
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
                                 <th class="d-none d-sm-table-cell">Situação</th>
+                                <th class="d-none d-sm-table-cell">Atendente</th>
                                 <th class="d-none d-sm-table-cell">Equipe</th>
-                                <th>Ações </th>
+                                <th style="width: 110px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
-                                        <td>{{ $solicitacao->cliente }}</td>
+                                        <td>{{ $solicitacao->cliente->nome_razaosocial }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->servico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
                                         <td class="d-none d-sm-table-cell">
                                             @foreach ($solicitacao->users as $tecnico)
                                               @isset($tecnico)
@@ -83,11 +85,17 @@
                                             @endempty
                                         </td>
                                         <td>
-                                          @if($solicitacao->status_solicitacao_id == 1)
-                                          <a class="btn btn-info"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
+                                           @if($solicitacao->status_solicitacao_id == 1  || $solicitacao->status_solicitacao_id == 6  ){{-- 1=aberto  --}}
+                                            @if($solicitacao->codpessoa == null )
+                                            <a class="btn btn-info btn-sm"  href="{{route('solicitacao.integracao', $solicitacao->id)}}" ><i class="fa fa-cogs"></i></a>
+                                            @elseif($solicitacao->codpessoa != null)
+                                            <a class="btn btn-info btn-sm"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
+                                            @endif
                                           @elseif($solicitacao->status_solicitacao_id == 2)
-                                          <a class="btn btn-danger"  href="{{route('solicitacao.reencaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
+                                          <a class="btn btn-danger  btn-sm" title="reagendar" href="{{route('solicitacao.reagendar', $solicitacao->id)}}"><i class="fa fa-calendar"></i></a>
+                                          <a class="btn btn-success btn-sm" title="concluir"  href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
                                           @endif
+
                                         </td>
                                     </tr>
                                 @endforeach

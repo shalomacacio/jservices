@@ -64,7 +64,7 @@
                                     </i></button>
                                 </div>
                                 <!-- /btn-group -->
-                                <input type="text" class="form-control"  name="cod_cliente" id="cod_cliente">
+                                <input type="text" class="form-control"  name="codpessoa" id="codpessoa">
                               </div>
                         </div>
 
@@ -72,7 +72,7 @@
                         <!-- text input -->
                           <div class="form-group">
                               <label>Nome / Razão Social</label>
-                              <input type="text" class="form-control" name="nome_razaosocial" id="nome_razaosocial"  required>
+                              <input type="text" class="form-control" name="nome_razaosocial" id="typeahead"  required>
                           </div>
                         </div>
 
@@ -222,30 +222,6 @@
 <script src="/dist/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-
-
-<!-- TYPEHEAD -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-<script type="text/javascript">
-  var path = "{{ route('autocomplete') }}";
-
-  $('input.typeahead').typeahead({
-      source:  function (query, process) {
-      return $.get(path, { query: query }, function (data) {
-        console.log(data)
-              return process(data);
-
-          });
-      }
-  });
-
-</script>
-
-
 <!-- Bootstrap 4 -->
 <script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Morris.js charts -->
@@ -271,7 +247,130 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/dist/js/demo.js"></script>
+<!-- Select2 -->
+<script src="/dist/plugins/select2/select2.full.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+<script type="text/javascript">
+  $('select[name=categoria_servico_id]').change(function () {
+    ajaxServicos();
+  });
+
+  $('select[name=servico_id]').change(function () {
+    ajaxValor();
+  });
+
+  // var path = "{{ route('autocomplete') }}";
+  // $("#typeahead").typeahead({
+  //   minLength: 2,
+  //   // source : ["DANIELE MEDEIROS DA COSTA ACACIO", "PAULO MARIA DA SILVA"]
+  //   source : function (query, process){
+  //     return $.get(path, {query: query}, function(data){
+  //         console.log(data[0]);
+  //         return process(data)
+  //     });
+  //   }
+  // });
+
+
+
+      //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+
+  $('#search').click( function () {
+    ajaxCliente();
+  });
+
+
+
+  function ajaxServicos(){
+    $.ajax({
+        type: "GET",
+        data: {categoria_servico_id: $("#categoria_servico_id").val()},
+        url: "/solicitacao/ajaxServicos",
+        dataType: 'JSON',
+        success: function(response) {
+          $('select[name=servico_id]').empty();
+          // alert(categoria_servico_id.value );
+          if(categoria_servico_id){
+            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+          }
+          $.each(response.servicos, function (key, value) {
+
+            $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
+          })
+        }
+    });
+  }
+
+  function ajaxCliente(){
+    $.ajax({
+        type: "GET",
+        data: {codpessoa: $("#codpessoa").val()},
+        url: "/solicitacao/ajaxCliente",
+        dataType: 'JSON',
+        success: function(response) {
+          if(response.error){
+            alert("Erro:"+ response.message);
+          } else {
+            $('#cliente').val(response.result[0]['nome_razaosocial']);
+          }
+        },
+        error: function(response){
+          alert("A conexão com MKSOLUTION falhou!")
+        }
+    });
+  }
+  function ajaxValor(){
+    $.ajax({
+        type: "GET",
+        data: {servico_id: $("#servico_id").val()},
+        url: "/solicitacao/ajaxValor",
+        dataType: 'JSON',
+        success: function(response) {
+          $('#servico_vlr').val(response.valor['servico_vlr']);
+        }
+    });
+  }
+
+  var cli = function (request, response) {
+        $.ajax({
+          url: "{{ route('autocomplete') }}",
+          data: {
+            query : request.term
+            },
+          dataType: "json",
+          success: function(data){
+            var resp = $.map(data,function(obj){
+              if(obj.id){
+                $('#cliente_id').val(obj.id);
+              }else if(obj.codpessoa){
+                $('#codpessoa').val(obj.codpessoa);
+
+              }
+
+
+              console.log(obj);
+              return obj.nome_razaosocial;
+            });
+            response(resp);
+          }
+        });
+      }
+
+    $( "#typeahead" ).autocomplete({
+      source: cli,
+      minLength: 1
+    });
+
+</script>
 
 @stop

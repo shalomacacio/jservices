@@ -61,6 +61,7 @@
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
                                 <th class="d-none d-sm-table-cell">Situação</th>
+                                <th class="d-none d-sm-table-cell">Atendente</th>
                                 <th class="d-none d-sm-table-cell">Equipe</th>
                                 <th style="width: 130px">Ações </th>
                               </tr>
@@ -69,9 +70,10 @@
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
-                                        <td>{{ $solicitacao->cliente }}</td>
+                                        <td>{{ $solicitacao->cliente->nome_razaosocial }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->servico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
                                         <td class="d-none d-sm-table-cell">
                                             @foreach ($solicitacao->users as $tecnico)
                                               @isset($tecnico)
@@ -84,11 +86,6 @@
                                         </td>
                                         <td>
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
-                                            @if($solicitacao->status_solicitacao_id == 2)
-                                            @is(['admin', 'auditor'])
-                                              <a class="btn btn-success btn-sm" href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
-                                            @endis
-                                            @endif
                                             @if($solicitacao->status_solicitacao_id != 3)
                                             <a class="btn btn-info btn-sm" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
                                             @csrf

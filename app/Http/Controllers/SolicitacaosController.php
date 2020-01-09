@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
+use App\Entities\Cliente;
 use App\Entities\Escala;
 
 use Illuminate\Validation\Rule;
@@ -88,7 +89,7 @@ class SolicitacaosController extends Controller
         'data' => $solicitacaos,
       ]);
     }
-    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando'));
+    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
   }
 
   public function ajaxServicos(Request $request)
@@ -113,7 +114,7 @@ class SolicitacaosController extends Controller
   public function ajaxCliente(Request $request)
   {
     header('Content-Type: application/json; charset=utf-8');
-    $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->cod_cliente]);
+    $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->codpessoa]);
 
     if ($cliente == null) {
       return response()->json([
@@ -141,12 +142,11 @@ class SolicitacaosController extends Controller
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
       $message = 'não existe escala cadastrada para a data: '. Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') ;
       return redirect()->back()->withErrors( $message);
-      //return redirect()->back()->withErrors($e->getMessageBag())->withInput();
     }
-    return view('solicitacaos.reencaminhar', compact('solicitacao', 'tecnicos'));
+    return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
   }
 
-  public function reencaminhar($id)
+  public function reagendar($id)
   {
     $solicitacao = $this->repository->find($id);
 
@@ -162,7 +162,7 @@ class SolicitacaosController extends Controller
         ]);
       return redirect()->back()->withErrors($e->getMessageBag())->withInput();
     }
-    return view('solicitacaos.reencaminhar', compact('solicitacao', 'tecnicos'));
+    return view('solicitacaos.reagendar', compact('solicitacao', 'tecnicos'));
   }
 
   public function atribuir(Request $request)
@@ -182,7 +182,7 @@ class SolicitacaosController extends Controller
       if ($request->wantsJson()) {
         return response()->json($response);
       }
-      return redirect()->route('solicitacoes')->with('message', $response['message']);
+      return redirect()->route('solicitacoes.fila')->with('message', $response['message']);
     } catch (ValidatorException $e) {
       if ($request->wantsJson()) {
         return response()->json([
@@ -203,10 +203,8 @@ class SolicitacaosController extends Controller
       $solicitacao->users()->detach();
       $solicitacao->save();
 
-      //vincula solicitação a equipe
-      $solicitacao->users()->attach($request->equipe);
       //atualiza o status para em andamento
-      $solicitacao->status_solicitacao_id = 2;
+      $solicitacao->status_solicitacao_id = 6;
       $solicitacao->dt_agendamento = $request->dt_agendamento;
       $solicitacao->save();
 
@@ -340,6 +338,23 @@ class SolicitacaosController extends Controller
     $tipoMidia = DB::table('tipo_midias')->distinct()->get();
 
     return view('solicitacaos.edit', compact('solicitacao', 'categorias','tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia' ));
+  }
+
+  public function integracao($id)
+  {
+    $solicitacao = $this->repository->find($id);
+    return view('solicitacaos.integracao', compact('solicitacao'));
+  }
+
+  public function integrar(Request $request)
+  {
+    // return dd($request);
+    $solicitacao = $this->repository->find($request->solicitacao_id);
+    $solicitacao->codpessoa = $request->codpessoa;
+    $solicitacao->save();
+
+
+    return redirect()->route('solicitacoes.fila');
   }
 
   /**

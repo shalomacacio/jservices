@@ -27,34 +27,8 @@ class UsersTableSeeder extends Seeder
       // Exibe uma informação no console durante o processo de seed
       $this->command->info('usuario Administrador criado');
 
-      User::create([
-        'name' => 'HARISSON',
-        'sobrenome' => 'CRISTIAN',
-        'email' => 'harisson@jnetce.com.br',
-        'password' => '123456',
-      ]);
-
-      User::create([
-        'name' => 'LUIZ',
-        'sobrenome' => 'HENRIQUE',
-        'email' => 'luizhenrique@jnetce.com.br',
-        'password' => '123456',
-      ]);
-
-      User::create([
-        'name' => 'RENAN',
-        'sobrenome' => 'SANTOS',
-        'email' => 'renansantos@jnet.ce.com.br',
-        'password' => '123456',
-      ]);
-
-      User::create([
-        'name' => 'RENAN',
-        'sobrenome' => 'SILVA',
-        'email' => 'renansilva@jnetce.com.br',
-        'password' => '123456',
-      ]);
     }
+
 }
 
 

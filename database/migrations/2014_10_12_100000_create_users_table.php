@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
 
             $table->integer('tipo_usuario_id')->unsigned()->nullable();
             $table->foreign('tipo_usuario_id')->references('id')->on('tipo_usuarios');
+            $table->integer('max_ponto')->nullable();
+
 
             //campos padrao
             $table->rememberToken();

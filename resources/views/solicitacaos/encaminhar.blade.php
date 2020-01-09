@@ -40,7 +40,7 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente}}" disabled>
+                            <input type="text" class="form-control" name="cliente" value="{{ $solicitacao->cliente->nome_razaosocial }}" disabled>
                         </div>
                         </div>
                         <div class="col-sm-4">
