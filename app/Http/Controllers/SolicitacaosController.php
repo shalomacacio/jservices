@@ -201,7 +201,7 @@ class SolicitacaosController extends Controller
       $solicitacao = $this->repository->find($request->solicitacao_id);
       // Detach all roles from the user...
       $solicitacao->users()->detach();
-      $solicitacao->save();
+      // $solicitacao->save();
 
       //atualiza o status para em andamento
       $solicitacao->status_solicitacao_id = 6;
