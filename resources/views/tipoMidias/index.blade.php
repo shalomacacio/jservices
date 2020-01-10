@@ -98,7 +98,7 @@
                     <td>{{ $midia->descricao }}</td>
                     <td>
                         <form action="{{route('tipoMidias.destroy', $midia->id)}}" method="POST">
-                            <a class="btn btn-info" href="{{route('tipoMidias.edit', $midia->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-info" href="{{route('tipoMidias.edit', $midia->id)}}"  ><i class="fas fa-edit"></i></a>
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir ?')"><i class="fas fa-trash"></i></button>

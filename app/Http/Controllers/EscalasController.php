@@ -75,7 +75,7 @@ class EscalasController extends Controller
 
       try {
         $escala = Escala::where('dt_escala', '>=' , Carbon::now()->format('Y-m-d 00:00:00' ))
-        ->where('dt_escala', '<=' , Carbon::now()->format('Y-m-d 11:59:59' ))
+        ->where('dt_escala', '<=' , Carbon::now()->format('Y-m-d 23:59:59' ))
         ->firstOrFail();
 
         $totalPontos =  $escala->users->sum('max_ponto') ;

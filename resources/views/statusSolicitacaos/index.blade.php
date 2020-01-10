@@ -98,7 +98,7 @@
                     <td>{{ $status->descricao }}</td>
                     <td>
                       <form action="{{route('statusSolicitacao.destroy', $status->id)}}" method="POST">
-                        <a class="btn btn-info" href="{{route('statusSolicitacao.edit', $status->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-info" href="{{route('statusSolicitacao.edit', $status->id)}}"  ><i class="fas fa-edit"></i></a>
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Usuário ?')"><i class="fas fa-trash"></i></button>

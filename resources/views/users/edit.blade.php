@@ -79,11 +79,11 @@
                 </div>
               </div>
 
-              <div class="col-sm-2">
+              <div class="col-sm-1">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Password</label>
-                  <input type="password" class="form-control" name="password" required >
+                  <label>Pontos</label>
+                  <input type="text" class="form-control" name="max_ponto" value="{{ $user->max_ponto }}" >
                 </div>
               </div>
 

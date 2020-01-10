@@ -190,7 +190,7 @@
                                 <td class="d-none d-sm-table-cell" >{{ $cliente->cpf }}</td>
                                 <td>
                                   <form action="{{route('clientes.destroy', $cliente->id)}}" method="POST">
-                                    <a class="btn btn-info" href="{{route('clientes.edit', $cliente->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-info" href="{{route('clientes.edit', $cliente->id)}}"  ><i class="fas fa-edit"></i></a>
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Cliente ?')"><i class="fas fa-trash"></i></button>

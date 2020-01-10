@@ -62,7 +62,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Sobrenome</label>
@@ -83,6 +83,14 @@
                 <div class="form-group">
                   <label>Password</label>
                   <input type="password" class="form-control" name="password" required >
+                </div>
+              </div>
+
+              <div class="col-sm-1">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Pontos</label>
+                  <input type="text" class="form-control" name="max_ponto" >
                 </div>
               </div>
 
@@ -144,7 +152,7 @@
                     <td>{{ $user->email}}</td>
                     <td>
                       <form action="{{route('users.destroy', $user->id)}}" method="POST">
-                        <a class="btn btn-info" href="{{route('users.edit', $user->id)}}"  onclick="return confirm('Deseja Editar?')"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-info" href="{{route('users.edit', $user->id)}}"  ><i class="fas fa-edit"></i></a>
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger"  type="submit"  onclick="return confirm('Excluir Usuário ?')"><i class="fas fa-trash"></i></button>
