@@ -36,6 +36,7 @@ class CreateSolicitacaosTable extends Migration
 
             $table->integer('servico_id')->unsigned()->nullable();
             $table->integer('plano_id')->unsigned()->nullable();
+            $table->integer('plano_ant_id')->unsigned()->nullable();
             $table->decimal('vlr_plano')->default(0.00); //servico_vlr
             $table->decimal('vlr_plano_ant')->default(0.00); //servico_vlr
             $table->decimal('vlr_plano_dif')->default(0.00); //servico_vlr
