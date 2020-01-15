@@ -51,8 +51,8 @@
                                 @foreach ($comissaos as $comissao)
                                     <tr>
                                         <td>{{ $comissao->dt_referencia }}</td>
-                                        <td>{{ $comissao->solicitacao->cliente->nome_razaosocial }}</td>
-                                        <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
+                                        <td>{{ $comissao->solicitacao->nome_razaosocial }}</td>
+                                        <td>teste</td>
                                         <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
                                         <td>{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>{{ $comissao->comissao_vlr}}</td>

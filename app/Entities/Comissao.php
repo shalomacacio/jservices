@@ -61,4 +61,6 @@ class Comissao extends Model implements Transformable
     {
         return $this->belongsTo('App\Entities\User',  'funcionario_id', 'id');
     }
+
+
 }

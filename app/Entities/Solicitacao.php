@@ -25,13 +25,20 @@ class Solicitacao extends Model implements Transformable
     protected $fillable = [
         'codpessoa',
         'cliente_id',
+        'nome_razaosocial',
         'user_id',
+        'user_atendimento_id',
+        'categoria_servico_id',
         'servico_id',
         'tecnologia_id',
         'status_solicitacao_id',
         'dt_agendamento',
         'dt_conclusao',
         'servico_vlr',
+        'plano_id',
+        'vlr_plano',
+        'vlr_plano_ant',
+        'plano_ant_id',
         'tipo_pagamento_id',
         'tipo_midia_id',
         'tipo_aquisicao_id',
@@ -91,6 +98,11 @@ class Solicitacao extends Model implements Transformable
     public function cliente()
     {
         return $this->belongsTo('App\Entities\Cliente');
+    }
+
+    public function plano()
+    {
+        return $this->belongsTo('App\Entities\Plano');
     }
 
 }

@@ -88,8 +88,8 @@
                     @foreach ($user->solicitacaos as $solicitacao)
                     @if (\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') == \Carbon\Carbon::parse( $escala->dt_escala )->format('Y-m-d') )
                     <tr>
-                      <td>{{ $solicitacao->cliente->nome_razaosocial }}</td>
-                      <td>{{ $solicitacao->servico->descricao }}</td>
+                      <td>{{ $solicitacao->nome_razaosocial }}</td>
+                      <td>{{ $solicitacao->categoriaServico->descricao }}</td>
                       <td>
                       <span class="badge
                       @switch($solicitacao->statusSolicitacao->id)

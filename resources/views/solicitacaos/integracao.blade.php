@@ -144,15 +144,15 @@
                           <!-- select -->
                           <div class="form-group">
                               <label>Categoria</label>
-                              <input type="text" class="form-control" name="categoria_servico_id" id="categoria_servico_id" value="{{$solicitacao->servico->categoriaServico->descricao}}" disabled>
+                              <input type="text" class="form-control" name="categoria_servico_id" id="categoria_servico_id" value="{{ $solicitacao->categoriaServico->descricao }}"  disabled>
                           </div>
                         </div>
 
                         <div class="col-12 col-sm-12 col-md-4">
                           <!-- select -->
                           <div class="form-group">
-                              <label>Serviço</label>
-                              <input type="text" class="form-control" name="servico_id" id="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
+                              <label>Plano</label>
+                          <input type="text" class="form-control" name="servico_id" id="servico_id" value="{{ $solicitacao->plano->descricao }}"  disabled>
 
                           </div>
                         </div>
@@ -160,7 +160,7 @@
                           <!-- text input -->
                           <div class="form-group">
                               <label>Valor</label>
-                              <input type="text" class="form-control" name="servico_vlr" id="servico_vlr" value="{{$solicitacao->servico_vlr}}"  disabled>
+                              <input type="text" class="form-control" name="servico_vlr" id="servico_vlr" value="{{$solicitacao->plano->vlr_plano}}"  disabled>
                           </div>
                           </div>
                     </div><!-- /.row -->

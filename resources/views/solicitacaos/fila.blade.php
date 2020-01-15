@@ -70,8 +70,8 @@
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
-                                        <td>{{ $solicitacao->cliente->nome_razaosocial }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->servico->descricao }}</td>
+                                        <td>{{ $solicitacao->nome_razaosocial }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
                                         <td class="d-none d-sm-table-cell">

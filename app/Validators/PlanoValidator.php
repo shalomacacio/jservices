@@ -6,11 +6,11 @@ use \Prettus\Validator\Contracts\ValidatorInterface;
 use \Prettus\Validator\LaravelValidator;
 
 /**
- * Class SolicitacaoValidator.
+ * Class PlanoValidator.
  *
  * @package namespace App\Validators;
  */
-class SolicitacaoValidator extends LaravelValidator
+class PlanoValidator extends LaravelValidator
 {
     /**
      * Validation Rules
@@ -18,11 +18,7 @@ class SolicitacaoValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE =>
-        [
-            'nome_razaosocial'      => 'required|max:255',
-
-        ],
+        ValidatorInterface::RULE_CREATE => [],
         ValidatorInterface::RULE_UPDATE => [],
     ];
 }

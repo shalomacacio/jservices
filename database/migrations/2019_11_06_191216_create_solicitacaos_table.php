@@ -18,26 +18,31 @@ class CreateSolicitacaosTable extends Migration
 		Schema::create('solicitacaos', function(Blueprint $table) {
             $table->increments('id');
 
-            $table->bigInteger('cliente_id')->nullable();
-            $table->string('codpessoa')->nullable();
+            $table->integer('cliente_id')->nullable();
+            $table->text('codpessoa')->nullable();
+            $table->text('nome_razaosocial')->nullable();
 
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')
                   ->on('users');
 
+            $table->integer('user_atendimento_id')->unsigned()->nullable();
+            $table->foreign('user_atendimento_id')->references('id')
+                        ->on('users');
+
+            $table->integer('categoria_servico_id')->unsigned()->nullable();
+                  $table->foreign('categoria_servico_id')->references('id')
+                    ->on('categoria_servicos');
+
             $table->integer('servico_id')->unsigned()->nullable();
-            $table->foreign('servico_id')->references('id')
-                  ->on('servicos');
+            $table->integer('plano_id')->unsigned()->nullable();
+            $table->decimal('vlr_plano')->default(0.00); //servico_vlr
+            $table->decimal('vlr_plano_ant')->default(0.00); //servico_vlr
+            $table->decimal('vlr_plano_dif')->default(0.00); //servico_vlr
 
-            $table->decimal('servico_vlr')->default(0.00); //servico_vlr
-
+            $table->tinyInteger('flg_comissao')->default(0);
             $table->integer('tecnologia_id')->unsigned()->nullable();
-            $table->foreign('tecnologia_id')->references('id')
-                  ->on('tecnologias');
-
             $table->integer('status_solicitacao_id')->unsigned()->default(1);
-            $table->foreign('status_solicitacao_id')->references('id')
-                  ->on('status_solicitacaos');
             // 1 - aberto
             // 2 - encaminhado
             // 3 - concluido
@@ -46,15 +51,9 @@ class CreateSolicitacaosTable extends Migration
 
             $table->timestamp('dt_agendamento')->nullable();
             $table->timestamp('dt_conclusao')->nullable();
-
             $table->integer('tipo_pagamento_id')->unsigned()->nullable();
-            $table->foreign('tipo_pagamento_id')->references('id')->on('tipo_pagamentos');
-
             $table->integer('tipo_midia_id')->unsigned()->nullable();
-            $table->foreign('tipo_midia_id')->references('id')->on('tipo_midias');
-
             $table->integer('tipo_aquisicao_id')->unsigned()->nullable();
-            $table->foreign('tipo_aquisicao_id')->references('id')->on('tipo_aquisicaos');
 
             $table->text('obs')->nullable();
 

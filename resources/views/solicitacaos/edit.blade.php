@@ -73,7 +73,7 @@
                         <!-- text input -->
                           <div class="form-group">
                               <label>Cliente</label>
-                              <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->cliente->nome_razaosocial}}" required>
+                              <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->nome_razaosocial}}" required>
                           </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-2">
@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <label>Categoria</label>
                             <select class="form-control" name="categoria_servico_id" id="categoria_servico_id"  required>
-                              <option value={{$solicitacao->servico->categoriaServico->id}}>{{$solicitacao->servico->categoriaServico->descricao}}</option>
+                              <option value={{$solicitacao->categoriaServico->id}}>{{$solicitacao->categoriaServico->descricao}}</option>
                               @foreach( $categorias as $categoria)
                                     <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
                                 @endforeach
@@ -94,7 +94,7 @@
                           <div class="form-group">
                               <label>Serviço</label>
                               <select class="form-control" name="servico_id" id="servico_id"  required>
-                                <option value={{$solicitacao->servico_id}}>{{$solicitacao->servico->descricao}}</option>
+                                <option value={{$solicitacao->plano->id}}>{{$solicitacao->plano->descricao}}</option>
                               </select>
                           </div>
                         </div>

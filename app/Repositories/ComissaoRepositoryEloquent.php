@@ -46,6 +46,48 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     }
 
 
+
+    public function createComissao($solicitacao){
+      switch ($solicitacao->categoria_servico_id) {
+        case '1':
+          $this->createComissaoAdesao($solicitacao);
+          break;
+        case '4':
+          $this->createComissaoAdesao($solicitacao);
+           break;
+        case '9':
+            $this->createComissaoAdesao($solicitacao);
+             break;
+
+        default:
+          # code...
+          break;
+      }
+    }
+
+    public function createComissaoAdesao($solicitacao)
+    {
+      $comissao = new Comissao();
+      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->funcionario_id = $solicitacao->user_id;
+      $comissao->solicitacao_id = $solicitacao->id;
+      $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 10, 2);
+      $comissao->save();
+    }
+
+    // public function createComissaoUpgrade($solicitacao)
+    // {
+    //   $vlr_anterior =
+
+    //   $comissao = new Comissao();
+    //   $comissao->dt_referencia = $solicitacao->created_at;
+    //   $comissao->funcionario_id = $solicitacao->user_id;
+    //   $comissao->solicitacao_id = $solicitacao->id;
+    //   $comissao->comissao_vlr = $solicitacao->plano_ant->
+    //   $comissao->save();
+    // }
+
+
     public function createComissaoAtendimeto($solicitacao)
     {
       $comissao = new Comissao();
@@ -66,6 +108,8 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_id);
       $this->createComissaoAtendimeto($solicitacao);
     }
+
+
 
     public function createComissaoEquipe($solicitacao)
     {

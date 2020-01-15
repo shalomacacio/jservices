@@ -166,6 +166,14 @@
                       <p>Parâmetros <i class="fa fa-angle-left right"></i></p>
                     </a>
                       <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                          <a href="{{route('planos.index')}}" class="nav-link">
+                            <i class="fa fa-circle-o nav-icon"></i>
+                            <p>Planos</p>
+                          </a>
+                        </li>
+
                         <li class="nav-item">
                           <a href="{{route('categoriaServicos.index')}}" class="nav-link">
                             <i class="fa fa-circle-o nav-icon"></i>

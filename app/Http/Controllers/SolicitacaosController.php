@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
 use App\Entities\Cliente;
 use App\Entities\Escala;
+use App\Entities\Plano;
 
 use Illuminate\Validation\Rule;
 
@@ -69,7 +70,14 @@ class SolicitacaosController extends Controller
         ->orderBy('dt_agendamento', 'desc');
     })->paginate(10);
 
+    $users = DB::table('users as u')
+    ->join('role_user as ru','u.id','=','ru.user_id')
+    ->where('ru.role_id', 2)
+    ->get();
+
+
     $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $planos = DB::table('planos')->distinct()->get();
     $tecnologias = DB::table('tecnologias')->distinct()->get();
     $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
     $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
@@ -89,27 +97,38 @@ class SolicitacaosController extends Controller
         'data' => $solicitacaos,
       ]);
     }
-    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
+    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando', 'nAutorizado', 'autorizado', 'planos', 'users'));
   }
 
-  public function ajaxServicos(Request $request)
-  {
-    header('Content-Type: application/json; charset=utf-8');
-    $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
-    $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
-    return response()->json([
-      'servicos' => $servicos
-    ]);
-  }
+  // public function ajaxServicos(Request $request)
+  // {
+  //   header('Content-Type: application/json; charset=utf-8');
+  //   $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
+  //   $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
+  //   return response()->json([
+  //     'servicos' => $servicos
+  //   ]);
+  // }
 
   public function ajaxValor(Request $request)
   {
     header('Content-Type: application/json; charset=utf-8');
-    $valor = DB::table('servicos')->where('id', $request->servico_id)->first();
-    return response()->json([
-      'valor' => $valor
-    ]);
+    $plano = DB::table('planos')->where('id', $request->plano_id)->first();
+    return response()->json($plano);
   }
+
+  public function ajaxDiferenca(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    $valor = Plano::find($request->plano_id);
+    $valor_ant = Plano::find($request->plano_ant_id);
+
+    $diferenca = $valor->vlr_plano - $valor_ant->vlr_plano;
+
+    return response()->json($diferenca);
+  }
+
+
 
   public function ajaxCliente(Request $request)
   {
@@ -279,7 +298,7 @@ class SolicitacaosController extends Controller
     try {
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
       $solicitacao = $this->repository->create($request->all());
-      $comissao = $this->comissaoRepository->createComissaoAtendimeto($solicitacao);
+      $comissao = $this->comissaoRepository->createComissao($solicitacao);
 
       $response = [
         'message' => 'Solicitacao created.',

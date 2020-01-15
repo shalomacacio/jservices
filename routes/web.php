@@ -28,6 +28,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
+    Route::get('solicitacao/ajaxDiferenca', 'SolicitacaosController@ajaxDiferenca');
     Route::get('solicitacao/{id}/integracao', 'SolicitacaosController@integracao')->name('solicitacao.integracao')->middleware('needsRole:admin|supervisor, true');
     Route::put('solicitacao/integrar', 'SolicitacaosController@integrar')->name('solicitacao.integrar')->middleware('needsRole:admin|supervisor, true');
     Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir')->middleware('needsRole:admin|controlador, true');
@@ -53,6 +54,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('escalas', 'EscalasController');
 
     //parametros
+    Route::resource('planos', 'PlanosController');
     Route::resource('tipoUsuario', 'TipoUsuariosController');
     Route::resource('tipoAquisicao', 'TipoAquisicaosController');
     Route::resource('tipoMidias', 'TipoMidiasController');
