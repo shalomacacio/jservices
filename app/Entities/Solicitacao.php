@@ -105,4 +105,9 @@ class Solicitacao extends Model implements Transformable
         return $this->belongsTo('App\Entities\Plano');
     }
 
+    public function mkPessoa()
+    {
+        return $this->belongsTo('App\Entities\MkPessoa', 'codpessoa');
+    }
+
 }

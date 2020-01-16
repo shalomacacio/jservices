@@ -62,6 +62,7 @@
                                 <th class="d-none d-sm-table-cell">Serviço </th>
                                 <th class="d-none d-sm-table-cell">Situação</th>
                                 <th class="d-none d-sm-table-cell">Atendente</th>
+                                <th class="d-none d-sm-table-cell">Bairro</th>
                                 <th class="d-none d-sm-table-cell">Equipe</th>
                                 <th style="width: 140px">Ações </th>
                               </tr>
@@ -74,6 +75,8 @@
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->mkPessoa->bairro->bairro}}</td>
+
                                         <td class="d-none d-sm-table-cell">
                                             @foreach ($solicitacao->users as $tecnico)
                                               @isset($tecnico)

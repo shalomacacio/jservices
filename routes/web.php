@@ -70,4 +70,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('reports/servicos', 'ReportsController@servicos')->name('reports.servicos');
     Route::get('reports/midias', 'ReportsController@midias')->name('reports.midias');
 
+    Route::resource('mkPessoas', 'MkPessoasController');
+    Route::resource('mkBairros', 'MkBairrosController');
+
 });
