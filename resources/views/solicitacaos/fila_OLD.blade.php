@@ -54,56 +54,44 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered">
+                          <table id="grid-basic" class="table table-condensed table-hover table-striped">
                             <thead>
                               <tr>
-                                <th class="d-none d-sm-table-cell" style="width: 30px">Data</th>
-                                <th>Cliente</th>
-                                <th class="d-none d-sm-table-cell">Serviço </th>
-                                <th class="d-none d-sm-table-cell">Situação</th>
-                                <th class="d-none d-sm-table-cell">Atendente</th>
-                                <th class="d-none d-sm-table-cell">Bairro</th>
-                                <th class="d-none d-sm-table-cell">Equipe</th>
-                                <th style="width: 140px">Ações </th>
+                                <th data-column-id="data" class="d-none d-sm-table-cell" >Data</th>
+                                <th data-column-id="cliente">Cliente</th>
+                                <th data-column-id="servico">Serviço</th>
+                                <th data-column-id="situacao">Situação</th>
+                                <th data-column-id="atendente">Atendente</th>
+                                <th data-column-id="bairro">Bairro</th>
+                                <th data-column-id="equipe">Equipe</th>
+                                <th data-column-id = "link" data-formatter = "link" data-classable = "false" > Ações</th>
                               </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($solicitacaos as $solicitacao)
-                                    <tr>
-                                        <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m') }}</td>
-                                        <td>{{ $solicitacao->nome_razaosocial }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->mkPessoa->bairro->bairro}}</td>
-
-                                        <td class="d-none d-sm-table-cell">
-                                            @foreach ($solicitacao->users as $tecnico)
-                                              @isset($tecnico)
-                                                {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
-                                              @endisset
-                                            @endforeach
-                                            @empty($solicitacao->users)
-                                              Nenhum técnico atribuido
-                                            @endempty
-                                        </td>
-                                        <td>
-                                           @if($solicitacao->status_solicitacao_id == 1  || $solicitacao->status_solicitacao_id == 6  ){{-- 1=aberto  --}}
-                                            @if($solicitacao->codpessoa == null )
-                                            <a class="btn btn-info btn-sm"  href="{{route('solicitacao.integracao', $solicitacao->id)}}" ><i class="fa fa-cogs"></i></a>
-                                            @elseif($solicitacao->codpessoa != null)
-                                            <a class="btn btn-info btn-sm"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
-                                            @endif
-                                          @elseif($solicitacao->status_solicitacao_id == 2)
-                                          <a class="btn btn-danger  btn-sm" title="reagendar" href="{{route('solicitacao.reagendar', $solicitacao->id)}}"><i class="fa fa-calendar"></i></a>
-                                          <a class="btn btn-success btn-sm" title="concluir"  href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
-                                          @endif
-                                          <a class="btn btn-info btn-sm"  href="{{route('solicitacao.integracao', $solicitacao->id)}}" ><i class="fa fa-eye"></i></a>
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                          </thead>
+                          <tbody>
+                            @foreach ($solicitacaos as $solicitacao)
+                            <tr>
+                              <td>{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
+                              <td>{{ $solicitacao->nome_razaosocial }}</td>
+                              <td>{{ $solicitacao->categoriaServico->descricao }}</td>
+                              <td>{{ $solicitacao->statusSolicitacao->descricao }}</td>
+                              <td>{{ $solicitacao->user->name }}</td>
+                              <td>{{ $solicitacao->mkPessoa->bairro->bairro }}</td>
+                              <td>
+                                @foreach ($solicitacao->users as $tecnico)
+                                  @isset($tecnico)
+                                    {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
+                                  @endisset
+                                  @endforeach
+                                  @empty($solicitacao->users)
+                                    Nenhum técnico atribuido
+                                  @endempty
+                              </td>
+                              <td>
+                                <a class="btn btn-info btn-sm"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle">Encaminhar</i></a>
+                              </td>
+                          </tr>
+                            @endforeach
+                          </tbody>
                           </table>
                           </div>
                         </div>
@@ -162,5 +150,10 @@
 
 <!-- Bootgrid -->
 <script src="/dist/plugins/bootgrid/jquery.bootgrid.js"></script>
+
+<script type="text/javascript">
+$("#grid-basic").bootgrid();
+
+</script>
 
 @stop

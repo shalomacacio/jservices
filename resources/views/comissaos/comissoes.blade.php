@@ -50,9 +50,9 @@
                             <tbody>
                                 @foreach ($comissaos as $comissao)
                                     <tr>
-                                        <td>{{ $comissao->dt_referencia }}</td>
+                                        <td>{{  \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m') }}</td>
                                         <td>{{ $comissao->solicitacao->nome_razaosocial }}</td>
-                                        <td>teste</td>
+                                        <td>{{ $comissao->solicitacao->categoriaServico->descricao }}</td>
                                         <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
                                         <td>{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>{{ $comissao->comissao_vlr}}</td>

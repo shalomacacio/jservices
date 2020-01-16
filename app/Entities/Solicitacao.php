@@ -63,7 +63,7 @@ class Solicitacao extends Model implements Transformable
 
     public function user()
     {
-      return $this->belongsTo('App\Entities\User');
+      return $this->belongsTo('App\Entities\User', 'user_atendimento_id');
     }
 
     public function statusSolicitacao()

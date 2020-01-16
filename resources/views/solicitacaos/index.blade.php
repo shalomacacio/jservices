@@ -75,7 +75,7 @@
                           </div>
                         </div>
 
-                        <div class="col-12 col-sm-12 col-md-3">
+                        <div class="col-12 col-sm-12 col-md-2">
                           <!-- select -->
                           <div class="form-group">
                               <label>Vend/Atend</label>
@@ -88,7 +88,20 @@
                           </div>
                           </div>
 
-                          <div class="col-12 col-sm-12 col-md-3">
+                          <div class="col-12 col-sm-12 col-md-2">
+                            <!-- select -->
+                            <div class="form-group">
+                                <label>Origem</label>
+                                <select class="form-control" name="origem_venda_id" id="origem_venda_id"  required>
+                                  <option value="0">-- Selecione --</option>
+                                  @foreach( $origens as $origem)
+                                        <option value="{{ $origem->id}}">{{ $origem->descricao}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-12 col-md-2">
                             <!-- select -->
                             <div class="form-group">
                                 <label>Categoria</label>

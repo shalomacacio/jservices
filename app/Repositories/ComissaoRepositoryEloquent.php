@@ -69,10 +69,16 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     {
       $comissao = new Comissao();
       $comissao->dt_referencia = $solicitacao->created_at;
-      $comissao->funcionario_id = $solicitacao->user_id;
+      $comissao->funcionario_id = $solicitacao->user_atendimento_id;
       $comissao->solicitacao_id = $solicitacao->id;
       $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 10, 2);
       $comissao->save();
+    }
+
+    public function updateComissaoAdesao($solicitacao)
+    {
+      $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_atendimento_id);
+      $this->createComissaoAdesao($solicitacao);
     }
 
     public function createComissaoTransf($solicitacao)
@@ -114,7 +120,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
 
     public function updateComissaoAtendimeto($solicitacao)
     {
-      $comissao = Comissao::where('solicitacao_id', $solicitacao->id)->where('funcionario_id', $solicitacao->user_id)->get();
       $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_id);
       $this->createComissaoAtendimeto($solicitacao);
     }
@@ -130,12 +135,10 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
         $comissao->funcionario_id = $tecnico->id;
         $comissao->solicitacao_id = $solicitacao->id;
-        $comissao->servico_id = $solicitacao->servico->id;
-        $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
-        $comissao->servico_comissao = $solicitacao->servico->comissao_equipe;
-        $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_equipe;
-        $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id)/count($solicitacao->users);
+
+        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
         $comissao->save();
+
       }
     }
 

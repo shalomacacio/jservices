@@ -82,6 +82,7 @@ class SolicitacaosController extends Controller
     $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
     $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
     $tipoMidia = DB::table('tipo_midias')->distinct()->get();
+    $origens = DB::table('origem_vendas')->distinct()->get();
 
     $comissaos = $this->comissaoRepository
               ->findWhereBetween('created_at',
@@ -97,7 +98,7 @@ class SolicitacaosController extends Controller
         'data' => $solicitacaos,
       ]);
     }
-    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando', 'nAutorizado', 'autorizado', 'planos', 'users'));
+    return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando', 'nAutorizado', 'autorizado', 'planos', 'users', 'origens'));
   }
 
   // public function ajaxServicos(Request $request)
@@ -393,7 +394,7 @@ class SolicitacaosController extends Controller
       $solicitacao->dt_conclusao = Carbon::now();
       $solicitacao->save();
 
-      $comissao = $this->comissaoRepository->createComissaoEquipe($solicitacao);
+      $comissao = $this->comissaoRepository->createComissaoExecAdesao($solicitacao);
 
       $response = [
         'message' => 'Solicitacao updated.',

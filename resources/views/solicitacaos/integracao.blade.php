@@ -73,7 +73,7 @@
                         <!-- text input -->
                           <div class="form-group">
                               <label>Cliente</label>
-                              <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->cliente->nome_razaosocial}}" disabled>
+                              <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->mkPessoa->nome_razaosocial}}" disabled>
                           </div>
                         </div>
 

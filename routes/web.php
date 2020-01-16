@@ -55,6 +55,7 @@ Route::group(['middleware'=>['auth']], function(){
 
     //parametros
     Route::resource('planos', 'PlanosController');
+    Route::resource('origem', 'OrigemVendasController');
     Route::resource('tipoUsuario', 'TipoUsuariosController');
     Route::resource('tipoAquisicao', 'TipoAquisicaosController');
     Route::resource('tipoMidias', 'TipoMidiasController');
