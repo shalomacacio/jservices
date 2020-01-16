@@ -81,6 +81,22 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $this->createComissaoAdesao($solicitacao);
     }
 
+    public function createComissaoExecAdesao($solicitacao)
+    {
+
+      foreach( $solicitacao->users as $tecnico ){
+
+        $comissao = new Comissao();
+        $comissao->dt_referencia = $solicitacao->dt_conclusao;
+        $comissao->funcionario_id = $tecnico->id;
+        $comissao->solicitacao_id = $solicitacao->id;
+
+        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
+        $comissao->save();
+
+      }
+    }
+
     public function createComissaoTransf($solicitacao)
     {
       $comissao = new Comissao();
