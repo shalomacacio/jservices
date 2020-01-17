@@ -190,10 +190,11 @@
       url: "/solicitacao/ajaxCliente",
       dataType: 'JSON',
       success: function(response) {
+        // console.log(response);
         if (response.error) {
           alert("Erro:" + response.message);
         } else {
-          $('#cliente').val(response.result[0]['nome_razaosocial']);
+          $('#typeahead').val(response.nome_razaosocial);
         }
       },
       error: function(response) {

@@ -21,6 +21,7 @@ use App\Entities\Comissao;
 use App\Entities\Cliente;
 use App\Entities\Escala;
 use App\Entities\Plano;
+use App\Entities\MkPessoa;
 
 use Illuminate\Validation\Rule;
 
@@ -152,8 +153,9 @@ class SolicitacaosController extends Controller
   public function ajaxCliente(Request $request)
   {
     header('Content-Type: application/json; charset=utf-8');
-    $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->codpessoa]);
+    // $cliente = DB::connection('pgsql')->select('select codpessoa, nome_razaosocial from mk_pessoas where codpessoa =?', [$request->codpessoa]);
 
+    $cliente = MkPessoa::find($request->codpessoa);
     if ($cliente == null) {
       return response()->json([
         'error'   => true,
@@ -161,9 +163,7 @@ class SolicitacaosController extends Controller
       ]);
     }
 
-    return response()->json([
-      'result' => $cliente
-    ]);
+    return response()->json($cliente);
   }
 
   public function encaminhar($id)
@@ -314,6 +314,8 @@ class SolicitacaosController extends Controller
    */
   public function store(SolicitacaoCreateRequest $request)
   {
+
+
     try {
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
       $solicitacao = $this->repository->create($request->all());
