@@ -127,7 +127,7 @@
                     <div class="col-6 col-md-3 text-center">
                       <input type="text" class="knob" value="{{ $midias->count()}}" data-width="90" data-height="90" data-fgColor="#28a745"
                         data-readonly="true">
-                          <div class="knob-label">{{ $midias->first()->tipoMidia->descricao }}</div>
+                          <div class="knob-label">{{ $midias->first()->tipoMidia }}</div>
                     </div>
                     <!-- ./col -->
                   @endforeach

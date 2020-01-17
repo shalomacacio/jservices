@@ -170,7 +170,8 @@
           // alert(categoria_servico_id.value );
           if(categoria_servico_id)
           {
-            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+            // $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+            $('select[name=servico_id]').append('<option value=0>--Selecione--</option>');
           }
           $.each(response.servicos, function (key, value)
           {
