@@ -38,10 +38,12 @@ class Solicitacao extends Model implements Transformable
         'plano_id',
         'vlr_plano',
         'vlr_plano_ant',
+        'vlr_plano_dif',
         'plano_ant_id',
         'tipo_pagamento_id',
         'tipo_midia_id',
         'tipo_aquisicao_id',
+        'origem_venda_id',
         'obs'
     ];
 
@@ -103,6 +105,16 @@ class Solicitacao extends Model implements Transformable
     public function plano()
     {
         return $this->belongsTo('App\Entities\Plano');
+    }
+
+    public function planoAnt()
+    {
+        return $this->belongsTo('App\Entities\Plano', 'plano_ant_id');
+    }
+
+    public function origem()
+    {
+        return $this->belongsTo('App\Entities\OrigemVenda', 'origem_venda_id');
     }
 
     public function mkPessoa()

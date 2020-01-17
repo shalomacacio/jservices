@@ -101,15 +101,35 @@ class SolicitacaosController extends Controller
     return view('solicitacaos.index', compact('solicitacaos', 'categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia', 'comissaos', 'aguardando', 'nAutorizado', 'autorizado', 'planos', 'users', 'origens'));
   }
 
-  // public function ajaxServicos(Request $request)
-  // {
-  //   header('Content-Type: application/json; charset=utf-8');
-  //   $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
-  //   $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
-  //   return response()->json([
-  //     'servicos' => $servicos
-  //   ]);
-  // }
+  public function create()
+  {
+    $users = DB::table('users as u')
+    ->join('role_user as ru','u.id','=','ru.user_id')
+    ->where('ru.role_id', 2)
+    ->get();
+
+    $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $planos = DB::table('planos')->distinct()->get();
+    $tecnologias = DB::table('tecnologias')->distinct()->get();
+    $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
+    $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
+    $tipoMidia = DB::table('tipo_midias')->distinct()->get();
+    $origens = DB::table('origem_vendas')->distinct()->get();
+
+
+    return view('solicitacaos.create', compact('categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia','planos', 'users', 'origens'));
+
+  }
+
+  public function ajaxServicos(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    // $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
+    $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
+    return response()->json([
+      'servicos' => $servicos
+    ]);
+  }
 
   public function ajaxValor(Request $request)
   {
@@ -128,8 +148,6 @@ class SolicitacaosController extends Controller
 
     return response()->json($diferenca);
   }
-
-
 
   public function ajaxCliente(Request $request)
   {
@@ -350,13 +368,20 @@ class SolicitacaosController extends Controller
   {
     $solicitacao = $this->repository->find($id);
 
+    $users = DB::table('users as u')
+    ->join('role_user as ru','u.id','=','ru.user_id')
+    ->where('ru.role_id', 2)
+    ->get();
+
     $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $planos = DB::table('planos')->distinct()->get();
     $tecnologias = DB::table('tecnologias')->distinct()->get();
     $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
     $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
     $tipoMidia = DB::table('tipo_midias')->distinct()->get();
+    $origens = DB::table('origem_vendas')->distinct()->get();
 
-    return view('solicitacaos.edit', compact('solicitacao', 'categorias','tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia' ));
+    return view('solicitacaos.edit', compact('solicitacao','categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia','planos', 'users', 'origens'));
   }
 
   public function integracao($id)
@@ -422,7 +447,7 @@ class SolicitacaosController extends Controller
 
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
         $solicitacao = $this->repository->update($request->all(), $id);
-        $comissao = $this->comissaoRepository->updateComissaoAtendimeto($solicitacao);
+        $comissao = $this->comissaoRepository->updateComissaoAdesao($solicitacao);
 
 
       $response = [

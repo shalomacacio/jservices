@@ -7,14 +7,17 @@
       </button>
     </div>
     <!-- /btn-group -->
-    <input type="text" class="form-control" name="codpessoa" id="codpessoa">
+    <input type="text" class="form-control" name="codpessoa" id="codpessoa"
+    @isset($solicitacao->codpessoa)
+      value="{{$solicitacao->codpessoa}}"
+    @endisset>
   </div>
 </div>
 
 <div class="col-12 col-sm-12 col-md-4">
   <div class="form-group">
     <label>Cliente</label>
-    <input type="text" class="form-control" name="nome_razaosocial" id="typeahead" data-provide="typeahead" data-items="4">
+    <input type="text" class="form-control" name="nome_razaosocial" id="typeahead" data-provide="typeahead" data-items="4" required>
   </div>
 </div>
 
@@ -34,7 +37,7 @@
 <div class="col-12 col-sm-12 col-md-2">
   <!-- select -->
   <div class="form-group">
-    <label>Origem</label>
+    <label>Origem Venda</label>
     <select class="form-control" name="origem_venda_id" id="origem_venda_id" required>
       <option value="0">-- Selecione --</option>
       @foreach( $origens as $origem)
@@ -54,6 +57,16 @@
       <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
       @endforeach
     </select>
+  </div>
+</div>
+
+<div class="col-12 col-sm-12 col-md-4 transferencia" hidden>
+  <!-- select -->
+  <div class="form-group">
+      <label>Serviço</label>
+      <select class="form-control" name="servico_id" id="servico_id"  required>
+        <option value="0">-- Selecione --</option>
+      </select>
   </div>
 </div>
 
@@ -141,7 +154,7 @@
 <div class="col-12 col-sm-12 col-md-2 plano " hidden>
   <!-- select -->
   <div class="form-group">
-    <label>Como coheceu ?</label>
+    <label>Canal Venda</label>
     <select class="form-control" name="tipo_midia_id">
       <option value="0">--Selecione--</option>
       @foreach ($tipoMidia as $tipo)
@@ -164,6 +177,6 @@
   <div class="form-group">
     <label>Agendar para:
       <param name="" value=""></label>
-    <input type="date" class="form-control" name="dt_agendamento">
+    <input type="date" class="form-control" name="dt_agendamento" required>
   </div>
 </div>

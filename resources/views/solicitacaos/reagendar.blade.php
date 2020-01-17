@@ -40,27 +40,16 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Cliente</label>
-                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->cliente->nome_razaosocial}}" disabled>
+                            <input type="text" class="form-control" name="cliente" value="{{$solicitacao->nome_razaosocial}}" disabled>
                         </div>
                         </div>
                         <div class="col-sm-4">
                         <!-- select -->
                         <div class="form-group">
                             <label>Serviço</label>
-                        <input type="text" class="form-control" name="servico_id" value="{{$solicitacao->servico->descricao}}" disabled>
+                        <input type="text" class="form-control" name="categoria_servico_id" value="{{$solicitacao->categoriaServico->descricao}}" disabled>
                         </div>
                         </div>
-
-                        <div class="col-sm-4">
-                            <!-- select -->
-                            <div class="form-group">
-                                <label>Tipo Aquisição Equipamento</label>
-                                <select class="form-control" disabled>
-                                  <option>{{ $solicitacao->tipoAquisicao->descricao }}</option>
-                                </select>
-                            </div>
-                        </div>
-
 
                         <div class="col-sm-4">
                           <!-- select -->

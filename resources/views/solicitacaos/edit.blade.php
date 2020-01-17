@@ -9,36 +9,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Solicitação</h1>
+            <h1>Editar Solicitação</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Solicitação</a></li>
-              <li class="breadcrumb-item active">Nova Solicitação</li>
+              <li class="breadcrumb-item active">Editar Solicitação</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
-
-
       {{-- alerts --}}
-      @if(Session::has('message'))
-        <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-            {{Session::get('message')}}
-        </div>
-        @elseif($errors->any())
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h5><i class="icon fas fa-check"></i>Erro</h5>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-      @endif
+      @include('layouts.alerts')
     </section>
     <!-- Main content -->
     <section class="content">
@@ -48,142 +30,22 @@
                 <!-- general form elements disabled -->
                 <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Nova Solicitação</h3>
+                    <h3 class="card-title">Editar Solicitação</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                 <form role="form" action="{{ route('solicitacao.update' , $solicitacao->id )}}" method="POST">
                     @csrf
                     @method('PUT')
-
                     <div class="row">
-                      <div class="col-12 col-sm-12 col-md-2">
-                            <label>Codigo</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <button type="button" id="search" class="btn btn-info"><i class="fas fa-search">
-                                    </i></button>
-                                </div>
-                                <!-- /btn-group -->
-                                <input type="text" class="form-control"  name="codpessoa" value="{{$solicitacao->codpessoa}}" id="codpessoa">
-                              </div>
-                        </div>
-
-                        <div class="col-12 col-sm-12 col-md-4">
-                        <!-- text input -->
-                          <div class="form-group">
-                              <label>Cliente</label>
-                              <input type="text" class="form-control" name="cliente" id="cliente" value="{{$solicitacao->nome_razaosocial}}" required>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Categoria</label>
-                            <select class="form-control" name="categoria_servico_id" id="categoria_servico_id"  required>
-                              <option value={{$solicitacao->categoriaServico->id}}>{{$solicitacao->categoriaServico->descricao}}</option>
-                              @foreach( $categorias as $categoria)
-                                    <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        </div>
-
-                        <div class="col-12 col-sm-12 col-md-2">
-                          <!-- select -->
-                          <div class="form-group">
-                              <label>Serviço</label>
-                              <select class="form-control" name="servico_id" id="servico_id"  required>
-                                <option value={{$solicitacao->plano->id}}>{{$solicitacao->plano->descricao}}</option>
-                              </select>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-2">
-                          <!-- text input -->
-                          <div class="form-group">
-                              <label>Valor</label>
-                              <input type="text" class="form-control" name="servico_vlr" id="servico_vlr" value="{{$solicitacao->servico_vlr}}"  readonly>
-                          </div>
-                          </div>
-                    </div><!-- /.row -->
-                    <div class="row">
-                      <div class="col-12 col-sm-12 col-md-2">
-                      <!-- select -->
-                        <div class="form-group">
-                          <label>Tecnologia</label>
-                          <select class="form-control" name="tecnologia_id">
-                            <option value={{$solicitacao->tecnologia_id}}>{{$solicitacao->tecnologia->descricao}}</option>
-                            @foreach ($tecnologias as $tecnologia)
-                              <option value={{$tecnologia->id}}>{{$tecnologia->descricao}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="col-12 col-sm-12 col-md-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Forma de Pag</label>
-                            <select class="form-control" name="tipo_pagamento_id">
-                              <option value={{$solicitacao->tipo_pagamento_id}}>{{$solicitacao->tipoPagamento->descricao}}</option>
-                                @foreach ($tipoPagamentos as $tipo)
-                                <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
-                              @endforeach
-                            </select>
-                        </div>
-                        </div>
-
-                        <div class="col-12 col-sm-12 col-md-2">
-                        <!-- select -->
-                        <div class="form-group">
-                            <label>Equipamentos</label>
-                            <select class="form-control" name="tipo_aquisicao_id">
-                              <option value={{$solicitacao->tipo_aquisicao_id}}>{{$solicitacao->tipoAquisicao->descricao}}</option>
-                                @foreach ($tipoAquisicaos as $tipo)
-                                  <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        </div>
-
-                        <div class="col-12 col-sm-12 col-md-3">
-                          <!-- select -->
-                          <div class="form-group">
-                              <label>Como coheceu ?</label>
-                              <select class="form-control" name="tipo_midia_id">
-                                  <option value={{$solicitacao->tipo_midia_id}}>{{$solicitacao->tipoMidia->descricao}}</option>
-                                  @foreach ($tipoMidia as $tipo)
-                                    <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
-                                  @endforeach
-                              </select>
-                          </div>
-                          </div>
-
-                          <div class="col-12 col-sm-12 col-md-3">
-                            <!-- text input -->
-                            <div class="form-group">
-                                <label>Agendar para:<param name="" value=""></label>
-                                <input type="date" class="form-control" name="dt_agendamento" value="{{\Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d') }}"  >
-                            </div>
-                            </div>
-
-
-                            <div class="col-12 col-sm-12 col-md-12">
-                            <!-- textarea -->
-                            <div class="form-group">
-                            <label>Observação</label>
-                            <textarea class="form-control" name="obs" rows="1" placeholder="Observação ..."></textarea>
-                            </div>
-                        </div>
+                      @include('solicitacaos.form_edit')
                     </div>
-
-                </div>
                     <!-- /.card-body -->
                 <div class="card-footer">
                   <button type="submit" class="btn btn-info float-right">Concluir</button>
                 </div>
-                <!-- /.card-body -->
-                </div>
+
+                </div><!-- /.card-body -->
                 <input type="hidden" value="{{Auth::user()->id}}" name="user_id" />
                 <input type="hidden"  name="comissao_atendimento" />
                 <input type="hidden"  name="comissao_equipe" />
@@ -204,81 +66,6 @@
 <script src="/dist/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-
-</script>
-
-<script type="text/javascript">
-  $('select[name=categoria_servico_id]').change(function () {
-    ajaxServicos();
-  });
-
-  $('select[name=servico_id]').change(function () {
-    ajaxValor();
-  });
-
-  // $('#codpessoa').change(function () {
-  //   ajaxCliente();
-  // });
-
-
-  $('#search').click( function () {
-    ajaxCliente();
-  });
-
-  function ajaxServicos(){
-    $.ajax({
-        type: "GET",
-        data: {categoria_servico_id: $("#categoria_servico_id").val()},
-        url: "/solicitacao/ajaxServicos",
-        dataType: 'JSON',
-        success: function(response) {
-          $('select[name=servico_id]').empty();
-          // alert(categoria_servico_id.value );
-          if(categoria_servico_id){
-            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
-          }
-          $.each(response.servicos, function (key, value) {
-
-            $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
-          })
-        }
-    });
-  }
-
-  function ajaxCliente(){
-    $.ajax({
-        type: "GET",
-        data: {codpessoa: $("#codpessoa").val()},
-        url: "/solicitacao/ajaxCliente",
-        dataType: 'JSON',
-        success: function(response) {
-          if(response.error){
-            alert("Erro:"+ response.message);
-          } else {
-            $('#cliente').val(response.result[0]['nome_razaosocial']);
-          }
-        },
-        error: function(response){
-          alert("A conexão com MKSOLUTION falhou!")
-        }
-    });
-  }
-  function ajaxValor(){
-    $.ajax({
-        type: "GET",
-        data: {servico_id: $("#servico_id").val()},
-        url: "/solicitacao/ajaxValor",
-        dataType: 'JSON',
-        success: function(response) {
-          // alert(response.valor['servico_vlr']);
-          $('#servico_vlr').val(response.valor['servico_vlr']);
-        }
-    });
-  }
-</script>
 <!-- Bootstrap 4 -->
 <script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Morris.js charts -->
@@ -304,6 +91,178 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/dist/js/demo.js"></script>
+<!-- Select2 -->
+<script src="/dist/plugins/select2/select2.full.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+<script type="text/javascript">
+  $('select[name=categoria_servico_id]').change(function() {
+    var item = $(this).val()
+    console.log(item);
+    habilitaCampos(item);
+    ajaxServicos();
+  });
+
+  function habilitaCampos(item) {
+    switch (item) {
+      case '1':
+        desabilitaCampos();
+        $('.plano').removeAttr('hidden');
+        break;
+      case '4':
+        desabilitaCampos();
+        $('.migracao').removeAttr('hidden');
+        break;
+      case '8':
+        desabilitaCampos();
+        $('.transferencia').removeAttr('hidden');
+        break;
+      case '9':
+        desabilitaCampos();
+        $('.upgrade').removeAttr('hidden');
+        break;
+      default:
+        desabilitaCampos();
+    }
+  }
+
+  function desabilitaCampos() {
+    $('.plano').attr('hidden', true);
+    $('.migracao').attr('hidden', true);
+    $('.upgrade').attr('hidden', true);
+    $('.transferencia').attr('hidden', true);
+  }
+
+  $('select[name=plano_id]').change(function() {
+    ajaxValor();
+    ajaxDiferenca();
+  });
+
+  $('select[name=plano_ant_id]').change(function() {
+    ajaxDiferenca();
+  });
+
+  // $('select[name=plano_ant]').change(function () {
+  //   var vlr_atual = $('vlr_plano').val();
+  //   var vlr_ant = $('vlr_plano').val();
+
+  // });
+
+  //Initialize Select2 Elements
+  $('.select2bs4').select2({
+    theme: 'bootstrap4'
+  })
+
+  $('#search').click(function() {
+    ajaxCliente();
+  });
+
+  function ajaxServicos(){
+    $.ajax({
+        type: "GET",
+        data: {categoria_servico_id: $("#categoria_servico_id").val()},
+        url: "/solicitacao/ajaxServicos",
+        dataType: 'JSON',
+        success: function(response) {
+          $('select[name=servico_id]').empty();
+          // alert(categoria_servico_id.value );
+          if(categoria_servico_id)
+          {
+            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+          }
+          $.each(response.servicos, function (key, value)
+          {
+            $('select[name=servico_id]').append('<option value=' + value.id + '>' + value.descricao + '</option>');
+          })
+        }
+    });
+  }
+
+  function ajaxCliente() {
+    $.ajax({
+      type: "GET",
+      data: {
+        codpessoa: $("#codpessoa").val()
+      },
+      url: "/solicitacao/ajaxCliente",
+      dataType: 'JSON',
+      success: function(response) {
+        if (response.error) {
+          alert("Erro:" + response.message);
+        } else {
+          $('#cliente').val(response.result[0]['nome_razaosocial']);
+        }
+      },
+      error: function(response) {
+        alert("A conexão com MKSOLUTION falhou!")
+      }
+    });
+  }
+
+  function ajaxValor() {
+    $.ajax({
+      type: "GET",
+      data: {
+        plano_id: $("#plano_id").val()
+      },
+      url: "/solicitacao/ajaxValor",
+      dataType: 'JSON',
+      success: function(response) {
+        console.log(response.vlr_plano)
+        $('#vlr_plano').val(response.vlr_plano);
+      }
+    });
+  }
+
+  function ajaxDiferenca() {
+    $.ajax({
+
+      type: "GET",
+      data: {
+        plano_id: $("#plano_id").val(),
+        plano_ant_id: $("#plano_ant_id").val()
+      },
+      url: "/solicitacao/ajaxDiferenca",
+      dataType: 'JSON',
+      success: function(response) {
+        console.log(response)
+        $('#vlr_plano_dif').val(response);
+      }
+    });
+  }
+
+  var cli = function(request, response) {
+    $.ajax({
+      url: "{{ route('autocomplete') }}",
+      data: {
+        query: request.term
+      },
+      dataType: "json",
+      success: function(data) {
+        var resp = $.map(data, function(obj) {
+          if (obj.id) {
+            $('#cliente_id').val(obj.id);
+          } else if (obj.codpessoa) {
+            $('#codpessoa').val(obj.codpessoa);
+
+          }
+          // console.log(obj);
+          return obj.nome_razaosocial;
+        });
+        response(resp);
+      }
+    });
+  }
+
+  $("#typeahead").autocomplete({
+    source: cli,
+    minLength: 1
+  });
+</script>
+
 @stop

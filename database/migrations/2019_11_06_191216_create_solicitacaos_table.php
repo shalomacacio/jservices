@@ -26,23 +26,17 @@ class CreateSolicitacaosTable extends Migration
             $table->foreign('user_id')->references('id')
                   ->on('users');
 
-            $table->integer('user_atendimento_id')->unsigned()->nullable();
-            $table->foreign('user_atendimento_id')->references('id')
-                        ->on('users');
+            $table->integer('user_atendimento_id')->nullable();
+            $table->integer('categoria_servico_id')->nullable();
+            $table->integer('servico_id')->nullable();
+            $table->integer('plano_id')->nullable();
+            $table->integer('plano_ant_id')->nullable();
+            $table->decimal('vlr_plano')->default(0.00)->nullable();; //servico_vlr
+            $table->decimal('vlr_plano_ant')->default(0.00)->nullable();; //servico_vlr
+            $table->decimal('vlr_plano_dif')->default(0.00)->nullable();; //servico_vlr
 
-            $table->integer('categoria_servico_id')->unsigned()->nullable();
-                  $table->foreign('categoria_servico_id')->references('id')
-                    ->on('categoria_servicos');
-
-            $table->integer('servico_id')->unsigned()->nullable();
-            $table->integer('plano_id')->unsigned()->nullable();
-            $table->integer('plano_ant_id')->unsigned()->nullable();
-            $table->decimal('vlr_plano')->default(0.00); //servico_vlr
-            $table->decimal('vlr_plano_ant')->default(0.00); //servico_vlr
-            $table->decimal('vlr_plano_dif')->default(0.00); //servico_vlr
-
-            $table->tinyInteger('flg_comissao')->default(0);
-            $table->integer('tecnologia_id')->unsigned()->nullable();
+            $table->tinyInteger('flg_comissao')->default(0)->nullable();;
+            $table->integer('tecnologia_id')->nullable();
             $table->integer('status_solicitacao_id')->unsigned()->default(1);
             // 1 - aberto
             // 2 - encaminhado
@@ -52,9 +46,9 @@ class CreateSolicitacaosTable extends Migration
 
             $table->timestamp('dt_agendamento')->nullable();
             $table->timestamp('dt_conclusao')->nullable();
-            $table->integer('tipo_pagamento_id')->unsigned()->nullable();
-            $table->integer('tipo_midia_id')->unsigned()->nullable();
-            $table->integer('tipo_aquisicao_id')->unsigned()->nullable();
+            $table->integer('tipo_pagamento_id')->nullable();
+            $table->integer('tipo_midia_id')->nullable();
+            $table->integer('tipo_aquisicao_id')->nullable();
 
             $table->text('obs')->nullable();
 

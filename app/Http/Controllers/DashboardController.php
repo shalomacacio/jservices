@@ -49,6 +49,7 @@ class DashboardController extends Controller
 
         $solicitacaos = $this->solicitacaoRepository->scopeQuery(function ($query) {
           return $query
+            ->where('tipo_midia_id','<>', 0)
             ->orderBy('created_at', 'desc');
         })->get();
 

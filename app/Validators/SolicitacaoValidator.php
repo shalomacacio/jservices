@@ -21,6 +21,10 @@ class SolicitacaoValidator extends LaravelValidator
         ValidatorInterface::RULE_CREATE =>
         [
             'nome_razaosocial'      => 'required|max:255',
+            'dt_agendamento'        => 'required',
+            'user_atendimento_id'        => 'required',
+            'origem_venda_id'        => 'required',
+            'categoria_servico_id'        => 'required',
 
         ],
         ValidatorInterface::RULE_UPDATE => [],

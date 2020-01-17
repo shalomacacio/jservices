@@ -55,10 +55,12 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         case '4':
           $this->createComissaoAdesao($solicitacao);
            break;
+        case '8':
+            $this->createComissaoServicoAtend($solicitacao);
+            break;
         case '9':
             $this->createComissaoAdesao($solicitacao);
-             break;
-
+              break;
         default:
           # code...
           break;
@@ -120,17 +122,13 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     // }
 
 
-    public function createComissaoAtendimeto($solicitacao)
+    public function createComissaoServicoAtend($solicitacao)
     {
       $comissao = new Comissao();
       $comissao->dt_referencia = $solicitacao->created_at;
       $comissao->funcionario_id = $solicitacao->user_id;
       $comissao->solicitacao_id = $solicitacao->id;
-      $comissao->servico_id = $solicitacao->servico->id;
-      $comissao->servico_vlr = $solicitacao->servico->servico_vlr;
-      $comissao->servico_comissao = $solicitacao->servico->comissao_atendimento;
-      $comissao->servico_tipo_comissao_id = $solicitacao->servico->tipo_comissao_atendimento;
-      $comissao->comissao_vlr = $comissao->comissionar($comissao->servico_vlr, $comissao->servico_comissao, $comissao->servico_tipo_comissao_id);
+      $comissao->comissao_vlr = $comissao->comissionar($solicitacao->servico->servico_vlr, $solicitacao->servico->comissao_atendimento, $solicitacao->servico->tipo_comissao_atendimento);
       $comissao->save();
     }
 
