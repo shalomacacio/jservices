@@ -82,7 +82,7 @@
                                 @endis
                             </ul>
                         </li>
-              @is('admin')
+
 
               <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
@@ -91,7 +91,7 @@
                 </a>
                   <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="{{route('comissao.comissoes')}}" class="nav-link">
+                        <a href="{{route('comissao.minhasComissoes')}}" class="nav-link">
                           <i class="fa fa-circle-o nav-icon"></i>
                           <p>Comissões</p>
                         </a>
@@ -104,7 +104,7 @@
                       </li>
                   </ul>
               </li>
-              @endis
+
 
                 <li class="nav-header">CADASTROS</li>
                 <li class="nav-item has-treeview">

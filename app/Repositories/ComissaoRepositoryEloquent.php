@@ -50,7 +50,11 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissao($solicitacao){
       switch ($solicitacao->categoria_servico_id) {
         case '1':
+          if($solicitacao->tipo_pagamento_id != 5){
+            $this->createComissaoServPago($solicitacao);
+          }
           $this->createComissaoAdesao($solicitacao);
+
           break;
         case '4':
           $this->createComissaoAdesao($solicitacao);
@@ -129,6 +133,16 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $comissao->funcionario_id = $solicitacao->user_id;
       $comissao->solicitacao_id = $solicitacao->id;
       $comissao->comissao_vlr = $comissao->comissionar($solicitacao->servico->servico_vlr, $solicitacao->servico->comissao_atendimento, $solicitacao->servico->tipo_comissao_atendimento);
+      $comissao->save();
+    }
+
+    public function createComissaoServPago($solicitacao)
+    {
+      $comissao = new Comissao();
+      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->funcionario_id = $solicitacao->user_atendimento_id;
+      $comissao->solicitacao_id = $solicitacao->id;
+      $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 10, 2);
       $comissao->save();
     }
 

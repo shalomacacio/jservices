@@ -13,6 +13,8 @@ use App\Repositories\ComissaoRepository;
 use App\Validators\ComissaoValidator;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ComissaosController.
@@ -51,7 +53,10 @@ class ComissaosController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+
         $comissaos = $this->repository->all();
+
+
         $tipoComissaos = DB::table('tipo_comissaos')->get();
 
         if (request()->wantsJson()) {
@@ -61,22 +66,54 @@ class ComissaosController extends Controller
             ]);
         }
 
-        return view('comissaos.index', compact('comissaos', 'tipoComissaos'));
+        return view('comissaos.minhas_comissoes', compact('comissaos', 'tipoComissaos'));
     }
 
 
     public function comissoes()
     {
-        $comissaos = $this->repository->findWhere([
-          'flg_autorizado' => 3
-        ]);
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
+
+        $comissaos = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
+          return $query
+            ->where('funcionario_id', Auth::user()->id)
+            ->whereDate('dt_referencia', '>=', $start)
+            ->whereDate('dt_referencia', '<=', $end)
+            ->orderBy('dt_referencia', 'desc');
+        })->paginate(10);
 
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $comissaos,
             ]);
         }
-        return view('comissaos.comissoes', compact('comissaos'));
+        return view('comissaos.minhas_comissoes', compact('comissaos'));
+    }
+
+    public function minhasComissoes()
+    {
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
+
+        $comissaos = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
+          return $query
+            ->where('funcionario_id', Auth::user()->id)
+            ->whereDate('dt_referencia', '>=', $start)
+            ->whereDate('dt_referencia', '<=', $end)
+            ->orderBy('dt_referencia', 'desc');
+        })->paginate(10);
+
+        $aguardando = $comissaos->where('flg_autorizado', 3 )->sum('comissao_vlr');
+        $nAutorizado = $comissaos->where('flg_autorizado', 0 )->sum('comissao_vlr');
+        $autorizado = $comissaos->where('flg_autorizado', 1 )->sum('comissao_vlr');
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'data' => $comissaos,
+            ]);
+        }
+        return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
     }
 
     public function pesquisar()
@@ -86,21 +123,20 @@ class ComissaosController extends Controller
     }
 
     public function search(Request $request){
-      $users = DB::table('users')->get();
-      $result= $this->repository->scopeQuery(function ($query) use ($request) {
+      $comissaos= $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
+          ->where('funcionario_id', Auth::user()->id)
           ->whereDate('dt_referencia', '>=' , $request->dt_inicio)
           ->whereDate('dt_referencia', '<=' , $request->dt_fim);
       })->get();
 
-      if($request->funcionario_id == 0){
-        $comissaos = $result;
-      } else{
-        $comissaos = $result->where('funcionario_id', $request->funcionario_id);
-      }
+      $aguardando = $comissaos->where('flg_autorizado', 3 )->sum('comissao_vlr');
+      $nAutorizado = $comissaos->where('flg_autorizado', 0 )->sum('comissao_vlr');
+      $autorizado = $comissaos->where('flg_autorizado', 1 )->sum('comissao_vlr');
 
 
-      return view('comissaos.pesquisar', compact('comissaos', 'users'));
+      return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
+
     }
 
 

@@ -35,6 +35,7 @@ class Solicitacao extends Model implements Transformable
         'dt_agendamento',
         'dt_conclusao',
         'servico_vlr',
+        'vlr_servico',
         'plano_id',
         'vlr_plano',
         'vlr_plano_ant',

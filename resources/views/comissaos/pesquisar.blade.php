@@ -66,18 +66,6 @@
                   <input type="date" class="form-control" name="dt_fim" required>
                 </div>
               </div>
-              <div class="col-sm-4">
-                <!-- select -->
-                <div class="form-group">
-                  <label>Funcionário</label>
-                  <select class="form-control" name="funcionario_id">
-                    <option value="0">-- TODOS --</option>
-                    @foreach($users as $user)
-                    <option value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
             </div>
         </div>
         <div class="card-footer">
@@ -86,7 +74,6 @@
         <!-- /.card-body -->
       </form>
       </div>
-
 
       <div class="card">
         <div class="card-header">
@@ -112,8 +99,7 @@
                     <tr>
                         <td>{{ $comissao->id }}</td>
                         <td>{{ $comissao->dt_referencia }}</td>
-                        <td>{{ $comissao->solicitacao->cliente->nome_razaosocial }}</td>
-                        <td>{{ $comissao->servico->categoriaServico->descricao }}{{ $comissao->servico->descricao }}</td>
+                        <td>{{ $comissao->solicitacao->mkPessoa->nome_razaosocial }}</td>
                         <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
                         <td>{{ $comissao->comissao_vlr}}</td>
                         <td>

@@ -100,7 +100,7 @@
 <script type="text/javascript">
   $('select[name=categoria_servico_id]').change(function() {
     var item = $(this).val()
-    console.log(item);
+    // console.log(item);
     habilitaCampos(item);
     ajaxServicos();
   });
@@ -139,6 +139,19 @@
     ajaxValor();
     ajaxDiferenca();
   });
+
+  $('select[name=tipo_pagamento_id]').change(function() {
+    var item = $(this).val()
+    // console.log(item);
+    if(item != 5){
+      $('.serv_pago').removeAttr('hidden');
+    } else if( item == 5){
+      $('.serv_pago').attr('hidden', true);
+    }
+
+  });
+
+
 
   $('select[name=plano_ant_id]').change(function() {
     ajaxDiferenca();

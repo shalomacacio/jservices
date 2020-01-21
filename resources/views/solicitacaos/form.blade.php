@@ -70,7 +70,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 plano migracao upgrade" hidden>
+<div class="col-12 col-sm-12 col-md-3 plano migracao upgrade" hidden>
   <!-- select -->
   <div class="form-group">
     <label>Plano</label>
@@ -83,7 +83,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 upgrade" hidden>
+<div class="col-12 col-sm-12 col-md-3 upgrade" hidden>
   <!-- select -->
   <div class="form-group">
     <label>Plano Anterior</label>
@@ -96,7 +96,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 plano migracao" hidden>
+<div class="col-12 col-sm-12 col-md-3 plano migracao" hidden>
   <!-- text input -->
   <div class="form-group">
     <label>Valor</label>
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 upgrade" hidden>
+<div class="col-12 col-sm-12 col-md-3 upgrade" hidden>
   <!-- text input -->
   <div class="form-group">
     <label>Valor Dif</label>
@@ -112,7 +112,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 plano migracao" hidden>
+<div class="col-12 col-sm-12 col-md-3 plano migracao" hidden>
   <!-- select -->
   <div class="form-group">
     <label>Tecnologia</label>
@@ -125,20 +125,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 plano migracao" hidden>
-  <!-- select -->
-  <div class="form-group">
-    <label>Forma Pag</label>
-    <select class="form-control" name="tipo_pagamento_id">
-      <option value="0">--Selecione--</option>
-      @foreach ($tipoPagamentos as $tipo)
-      <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
-      @endforeach
-    </select>
-  </div>
-</div>
-
-<div class="col-12 col-sm-12 col-md-2 plano " hidden>
+<div class="col-12 col-sm-12 col-md-3 plano " hidden>
   <!-- select -->
   <div class="form-group">
     <label>Equipamentos</label>
@@ -151,7 +138,28 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2 plano " hidden>
+<div class="col-12 col-sm-12 col-md-3 plano migracao" hidden>
+  <!-- select -->
+  <div class="form-group">
+    <label>Forma Pag</label>
+    <select class="form-control" name="tipo_pagamento_id" id="tipo_pagamento_id">
+      <option value="0">--Selecione--</option>
+      @foreach ($tipoPagamentos as $tipo)
+      <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
+      @endforeach
+    </select>
+  </div>
+</div>
+
+<div class="col-12 col-sm-12 col-md-3 serv_pago" hidden>
+  <!-- text input -->
+  <div class="form-group">
+    <label>Valor Serviço</label>
+    <input type="text" class="form-control" name="vlr_servico" id="vlr_servico">
+  </div>
+</div>
+
+<div class="col-12 col-sm-12 col-md-3 plano " hidden>
   <!-- select -->
   <div class="form-group">
     <label>Canal Venda</label>

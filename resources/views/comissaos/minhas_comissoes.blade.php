@@ -14,12 +14,15 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Comissão</a></li>
-              <li class="breadcrumb-item active">Comissões</li>
+              <li class="breadcrumb-item active">Minhas Comissões</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
+      @include('comissaos.widget')
     </section>
+
+
 
     <!-- Main content -->
     <section class="content">
@@ -44,7 +47,6 @@
                                 <th>Funcionário</th>
                                 <th>Status</th>
                                 <th>Valor</th>
-                                <th style="width: 180px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -54,18 +56,16 @@
                                         <td>{{ $comissao->solicitacao->nome_razaosocial }}</td>
                                         <td>{{ $comissao->solicitacao->categoriaServico->descricao }}</td>
                                         <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
-                                        <td>{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td>{{ $comissao->comissao_vlr}}</td>
                                         <td>
-                                          @if( $comissao->solicitacao->status_solicitacao_id == 3)
-                                            <form action="{{ route('comissao.autorizar', $comissao->id)}}" method="post">
-                                                @csrf
-                                                @method('PUT')
-                                                <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
-                                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"><i class="fab fa-creative-commons-nc"></i></button>
-                                            </form>
-                                            @endif
+                                          @if($comissao->flg_autorizado == 3)
+                                            Aguardando
+                                          @elseif($comissao->flg_autorizado == 0)
+                                            Não Autorizado
+                                          @elseif($comissao->flg_autorizado == 1)
+                                            Autorizado
+                                          @endif
                                         </td>
+                                        <td>{{ $comissao->comissao_vlr}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
