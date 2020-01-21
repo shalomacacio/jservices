@@ -115,6 +115,11 @@
         desabilitaCampos();
         $('.migracao').removeAttr('hidden');
         break;
+        case '6':
+        desabilitaCampos();
+        $('.puxada').removeAttr('hidden');
+        $('.serv_pago').removeAttr('hidden');
+        break;
       case '8':
         desabilitaCampos();
         $('.transferencia').removeAttr('hidden');
@@ -133,6 +138,7 @@
     $('.migracao').attr('hidden', true);
     $('.upgrade').attr('hidden', true);
     $('.transferencia').attr('hidden', true);
+    $('.serv_pago').attr('hidden', true);
   }
 
   $('select[name=plano_id]').change(function() {

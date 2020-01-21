@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-4 transferencia" hidden>
+<div class="col-12 col-sm-12 col-md-4 transferencia puxada" hidden>
   <!-- select -->
   <div class="form-group">
       <label>Serviço</label>
@@ -155,7 +155,7 @@
   <!-- text input -->
   <div class="form-group">
     <label>Valor Serviço</label>
-    <input type="text" class="form-control" name="vlr_servico" id="vlr_servico">
+    <input type="text" class="form-control" name="vlr_servico" id="vlr_servico" required>
   </div>
 </div>
 

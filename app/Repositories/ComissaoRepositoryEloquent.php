@@ -45,8 +45,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-
-
     public function createComissao($solicitacao){
       switch ($solicitacao->categoria_servico_id) {
         case '1':
@@ -54,11 +52,13 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
             $this->createComissaoServPago($solicitacao);
           }
           $this->createComissaoAdesao($solicitacao);
-
           break;
         case '4':
           $this->createComissaoAdesao($solicitacao);
            break;
+        case '6':
+          $this->createComissaoServPago($solicitacao);
+            break;
         case '8':
             $this->createComissaoServicoAtend($solicitacao);
             break;
@@ -89,9 +89,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
 
     public function createComissaoExecAdesao($solicitacao)
     {
-
       foreach( $solicitacao->users as $tecnico ){
-
         $comissao = new Comissao();
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
         $comissao->funcionario_id = $tecnico->id;
