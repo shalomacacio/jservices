@@ -93,7 +93,7 @@
                       <li class="nav-item">
                         <a href="{{route('comissao.minhasComissoes')}}" class="nav-link">
                           <i class="fa fa-circle-o nav-icon"></i>
-                          <p>Comissões</p>
+                          <p>Minhas Comissões</p>
                         </a>
                       </li>
                       <li class="nav-item">
@@ -102,6 +102,14 @@
                           <p>Pesquisar</p>
                         </a>
                       </li>
+                      @is(['admin', 'supervisor', 'controlador'])
+                      <li class="nav-item">
+                        <a href="{{route('comissao.comissoes')}}" class="nav-link">
+                          <i class="fa fa-circle-o nav-icon"></i>
+                          <p>Comissões</p>
+                        </a>
+                      </li>
+                      @endis
                   </ul>
               </li>
 

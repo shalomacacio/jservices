@@ -155,7 +155,7 @@
   <!-- text input -->
   <div class="form-group">
     <label>Valor Serviço</label>
-    <input type="text" class="form-control" name="vlr_servico" id="vlr_servico" required>
+    <input type="text" class="form-control" name="vlr_servico" id="vlr_servico">
   </div>
 </div>
 
