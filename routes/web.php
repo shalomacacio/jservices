@@ -44,7 +44,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('tecnico', 'TecnicosController');
     Route::get('autocomplete', 'ClientesController@autocomplete')->name('autocomplete');
     Route::resource('clientes', 'ClientesController');
-    Route::get('comissaos/comissoes', 'ComissaosController@comissoes')->name('comissao.comissoes')->middleware('needsRole:admin|auditor|atendimento, true');
+    Route::get('comissaos/autorizarComissoes', 'ComissaosController@autorizarComissoes')->name('comissao.autorizarComissoes')->middleware('needsRole:admin|auditor|atendimento, true');
     Route::get('comissaos/minhasComissoes', 'ComissaosController@minhasComissoes')->name('comissao.minhasComissoes')->middleware('needsRole:admin|auditor|atendimento, true');;
     Route::put('comissaos/{id}/autorizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');;
     Route::get('comissaos/pesquisar', 'ComissaosController@pesquisar')->name('comissao.pesquisar')->middleware('needsRole:admin|atendimento, true');

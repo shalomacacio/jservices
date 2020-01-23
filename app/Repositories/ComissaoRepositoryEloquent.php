@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Repositories;
-
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\ComissaoRepository;
@@ -114,7 +113,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->solicitacao_id = $solicitacao->id;
         $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
         $comissao->save();
-
       }
     }
 
@@ -127,9 +125,8 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
         $comissao->funcionario_id = $tecnico->id;
         $comissao->solicitacao_id = $solicitacao->id;
-        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
+        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 4, 1 )/count($solicitacao->users);
         $comissao->save();
-
       }
     }
 
@@ -146,7 +143,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     // public function createComissaoUpgrade($solicitacao)
     // {
     //   $vlr_anterior =
-
     //   $comissao = new Comissao();
     //   $comissao->dt_referencia = $solicitacao->created_at;
     //   $comissao->funcionario_id = $solicitacao->user_id;
@@ -154,7 +150,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     //   $comissao->comissao_vlr = $solicitacao->plano_ant->
     //   $comissao->save();
     // }
-
 
     public function createComissaoServicoAtend($solicitacao)
     {
@@ -182,7 +177,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $this->createComissaoAtendimeto($solicitacao);
     }
 
-
     public function createComissaoEquipe($solicitacao)
     {
       foreach( $solicitacao->users as $tecnico )
@@ -196,11 +190,13 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       }
     }
 
-    public function deleteComissaoIndividual($solicitacaoId, $usuarioId){
+    public function deleteComissaoIndividual($solicitacaoId, $usuarioId)
+    {
       $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->where('funcionario_id', $usuarioId)->delete();
     }
 
-    public function deleteComissaoGrupo($solicitacaoId){
+    public function deleteComissaoGrupo($solicitacaoId)
+    {
       $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->delete();
     }
 

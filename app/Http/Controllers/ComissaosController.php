@@ -70,15 +70,11 @@ class ComissaosController extends Controller
     }
 
 
-    public function comissoes()
+    public function autorizarComissoes()
     {
-        $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
-        $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
-
-        $comissaos = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
+        $comissaos = $this->repository->scopeQuery(function ($query) {
           return $query
-            ->whereDate('dt_referencia', '>=', $start)
-            ->whereDate('dt_referencia', '<=', $end)
+          ->where('flg_autorizado', '=', 3)
             ->orderBy('dt_referencia', 'desc');
         })->paginate(10);
 
@@ -87,7 +83,7 @@ class ComissaosController extends Controller
                 'data' => $comissaos,
             ]);
         }
-        return view('comissaos.comissoes', compact('comissaos'));
+        return view('comissaos.autorizarComissoes', compact('comissaos'));
     }
 
     public function minhasComissoes()
@@ -139,8 +135,10 @@ class ComissaosController extends Controller
     }
 
 
+
     public function autorizar(Request $request, $id)
     {
+      // return dd($request);
       $comissao = $this->repository->find($id);
       $comissao->flg_autorizado = $request->flg_autorizado;
       $comissao->save();
@@ -154,7 +152,7 @@ class ComissaosController extends Controller
           return response()->json($response);
       }
 
-      return redirect()->route('comissao.comissoes')->with('message', $response['message']);
+      return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
     }
 
 

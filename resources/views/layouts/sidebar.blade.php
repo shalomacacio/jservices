@@ -104,13 +104,7 @@
                       </li>
                       @is(['admin', 'supervisor', 'controlador'])
                       <li class="nav-item">
-                        <a href="{{route('comissao.comissoes')}}" class="nav-link">
-                          <i class="fa fa-circle-o nav-icon"></i>
-                          <p>Comissões</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('comissao.autorizarComissoes') }}" class="nav-link">
                           <i class="fa fa-circle-o nav-icon"></i>
                           <p>Autorizar Comissões</p>
                         </a>
