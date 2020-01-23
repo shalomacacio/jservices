@@ -45,8 +45,10 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-    public function createComissao($solicitacao){
-      switch ($solicitacao->categoria_servico_id) {
+    public function createComissao($solicitacao)
+    {
+      switch ($solicitacao->categoria_servico_id)
+      {
         case '1':
           if($solicitacao->tipo_pagamento_id != 5){
             $this->createComissaoServPago($solicitacao);
@@ -65,6 +67,22 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         case '9':
             $this->createComissaoAdesao($solicitacao);
               break;
+        default:
+          # code...
+          break;
+      }
+    }
+
+    public function createComissaoEcex($solicitacao)
+    {
+      switch ($solicitacao->categoria_servico_id)
+      {
+        case '1':
+          createComissaoExecAdesao($solicitacao);
+          break;
+        case '2':
+          createComissaoExecCancelamento($solicitacao);
+            break;
         default:
           # code...
           break;
@@ -94,7 +112,21 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
         $comissao->funcionario_id = $tecnico->id;
         $comissao->solicitacao_id = $solicitacao->id;
+        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
+        $comissao->save();
 
+      }
+    }
+
+    public function createComissaoExecCancelamento($solicitacao)
+    {
+      // return dd($solicitacao);
+      foreach( $solicitacao->users as $tecnico )
+      {
+        $comissao = new Comissao();
+        $comissao->dt_referencia = $solicitacao->dt_conclusao;
+        $comissao->funcionario_id = $tecnico->id;
+        $comissao->solicitacao_id = $solicitacao->id;
         $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
         $comissao->save();
 
@@ -151,20 +183,16 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     }
 
 
-
     public function createComissaoEquipe($solicitacao)
     {
-
-      foreach( $solicitacao->users as $tecnico ){
-
+      foreach( $solicitacao->users as $tecnico )
+      {
         $comissao = new Comissao();
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
         $comissao->funcionario_id = $tecnico->id;
         $comissao->solicitacao_id = $solicitacao->id;
-
         $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 8, 1 )/count($solicitacao->users);
         $comissao->save();
-
       }
     }
 

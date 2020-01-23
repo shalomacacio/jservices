@@ -111,6 +111,10 @@
         desabilitaCampos();
         $('.plano').removeAttr('hidden');
         break;
+      case '2':
+        desabilitaCampos();
+        $('.cancelamento').removeAttr('hidden');
+        break;
       case '4':
         desabilitaCampos();
         $('.migracao').removeAttr('hidden');
@@ -139,6 +143,7 @@
     $('.upgrade').attr('hidden', true);
     $('.transferencia').attr('hidden', true);
     $('.serv_pago').attr('hidden', true);
+    $('.cancelamento').attr('hidden', true);
   }
 
   $('select[name=plano_id]').change(function() {

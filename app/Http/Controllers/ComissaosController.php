@@ -77,7 +77,6 @@ class ComissaosController extends Controller
 
         $comissaos = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
           return $query
-            ->where('funcionario_id', Auth::user()->id)
             ->whereDate('dt_referencia', '>=', $start)
             ->whereDate('dt_referencia', '<=', $end)
             ->orderBy('dt_referencia', 'desc');
@@ -88,7 +87,7 @@ class ComissaosController extends Controller
                 'data' => $comissaos,
             ]);
         }
-        return view('comissaos.minhas_comissoes', compact('comissaos'));
+        return view('comissaos.comissoes', compact('comissaos'));
     }
 
     public function minhasComissoes()

@@ -58,6 +58,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('planos', 'PlanosController');
     Route::resource('origem', 'OrigemVendasController');
     Route::resource('tipoUsuario', 'TipoUsuariosController');
+    Route::resource('motivoCancelamento', 'MotivoCancelamentosController');
     Route::resource('tipoAquisicao', 'TipoAquisicaosController');
     Route::resource('tipoMidias', 'TipoMidiasController');
     Route::resource('tipoPagamento', 'TipoPagamentosController');

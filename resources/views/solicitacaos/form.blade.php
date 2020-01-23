@@ -37,7 +37,7 @@
 <div class="col-12 col-sm-12 col-md-2">
   <!-- select -->
   <div class="form-group">
-    <label>Origem Venda</label>
+    <label>Origem</label>
     <select class="form-control" name="origem_venda_id" id="origem_venda_id" required>
       <option value="0">-- Selecione --</option>
       @foreach( $origens as $origem)
@@ -70,7 +70,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-3 plano migracao upgrade" hidden>
+<div class="col-12 col-sm-12 col-md-3 plano migracao upgrade cancelamento" hidden>
   <!-- select -->
   <div class="form-group">
     <label>Plano</label>
@@ -171,6 +171,20 @@
     </select>
   </div>
 </div>
+
+<div class="col-12 col-sm-12 col-md-3 plano cancelamento" hidden>
+  <!-- select -->
+  <div class="form-group">
+    <label>Motivo</label>
+    <select class="form-control" name="motivo_cancelamento_id" id="motivo_cancelamento_id">
+      <option value="0">--Selecione--</option>
+      @foreach ($motivos as $motivo)
+      <option value={{$motivo->id}}>{{$motivo->descricao}}</option>
+      @endforeach
+    </select>
+  </div>
+</div>
+
 
 <div class="col-12 col-sm-12 col-md-8">
   <!-- textarea -->

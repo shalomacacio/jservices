@@ -45,6 +45,7 @@ class Solicitacao extends Model implements Transformable
         'tipo_midia_id',
         'tipo_aquisicao_id',
         'origem_venda_id',
+        'motivo_cancelamento_id',
         'obs'
     ];
 

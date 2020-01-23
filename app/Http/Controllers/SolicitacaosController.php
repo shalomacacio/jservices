@@ -116,10 +116,9 @@ class SolicitacaosController extends Controller
     $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
     $tipoMidia = DB::table('tipo_midias')->distinct()->get();
     $origens = DB::table('origem_vendas')->distinct()->get();
+    $motivos = DB::table('motivo_cancelamentos')->distinct()->get();
 
-
-    return view('solicitacaos.create', compact('categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia','planos', 'users', 'origens'));
-
+    return view('solicitacaos.create', compact('categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia','planos', 'users', 'origens', 'motivos'));
   }
 
   public function ajaxServicos(Request $request)
@@ -421,7 +420,7 @@ class SolicitacaosController extends Controller
       $solicitacao->dt_conclusao = Carbon::now();
       $solicitacao->save();
 
-      $comissao = $this->comissaoRepository->createComissaoExecAdesao($solicitacao);
+      $comissao = $this->comissaoRepository->createComissaoExecCancelamento($solicitacao);
 
       $response = [
         'message' => 'Solicitacao updated.',
