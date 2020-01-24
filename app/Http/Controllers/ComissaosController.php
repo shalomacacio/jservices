@@ -53,36 +53,31 @@ class ComissaosController extends Controller
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
         $comissaos = $this->repository->all();
-
-
         $tipoComissaos = DB::table('tipo_comissaos')->get();
-
         if (request()->wantsJson()) {
 
-            return response()->json([
-                'data' => $comissaos,
-            ]);
+          return response()->json([
+              'data' => $comissaos,
+          ]);
         }
-
         return view('comissaos.minhas_comissoes', compact('comissaos', 'tipoComissaos'));
     }
 
 
     public function autorizarComissoes()
     {
-        $comissaos = $this->repository->scopeQuery(function ($query) {
-          return $query
-          ->where('flg_autorizado', '=', 3)
-            ->orderBy('dt_referencia', 'desc');
-        })->paginate(10);
+      $comissaos = $this->repository->scopeQuery(function ($query) {
+        return $query
+        ->where('flg_autorizado', '=', 3)
+        ->orderBy('dt_referencia', 'desc');
+      })->paginate(10);
 
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $comissaos,
-            ]);
-        }
+      if (request()->wantsJson()) {
+        return response()->json([
+          'data' => $comissaos,
+        ]);
+      }
         return view('comissaos.autorizarComissoes', compact('comissaos'));
     }
 
@@ -128,13 +123,8 @@ class ComissaosController extends Controller
       $aguardando = $comissaos->where('flg_autorizado', 3 )->sum('comissao_vlr');
       $nAutorizado = $comissaos->where('flg_autorizado', 0 )->sum('comissao_vlr');
       $autorizado = $comissaos->where('flg_autorizado', 1 )->sum('comissao_vlr');
-
-
       return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
-
     }
-
-
 
     public function autorizar(Request $request, $id)
     {
@@ -142,16 +132,13 @@ class ComissaosController extends Controller
       $comissao = $this->repository->find($id);
       $comissao->flg_autorizado = $request->flg_autorizado;
       $comissao->save();
-
       $response = [
         'message' => 'Realizado com Sucesso.',
         'data'    => $comissao->toArray(),
       ];
-
       if ($request->wantsJson()) {
           return response()->json($response);
       }
-
       return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
     }
 

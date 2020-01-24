@@ -35,7 +35,6 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         return ComissaoValidator::class;
     }
 
-
     /**
      * Boot up the repository, pushing criteria
      */
@@ -91,7 +90,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissaoAdesao($solicitacao)
     {
       $comissao = new Comissao();
-      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->dt_referencia = $solicitacao->dt_agendamento;
       $comissao->funcionario_id = $solicitacao->user_atendimento_id;
       $comissao->solicitacao_id = $solicitacao->id;
       $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 10, 2);
@@ -133,7 +132,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissaoTransf($solicitacao)
     {
       $comissao = new Comissao();
-      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->dt_referencia = $solicitacao->dt_atendimento;
       $comissao->funcionario_id = $solicitacao->user_id;
       $comissao->solicitacao_id = $solicitacao->id;
       $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 10, 2);
@@ -154,7 +153,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissaoServicoAtend($solicitacao)
     {
       $comissao = new Comissao();
-      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->dt_referencia = $solicitacao->dt_atendimento;
       $comissao->funcionario_id = $solicitacao->user_id;
       $comissao->solicitacao_id = $solicitacao->id;
       $comissao->comissao_vlr = $comissao->comissionar($solicitacao->servico->servico_vlr, $solicitacao->servico->comissao_atendimento, $solicitacao->servico->tipo_comissao_atendimento);
@@ -164,7 +163,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissaoServPago($solicitacao)
     {
       $comissao = new Comissao();
-      $comissao->dt_referencia = $solicitacao->created_at;
+      $comissao->dt_referencia = $solicitacao->dt_atendimento;
       $comissao->funcionario_id = $solicitacao->user_atendimento_id;
       $comissao->solicitacao_id = $solicitacao->id;
       $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 10, 2);
@@ -199,5 +198,4 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     {
       $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->delete();
     }
-
 }

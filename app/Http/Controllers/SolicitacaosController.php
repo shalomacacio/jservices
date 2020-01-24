@@ -267,11 +267,15 @@ class SolicitacaosController extends Controller
   {
     $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
 
-    $solicitacaos = $this->repository->scopeQuery(function ($query) {
+    $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+    $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
+
+    $solicitacaos = $this->repository->scopeQuery(function ($query) use ($start, $end) {
       return $query
+        ->whereDate('dt_agendamento', '>=', $start)
+        ->whereDate('dt_agendamento', '<=', $end)
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
-        ->where('dt_conclusao', null)
-        ->orderBy('created_at', 'desc');
+        ->orderBy('dt_agendamento', 'desc');
     })->paginate(10);
 
     if (request()->wantsJson()) {

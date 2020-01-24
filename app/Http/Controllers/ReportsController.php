@@ -77,28 +77,23 @@ class ReportsController extends Controller
 
     public function comissoes(Request $request)
     {
-        if($request->funcionario_id != 0){
+        if($request->funcionario_id != 0)
+        {
           $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
             return $query->whereIn('flg_autorizado', [0,1])
                     ->where('funcionario_id', '=' , $request->funcionario_id)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
-
           })->get();
         } else {
           $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
             return $query->whereIn('flg_autorizado', [0,1])
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
-
           })->get();
-
         }
-
         $comissaos = $result->groupBy('funcionario_id');
-
         $total = $result->where('flg_autorizado', '=' , 1)->sum('comissao_vlr');
-
       // return dd($total);
         if (request()->wantsJson()) {
             return response()->json([

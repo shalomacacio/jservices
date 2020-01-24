@@ -31,13 +31,12 @@
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <h5><i class="icon fas fa-check"></i>Erro</h5>
           <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
           </ul>
       </div>
     @endif
-
     </section>
 
     <!-- Main content -->
@@ -60,9 +59,9 @@
                                 <th class="d-none d-sm-table-cell">Data</th>
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
-                                <th class="d-none d-sm-table-cell">Situação</th>
                                 <th class="d-none d-sm-table-cell">Atendente</th>
                                 <th class="d-none d-sm-table-cell">Equipe</th>
+                                <th class="d-none d-sm-table-cell">Situação</th>
                                 <th style="width: 130px">Ações </th>
                               </tr>
                             </thead>
@@ -72,7 +71,7 @@
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
                                         <td>{{ $solicitacao->nome_razaosocial }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
+
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
                                         <td class="d-none d-sm-table-cell">
                                             @foreach ($solicitacao->users as $tecnico)
@@ -84,6 +83,7 @@
                                               Nenhum técnico atribuido
                                             @endempty
                                         </td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
                                             @if($solicitacao->status_solicitacao_id != 3)
