@@ -102,7 +102,7 @@
                           <p>Pesquisar</p>
                         </a>
                       </li>
-                      @is(['admin', 'supervisor', 'controlador'])
+                      @is(['admin', 'supervisor', 'controlador', 'auditor'])
                       <li class="nav-item">
                         <a href="{{route('comissao.autorizarComissoes') }}" class="nav-link">
                           <i class="fa fa-circle-o nav-icon"></i>
