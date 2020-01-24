@@ -47,22 +47,23 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     {
       switch ($solicitacao->categoria_servico_id)
       {
-        case '1':
+        case '1': //ADESÃO
           if($solicitacao->tipo_pagamento_id != 5){
             $this->createComissaoServPago($solicitacao);
           }
           $this->createComissaoAdesao($solicitacao);
           break;
-        case '4':
+        case '4': //MIGRAÇÃO
           $this->createComissaoAdesao($solicitacao);
            break;
-        case '6':
+        case '6': //SERV PAGO
           $this->createComissaoServPago($solicitacao);
             break;
-        case '8':
-            $this->createComissaoServicoAtend($solicitacao);
+        case '8': // TRANSFERENCIA
+            // $this->createComissaoServicoAtend($solicitacao);
+           $this->createComissaoTransf($solicitacao);
             break;
-        case '9':
+        case '9': //UPGRADE
             $this->createComissaoAdesao($solicitacao);
               break;
         default:
@@ -132,10 +133,10 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function createComissaoTransf($solicitacao)
     {
       $comissao = new Comissao();
-      $comissao->dt_referencia = $solicitacao->dt_atendimento;
+      $comissao->dt_referencia = $solicitacao->dt_agendamento;
       $comissao->funcionario_id = $solicitacao->user_id;
       $comissao->solicitacao_id = $solicitacao->id;
-      $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 10, 2);
+      $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 10, 2);
       $comissao->save();
     }
 

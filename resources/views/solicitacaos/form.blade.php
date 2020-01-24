@@ -151,7 +151,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-3 serv_pago" hidden>
+<div class="col-12 col-sm-12 col-md-3 transferencia serv_pago" hidden>
   <!-- text input -->
   <div class="form-group">
     <label>Valor Serviço</label>
