@@ -44,7 +44,7 @@
                                 <th>Funcionário</th>
                                 <th>Status</th>
                                 <th>Valor</th>
-                                <th style="width: 180px">Ações </th>
+                                <th style="width: 110px">Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -62,9 +62,9 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
-                                                <button class="btn btn-danger"  type="submit"  onclick="return confirm('Negar Solicitação ?')"   name = "flg_autorizado" value="0"><i class="fab fa-creative-commons-nc"></i></button>
-                                            </form>
-                                            @endif
+                                                <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-default"><i class="fab fa-creative-commons-nc"></i></button>
+                                              </form>
+                                              @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -87,7 +87,7 @@
         </section>
     </div>
 </div>
-
+@include('comissaos.modal')
 @endsection
 
 @section('javascript')

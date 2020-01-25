@@ -131,6 +131,25 @@ class ComissaosController extends Controller
       // return dd($request);
       $comissao = $this->repository->find($id);
       $comissao->flg_autorizado = $request->flg_autorizado;
+      $comissao->user_id = Auth::user()->id;
+      $comissao->save();
+      $response = [
+        'message' => 'Realizado com Sucesso.',
+        'data'    => $comissao->toArray(),
+      ];
+      if ($request->wantsJson()) {
+          return response()->json($response);
+      }
+      return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
+    }
+
+    public function nAutorizar(Request $request, $id)
+    {
+      // return dd($request);
+      $comissao = $this->repository->find($id);
+      $comissao->flg_autorizado = 0;
+      $comissao->motivo = $request->motivo;
+      $comissao->user_id = Auth::user()->id;
       $comissao->save();
       $response = [
         'message' => 'Realizado com Sucesso.',
