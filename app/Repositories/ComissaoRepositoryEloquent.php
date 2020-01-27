@@ -125,7 +125,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->dt_referencia = $solicitacao->dt_conclusao;
         $comissao->funcionario_id = $tecnico->id;
         $comissao->solicitacao_id = $solicitacao->id;
-        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->plano->vlr_plano, 4, 1 )/count($solicitacao->users);
+        $comissao->comissao_vlr = $comissao->comissionar(0, 4, 1 )/count($solicitacao->users);
         $comissao->save();
       }
     }
