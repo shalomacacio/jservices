@@ -56,11 +56,12 @@
                                         <td>{{ $comissao->solicitacao->nome_razaosocial }}</td>
                                         <td>{{ $comissao->solicitacao->categoriaServico->descricao }}</td>
                                         <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
-                                        <td>
+                                        <td id="motivo" >
                                           @if($comissao->flg_autorizado == 3)
                                             Aguardando
                                           @elseif($comissao->flg_autorizado == 0)
-                                            Não Autorizado
+                                            Não Autorizado<br>
+                                            Motivo: {{$comissao->motivo}}
                                           @elseif($comissao->flg_autorizado == 1)
                                             Autorizado
                                           @endif
@@ -127,4 +128,8 @@
 <script src="/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+
+<script type="text/javascript">
+ $('#motivo').tooltip({ boundary: 'window' })
+</script>
 @stop
