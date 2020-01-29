@@ -95,7 +95,7 @@ class ComissaosController extends Controller
         })->paginate(10);
 
         $aguardando = $comissaos->where('flg_autorizado', 3 )->sum('comissao_vlr');
-        $nAutorizado = $comissaos->where('flg_autorizado', 0 )->sum('comissao_vlr');
+        $nAutorizado = $comissaos->where('flg_autorizado','=' , '0' )->sum('comissao_vlr');
         $autorizado = $comissaos->where('flg_autorizado', 1 )->sum('comissao_vlr');
 
         if (request()->wantsJson()) {

@@ -172,7 +172,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-3 plano cancelamento" hidden>
+<div class="col-12 col-sm-12 col-md-3 cancelamento" hidden>
   <!-- select -->
   <div class="form-group">
     <label>Motivo</label>
