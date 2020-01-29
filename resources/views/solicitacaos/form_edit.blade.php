@@ -211,7 +211,7 @@
     <label>Agendar para:
       <param name="" value=""></label>
     <input type="date" class="form-control" name="dt_agendamento"
-    value="{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-d-m')}}"
+    value="{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d')}}"
     >
   </div>
 </div>

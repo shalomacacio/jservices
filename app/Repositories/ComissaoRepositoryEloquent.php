@@ -184,10 +184,10 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $comissao->save();
     }
 
-    public function updateComissaoAtendimeto($solicitacao)
+    public function updateComissao($solicitacao)
     {
-      $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_id);
-      $this->createComissaoAtendimeto($solicitacao);
+      $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_atendimento_id);
+      $this->createComissao($solicitacao);
     }
 
     public function createComissaoEquipe($solicitacao)

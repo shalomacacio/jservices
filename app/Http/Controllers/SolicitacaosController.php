@@ -450,7 +450,7 @@ class SolicitacaosController extends Controller
 
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
         $solicitacao = $this->repository->update($request->all(), $id);
-        $comissao = $this->comissaoRepository->updateComissaoAdesao($solicitacao);
+        $comissao = $this->comissaoRepository->updateComissao($solicitacao);
 
 
       $response = [
