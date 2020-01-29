@@ -21,23 +21,7 @@
       </div><!-- /.container-fluid -->
 
       {{-- alerts --}}
-      @if(Session::has('message'))
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-        {{Session::get('message')}}
-      </div>
-      @elseif($errors->any())
-      <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Erro</h5>
-          <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-      </div>
-      @endif
+    @include('layouts.alerts')
     </section>
 
     <!-- Main content -->
@@ -141,6 +125,7 @@
                   <th style="width: 10px">#</th>
                   <th>Nome</th>
                   <th>Email</th>
+                  <th>Grupos</th>
                   <th style="width: 170px">Ações</th>
                   </tr>
                 </thead>
@@ -150,6 +135,11 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }} {{ $user->sobrenome }}</td>
                     <td>{{ $user->email}}</td>
+                    <td>
+                      @foreach ($user->roles as $role)
+                      {{ $role->name }} <br>
+                      @endforeach
+                    </td>
                     <td>
                       <form action="{{route('users.destroy', $user->id)}}" method="POST">
                         <a class="btn btn-info" href="{{route('users.edit', $user->id)}}"  ><i class="fas fa-edit"></i></a>

@@ -106,7 +106,7 @@ class SolicitacaosController extends Controller
   {
     $users = DB::table('users as u')
     ->join('role_user as ru','u.id','=','ru.user_id')
-    ->whereIn('ru.role_id', [2,7])
+    ->whereIn('ru.role_id', [2,7,8])
     ->get();
 
     $categorias = DB::table('categoria_servicos')->distinct()->get();
@@ -317,8 +317,6 @@ class SolicitacaosController extends Controller
    */
   public function store(SolicitacaoCreateRequest $request)
   {
-
-
     try {
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
       $solicitacao = $this->repository->create($request->all());
