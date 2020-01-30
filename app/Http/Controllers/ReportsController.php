@@ -103,6 +103,27 @@ class ReportsController extends Controller
         return view('reports.comissoes', compact('comissaos', 'request', 'total'));
     }
 
+
+    public function comissoesNovo(Request $request)
+    {
+
+     $result = DB::table('comissaos as c')
+                  ->join('users as u', 'u.id', '=', 'c.funcionario_id')
+                  ->join('solicitacaos as s', 'c.funcionario_id', '=', 's.user_atendimento_id')
+                  ->whereDate ('c.dt_referencia', '>=', $request->dt_inicio)
+                  ->whereDate ('c.dt_referencia', '<=', $request->dt_fim)
+                  ->select('c.id as id',  'u.name as name','s.nome_razaosocial as razao' ,'c.dt_referencia as dt_referencia', 'c.flg_autorizado', 'c.comissao_vlr')
+                  ->get();
+
+      // $total = $comissoes->where('flg_autorizado', '=' , 1)->sum('comissao_vlr');
+
+      $comissoes = $result->groupBy( 'name');
+      // return dd($comissoes);
+      $total = 0;
+
+        return view('reports.comissoes', compact('comissoes', 'request', 'total'));
+    }
+
     public function servicos(Request $request)
     {
         if($request->user_id != 0){

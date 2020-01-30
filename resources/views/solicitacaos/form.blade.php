@@ -26,7 +26,7 @@
   <div class="form-group">
     <label>Vend/Atend</label>
     <select class="form-control" name="user_atendimento_id" id="user_atendimento_id" required>
-      <option value="0">-- Selecione --</option>
+      <option value="">-- Selecione --</option>
       @foreach( $users as $user)
       <option value="{{ $user->id}}">{{ $user->name}}</option>
       @endforeach
@@ -39,7 +39,7 @@
   <div class="form-group">
     <label>Origem</label>
     <select class="form-control" name="origem_venda_id" id="origem_venda_id" required>
-      <option value="0">-- Selecione --</option>
+      <option value="">-- Selecione --</option>
       @foreach( $origens as $origem)
       <option value="{{ $origem->id}}">{{ $origem->descricao}}</option>
       @endforeach
@@ -52,7 +52,7 @@
   <div class="form-group">
     <label>Categoria</label>
     <select class="form-control" name="categoria_servico_id" id="categoria_servico_id" required>
-      <option value="0">-- Selecione --</option>
+      <option value="">-- Selecione --</option>
       @foreach( $categorias as $categoria)
       <option value="{{ $categoria->id}}">{{ $categoria->descricao}}</option>
       @endforeach

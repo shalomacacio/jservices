@@ -60,13 +60,13 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
-            <center><h3>RELATÓRIO DE SERVIÇOS POR PERÍODO </h3></center>
+            <center><h3>RELATÓRIO DE COMISSÕES POR PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
-          @foreach ($solicitacaos->groupby('user_id') as $user => $solics)
+          @foreach ($comissoes as $user => $lista)
 
           <div class="col-12">
-            <p class="lead"><b>Funcionário: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
+          <p class="lead"><b>Funcionário: {{ $user }} </b></p>
           </div>
 
             <div class="row">
@@ -74,31 +74,42 @@
                 <table class="table table-striped table-sm ">
                   <thead>
                   <tr>
-                    {{-- <th>ServiçoList</th> --}}
+                    <th>id</th>
                     <th>Data</th>
+                    <th>Cliente</th>
                     <th>Serviço</th>
-                    <th>Status</th>
-                    <th style="width: 100px" >Quantidade </th>
+                    <th>Status </th>
+                    <th>Comissao</th>
                   </tr>
                   </thead>
                   <tbody>
+                    {{-- <tr>
+                      <td>{{ $lista }}</td>
+                    </tr> --}}
 
-                  @foreach ($solics->groupby('descricao') as $descricao => $servicoList )
-                    @foreach ($servicoList as $item)
-                      <tr>
-                      {{-- <td>{{ $servicoList }}</td> --}}
-                        <td>{{ \Carbon\Carbon::parse($item->dt_conclusao)->format('d/m/Y') }}</td>
-                        <td>{{ $item->descricao }}</td>
-                        <td>{{ $item->statusSolicitacao->descricao }}</td>
-                        <td></td>
-                      </tr>
-                      @endforeach
+                  @foreach($lista as $comissao)
+                  <tr>
+                    <td>{{$comissao->id}}</td>
+                    <td>{{\Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
+                    <td>empty</td>
+                    <td>empty</td>
+
+                   {{-- <td>{{$comissao->solicitacao->categoriaServico->descricao}} </td> --}}
+                    <td>@if($comissao->flg_autorizado == 1) AUTORIZADO
+                      @elseif($comissao->flg_autorizado == 0)  NÃO AUTORIZADO
+                      @elseif($comissao->flg_autorizado == 3) AGUARDANDO
+                      @endif
+                    </td>
+                    {{-- @if($comissao->flg_autorizado)
+                    <td>R$ {{$comissao->comissao_vlr}}</td> @else <td style="color:red">R$ -{{$comissao->comissao_vlr}} </td>
+                    @endif --}}
+                    <td>{{$comissao->comissao_vlr }}</td>
+                  </tr>
                   @endforeach
-
                   </tbody>
                     <tr>
-                      <th colspan="3">Subtotal:</th>
-                      <th style="text-align: center"> {{ $solics->count()}}</th>
+                      <th colspan="5">Subtotal:</th>
+                    <th >R$ {{ number_format($lista->where('flg_autorizado', '=',  1)->sum('comissao_vlr'), 2) }}</th>
                     </tr>
                 </table>
               </div>
@@ -110,34 +121,34 @@
 
           <div class="row">
             <!-- accepted payments column -->
-            <div class="col-5">
-              <p class="lead">Impressão:</p>
+            <div class="col-6">
+              <p class="lead"></p>
               <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                Utilizar tamnho de papel A4 deixar as configurações de margens e escala
-                no modo Padrão e marcar somente a opção Cabeçalho e Rodapé para o caso
-                de utilizar enumeração de páginas.
+
               </p>
             </div>
-            <div class="col-1"></div>
             <!-- /.col -->
             <div class="col-6">
-              <p class="lead">Período {{ \Carbon\Carbon::parse($request->dt_inicio)->format('d/m/Y')}} até  {{ \Carbon\Carbon::parse($request->dt_fim)->format('d/m/Y')}}</p>
+
 
               <div class="table-responsive">
+                @if($request->funcionario_id == 0)
                 <table class="table">
-                  @foreach ($solicitacaos->groupby('descricao')->sortBy('servico_id') as $descricao => $servicos )
-                    <tr>
-                      <th style="width:50%">{{ $descricao }}:</th>
-                      <td style="width:50%"> {{ $servicos->count()}}</td>
-                    </tr>
-
-
-                  @endforeach
                   <tr>
-                    <th>TOTAL:</th>
-                    <th>{{ $solicitacaos->count() }}</th>
+
+                    <th colspan="3">Total:</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th><h4>R$ {{ number_format($total,2) }}</h4></th>
                   </tr>
                 </table>
+                @endif
               </div>
             </div>
             <!-- /.col -->
@@ -200,7 +211,6 @@
 <script src="/dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.js"></script>
-
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 @stop

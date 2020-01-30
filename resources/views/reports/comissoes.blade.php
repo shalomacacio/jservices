@@ -60,7 +60,7 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
-            <center><h3>RELATÓRIO DE COMISSÕES POR FUNCIONÁRIO E PERÍODO </h3></center>
+            <center><h3>RELATÓRIO DE COMISSÕES POR PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
           @foreach ($comissaos as $user => $lista)

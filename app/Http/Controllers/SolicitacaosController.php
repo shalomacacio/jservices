@@ -319,6 +319,7 @@ class SolicitacaosController extends Controller
   {
     try {
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+
       $solicitacao = $this->repository->create($request->all());
       $comissao = $this->comissaoRepository->createComissao($solicitacao);
 
