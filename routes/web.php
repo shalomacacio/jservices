@@ -57,6 +57,7 @@ Route::group(['middleware'=>['auth']], function(){
 
     //parametros
     Route::resource('planos', 'PlanosController');
+    Route::resource('roles', 'RolesController');
     Route::resource('origem', 'OrigemVendasController');
     Route::resource('tipoUsuario', 'TipoUsuariosController');
     Route::resource('motivoCancelamento', 'MotivoCancelamentosController');
