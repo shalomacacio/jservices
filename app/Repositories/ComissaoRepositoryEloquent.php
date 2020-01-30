@@ -57,6 +57,12 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         case '4': //MIGRAÇÃO
           $this->createComissaoAdesao($solicitacao);
            break;
+        case '5': //REATIVAÇÃO
+          if($solicitacao->tipo_pagamento_id != 5){
+            $this->createComissaoServPago($solicitacao);
+          }
+          $this->createComissaoAdesao($solicitacao);
+          break;
         case '6': //SERV PAGO
           $this->createComissaoServPago($solicitacao);
             break;

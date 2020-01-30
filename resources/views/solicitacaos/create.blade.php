@@ -119,6 +119,10 @@
         desabilitaCampos();
         $('.migracao').removeAttr('hidden');
         break;
+        case '5':
+        desabilitaCampos();
+        $('.plano').removeAttr('hidden');
+        break;
         case '6':
         desabilitaCampos();
         $('.puxada').removeAttr('hidden');
