@@ -66,7 +66,7 @@
           @foreach ($comissoes as $user => $lista)
 
           <div class="col-12">
-          <p class="lead"><b>Funcionário: {{ $user }} </b></p>
+          <p class="lead"><b>Colaborador: {{ $user }} </b></p>
           </div>
 
             <div class="row">

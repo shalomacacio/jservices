@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Minhas Comissões</h1>
+            <h1>Autorizar Comissões</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -41,7 +41,7 @@
                                 <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th>Funcionário</th>
+                                <th>Colaborador</th>
                                 <th>Status</th>
                                 <th>Valor</th>
                                 <th style="width: 110px">Ações </th>

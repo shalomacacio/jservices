@@ -44,7 +44,7 @@
                                 <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th>Funcionário</th>
+                                <th>Colaborador</th>
                                 <th>Status</th>
                                 <th>Valor</th>
                               </tr>

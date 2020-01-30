@@ -60,13 +60,13 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
-            <center><h3>RELATÓRIO DE SERVIÇOS POR FUNCIONÁRIO E PERÍODO </h3></center>
+            <center><h3>RELATÓRIO DE SERVIÇOS POR  PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
           @foreach ($solicitacaos as $user => $solics)
 
           <div class="col-12">
-            <p class="lead"><b>Funcionário: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
+            <p class="lead"><b>Colaborador: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
           </div>
 
             <div class="row">

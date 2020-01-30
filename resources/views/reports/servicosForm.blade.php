@@ -52,7 +52,7 @@
               <div class="col-sm-4">
                 <!-- select -->
                 <div class="form-group">
-                  <label>Funcionário</label>
+                  <label>Colaborador</label>
                   <select class="form-control" name="user_id">
                     <option value="0">-- TODOS --</option>
                     @foreach($users as $user)

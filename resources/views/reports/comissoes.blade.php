@@ -66,7 +66,7 @@
           @foreach ($comissaos as $user => $lista)
 
           <div class="col-12">
-          <p class="lead"><b>Funcionário: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
+          <p class="lead"><b>Colaborador: {{ \App\Entities\User::find($user)->name }} {{ \App\Entities\User::find($user)->sobrenome }}</b></p>
           </div>
 
             <div class="row">
