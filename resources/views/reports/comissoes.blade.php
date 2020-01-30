@@ -87,7 +87,10 @@
                     <td>{{\Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
                     <td>{{$comissao->solicitacao->nome_razaosocial}}</td>
                     <td>{{$comissao->solicitacao->categoriaServico->descricao}} </td>
-                    <td>@if($comissao->flg_autorizado == 1) AUTORIZADO @else NÃO AUTORIZADO @endif</td>
+                    <td>@if($comissao->flg_autorizado == 1) AUTORIZADO
+                          @elseif(($comissao->flg_autorizado == 0)) NÃO AUTORIZADO
+                          @elseif(($comissao->flg_autorizado == 3)) AGUARDANDO
+                        @endif</td>
                     @if($comissao->flg_autorizado) <td>R$ {{$comissao->comissao_vlr}}</td> @else <td style="color:red">R$ -{{$comissao->comissao_vlr}}</td> @endif
                   </tr>
                   @endforeach

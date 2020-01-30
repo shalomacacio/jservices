@@ -82,10 +82,24 @@
                     <label class="form-check-label">Vendedor</label>
                   </div>
 
+                  <div class="form-check">
+                    <input type="checkbox" name="flags[]" value="1" />
+                    <label class="form-check-label"> Autorizados</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input type="checkbox" name="flags[]" value="0" />
+                    <label class="form-check-label">Não Autorizados</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input type="checkbox" name="flags[]" value="3" />
+                    <label class="form-check-label">Aguardando</label>
+                  </div>
+
                 </div>
               </div>
             </div>
-
 
         </div>
         <div class="card-footer">

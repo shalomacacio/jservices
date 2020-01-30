@@ -78,24 +78,29 @@ class ReportsController extends Controller
     public function comissoes(Request $request)
     {
       $roles = [2,5,8];
+      $autor = [0,1,3];
       if($request->roles){
         $roles = $request->roles;
       }
 
+      if($request->flags){
+        $autor = $request->flags;
+      }
+
         if($request->funcionario_id != 0)
         {
-          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
+          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request,  $autor) {
             return $query
-                    ->whereIn('flg_autorizado', [0,1])
+                    ->whereIn('flg_autorizado',  $autor)
                     ->where('funcionario_id', '=' , $request->funcionario_id)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
           })->get();
         } else {
-          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request, $roles) {
+          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request, $roles,  $autor) {
             return $query
                     ->join('role_user as ru', 'comissaos.funcionario_id', 'ru.user_id')
-                    ->whereIn('flg_autorizado', [0,1])
+                    ->whereIn('flg_autorizado',  $autor)
                     ->whereIn('ru.role_id', $roles)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
