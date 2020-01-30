@@ -77,21 +77,31 @@ class ReportsController extends Controller
 
     public function comissoes(Request $request)
     {
+      $roles = [2,5,8];
+      if($request->roles){
+        $roles = $request->roles;
+      }
+
         if($request->funcionario_id != 0)
         {
           $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-            return $query->whereIn('flg_autorizado', [0,1])
+            return $query
+                    ->whereIn('flg_autorizado', [0,1])
                     ->where('funcionario_id', '=' , $request->funcionario_id)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
           })->get();
         } else {
-          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request) {
-            return $query->whereIn('flg_autorizado', [0,1])
+          $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request, $roles) {
+            return $query
+                    ->join('role_user as ru', 'comissaos.funcionario_id', 'ru.user_id')
+                    ->whereIn('flg_autorizado', [0,1])
+                    ->whereIn('ru.role_id', $roles)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
                     ->whereDate ('dt_referencia', '<=', $request->dt_fim);
           })->get();
         }
+
         $comissaos = $result->groupBy('funcionario_id');
         $total = $result->where('flg_autorizado', '=' , 1)->sum('comissao_vlr');
       // return dd($total);

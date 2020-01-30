@@ -71,12 +71,15 @@
                   <div class="form-check">
                     <input type="checkbox" name="roles[]" value="2" />
                     <label class="form-check-label">Atendimento</label>
-
                   </div>
+                  <div class="form-check">
+                    <input type="checkbox" name="roles[]" value="5" />
+                    <label class="form-check-label">Tecnico</label>
+                  </div>
+
                   <div class="form-check">
                     <input type="checkbox" name="roles[]" value="8" />
                     <label class="form-check-label">Vendedor</label>
-
                   </div>
 
                 </div>

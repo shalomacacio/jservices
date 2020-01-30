@@ -225,7 +225,7 @@
                         <li class="nav-item">
                           <a href="{{ route('reports.comissaos.form') }}" class="nav-link">
                             <i class="fa fa-circle-o nav-icon"></i>
-                            <p>Por Atendente</p>
+                            <p>Por Período</p>
                           </a>
                         </li>
                       </ul>
