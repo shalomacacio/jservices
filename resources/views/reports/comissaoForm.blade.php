@@ -68,10 +68,12 @@
               <div class="col-sm-4">
                 <!-- checkbox -->
                 <div class="form-group">
+
                   <div class="form-check">
                     <input type="checkbox" name="roles[]" value="2" />
                     <label class="form-check-label">Atendimento</label>
                   </div>
+
                   <div class="form-check">
                     <input type="checkbox" name="roles[]" value="5" />
                     <label class="form-check-label">Tecnico</label>
@@ -81,6 +83,15 @@
                     <input type="checkbox" name="roles[]" value="8" />
                     <label class="form-check-label">Vendedor</label>
                   </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <!-- checkbox -->
+                <div class="form-group">
 
                   <div class="form-check">
                     <input type="checkbox" name="flags[]" value="1" />
