@@ -274,7 +274,7 @@ class SolicitacaosController extends Controller
       return $query
         ->whereDate('dt_agendamento', '>=', $start)
         ->whereDate('dt_agendamento', '<=', $end)
-        ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
+        // ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
         ->orderBy('dt_agendamento', 'desc');
     })->paginate(10);
 

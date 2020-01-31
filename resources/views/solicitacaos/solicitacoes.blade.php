@@ -86,12 +86,12 @@
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td>
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
-                                            @if($solicitacao->status_solicitacao_id != 3)
+
                                             <a class="btn btn-info btn-sm" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-sm"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
-                                            @endif
+
                                           </form>
                                         </td>
                                     </tr>

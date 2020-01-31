@@ -75,7 +75,7 @@
   <div class="form-group">
     <label>Plano</label>
     <select class="form-control" name="plano_id" id="plano_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($planos as $plano)
       <option value={{$plano->id}}>{{$plano->descricao}}</option>
       @endforeach
@@ -88,7 +88,7 @@
   <div class="form-group">
     <label>Plano Anterior</label>
     <select class="form-control" name="plano_ant_id" id="plano_ant_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($planos as $plano)
       <option value={{ $plano->id }}>{{ $plano->descricao }}</option>
       @endforeach
@@ -117,7 +117,7 @@
   <div class="form-group">
     <label>Tecnologia</label>
     <select class="form-control" name="tecnologia_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($tecnologias as $tecnologia)
       <option value={{$tecnologia->id}}>{{$tecnologia->descricao}}</option>
       @endforeach
@@ -130,7 +130,7 @@
   <div class="form-group">
     <label>Equipamentos</label>
     <select class="form-control" name="tipo_aquisicao_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($tipoAquisicaos as $tipo)
       <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
       @endforeach
@@ -143,7 +143,7 @@
   <div class="form-group">
     <label>Forma Pag</label>
     <select class="form-control" name="tipo_pagamento_id" id="tipo_pagamento_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($tipoPagamentos as $tipo)
       <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
       @endforeach
@@ -164,7 +164,7 @@
   <div class="form-group">
     <label>Canal Venda</label>
     <select class="form-control" name="tipo_midia_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($tipoMidia as $tipo)
       <option value={{$tipo->id}}>{{$tipo->descricao}}</option>
       @endforeach
@@ -177,7 +177,7 @@
   <div class="form-group">
     <label>Motivo</label>
     <select class="form-control" name="motivo_cancelamento_id" id="motivo_cancelamento_id">
-      <option value="0">--Selecione--</option>
+      <option value="">--Selecione--</option>
       @foreach ($motivos as $motivo)
       <option value={{$motivo->id}}>{{$motivo->descricao}}</option>
       @endforeach

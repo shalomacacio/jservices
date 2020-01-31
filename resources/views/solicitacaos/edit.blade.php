@@ -103,7 +103,6 @@
 <script type="text/javascript">
   $('select[name=categoria_servico_id]').change(function() {
     var item = $(this).val()
-    console.log(item);
     habilitaCampos(item);
     ajaxServicos();
   });
@@ -114,9 +113,22 @@
         desabilitaCampos();
         $('.plano').removeAttr('hidden');
         break;
+      case '2':
+        desabilitaCampos();
+        $('.cancelamento').removeAttr('hidden');
+        break;
       case '4':
         desabilitaCampos();
         $('.migracao').removeAttr('hidden');
+        break;
+        case '5':
+        desabilitaCampos();
+        $('.plano').removeAttr('hidden');
+        break;
+        case '6':
+        desabilitaCampos();
+        $('.puxada').removeAttr('hidden');
+        $('.serv_pago').removeAttr('hidden');
         break;
       case '8':
         desabilitaCampos();
@@ -136,12 +148,27 @@
     $('.migracao').attr('hidden', true);
     $('.upgrade').attr('hidden', true);
     $('.transferencia').attr('hidden', true);
+    $('.serv_pago').attr('hidden', true);
+    $('.cancelamento').attr('hidden', true);
   }
 
   $('select[name=plano_id]').change(function() {
     ajaxValor();
     ajaxDiferenca();
   });
+
+  $('select[name=tipo_pagamento_id]').change(function() {
+    var item = $(this).val()
+    // console.log(item);
+    if(item != 5){
+      $('.serv_pago').removeAttr('hidden');
+    } else if( item == 5){
+      $('.serv_pago').attr('hidden', true);
+    }
+
+  });
+
+
 
   $('select[name=plano_ant_id]').change(function() {
     ajaxDiferenca();
@@ -173,7 +200,8 @@
           // alert(categoria_servico_id.value );
           if(categoria_servico_id)
           {
-            $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+            // $('select[name=servico_id]').append('<option value=' + null + '>--Selecione--</option>');
+            $('select[name=servico_id]').append('<option value=0>--Selecione--</option>');
           }
           $.each(response.servicos, function (key, value)
           {
