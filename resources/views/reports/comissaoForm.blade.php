@@ -81,7 +81,7 @@
 
                   <div class="form-check">
                     <input type="checkbox" name="roles[]" value="8" />
-                    <label class="form-check-label">Consulto</label>
+                    <label class="form-check-label">Consultor</label>
                   </div>
 
                 </div>
