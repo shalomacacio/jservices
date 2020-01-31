@@ -138,7 +138,7 @@
   <div class="form-group">
     <label>Tecnologia</label>
     <select class="form-control" name="tecnologia_id">
-      <option value={{ $solicitacao->tecnologia_id }}>{{$solicitacao->tecnologia_id}}</option>
+      <option value={{ $solicitacao->tecnologia_id }}>{{$solicitacao->tecnologia->descricao}}</option>
       @foreach ($tecnologias as $tecnologia)
       <option value={{$tecnologia->id}}>{{$tecnologia->descricao}}</option>
       @endforeach
