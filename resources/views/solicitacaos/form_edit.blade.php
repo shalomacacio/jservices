@@ -74,7 +74,7 @@
   <div class="form-group">
       <label>Serviço</label>
       <select class="form-control" name="servico_id" id="servico_id" >
-        <option value=null>-- Selecione --</option>
+        <option value="{{ $solicitacao->servico_id}}">{{ $solicitacao->servico->descricao}}</option>
       </select>
   </div>
 </div>

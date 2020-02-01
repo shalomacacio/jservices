@@ -237,9 +237,9 @@
                     </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                            <a href="{{ route('reports.servicos.form') }}" class="nav-link">
+                            <a href="{{ route('reports.producaoDiariaForm') }}" class="nav-link">
                               <i class="fa fa-circle-o nav-icon"></i>
-                              <p>Por Tipo de Serviço</p>
+                              <p>Por Período</p>
                             </a>
                           </li>
                           <li class="nav-item">

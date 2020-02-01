@@ -33,19 +33,18 @@
                     <h3 class="card-title">Editar Solicitação</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
                 <form role="form" action="{{ route('solicitacao.update' , $solicitacao->id )}}" method="POST">
+                <div class="card-body">
                     @csrf
                     @method('PUT')
                     <div class="row">
                       @include('solicitacaos.form_edit')
                     </div>
                     <!-- /.card-body -->
+                </div><!-- /.card-body -->
                 <div class="card-footer">
                   <button type="submit" class="btn btn-info float-right">Concluir</button>
                 </div>
-
-                </div><!-- /.card-body -->
                 <input type="hidden" value="{{Auth::user()->id}}" name="user_id" />
                 <input type="hidden"  name="comissao_atendimento" />
                 <input type="hidden"  name="comissao_equipe" />
@@ -101,6 +100,7 @@
 </script>
 
 <script type="text/javascript">
+
   $('select[name=categoria_servico_id]').change(function() {
     var item = $(this).val()
     habilitaCampos(item);

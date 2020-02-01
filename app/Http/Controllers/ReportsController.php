@@ -173,6 +173,43 @@ class ReportsController extends Controller
         return view('reports.servicos', compact('solicitacaos', 'request', 'total'));
     }
 
+    public function producaoDiariaForm(){
+      return view('reports.producaoDiariaForm');
+    }
+
+    public function producaoDiaria(Request $request)
+    {
+      $start = Carbon::parse($request->dt_inicio)->format('Y:m:d 00:00:00');
+      $end =   Carbon::parse($request->dt_fim)->format('Y:m:d 23:59:59');
+
+
+
+      $result = DB::table('solicitacaos as s')
+                ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+                ->join('role_user as ru', 's.user_atendimento_id', '=', 'ru.user_id')
+                ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+                ->leftJoin('planos as p', 's.plano_id', '=', 'p.id')
+                ->whereDate ('s.dt_agendamento', '>=', $start)
+                ->whereDate ('s.dt_agendamento', '<=', $end)
+                ->select('s.id','u.name as colaborador', 's.dt_agendamento as data',
+                'cs.descricao as categoria', 's.nome_razaosocial as cliente',
+                'p.descricao as plano', 'ru.role_id as role')
+                ->orderBy('colaborador')
+                ->get();
+
+        $colaboradores = $result->where('role', 2)->groupBy('colaborador');
+        $consultores = $result->where('role', 8)->groupBy('colaborador');
+        $solicitacaos = $result->groupBy('categoria');
+        $total = $result->count();
+
+        if (request()->wantsJson()) {
+            return response()->json([
+              'data' => $solicitacaos,
+            ]);
+        }
+        return view('reports.producao_diaria', compact('solicitacaos','colaboradores','consultores', 'total', 'request'));
+    }
+
 
 
     public function midias()

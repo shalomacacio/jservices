@@ -70,6 +70,8 @@ Route::group(['middleware'=>['auth']], function(){
 
   //Report
     Route::get('reports/comissaoForm', 'ReportsController@comissaoForm')->name('reports.comissaos.form');
+    Route::get('reports/producaoDiaria', 'ReportsController@producaoDiaria')->name('reports.producaoDiaria');
+    Route::get('reports/producaoDiariaForm', 'ReportsController@producaoDiariaForm')->name('reports.producaoDiariaForm');
     Route::get('reports/comissoes', 'ReportsController@comissoes')->name('reports.comissoes');
     Route::get('reports/servicosForm', 'ReportsController@servicosForm')->name('reports.servicos.form');
     Route::get('reports/servicos', 'ReportsController@servicos')->name('reports.servicos');

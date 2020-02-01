@@ -195,7 +195,8 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
 
     public function updateComissao($solicitacao)
     {
-      $this->deleteComissaoIndividual($solicitacao->id, $solicitacao->user_atendimento_id);
+      $this->deleteComissao($solicitacao->id);
+
       $this->createComissao($solicitacao);
     }
 
@@ -216,6 +217,12 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function deleteComissaoIndividual($solicitacaoId, $usuarioId)
     {
       $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->where('funcionario_id', $usuarioId)->delete();
+    }
+
+
+    public function deleteComissao($solicitacaoId)
+    {
+      $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->delete();
     }
 
     public function deleteComissaoGrupo($solicitacaoId)
