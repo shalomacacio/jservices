@@ -109,7 +109,6 @@ class ReportsController extends Controller
 
         $comissaos = $result->groupBy('funcionario_id');
         $total = $result->where('flg_autorizado', '=' , 1)->sum('comissao_vlr');
-      // return dd($total);
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $comissaos,
@@ -118,10 +117,8 @@ class ReportsController extends Controller
         return view('reports.comissoes', compact('comissaos', 'request', 'total'));
     }
 
-
     public function comissoesNovo(Request $request)
     {
-
      $result = DB::table('comissaos as c')
                   ->join('users as u', 'u.id', '=', 'c.funcionario_id')
                   ->join('solicitacaos as s', 'c.funcionario_id', '=', 's.user_atendimento_id')
@@ -130,10 +127,7 @@ class ReportsController extends Controller
                   ->select('c.id as id',  'u.name as name','s.nome_razaosocial as razao' ,'c.dt_referencia as dt_referencia', 'c.flg_autorizado', 'c.comissao_vlr')
                   ->get();
 
-      // $total = $comissoes->where('flg_autorizado', '=' , 1)->sum('comissao_vlr');
-
       $comissoes = $result->groupBy( 'name');
-      // return dd($comissoes);
       $total = 0;
 
         return view('reports.comissoes', compact('comissoes', 'request', 'total'));
@@ -162,7 +156,6 @@ class ReportsController extends Controller
         }
 
         $solicitacaos = $result;
-
         $total = $result->count();
 
         if (request()->wantsJson()) {
@@ -181,8 +174,6 @@ class ReportsController extends Controller
     {
       $start = Carbon::parse($request->dt_inicio)->format('Y:m:d 00:00:00');
       $end =   Carbon::parse($request->dt_fim)->format('Y:m:d 23:59:59');
-
-
 
       $result = DB::table('solicitacaos as s')
                 ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
@@ -210,8 +201,6 @@ class ReportsController extends Controller
         return view('reports.producao_diaria', compact('solicitacaos','colaboradores','consultores', 'total', 'request'));
     }
 
-
-
     public function midias()
     {
       $result =  $this->solicitacaoRepository->scopeQuery(function($query) {
@@ -222,7 +211,6 @@ class ReportsController extends Controller
       })->get();
 
       $solicitacaos = $result;
-
         if (request()->wantsJson()) {
             return response()->json([
                 'data' => $solicitacaos,
@@ -230,7 +218,4 @@ class ReportsController extends Controller
         }
         return view('reports.midias', compact('solicitacaos'));
     }
-
-
-
 }

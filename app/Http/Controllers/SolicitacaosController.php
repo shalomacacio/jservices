@@ -267,7 +267,8 @@ class SolicitacaosController extends Controller
   {
     $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
 
-    $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+    // $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+    $start = Carbon::parse('2020-01-01 00:00:00')->format('Y-m-d 00:00:00');
     $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
 
     $solicitacaos = $this->repository->scopeQuery(function ($query) use ($start, $end) {
