@@ -87,9 +87,8 @@ class DashboardController extends Controller
                 if($user->password != $request->get('password')){
                     throw new Exception("Senha inválida");
                 }
-
                 Auth::login($user);
-                return redirect()->route('dashboard');
+                return redirect()->route('comissao.minhasComissoes');
             }
 
         } catch (Exception $e) {
