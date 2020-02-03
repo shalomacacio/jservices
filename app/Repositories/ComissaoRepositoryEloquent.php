@@ -87,10 +87,13 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       switch ($solicitacao->categoria_servico_id)
       {
         case '1':
-          createComissaoExecAdesao($solicitacao);
+          $this->createComissaoExecAdesao($solicitacao);
           break;
         case '2':
-          createComissaoExecCancelamento($solicitacao);
+          $this->createComissaoExecCancelamento($solicitacao);
+            break;
+        case '3':
+          $this->createComissaoExecFiacaoExt($solicitacao);
             break;
         default:
           # code...
@@ -145,6 +148,21 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->user_id = $solicitacao->user->id;
         $comissao->solicitacao_id = $solicitacao->id;
         $comissao->comissao_vlr = $comissao->comissionar(0, 4, 1 )/count($solicitacao->users);
+        $comissao->save();
+      }
+    }
+
+    public function createComissaoExecFiacaoExt($solicitacao)
+    {
+      // return dd($solicitacao);
+      foreach( $solicitacao->users as $tecnico )
+      {
+        $comissao = new Comissao();
+        $comissao->dt_referencia = $solicitacao->dt_conclusao;
+        $comissao->funcionario_id = $tecnico->id;
+        $comissao->user_id = $solicitacao->user->id;
+        $comissao->solicitacao_id = $solicitacao->id;
+        $comissao->comissao_vlr = $comissao->comissionar(0, 8, 1 )/count($solicitacao->users);
         $comissao->save();
       }
     }

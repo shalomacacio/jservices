@@ -76,7 +76,6 @@ class SolicitacaosController extends Controller
     ->where('ru.role_id', 2)
     ->get();
 
-
     $categorias = DB::table('categoria_servicos')->distinct()->get();
     $planos = DB::table('planos')->distinct()->get();
     $tecnologias = DB::table('tecnologias')->distinct()->get();
@@ -266,8 +265,7 @@ class SolicitacaosController extends Controller
   public function solicitacoes()
   {
     $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-
-    // $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+    // $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00'); // Mês atual
     $start = Carbon::parse('2020-01-01 00:00:00')->format('Y-m-d 00:00:00');
     $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
 
@@ -284,7 +282,6 @@ class SolicitacaosController extends Controller
         'data' => $solicitacaos,
       ]);
     }
-
     return view('solicitacaos.solicitacoes', compact('solicitacaos'));
   }
 
@@ -424,7 +421,7 @@ class SolicitacaosController extends Controller
       $solicitacao->dt_conclusao = Carbon::now();
       $solicitacao->save();
 
-      $comissao = $this->comissaoRepository->createComissaoExecCancelamento($solicitacao);
+      $comissao = $this->comissaoRepository->createComissaoEcex($solicitacao);
 
       $response = [
         'message' => 'Solicitacao updated.',
