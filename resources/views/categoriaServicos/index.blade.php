@@ -21,23 +21,7 @@
       </div><!-- /.container-fluid -->
 
       {{-- alerts --}}
-      @if(Session::has('message'))
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-        {{Session::get('message')}}
-      </div>
-      @elseif($errors->any())
-      <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Erro</h5>
-          <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-      </div>
-      @endif
+      @include('layouts.alerts')
     </section>
 
     <!-- Main content -->
@@ -59,6 +43,14 @@
                 <div class="form-group">
                   <label>Descricao</label>
                   <input type="text" class="form-control" name="descricao" placeholder="descricao"  required>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Pontuação</label>
+                  <input type="text" class="form-control" name="pontuacao"  required>
                 </div>
               </div>
 
@@ -88,6 +80,7 @@
                   <tr>
                   <th style="width: 10px">#</th>
                   <th>Descrição</th>
+                  <th>Pontuação</th>
                   <th style="width: 150px">Ações</th>
                   </tr>
                 </thead>
@@ -96,6 +89,7 @@
                   <tr>
                     <td>{{ $categoria->id }}</td>
                     <td>{{ $categoria->descricao }}</td>
+                    <td>{{ $categoria->pontuacao }}</td>
                     <td>
                       <form action="{{route('categoriaServicos.destroy', $categoria->id)}}" method="POST">
                         <a class="btn btn-info" href="{{route('categoriaServicos.edit', $categoria->id)}}"  ><i class="fas fa-edit"></i></a>

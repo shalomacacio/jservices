@@ -20,24 +20,8 @@
         </div>
       </div><!-- /.container-fluid -->
 
-      {{-- alerts --}}
-      @if(Session::has('message'))
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-        {{Session::get('message')}}
-      </div>
-      @elseif($errors->any())
-      <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-check"></i>Erro</h5>
-          <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-      </div>
-      @endif
+    {{-- alerts --}}
+    @include('layouts.alerts')
     </section>
 
     <!-- Main content -->
@@ -49,10 +33,10 @@
             <h3 class="card-title">Editar Categoria</h3>
           </div>
           <form role="form" action="{{ route('categoriaServicos.update', $categoriaServico->id) }}" method="POST">
-          <!-- /.card-header -->
-          <div class="card-body">
             @csrf
             @method('PUT')
+          <!-- /.card-header -->
+          <div class="card-body">
             <div class="row">
 
               <div class="col-sm-3">
@@ -60,6 +44,14 @@
                 <div class="form-group">
                   <label>Descricao</label>
                 <input type="text" class="form-control" name="descricao" placeholder="descricao" value="{{$categoriaServico->descricao}}" required>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Pontuação</label>
+                  <input type="text" class="form-control" name="pontuacao" value="{{$categoriaServico->pontuacao}}"   required>
                 </div>
               </div>
 

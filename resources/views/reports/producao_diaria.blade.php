@@ -164,7 +164,7 @@
                     @foreach ($tecnicos as $tecnico => $todos)
                       <tr>
                         <th style="width:50%">{{ $tecnico }}:</th>
-                        <td style="width:50%"> {{ $todos->count()}}</td>
+                        <td style="width:50%"> {{ $todos->sum('pontuacao')}}</td>
                       </tr>
                     @endforeach
                   </table>
@@ -174,7 +174,7 @@
           </div>
           <!-- /.row -->
 
-          <div class="row">
+          <div class="row float-right">
             <!-- accepted payments column -->
             <div class="col-12">
               <table>
@@ -186,9 +186,10 @@
             </div>
           </div>
 
+          <br/>
             <!-- this row will not appear when printing -->
-            <div class="row no-print">
-              <div class="col-12">
+            <div class="row no-print  ">
+              <div class="col-12 ">
                 <a href="javascript:void(0)" onClick="window.print()" class="btn btn-default float-right"><i class="fas fa-print"></i> Imprimir</a>
                 {{-- <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card" disabled></i> Submit
                   Payment
@@ -205,6 +206,7 @@
     </div><!-- /.container-fluid -->
   </section>
 </div>
+
 @endsection
 
 @section('javascript')

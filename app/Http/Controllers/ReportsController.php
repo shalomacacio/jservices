@@ -192,16 +192,10 @@ class ReportsController extends Controller
                 ->join('solicitacaos as s', 'su.solicitacao_id', '=','s.id')
                 ->join('users as u', 'su.user_id', '=', 'u.id')
                 ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
-
-                // ->join('role_user as ru', 'ru', '=', 'ru.user_id')
-                // ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
-                // ->join('users as u', 'su.solicitacao_id', '=', 'u.id')
                 ->whereDate ('s.dt_agendamento', '>=', $start)
                 ->whereDate ('s.dt_agendamento', '<=', $end)
-                ->select('u.name as tecnico', 'cs.descricao')
+                ->select('u.name as tecnico', 'u.sobrenome as sobrenome', 'cs.descricao', 'cs.pontuacao')
                 ->get();
-
-
 
       $colaboradores = $result->where('role', 2)->groupBy('colaborador');
       $consultores = $result->where('role', 8)->groupBy('colaborador');

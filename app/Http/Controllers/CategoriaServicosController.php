@@ -151,8 +151,7 @@ class CategoriaServicosController extends Controller
     public function update(CategoriaServicoUpdateRequest $request, $id)
     {
         try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            // $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             $categoriaServico = $this->repository->update($request->all(), $id);
 
