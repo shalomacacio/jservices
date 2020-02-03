@@ -60,7 +60,7 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        return view('reports.index');
+      return view('reports.index');
     }
 
     public function comissaoForm()
@@ -184,21 +184,38 @@ class ReportsController extends Controller
                 ->whereDate ('s.dt_agendamento', '<=', $end)
                 ->select('s.id','u.name as colaborador', 's.dt_agendamento as data',
                 'cs.descricao as categoria', 's.nome_razaosocial as cliente',
-                'p.descricao as plano', 'ru.role_id as role')
+                'p.descricao as plano', 'ru.role_id as role', 'ru.user_id as tecnico')
                 ->orderBy('colaborador')
                 ->get();
 
-        $colaboradores = $result->where('role', 2)->groupBy('colaborador');
-        $consultores = $result->where('role', 8)->groupBy('colaborador');
-        $solicitacaos = $result->groupBy('categoria');
-        $total = $result->count();
+      $resultTec = DB::table('solicitacao_user as su')
+                ->join('solicitacaos as s', 'su.solicitacao_id', '=','s.id')
+                ->join('users as u', 'su.user_id', '=', 'u.id')
+                ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+
+                // ->join('role_user as ru', 'ru', '=', 'ru.user_id')
+                // ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+                // ->join('users as u', 'su.solicitacao_id', '=', 'u.id')
+                ->whereDate ('s.dt_agendamento', '>=', $start)
+                ->whereDate ('s.dt_agendamento', '<=', $end)
+                ->select('u.name as tecnico', 'cs.descricao')
+                ->get();
+
+
+
+      $colaboradores = $result->where('role', 2)->groupBy('colaborador');
+      $consultores = $result->where('role', 8)->groupBy('colaborador');
+      $tecnicos = $resultTec->groupBy('tecnico');
+
+      $solicitacaos = $result->groupBy('categoria');
+      $total = $result->count();
 
         if (request()->wantsJson()) {
             return response()->json([
               'data' => $solicitacaos,
             ]);
         }
-        return view('reports.producao_diaria', compact('solicitacaos','colaboradores','consultores', 'total', 'request'));
+        return view('reports.producao_diaria', compact('solicitacaos','colaboradores','consultores', 'tecnicos', 'total', 'request'));
     }
 
     public function midias()

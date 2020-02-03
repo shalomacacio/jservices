@@ -141,7 +141,6 @@
               </div>
             </div>
             <!-- /.col -->
-
             <!-- /.col -->
             <div class="col-3">
               <p class="lead">Por Consultor</p>
@@ -155,6 +154,21 @@
                   @endforeach
                 </table>
               </div>
+            </div>
+            <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-3">
+              <p class="lead">Por Tecnico</p>
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    @foreach ($tecnicos as $tecnico => $todos)
+                      <tr>
+                        <th style="width:50%">{{ $tecnico }}:</th>
+                        <td style="width:50%"> {{ $todos->count()}}</td>
+                      </tr>
+                    @endforeach
+                  </table>
+                </div>
             </div>
             <!-- /.col -->
           </div>
