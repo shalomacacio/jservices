@@ -48,8 +48,8 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('comissaos/minhasComissoes', 'ComissaosController@minhasComissoes')->name('comissao.minhasComissoes');
     Route::put('comissaos/{id}/autorizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');
     Route::put('comissaos/{id}/nAutorizar', 'ComissaosController@nAutorizar')->name('comissao.nAutorizar')->middleware('needsRole:admin|auditor, true');;
-    Route::get('comissaos/pesquisar', 'ComissaosController@pesquisar')->name('comissao.pesquisar')->middleware('needsRole:admin|atendimento|suporte, true');
-    Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suporte, true');
+    Route::get('comissaos/pesquisar', 'ComissaosController@pesquisar')->name('comissao.pesquisar')->middleware('needsRole:admin|atendimento|vendedor|suporte, true');
+    Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suport|vendedor, true');
     Route::resource('comissaos', 'ComissaosController');
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');

@@ -5,6 +5,7 @@ namespace App\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Carbon\Carbon;
 
 /**
  * Class MkAtendimento.
@@ -35,6 +36,17 @@ class MkAtendimento extends Model implements Transformable
     public function mkProcesso()
     {
       return $this->belongsTo('App\Entities\MkAteProcesso', 'cd_processo', 'codprocesso');
+    }
+
+    public function getTempoAttribute()
+    {
+        $dataFinal = Carbon::createFromFormat('Y-m-d H:i:s', $this->dt_hr_limite_fim_processo );
+        $tempo = $dataFinal->diffInDays(Carbon::now());
+        // if($tempo <= 0){
+        //     $tempo = $dataFinal->diffInHours(Carbon::now());
+        //     return "Faltam:".$tempo." horas";
+        // }
+        return $tempo;
     }
 
 }

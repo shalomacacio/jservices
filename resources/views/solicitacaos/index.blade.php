@@ -54,7 +54,6 @@
                 <div class="card-body">
                 <form id="form" role="form" action="{{ route('solicitacao.store') }}" method="POST">
                     @csrf
-
                     <div class="row">
                       <div class="col-12 col-sm-12 col-md-2">
                             <label>Codigo</label>

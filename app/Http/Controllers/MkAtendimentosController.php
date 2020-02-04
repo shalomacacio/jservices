@@ -11,6 +11,7 @@ use App\Http\Requests\MkAtendimentoCreateRequest;
 use App\Http\Requests\MkAtendimentoUpdateRequest;
 use App\Repositories\MkAtendimentoRepository;
 use App\Validators\MkAtendimentoValidator;
+use Carbon\Carbon;
 
 /**
  * Class MkAtendimentosController.
@@ -48,11 +49,14 @@ class MkAtendimentosController extends Controller
      */
     public function index()
     {
+      $dtInicio = Carbon::now()->format('Y-m-d 00:00:00');
+
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $mkAtendimentos = $this->repository->scopeQuery(function ($query) {
+        $mkAtendimentos = $this->repository->scopeQuery(function ($query) use($dtInicio) {
           return $query
-            ->whereDate('dt_abertura', '>=', '2020-01-01')
-            ->whereIn('cd_processo', [18,35,37,44,48,49,50,52,54,55,57,59,])
+            ->whereDate('dt_abertura', '>=', $dtInicio)
+            // ->whereIn('cd_processo', [18,35,37,44,48,49,50,52,54,55,57,59,])
+            ->whereIn('cd_processo', [53])
             ->orderBy('cd_processo', 'desc');
         })->paginate(50);
 
