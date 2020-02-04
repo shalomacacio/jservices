@@ -4,25 +4,8 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
 
-     {{-- alerts --}}
-     @if(Session::has('message'))
-     <div class="alert alert-success alert-dismissible">
-       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-       <h5><i class="icon fas fa-check"></i>Sucesso</h5>
-       {{Session::get('message')}}
-     </div>
-     @elseif($errors->any())
-     <div class="alert alert-danger alert-dismissible">
-       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-       <h5><i class="icon fas fa-check"></i>Erro</h5>
-         <ul>
-           @foreach ($errors->all() as $error)
-               <li>{{ $error }}</li>
-           @endforeach
-         </ul>
-     </div>
-     @endif
-
+  {{-- alerts --}}
+  @include('layouts.alerts')
   <section class="content-header">
       <div class="container-fluid">
           <div class="row">
@@ -31,7 +14,15 @@
                 <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Pontos Disponívies</span>
-                <span class="info-box-number"><h4>@isset($pontosDisponiveis) {{ $pontosDisponiveis }} @endisset</h4></span>
+                <span class="info-box-number"><h4>
+                  @isset($pontosDisponiveis)
+                  @if( $pontosDisponiveis > 0)
+                  {{ $pontosDisponiveis }}
+                  @else
+                  {{ $pontosDisponiveis }} AGENDA PREENCHIDA
+                  @endif
+
+                  @endisset</h4></span>
                 </div>
                 <!-- /.info-box-content -->
               </div>

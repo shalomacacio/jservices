@@ -112,6 +112,7 @@ class EscalasController extends Controller
 
         $totalPontos =  $escala->users->sum('max_ponto') ;
 
+
         $sumPontos = DB::table('solicitacaos as s')
                       ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
                       ->whereNull('s.deleted_at')
@@ -120,6 +121,8 @@ class EscalasController extends Controller
                       ->sum('cs.pontuacao');
 
         $pontosDisponiveis = $totalPontos - $sumPontos;
+
+
 
         return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));
 
