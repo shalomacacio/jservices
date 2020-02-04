@@ -81,13 +81,15 @@ class EscalasController extends Controller
         $totalPontos =  $escala->users->sum('max_ponto') ;
 
         $sumPontos = DB::table('solicitacaos as s')
-                      ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
+                      ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
                       ->whereNull('s.deleted_at')
                       ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
                       ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
-                      ->sum('serv.pontuacao');
+                      ->sum('cs.pontuacao');
 
         $pontosDisponiveis = $totalPontos - $sumPontos;
+
+        return dd($sumPontos);
 
         return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));
 
@@ -111,11 +113,11 @@ class EscalasController extends Controller
         $totalPontos =  $escala->users->sum('max_ponto') ;
 
         $sumPontos = DB::table('solicitacaos as s')
-                      ->join('servicos as serv', 'serv.id', '=', 's.servico_id')
+                      ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
                       ->whereNull('s.deleted_at')
                       ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
                       ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
-                      ->sum('serv.pontuacao');
+                      ->sum('cs.pontuacao');
 
         $pontosDisponiveis = $totalPontos - $sumPontos;
 
