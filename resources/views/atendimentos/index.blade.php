@@ -41,8 +41,8 @@
                   <tr>
                     <th>Data </th>
                     <th>Cliente</th>
-                    <th>Processo </th>
-                    <th>Descricao</th>
+                    {{-- <th>Processo </th> --}}
+                    <th style="200 px">Descricao</th>
                     <th>Status </th>
                     <th>Tempo </th>
                   </tr>
@@ -51,11 +51,12 @@
                   @foreach($mkAtendimentos as $atendimento)
                   <tr>
                     {{-- <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($atendimento->dt_abertura)->format('d/m/Y') }} {{ $atendimento->hr_abertura}}</td> --}}
-                    <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($atendimento->dt_hr_limite_fim_processo ) }} </td>
+                    <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($atendimento->dt_hr_limite_fim_processo )->format('d/m') }} </td>
                     <td>{{ $atendimento->mkPessoa->nome_razaosocial }}</td>
-                    <td>{{ $atendimento->mkProcesso->nome_processo }}</td>
+                    {{-- <td>{{ $atendimento->mkProcesso->nome_processo }}</td> --}}
                     <td>{{ $atendimento->info_cliente }}</td>
-                    <td class="d-none d-sm-table-cell">{{ $atendimento->tempo  }} </td>                    {{-- <td>
+                    <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($atendimento->dt_hr_limite_fim_processo)->diffForHumans(\Carbon\Carbon::now()->format('Y-m-d H:i:s')) }} </td>
+                    {{-- <td>
                     <form action="{{route('clientes.destroy', $cliente->id)}}" method="POST">
                     <a class="btn btn-info" href="{{route('clientes.edit', $cliente->id)}}"><i class="fas fa-edit"></i></a>
                     @csrf

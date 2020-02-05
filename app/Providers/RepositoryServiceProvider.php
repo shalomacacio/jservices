@@ -48,6 +48,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\MkAteProcessoRepository::class, \App\Repositories\MkAteProcessoRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\MotivoCancelamentoRepository::class, \App\Repositories\MotivoCancelamentoRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\RoleRepository::class, \App\Repositories\RoleRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\MkOsRepository::class, \App\Repositories\MkOsRepositoryEloquent::class);
         //:end-bindings:
     }
 }

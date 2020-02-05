@@ -25,7 +25,11 @@ class MkAtendimento extends Model implements Transformable
     protected $connection = 'pgsql';
     protected $table = "public.mk_atendimento";
     protected $primaryKey = 'codatendimento';
-    protected $fillable = [];
+    protected $fillable =
+    [
+      'dt_hr_limite_fim_processo'
+
+    ];
 
 
     public function mkPessoa()
@@ -38,15 +42,21 @@ class MkAtendimento extends Model implements Transformable
       return $this->belongsTo('App\Entities\MkAteProcesso', 'cd_processo', 'codprocesso');
     }
 
-    public function getTempoAttribute()
-    {
-        $dataFinal = Carbon::createFromFormat('Y-m-d H:i:s', $this->dt_hr_limite_fim_processo );
-        $tempo = $dataFinal->diffInDays(Carbon::now());
-        // if($tempo <= 0){
-        //     $tempo = $dataFinal->diffInHours(Carbon::now());
-        //     return "Faltam:".$tempo." horas";
-        // }
-        return $tempo;
-    }
+    // public function getTempoAttribute()
+    // {
+
+    //     $dataFinal = Carbon::createFromFormat('Y-m-d H:i:s', $this->dtAbertura );
+    //     $tempo = $dataFinal->diffInDays(Carbon::now());
+    //     if($tempo <= 0){
+    //         $tempo = $dataFinal->diffInHours(Carbon::now());
+    //         return "Faltam:".$tempo." horas";
+    //     }
+    //     return dd($dataFinal);
+    // }
+
+
+  //   protected $dates = [
+  //     'dt_hr_limite_fim_processo',
+  // ];
 
 }
