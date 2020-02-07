@@ -89,7 +89,7 @@ class EscalasController extends Controller
 
         $pontosDisponiveis = $totalPontos - $sumPontos;
 
-        return dd($sumPontos);
+        // return dd($sumPontos);
 
         return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));
 
