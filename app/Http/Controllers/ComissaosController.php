@@ -86,17 +86,25 @@ class ComissaosController extends Controller
         $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
         $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
 
-        $comissaos = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
+        $result = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
           return $query
             ->where('funcionario_id', Auth::user()->id)
             ->whereDate('dt_referencia', '>=', $start)
             ->whereDate('dt_referencia', '<=', $end)
             ->orderBy('dt_referencia', 'desc');
-        })->paginate(10);
+        });
 
-        $aguardando = $comissaos->where('flg_autorizado', 3 )->sum('comissao_vlr');
-        $nAutorizado = $comissaos->where('flg_autorizado','=' , '0' )->sum('comissao_vlr');
-        $autorizado = $comissaos->where('flg_autorizado', 1 )->sum('comissao_vlr');
+        $result2  = DB::table('comissaos')
+                  ->where('funcionario_id', Auth::user()->id)
+                  ->whereDate('dt_referencia', '>=', $start)
+                  ->whereDate('dt_referencia', '<=', $end)
+                  ->orderBy('dt_referencia', 'desc');
+
+        $comissaos = $result->paginate(10);
+
+        $aguardando = $result2->where('flg_autorizado','=' , 3 )->sum('comissao_vlr');
+        $nAutorizado = $result2->where('flg_autorizado','=' , '0' )->sum('comissao_vlr');
+        $autorizado = $result2->where('flg_autorizado','=' , 1 )->sum('comissao_vlr');
 
         if (request()->wantsJson()) {
             return response()->json([
