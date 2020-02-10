@@ -75,7 +75,7 @@
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->mkPessoa->bairro->bairro}}</td>
+                                        <td class="d-none d-sm-table-cell">@isset($solicitacao->mkPessoa->bairro){{ $solicitacao->mkPessoa->bairro->bairro }} @endisset</td>
 
                                         <td class="d-none d-sm-table-cell">
                                             @foreach ($solicitacao->users as $tecnico)

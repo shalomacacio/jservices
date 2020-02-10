@@ -50,7 +50,6 @@
                 <tbody>
                   @foreach($mkAtendimentos as $atendimento)
                   <tr>
-                    {{-- <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($atendimento->dt_abertura)->format('d/m/Y') }} {{ $atendimento->hr_abertura}}</td> --}}
                     <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($atendimento->dt_hr_limite_fim_processo )->format('d/m') }} </td>
                     <td>{{ $atendimento->mkPessoa->nome_razaosocial }}</td>
                     {{-- <td>{{ $atendimento->mkProcesso->nome_processo }}</td> --}}
