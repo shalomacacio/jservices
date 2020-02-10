@@ -148,7 +148,8 @@ class ComissaosController extends Controller
       if ($request->wantsJson()) {
           return response()->json($response);
       }
-      return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
+    //   return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
+      return redirect()->back()->with('message', $response['message']);
     }
 
     public function nAutorizar(Request $request, $id)
@@ -166,7 +167,9 @@ class ComissaosController extends Controller
       if ($request->wantsJson()) {
           return response()->json($response);
       }
-      return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
+    //   return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
+    return redirect()->back()->with('message', $response['message']);
+
     }
 
 
