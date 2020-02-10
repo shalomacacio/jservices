@@ -76,7 +76,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{-- {{ $solicitacaos->render() }} --}}
+                                {{ $comissaos->render() }}
                           </ul>
                         </div>
                       </div>
