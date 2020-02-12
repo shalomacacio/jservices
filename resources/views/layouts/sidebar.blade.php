@@ -111,6 +111,29 @@
           </ul>
         </li>
 
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-th"></i>
+            <p>Vendas <i class="fa fa-angle-left right"></i></p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('clientes.index')}}" class="nav-link">
+                <i class="fa fa-circle-o nav-icon"></i>
+                <p>Cliente</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fa fa-circle-o nav-icon"></i>
+                <p>Pré Venda</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
         <li class="nav-header">CADASTROS</li>
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">

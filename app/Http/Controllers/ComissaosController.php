@@ -98,7 +98,7 @@ class ComissaosController extends Controller
                   ->where('funcionario_id', Auth::user()->id)
                   ->whereDate('dt_referencia', '>=', $start)
                   ->whereDate('dt_referencia', '<=', $end)
-                  ->orderBy('dt_referencia', 'desc');
+                  ->orderBy('dt_referencia', 'desc')->get();
 
         $comissaos = $result->paginate(10);
 

@@ -22,7 +22,6 @@ use App\Entities\Cliente;
 use App\Entities\Escala;
 use App\Entities\Plano;
 use App\Entities\MkPessoa;
-
 use Illuminate\Validation\Rule;
 
 /**
@@ -166,6 +165,7 @@ class SolicitacaosController extends Controller
 
   public function encaminhar($id)
   {
+
     $solicitacao = $this->repository->find($id);
 
     try {
@@ -203,6 +203,7 @@ class SolicitacaosController extends Controller
 
   public function atribuir(Request $request)
   {
+
     try {
 
       $solicitacao = $this->repository->find($request->solicitacao_id);
