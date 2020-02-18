@@ -44,7 +44,6 @@
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
                                 <th class="d-none d-sm-table-cell">Atendente</th>
-                                <th class="d-none d-sm-table-cell">Equipe</th>
                                 <th class="d-none d-sm-table-cell">Situação</th>
                                 <th style="width: 130px">Ações </th>
                               </tr>
@@ -52,32 +51,19 @@
                             <tbody>
                                 @foreach ($solicitacaos as $solicitacao)
                                     <tr>
-                                        <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
-                                        <td>{{ $solicitacao->nome_razaosocial }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
-
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
-                                        <td class="d-none d-sm-table-cell">
-                                            @foreach ($solicitacao->users as $tecnico)
-                                              @isset($tecnico)
-                                                {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
-                                              @endisset
-                                            @endforeach
-                                            @empty($solicitacao->users)
-                                              Nenhum técnico atribuido
-                                            @endempty
-                                        </td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td>
+                                      <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m/Y') }}</td>
+                                      <td>{{ $solicitacao->nome_razaosocial }}</td>
+                                      <td class="d-none d-sm-table-cell">{{ $solicitacao->categoria }}</td>
+                                      <td class="d-none d-sm-table-cell">{{ $solicitacao->user }}</td>
+                                      <td class="d-none d-sm-table-cell">{{ $solicitacao->status}}</td>
+                                      <td>
                                         <form action="{{route('solicitacao.destroy', $solicitacao->id)}}" method="POST">
-
-                                            <a class="btn btn-info btn-sm" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-sm"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
-
-                                          </form>
-                                        </td>
+                                          <a class="btn btn-info btn-sm" href="{{route('solicitacao.edit', $solicitacao->id)}}" ><i class="fas fa-edit"></i></a>
+                                          @csrf
+                                          @method('DELETE')
+                                          <button class="btn btn-danger btn-sm"  type="submit"  onclick="return confirm('Cancelar a Solicitação ?')"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                      </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -87,7 +73,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $solicitacaos->render() }}
+                                {{-- {{ $solicitacaos->render() }} --}}
                           </ul>
                         </div>
                       </div>

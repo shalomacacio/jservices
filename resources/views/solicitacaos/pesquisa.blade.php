@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Pesquisar </h1>
+            <h1>Solicitacoes</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -28,13 +28,13 @@
     <section class="content">
       <div class="col-md-12">
       <!-- general form elements disabled -->
-      <div class="card card-warning">
+      <div class="card card-info">
         <div class="card-header">
-          <h3 class="card-title">Relatório de Comissões </h3>
+          <h3 class="card-title">Pesquisar Solicitações </h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form role="form" action="{{ route('reports.comissoes') }}" method="GET">
+          <form role="form" action="{{ route('solicitacoes.resultPesquisa') }}" method="GET">
             <div class="row">
               <div class="col-sm-4">
                 <!-- text input -->
@@ -49,21 +49,9 @@
                   <input type="date" class="form-control" name="dt_fim" required>
                 </div>
               </div>
-              <div class="col-sm-4">
-                <!-- select -->
-                <div class="form-group">
-                  <label>Colaborador</label>
-                  <select class="form-control" name="funcionario_id">
-                    <option value="0">-- TODOS --</option>
-                    @foreach($users as $user)
-                    <option value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
 
             </div>
-
+{{--
             <div class="row">
               <div class="col-sm-4">
                 <!-- checkbox -->
@@ -110,7 +98,7 @@
 
                 </div>
               </div>
-            </div>
+            </div> --}}
 
         </div>
         <div class="card-footer">

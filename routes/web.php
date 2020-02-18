@@ -20,6 +20,8 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/logout', 'DashboardController@logout')->name('logout');
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
+    Route::get('solicitacoes/pesquisar', 'SolicitacaosController@pesquisar')->name('solicitacoes.pesquisar');
+    Route::get('solicitacoes/resultPesquisa', 'SolicitacaosController@resultPesquisa')->name('solicitacoes.resultPesquisa');
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
     Route::get('solicitacoes/fila', 'SolicitacaosController@fila')->name('solicitacoes.fila');
     Route::get('solicitacao/{id}/encaminhar', 'SolicitacaosController@encaminhar')->name('solicitacao.encaminhar')->middleware('needsRole:admin|controlador, true');

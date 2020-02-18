@@ -43,9 +43,9 @@
             </li>
             @is(['admin','controlador'])
             <li class="nav-item">
-              <a href="{{route('solicitacoes')}}" class="nav-link">
+              <a href="{{route('solicitacoes.pesquisar')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
-                <p>Solicitações</p>
+                <p>Pesquisar</p>
               </a>
             </li>
 

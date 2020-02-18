@@ -182,6 +182,30 @@ class SolicitacaosController extends Controller
     return view('solicitacaos.encaminhar', compact('solicitacao', 'tecnicos'));
   }
 
+  public function pesquisar(){
+    return view('solicitacaos.pesquisa');
+  }
+
+  public function resultPesquisa(Request $request){
+    $start = $request->dt_inicio;
+    $end = $request->dt_fim;
+
+    $result = DB::table('solicitacaos as s')
+                ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
+                ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+                ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+                ->where('s.dt_agendamento', '>=', Carbon::parse($start)->format('Y-m-d 00:00:00'))
+                ->where('s.dt_agendamento', '<=', Carbon::parse($end)->format('Y-m-d 23:59:59'))
+                ->select('s.id','s.dt_agendamento','s.nome_razaosocial', 'u.name as user',
+                'cs.descricao as categoria', 'ss.descricao as status')
+                ->orderBy('dt_agendamento', 'asc')
+                ->get();
+
+    $solicitacaos = $result;
+
+    return view('solicitacaos.solicitacoes', compact('solicitacaos'));
+  }
+
   public function reagendar($id)
   {
     $solicitacao = $this->repository->find($id);
