@@ -54,6 +54,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suport|vendedor, true');
     Route::resource('comissaos', 'ComissaosController');
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
+    Route::get('escalas/escala', 'EscalasController@escala')->name('escalas.escala');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
     Route::resource('escalas', 'EscalasController');
 

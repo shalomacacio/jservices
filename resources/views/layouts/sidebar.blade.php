@@ -36,6 +36,12 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
+              <a href="{{route('escalas.agenda')}}" class="nav-link">
+                <i class="fa fa-circle-o nav-icon"></i>
+                <p>Agenda</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{route('solicitacao.create')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
                 <p>Nova Solicitação</p>
@@ -49,39 +55,40 @@
               </a>
             </li>
 
-            <li class="nav-item">
-              <a href="{{route('solicitacoes.fila')}}" class="nav-link">
-                <i class="fa fa-circle-o nav-icon"></i>
-                <p>Fila de Atendimento</p>
-              </a>
-            </li>
+
             @endis
           </ul>
         </li>
-
+        @is(['admin', 'supervisor', 'controlador'])
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-plus-square"></i>
-            <p>Agenda <i class="fa fa-angle-left right"></i></p>
+            <p>Controlador <i class="fa fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{route('escalas.agenda')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
-                <p>Agenda</p>
+                <p>Escala</p>
               </a>
             </li>
-            @is(['admin', 'supervisor', 'controlador'])
+
             <li class="nav-item">
               <a href="{{route('escalas.index')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
                 <p> Nova Escala</p>
               </a>
             </li>
-            @endis
+            <li class="nav-item">
+              <a href="{{route('solicitacoes.fila')}}" class="nav-link">
+                <i class="fa fa-circle-o nav-icon"></i>
+                <p>Fila de Atendimento</p>
+              </a>
+            </li>
+
           </ul>
         </li>
-
+        @endis
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fa fa-th"></i>

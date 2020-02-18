@@ -90,7 +90,7 @@ class EscalasController extends Controller
         ->orderBy('descricao')
         ->get();
         $solicitacoes = $result->groupBy('descricao');
-        return view('escalas.agenda', compact('solicitacoes', 'data'));
+        return view('escalas.escala', compact('solicitacoes', 'data'));
 
       } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         $message = 'não existe escala cadastrada ';
