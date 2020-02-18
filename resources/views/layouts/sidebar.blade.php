@@ -68,7 +68,7 @@
             <li class="nav-item">
               <a href="{{route('escalas.agenda')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
-                <p>Escala</p>
+                <p>Agenda</p>
               </a>
             </li>
             @is(['admin', 'supervisor', 'controlador'])

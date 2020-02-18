@@ -73,6 +73,37 @@ class EscalasController extends Controller
 
     public function agenda(Request $request){
 
+      $data = Carbon::now()->format('Y-m-d');
+
+      if($request){
+        $data = $request->dt_escala;
+      }
+      try {
+        $result = DB::table('solicitacaos as s')
+        ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
+        ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
+        ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+        ->whereNull('s.deleted_at')
+        ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
+        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+        ->select('cs.descricao as descricao', 's.nome_razaosocial as cliente', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
+        ->orderBy('descricao')
+        ->get();
+        $solicitacoes = $result->groupBy('descricao');
+        return view('escalas.agenda', compact('solicitacoes', 'data'));
+
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        $message = 'não existe escala cadastrada ';
+        $escala = null;
+        $totalPontos = 0;
+        $sumPontos = 0;
+        // return redirect()->route('escalas.agenda')->withErrors( $message);
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ))->withErrors( $message);
+      }
+    }
+
+    public function escala(Request $request){
+
       try {
         $escala = Escala::where('dt_escala', '>=' , Carbon::now()->format('Y-m-d 00:00:00' ))
         ->where('dt_escala', '<=' , Carbon::now()->format('Y-m-d 23:59:59' ))
@@ -104,27 +135,23 @@ class EscalasController extends Controller
     }
 
     public function search(Request $request){
-
+      $data = Carbon::now()->format('Y-m-d');
+      if($request){
+        $data = $request->dt_escala;
+      }
       try {
-        $escala = Escala::where('dt_escala', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00' ))
-        ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59' ))
-        ->firstOrFail();
-
-        $totalPontos =  $escala->users->sum('max_ponto') ;
-
-
-        $sumPontos = DB::table('solicitacaos as s')
-                      ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
-                      ->whereNull('s.deleted_at')
-                      ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
-                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
-                      ->sum('cs.pontuacao');
-
-        $pontosDisponiveis = $totalPontos - $sumPontos;
-
-
-
-        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));
+        $result = DB::table('solicitacaos as s')
+        ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
+        ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
+        ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+        ->whereNull('s.deleted_at')
+        ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
+        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+        ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
+        ->orderBy('descricao')
+        ->get();
+        $solicitacoes = $result->groupBy('descricao', 'maximo');
+        return view('escalas.agenda', compact('solicitacoes', 'data'));
 
       } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         $message = 'não existe escala cadastrada ';
@@ -136,6 +163,29 @@ class EscalasController extends Controller
       }
     }
 
+    public function searchEscala(Request $request){
+      try {
+        $escala = Escala::where('dt_escala', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00' ))
+        ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59' ))
+        ->firstOrFail();
+        $totalPontos =  $escala->users->sum('max_ponto') ;
+        $sumPontos = DB::table('solicitacaos as s')
+                      ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
+                      ->whereNull('s.deleted_at')
+                      ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
+                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
+                      ->sum('cs.pontuacao');
+        $pontosDisponiveis = $totalPontos - $sumPontos;
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        $message = 'não existe escala cadastrada ';
+        $escala = null;
+        $totalPontos = 0;
+        $sumPontos = 0;
+        // return redirect()->route('escalas.agenda')->withErrors( $message);
+        return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos' ))->withErrors( $message);
+      }
+    }
     public function pendentes(){
 
     }
