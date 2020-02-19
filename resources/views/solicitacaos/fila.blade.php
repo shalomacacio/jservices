@@ -60,6 +60,7 @@
                                 <th class="d-none d-sm-table-cell" style="width: 30px">Data</th>
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
+                                <th class="d-none d-sm-table-cell">Observação </th>
                                 <th class="d-none d-sm-table-cell">Situação</th>
                                 <th class="d-none d-sm-table-cell">Atendente</th>
                                 <th class="d-none d-sm-table-cell">Bairro</th>
@@ -73,6 +74,7 @@
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m') }}</td>
                                         <td>{{ $solicitacao->nome_razaosocial }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->obs }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
                                         <td class="d-none d-sm-table-cell">@isset($solicitacao->mkPessoa->bairro){{ $solicitacao->mkPessoa->bairro->bairro }} @endisset</td>

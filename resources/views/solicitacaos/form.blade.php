@@ -185,7 +185,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-8">
+<div class="col-12 col-sm-12 col-md-6">
   <!-- textarea -->
   <div class="form-group">
     <label>Observação</label>
@@ -193,11 +193,23 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-4">
+<div class="col-12 col-sm-12 col-md-3">
   <!-- text input -->
   <div class="form-group">
     <label>Agendar para:
       <param name="" value=""></label>
     <input type="date" class="form-control" name="dt_agendamento" required>
+  </div>
+</div>
+
+<div class="col-12 col-sm-12 col-md-3 " >
+  <!-- select -->
+  <div class="form-group">
+    <label>Turno</label>
+    <select class="form-control" name="turno_agendamento" >
+      <option value="">--Selecione--</option>
+      <option value="1">Manhã</option>
+      <option value="2">Tarde</option>
+    </select>
   </div>
 </div>

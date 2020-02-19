@@ -165,7 +165,6 @@ class SolicitacaosController extends Controller
 
   public function encaminhar($id)
   {
-
     $solicitacao = $this->repository->find($id);
 
     try {

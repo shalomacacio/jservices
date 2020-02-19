@@ -9,26 +9,26 @@
   <section class="content-header">
       <div class="container-fluid">
           <div class="row">
-            {{-- <div class="col-md-6 col-sm-6 col-12">
-              <div class="info-box">
-                <span class="info-box-icon bg-danger"><i class="fa fa-star"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Pontos Disponívies</span>
-                <span class="info-box-number"><h4>
-                  @isset($pontosDisponiveis)
-                  @if( $pontosDisponiveis > 0)
-                  {{ $pontosDisponiveis }}
-                  @else
-                  {{ $pontosDisponiveis }} AGENDA PREENCHIDA
-                  @endif
 
-                  @endisset</h4></span>
-                </div>
-                <!-- /.info-box-content -->
+            <div class="col-md-4 col-sm-6 col-4">
+              <div class="callout callout-info">
+              <h5><i class="fa fa-calendar"></i> DIA: {{ \Carbon\Carbon::parse($data)->format('d/m/Y') }}</h5>
+                  <center>
+                  <form action="{{ route('escalas.search')}}" method="GET">
+                      <div class="input-group input-group-sm" style="width: 200px;">
+                        <input type="date" name="dt_escala" class="form-control" placeholder="Search"
+                          @isset($data) value="{{\Carbon\Carbon::parse($data)->format('Y-m-d')}}" @endisset
+                          required>
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                  </center>
               </div>
-              <!-- /.info-box -->
-            </div> --}}
-            <div class="col-md-12 col-sm-6 col-12">
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-4">
                 <div class="callout callout-info">
                 <h5><i class="fa fa-calendar"></i> DIA: {{ \Carbon\Carbon::parse($data)->format('d/m/Y') }}</h5>
                     <center>
@@ -75,6 +75,7 @@
                     <tr>
                       <th>Cliente</th>
                       <th>Atendente</th>
+                      <th>Turno</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -83,6 +84,13 @@
                     <tr>
                       <td>{{ $solicitacao->cliente }}</td>
                       <td>{{ $solicitacao->funcionario }}</td>
+                      <td>
+                        @if ($solicitacao->turno == 1)
+                          Manhã
+                        @elseif($solicitacao->turno == 2)
+                        Tarde
+                        @endif
+                    </td>
                       <td>
                         <span class="badge
                       @switch($solicitacao->status_solicitacao_id)

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMaxDiarioToCategoriaServicos extends Migration
+class AddTurnoAgendamentoToSolicitacaos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddMaxDiarioToCategoriaServicos extends Migration
      */
     public function up()
     {
-        Schema::table('categoria_servicos', function (Blueprint $table) {
-          // $table->integer('max_diario');
-        });
-
+      Schema::table('solicitacaos', function (Blueprint $table) {
+        $table->integer('turno_agendamento');
+      });
     }
 
     /**
@@ -26,7 +25,7 @@ class AddMaxDiarioToCategoriaServicos extends Migration
      */
     public function down()
     {
-        Schema::table('categoria_servicos', function (Blueprint $table) {
+        Schema::table('solicitacaos', function (Blueprint $table) {
             //
         });
     }

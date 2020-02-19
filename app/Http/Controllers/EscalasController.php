@@ -86,7 +86,7 @@ class EscalasController extends Controller
         ->whereNull('s.deleted_at')
         ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
         ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
-        ->select('cs.descricao as descricao', 's.nome_razaosocial as cliente', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
+        ->select('cs.descricao as descricao', 's.nome_razaosocial as cliente', 's.status_solicitacao_id', 's.turno_agendamento as turno' , 'u.name as funcionario', 'ss.descricao as status')
         ->orderBy('descricao')
         ->get();
         $solicitacoes = $result->groupBy('descricao');
@@ -147,7 +147,7 @@ class EscalasController extends Controller
         ->whereNull('s.deleted_at')
         ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
         ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
-        ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
+        ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
         ->orderBy('descricao')
         ->get();
         $solicitacoes = $result->groupBy('descricao', 'maximo');
