@@ -193,14 +193,22 @@ class SolicitacaosController extends Controller
                 ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
                 ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
                 ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
-                ->where('s.dt_agendamento', '>=', Carbon::parse($start)->format('Y-m-d 00:00:00'))
-                ->where('s.dt_agendamento', '<=', Carbon::parse($end)->format('Y-m-d 23:59:59'))
                 ->select('s.id','s.dt_agendamento','s.nome_razaosocial', 'u.name as user',
                 'cs.descricao as categoria', 'ss.descricao as status')
-                ->orderBy('dt_agendamento', 'asc')
-                ->get();
+                ->orderBy('dt_agendamento', 'asc');
 
-    $solicitacaos = $result;
+    if($request->tipo_pesquisa == 1){
+        $solicitacaos = $result
+          ->where('s.dt_agendamento', '>=', Carbon::parse($start)->format('Y-m-d 00:00:00'))
+          ->where('s.dt_agendamento', '<=', Carbon::parse($end)->format('Y-m-d 23:59:59'))
+          ->get();
+    }elseif($request->tipo_pesquisa == 2){
+        $solicitacaos = $result
+          ->where('s.nome_razaosocial', 'LIKE', "%".$request->nome_cliente."%")
+          ->get();
+    }
+
+
 
     return view('solicitacaos.solicitacoes', compact('solicitacaos'));
   }

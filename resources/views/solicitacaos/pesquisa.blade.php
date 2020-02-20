@@ -40,43 +40,53 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Data Início</label>
-                  <input type="date" class="form-control" name="dt_inicio" required>
+                  <input type="date" class="form-control" name="dt_inicio" >
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="form-group">
                   <label>Data Fim</label>
-                  <input type="date" class="form-control" name="dt_fim" required>
+                  <input type="date" class="form-control" name="dt_fim" >
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label> Cliente </label>
+                  <input type="text" class="form-control" name="nome_cliente" >
                 </div>
               </div>
 
             </div>
-{{--
+
             <div class="row">
               <div class="col-sm-4">
                 <!-- checkbox -->
                 <div class="form-group">
 
-                  <div class="form-check">
-                    <input type="checkbox" name="roles[]" value="2" />
-                    <label class="form-check-label">Atendimento</label>
+                  {{-- <div class="form-check">
+                    <input type="checkbox" name="tipo_pesquisa[]" value="1" />
+                    <label class="form-check-label">Por Data</label>
                   </div>
 
                   <div class="form-check">
-                    <input type="checkbox" name="roles[]" value="5" />
-                    <label class="form-check-label">Tecnico</label>
-                  </div>
+                    <input type="checkbox" name="tipo_pesquisa[]" value="2" />
+                    <label class="form-check-label">Por Nome</label>
+                  </div> --}}
 
                   <div class="form-check">
-                    <input type="checkbox" name="roles[]" value="8" />
-                    <label class="form-check-label">Consultor</label>
+                    <input class="form-check-input" type="radio" name="tipo_pesquisa" value="1" checked>
+                    <label class="form-check-label">Por Data</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo_pesquisa" value="2">
+                    <label class="form-check-label">Por Nome</label>
                   </div>
 
                 </div>
               </div>
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
               <div class="col-sm-4">
                 <!-- checkbox -->
                 <div class="form-group">
