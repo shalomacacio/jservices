@@ -85,7 +85,7 @@ class EscalasController extends Controller
         ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
         ->whereNull('s.deleted_at')
         ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
-        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 23:59:59'))
         ->select('cs.descricao as descricao', 's.nome_razaosocial as cliente', 's.status_solicitacao_id', 's.turno_agendamento as turno' , 'u.name as funcionario', 'ss.descricao as status')
         ->orderBy('descricao')
         ->get();
