@@ -67,9 +67,9 @@
                       <td>{{ $solicitacao->funcionario }}</td>
                       <td>
                         @if ($solicitacao->turno == 1)
-                          Manhã
+                          MANHÃ
                         @elseif($solicitacao->turno == 2)
-                        Tarde
+                        TARDE
                         @endif
                     </td>
                       <td>
