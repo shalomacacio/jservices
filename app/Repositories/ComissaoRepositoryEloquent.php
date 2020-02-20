@@ -75,7 +75,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
             break;
         case '9': //UPGRADE
             $this->createComissaoAdesao($solicitacao);
-            $this->concluirSolicitacao($solicitacao);
+            // $this->concluirSolicitacao($solicitacao);
               break;
         default:
           # code...
