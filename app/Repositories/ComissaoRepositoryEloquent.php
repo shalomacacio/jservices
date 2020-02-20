@@ -5,6 +5,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\ComissaoRepository;
 use App\Entities\Comissao;
+use App\Entities\Solicitacao;
 use App\Validators\ComissaoValidator;
 use DB;
 use Artesaos\Defender\Facades\Defender;
@@ -74,6 +75,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
             break;
         case '9': //UPGRADE
             $this->createComissaoAdesao($solicitacao);
+            $this->concluirSolicitacao($solicitacao);
               break;
         default:
           # code...
@@ -245,5 +247,11 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     public function deleteComissaoGrupo($solicitacaoId)
     {
       $deletedRows = Comissao::where('solicitacao_id', $solicitacaoId)->delete();
+    }
+
+    public function concluirSolicitacao($solicitacao){
+      $solic = Solicitacao::find($solicitacao->id);
+      $solic->status_solicitacao_id = 3;
+      $solic->save();
     }
 }

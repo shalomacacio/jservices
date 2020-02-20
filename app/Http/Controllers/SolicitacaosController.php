@@ -317,7 +317,7 @@ class SolicitacaosController extends Controller
       return $query
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
         ->where('dt_conclusao', null)
-        ->orderBy('created_at', 'desc');
+        ->orderBy('dt_agendamento', 'desc');
     })->paginate(10);
 
     if (request()->wantsJson()) {

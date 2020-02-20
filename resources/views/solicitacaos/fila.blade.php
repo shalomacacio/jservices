@@ -54,17 +54,17 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered">
+                          <table class="table table-sm">
                             <thead>
                               <tr>
                                 <th class="d-none d-sm-table-cell" style="width: 30px">Data</th>
                                 <th>Cliente</th>
                                 <th class="d-none d-sm-table-cell">Serviço </th>
                                 <th class="d-none d-sm-table-cell">Observação </th>
-                                <th class="d-none d-sm-table-cell">Situação</th>
                                 <th class="d-none d-sm-table-cell">Atendente</th>
                                 <th class="d-none d-sm-table-cell">Bairro</th>
                                 <th class="d-none d-sm-table-cell">Equipe</th>
+                                <th class="d-none d-sm-table-cell">Situação</th>
                                 <th style="width: 140px">Ações </th>
                               </tr>
                             </thead>
@@ -75,7 +75,6 @@
                                         <td>{{ $solicitacao->nome_razaosocial }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->categoriaServico->descricao }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->obs }}</td>
-                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                                         <td class="d-none d-sm-table-cell">{{ $solicitacao->user->name}}</td>
                                         <td class="d-none d-sm-table-cell">@isset($solicitacao->mkPessoa->bairro){{ $solicitacao->mkPessoa->bairro->bairro }} @endisset</td>
 
@@ -89,6 +88,8 @@
                                               Nenhum técnico atribuido
                                             @endempty
                                         </td>
+                                        <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
+
                                         <td>
                                            @if($solicitacao->status_solicitacao_id == 1  || $solicitacao->status_solicitacao_id == 6  ){{-- 1=aberto  --}}
                                            <a class="btn btn-info btn-sm" href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
