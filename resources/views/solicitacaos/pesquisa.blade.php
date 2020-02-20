@@ -62,17 +62,6 @@
               <div class="col-sm-4">
                 <!-- checkbox -->
                 <div class="form-group">
-
-                  {{-- <div class="form-check">
-                    <input type="checkbox" name="tipo_pesquisa[]" value="1" />
-                    <label class="form-check-label">Por Data</label>
-                  </div>
-
-                  <div class="form-check">
-                    <input type="checkbox" name="tipo_pesquisa[]" value="2" />
-                    <label class="form-check-label">Por Nome</label>
-                  </div> --}}
-
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="tipo_pesquisa" value="1" checked>
                     <label class="form-check-label">Por Data</label>
@@ -81,34 +70,9 @@
                     <input class="form-check-input" type="radio" name="tipo_pesquisa" value="2">
                     <label class="form-check-label">Por Nome</label>
                   </div>
-
                 </div>
               </div>
             </div>
-
-            {{-- <div class="row">
-              <div class="col-sm-4">
-                <!-- checkbox -->
-                <div class="form-group">
-
-                  <div class="form-check">
-                    <input type="checkbox" name="flags[]" value="1" />
-                    <label class="form-check-label"> Autorizados</label>
-                  </div>
-
-                  <div class="form-check">
-                    <input type="checkbox" name="flags[]" value="0" />
-                    <label class="form-check-label">Não Autorizados</label>
-                  </div>
-
-                  <div class="form-check">
-                    <input type="checkbox" name="flags[]" value="3" />
-                    <label class="form-check-label">Aguardando</label>
-                  </div>
-
-                </div>
-              </div>
-            </div> --}}
 
         </div>
         <div class="card-footer">
