@@ -228,16 +228,13 @@ class EscalasController extends Controller
      */
     public function show($id)
     {
-        $escala = $this->repository->find($id);
-
+      $escala = $this->repository->find($id);
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $escala,
             ]);
         }
-
-        return view('escalas.show', compact('escala'));
+      return view('escalas.show', compact('escala'));
     }
 
     /**

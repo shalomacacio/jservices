@@ -89,6 +89,9 @@
                           @case(5)
                           badge-success
                           @break
+                          @case(6)
+                          badge-danger
+                          @break
                           @default
                       @endswitch ">
                           {{ $solicitacao->status }}
