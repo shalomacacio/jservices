@@ -39,6 +39,7 @@
         <!-- Left col -->
 
         @foreach ($solicitacoes as $categoria => $todos)
+
         <div class="col-md-6">
           <!-- TABLE: LATEST ORDERS -->
           <div class="card card-info">
@@ -61,7 +62,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($todos as $solicitacao)
+                    @foreach ($todos->sortBy('turno') as $solicitacao)
                     <tr>
                       <td>{{ $solicitacao->cliente }}</td>
                       <td>{{ $solicitacao->funcionario }}</td>
@@ -76,21 +77,21 @@
                         <span class="badge
                       @switch($solicitacao->status_solicitacao_id)
                           @case(1)
-                          badge-secondary
+                          badge-secondary {{--  cinza --}}
                               @break
                           @case(2)
-                          badge-info
+                          badge-info {{--  azul --}}
                               @break
                           @case(3)
-                          badge-success
+                          badge-success {{--  verde --}}
                               @break
                           @case(4)
-                          badge-success
+                          badge-success {{--  verde --}}
                           @case(5)
-                          badge-success
+                          badge-success {{--  verde --}}
                           @break
                           @case(6)
-                          badge-danger
+                          badge-danger {{--  vermelho --}}
                           @break
                           @default
                       @endswitch ">
