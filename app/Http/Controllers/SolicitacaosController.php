@@ -194,7 +194,8 @@ class SolicitacaosController extends Controller
                 ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
                 ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
                 ->select('s.id','s.dt_agendamento','s.nome_razaosocial', 'u.name as user',
-                'cs.descricao as categoria', 'ss.descricao as status')
+                'cs.descricao as categoria', 'ss.descricao as status', 's.deleted_at')
+                ->whereNull('s.deleted_at')
                 ->orderBy('dt_agendamento', 'asc');
 
     if($request->tipo_pesquisa == 1){
