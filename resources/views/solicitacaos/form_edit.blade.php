@@ -233,7 +233,7 @@
   <div class="form-group">
     <label>Agendar para:
       <param name="" value=""></label>
-    <input type="date" class="form-control" name="dt_agendamento" required>
+    <input type="date" class="form-control" name="dt_agendamento" value="{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-d-m')}}" required>
   </div>
 </div>
 
@@ -242,7 +242,8 @@
   <div class="form-group">
     <label>Turno</label>
     <select class="form-control" name="turno_agendamento" >
-      <option value="">--Selecione--</option>
+    <option value="{{$solicitacao->turno_agendamento}}">
+        @if($solicitacao->turno_agendamento == 1) MANHÃ @elseif($solicitacao->turno_agendamento == 2) TARDE @else --Selecione-- @endif</option>
       <option value="1">Manhã</option>
       <option value="2">Tarde</option>
     </select>
