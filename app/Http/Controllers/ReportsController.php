@@ -94,7 +94,8 @@ class ReportsController extends Controller
                     ->whereIn('flg_autorizado',  $autor)
                     ->where('funcionario_id', '=' , $request->funcionario_id)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
-                    ->whereDate ('dt_referencia', '<=', $request->dt_fim);
+                    ->whereDate ('dt_referencia', '<=', $request->dt_fim)
+                    ->orderBy('dt_referencia', 'asc');
           })->get();
         } else {
           $result =  $this->comissaoRepository->scopeQuery(function($query) use ($request, $roles,  $autor) {
@@ -103,7 +104,8 @@ class ReportsController extends Controller
                     ->whereIn('flg_autorizado',  $autor)
                     ->whereIn('ru.role_id', $roles)
                     ->whereDate ('dt_referencia', '>=', $request->dt_inicio)
-                    ->whereDate ('dt_referencia', '<=', $request->dt_fim);
+                    ->whereDate ('dt_referencia', '<=', $request->dt_fim)
+                    ->orderBy('dt_referencia', 'asc');
           })->get();
         }
 
@@ -125,7 +127,7 @@ class ReportsController extends Controller
                   ->whereDate ('c.dt_referencia', '>=', $request->dt_inicio)
                   ->whereDate ('c.dt_referencia', '<=', $request->dt_fim)
                   ->select('c.id as id',  'u.name as name','s.nome_razaosocial as razao' ,'c.dt_referencia as dt_referencia', 'c.flg_autorizado', 'c.comissao_vlr')
-                  ->get();
+                  ->orderBy('dt_referencia');
 
       $comissoes = $result->groupBy( 'name');
       $total = 0;
