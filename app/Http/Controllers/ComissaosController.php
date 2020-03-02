@@ -121,16 +121,17 @@ class ComissaosController extends Controller
     }
 
     public function search(Request $request){
-      $comissaos= $this->repository->scopeQuery(function ($query) use ($request) {
+      $result= $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
           ->where('funcionario_id', Auth::user()->id)
           ->whereDate('dt_referencia', '>=' , $request->dt_inicio)
           ->whereDate('dt_referencia', '<=' , $request->dt_fim);
       })->get();
 
-      $aguardando = $comissaos->where('flg_autorizado', 3 )->sum('comissao_vlr');
-      $nAutorizado = $comissaos->where('flg_autorizado', 0 )->sum('comissao_vlr');
-      $autorizado = $comissaos->where('flg_autorizado', 1 )->sum('comissao_vlr');
+      $comissaos = $result;
+      $aguardando = $result->where('flg_autorizado', 3 )->sum('comissao_vlr');
+      $nAutorizado = $result->where('flg_autorizado', 0 )->sum('comissao_vlr');
+      $autorizado = $result->where('flg_autorizado', 1 )->sum('comissao_vlr');
       return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
     }
 
