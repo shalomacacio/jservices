@@ -216,6 +216,9 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
     {
       $this->deleteComissao($solicitacao->id);
 
+      if($solicitacao->dt_conclusao){
+        $this->createComissaoEquipe($solicitacao);
+      }
       $this->createComissao($solicitacao);
     }
 
