@@ -415,8 +415,9 @@ class SolicitacaosController extends Controller
     $tipoAquisicaos = DB::table('tipo_aquisicaos')->distinct()->get();
     $tipoMidia = DB::table('tipo_midias')->distinct()->get();
     $origens = DB::table('origem_vendas')->distinct()->get();
+    $motivos = DB::table('motivo_cancelamentos')->distinct()->get();
 
-    return view('solicitacaos.edit', compact('solicitacao','categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia','planos', 'users', 'origens'));
+    return view('solicitacaos.edit', compact('solicitacao','categorias', 'tecnologias', 'tipoPagamentos', 'tipoAquisicaos', 'tipoMidia','planos', 'users', 'origens', 'motivos'));
   }
 
   public function integracao($id)

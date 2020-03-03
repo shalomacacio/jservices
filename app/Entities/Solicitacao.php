@@ -125,4 +125,9 @@ class Solicitacao extends Model implements Transformable
         return $this->belongsTo('App\Entities\MkPessoa', 'codpessoa');
     }
 
+    public function motivoCancelamento()
+    {
+        return $this->belongsTo('App\Entities\MotivoCancelamento');
+    }
+
 }

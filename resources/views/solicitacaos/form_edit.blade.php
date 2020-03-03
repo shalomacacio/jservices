@@ -209,7 +209,7 @@
   <div class="form-group">
     <label>Motivo</label>
     <select class="form-control" name="motivo_cancelamento_id" id="motivo_cancelamento_id">
-      <option value={{ $solicitacao->motivo_cancelamento_id }}>{{$solicitacao->motivo->descricao}}</option>
+      <option value={{ $solicitacao->motivo_cancelamento_id }}>{{$solicitacao->motivoCancelamento->descricao}}</option>
       @foreach ($motivos as $motivo)
       <option value={{$motivo->id}}>{{$motivo->descricao}}</option>
       @endforeach
