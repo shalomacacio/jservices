@@ -77,6 +77,7 @@
                     <th>Data</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
+                    <th>Pgto.</th>
                     <th>Status </th>
                     <th>Comissao</th>
                   </tr>
@@ -87,6 +88,10 @@
                     <td>{{\Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m/Y') }}</td>
                     <td>{{$comissao->solicitacao->nome_razaosocial}}</td>
                     <td>{{$comissao->solicitacao->categoriaServico->descricao}} </td>
+                    <td>
+                      @isset($comissao->solicitacao->tipoPagamento) {{$comissao->solicitacao->tipoPagamento->descricao}} @endisset
+                      @empty($comissao->solicitacao->tipoPagamento) -  @endempty
+                    </td>
                     <td>@if($comissao->flg_autorizado == 1) AUTORIZADO
                           @elseif(($comissao->flg_autorizado == 0)) NÃO AUTORIZADO
                           @elseif(($comissao->flg_autorizado == 3)) AGUARDANDO
@@ -96,7 +101,7 @@
                   @endforeach
                   </tbody>
                     <tr>
-                      <th colspan="4">Subtotal:</th>
+                      <th colspan="5">Subtotal:</th>
                     <th >R$ {{ number_format($lista->where('flg_autorizado', '=',  1)->sum('comissao_vlr'), 2) }}</th>
                     </tr>
                 </table>

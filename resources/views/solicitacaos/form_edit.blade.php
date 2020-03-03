@@ -233,7 +233,16 @@
   <div class="form-group">
     <label>Agendar para:
       <param name="" value=""></label>
-    <input type="date" class="form-control" name="dt_agendamento" value="{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-d-m')}}" required>
+    <input type="date" class="form-control" name="dt_agendamento" value="{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d')}}" required>
+  </div>
+</div>
+
+<div class="col-12 col-sm-12 col-md-3">
+  <!-- text input -->
+  <div class="form-group">
+    <label>DATA CONCLUSÃO(DANILO):
+      <param name="" value=""></label>
+    <input type="date" class="form-control" name="dt_conclusao" value="{{ \Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('Y-m-d')}}" required>
   </div>
 </div>
 
