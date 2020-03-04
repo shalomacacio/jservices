@@ -99,6 +99,9 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         case '6':
           $this->createComPuxCaboExec($solicitacao);
           break;
+        case '8':
+          $this->createComTransfExec($solicitacao);
+          break;
         default:
           # code...
           break;
@@ -181,6 +184,20 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         $comissao->user_id = $solicitacao->user->id;
         $comissao->solicitacao_id = $solicitacao->id;
         $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 4, 1 )/count($solicitacao->users);
+        $comissao->save();
+      }
+    }
+
+    public function createComTransfExec($solicitacao)
+    {
+      foreach( $solicitacao->users as $tecnico )
+      {
+        $comissao = new Comissao();
+        $comissao->dt_referencia = $solicitacao->dt_conclusao;
+        $comissao->funcionario_id = $tecnico->id;
+        $comissao->user_id = $solicitacao->user->id;
+        $comissao->solicitacao_id = $solicitacao->id;
+        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 8, 1 )/count($solicitacao->users);
         $comissao->save();
       }
     }
