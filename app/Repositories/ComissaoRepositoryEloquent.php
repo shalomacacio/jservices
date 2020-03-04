@@ -83,7 +83,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       }
     }
 
-    public function createComissaoEcex($solicitacao)
+    public function createComissaoExec($solicitacao)
     {
       switch ($solicitacao->categoria_servico_id)
       {
@@ -96,6 +96,9 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
         case '3':
           $this->createComissaoExecFiacaoExt($solicitacao);
             break;
+        case '6':
+          $this->createComPuxCaboExec($solicitacao);
+          break;
         default:
           # code...
           break;
@@ -168,6 +171,20 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       }
     }
 
+    public function createComPuxCaboExec($solicitacao)
+    {
+      foreach( $solicitacao->users as $tecnico )
+      {
+        $comissao = new Comissao();
+        $comissao->dt_referencia = $solicitacao->dt_conclusao;
+        $comissao->funcionario_id = $tecnico->id;
+        $comissao->user_id = $solicitacao->user->id;
+        $comissao->solicitacao_id = $solicitacao->id;
+        $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 4, 1 )/count($solicitacao->users);
+        $comissao->save();
+      }
+    }
+
     public function createComissaoTransf($solicitacao)
     {
       $comissao = new Comissao();
@@ -217,7 +234,7 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $this->deleteComissao($solicitacao->id);
 
       if($solicitacao->dt_conclusao){
-        $this->createComissaoEquipe($solicitacao);
+        $this->createComissaoExec($solicitacao);
       }
       $this->createComissao($solicitacao);
     }
