@@ -120,6 +120,12 @@ class ComissaosController extends Controller
         return view('comissaos.pesquisar', compact('users'));
     }
 
+    public function pesquisarMinhasComissoes()
+    {
+        $users = DB::table('users')->get();
+        return view('comissaos.pesquisar', compact('users'));
+    }
+
     public function search(Request $request){
       $result= $this->repository->scopeQuery(function ($query) use ($request) {
         return $query
