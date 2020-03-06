@@ -16,7 +16,6 @@ Route::get('/login', 'DashboardController@login')->name('login');
 Route::post('/auth', 'DashboardController@auth')->name('auth');
 
 Route::group(['middleware'=>['auth']], function(){
-
     Route::get('/logout', 'DashboardController@logout')->name('logout');
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
@@ -50,7 +49,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('comissaos/minhasComissoes', 'ComissaosController@minhasComissoes')->name('comissao.minhasComissoes');
     Route::put('comissaos/{id}/autorizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');
     Route::put('comissaos/{id}/nAutorizar', 'ComissaosController@nAutorizar')->name('comissao.nAutorizar')->middleware('needsRole:admin|auditor, true');;
-    Route::get('comissaos/pesquisar', 'ComissaosController@pesquisar')->name('comissao.pesquisar')->middleware('needsRole:admin|atendimento|vendedor|suporte, true');
+    Route::get('comissaos/pesquisarminhascomissoes', 'ComissaosController@pesquisarMinhasComissoes')->name('comissao.pesquisarMinhasComissoes')->middleware('needsRole:admin|atendimento|vendedor|suporte, true');
     Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suport|vendedor, true');
     Route::resource('comissaos', 'ComissaosController');
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
@@ -83,5 +82,4 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('mkPessoas', 'MkPessoasController');
     Route::resource('mkBairros', 'MkBairrosController');
     Route::resource('mkAtendimentos', 'MkAtendimentosController');
-
 });
