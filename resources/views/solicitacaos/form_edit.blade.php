@@ -242,7 +242,7 @@
   <div class="form-group">
     <label>DATA CONCLUSÃO(DANILO):
       <param name="" value=""></label>
-    <input type="date" class="form-control" name="dt_conclusao" value="{{ \Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('Y-m-d')}}">
+    <input type="date" class="form-control" name="dt_conclusao" @if($solicitacao->dt_conclusao) value="{{ \Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('Y-m-d')}}" @endif>
   </div>
 </div>
 
