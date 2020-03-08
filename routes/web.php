@@ -41,7 +41,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('users', 'UsersController');
     Route::resource('solicitacao', 'SolicitacaosController');
     Route::resource('tecnologia', 'TecnologiasController');
-    Route::resource('servicos', 'ServicosController');
+    // Route::resource('servicos', 'ServicosController');
     Route::resource('tecnico', 'TecnicosController');
     Route::get('autocomplete', 'ClientesController@autocomplete')->name('autocomplete');
     Route::resource('clientes', 'ClientesController');
@@ -56,7 +56,6 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('escalas/escala', 'EscalasController@escala')->name('escalas.escala');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
     Route::resource('escalas', 'EscalasController');
-
     //parametros
     Route::resource('planos', 'PlanosController');
     Route::resource('roles', 'RolesController');
@@ -69,7 +68,6 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('statusSolicitacao', 'StatusSolicitacaosController');
     Route::resource('categoriaServicos', 'CategoriaServicosController');
     Route::resource('comissaoServicos', 'ComissaoServicosController');
-
   //Report
     Route::get('reports/comissaoForm', 'ReportsController@comissaoForm')->name('reports.comissaos.form');
     Route::get('reports/producaoDiaria', 'ReportsController@producaoDiaria')->name('reports.producaoDiaria');

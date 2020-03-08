@@ -157,7 +157,7 @@
           </ul>
         </li>
         @is(['admin', 'financeiro'])
-        <li class="nav-item has-treeview">
+        {{-- <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-plus-square"></i>
             <p>Serviços <i class="fa fa-angle-left right"></i></p>
@@ -170,7 +170,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> --}}
 
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">

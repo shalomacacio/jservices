@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-4 transferencia puxada" hidden>
+{{-- <div class="col-12 col-sm-12 col-md-4 transferencia puxada" hidden>
   <!-- select -->
   <div class="form-group">
       <label>Serviço</label>
@@ -68,7 +68,7 @@
         <option value=null>-- Selecione --</option>
       </select>
   </div>
-</div>
+</div> --}}
 
 <div class="col-12 col-sm-12 col-md-3 plano migracao upgrade cancelamento" hidden>
   <!-- select -->
