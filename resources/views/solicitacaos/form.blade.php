@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2">
+{{-- <div class="col-12 col-sm-12 col-md-2">
   <!-- select -->
   <div class="form-group">
     <label>Origem</label>
@@ -45,7 +45,7 @@
       @endforeach
     </select>
   </div>
-</div>
+</div> --}}
 
 <div class="col-12 col-sm-12 col-md-2">
   <!-- select -->
