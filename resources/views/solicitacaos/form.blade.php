@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-2">
+<div class="col-12 col-sm-12 col-md-3">
   <!-- select -->
   <div class="form-group">
     <label>Vend/Atend</label>
@@ -47,10 +47,10 @@
   </div>
 </div> --}}
 
-<div class="col-12 col-sm-12 col-md-2">
+<div class="col-12 col-sm-12 col-md-3">
   <!-- select -->
   <div class="form-group">
-    <label>Categoria</label>
+    <label>Serviço</label>
     <select class="form-control" name="categoria_servico_id" id="categoria_servico_id" required>
       <option value="">-- Selecione --</option>
       @foreach( $categorias as $categoria)
@@ -185,14 +185,6 @@
   </div>
 </div>
 
-<div class="col-12 col-sm-12 col-md-6">
-  <!-- textarea -->
-  <div class="form-group">
-    <label>Observação</label>
-    <textarea class="form-control" name="obs" rows="1" placeholder="Observação ..."></textarea>
-  </div>
-</div>
-
 <div class="col-12 col-sm-12 col-md-3">
   <!-- text input -->
   <div class="form-group">
@@ -211,5 +203,13 @@
       <option value="1">Manhã</option>
       <option value="2">Tarde</option>
     </select>
+  </div>
+</div>
+
+<div class="col-12 col-sm-12 col-md-12">
+  <!-- textarea -->
+  <div class="form-group">
+    <label>Observação</label>
+    <textarea class="form-control" name="obs" rows="1" placeholder="Observação ..."></textarea>
   </div>
 </div>
