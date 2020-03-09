@@ -455,7 +455,7 @@ class SolicitacaosController extends Controller
       $solicitacao->dt_conclusao = Carbon::now();
       $solicitacao->save();
 
-      $comissao = $this->comissaoRepository->createComissaoEcex($solicitacao);
+      $comissao = $this->comissaoRepository->createComissaoExec($solicitacao);
 
       $response = [
         'message' => 'Solicitacao updated.',
