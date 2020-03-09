@@ -263,16 +263,16 @@ class ComissaoRepositoryEloquent extends BaseRepository implements ComissaoRepos
       $comissao->save();
     }
 
-    // public function createComissaoServPago($solicitacao)
-    // {
-    //   $comissao = new Comissao();
-    //   $comissao->dt_referencia = $solicitacao->dt_agendamento;
-    //   $comissao->funcionario_id = $solicitacao->user_atendimento_id;
-    //   $comissao->user_id = $solicitacao->user->id;
-    //   $comissao->solicitacao_id = $solicitacao->id;
-    //   $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 10, 2);
-    //   $comissao->save();
-    // }
+    public function createComissaoServPago($solicitacao)
+    {
+      $comissao = new Comissao();
+      $comissao->dt_referencia = $solicitacao->dt_agendamento;
+      $comissao->funcionario_id = $solicitacao->user_atendimento_id;
+      $comissao->user_id = $solicitacao->user->id;
+      $comissao->solicitacao_id = $solicitacao->id;
+      $comissao->comissao_vlr = $comissao->comissionar($solicitacao->vlr_servico, 10, 2);
+      $comissao->save();
+    }
 
     public function updateComissao($solicitacao)
     {
