@@ -75,7 +75,7 @@ class SolicitacaosController extends Controller
     ->where('ru.role_id', 2)
     ->get();
 
-    $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $categorias = DB::table('categoria_servicos')->whereNull('deleted_at')->distinct()->get();
     $planos = DB::table('planos')->distinct()->get();
     $tecnologias = DB::table('tecnologias')->distinct()->get();
     $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
@@ -107,7 +107,7 @@ class SolicitacaosController extends Controller
     ->whereIn('ru.role_id', [2,7,8])
     ->get();
 
-    $categorias = DB::table('categoria_servicos')->distinct()->get();
+    $categorias = DB::table('categoria_servicos')->whereNull('deleted_at')->distinct()->get();
     $planos = DB::table('planos')->distinct()->get();
     $tecnologias = DB::table('tecnologias')->distinct()->get();
     $tipoPagamentos = DB::table('tipo_pagamentos')->distinct()->get();
