@@ -8,25 +8,7 @@
   @include('layouts.alerts')
   <section class="content-header">
       <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-12">
-                <div class="callout callout-info">
-                <h5><i class="fa fa-calendar"></i> DIA: {{ \Carbon\Carbon::parse($data)->format('d/m/Y') }}</h5>
-                    <center>
-                    <form action="{{ route('escalas.search')}}" method="GET">
-                        <div class="input-group input-group-sm" style="width: 200px;">
-                          <input type="date" name="dt_escala" class="form-control" placeholder="Search"
-                            @isset($data) value="{{\Carbon\Carbon::parse($data)->format('Y-m-d')}}" @endisset
-                            required>
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                          </div>
-                        </div>
-                      </form>
-                    </center>
-                </div>
-              </div>
-          </div>
+          @include('escalas.search_form')
       </div><!-- /.container-fluid -->
   </section>
   <!-- /.content-header -->
@@ -37,9 +19,7 @@
       <!-- Main row -->
       <div class="row">
         <!-- Left col -->
-
         @foreach ($solicitacoes as $categoria => $todos)
-
         <div class="col-md-6">
           <!-- TABLE: LATEST ORDERS -->
           <div class="card card-info">

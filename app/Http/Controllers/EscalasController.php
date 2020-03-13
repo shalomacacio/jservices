@@ -14,6 +14,7 @@ use App\Validators\EscalaValidator;
 use DB;
 use Carbon\Carbon;
 use App\Entities\Escala;
+use App\Entities\Solicitacao;
 
 /**
  * Class EscalasController.
@@ -88,6 +89,43 @@ class EscalasController extends Controller
       $solicitacoes = $result->groupBy('descricao', 'maximo');
       return view('escalas.agenda', compact('solicitacoes', 'data'));
     }
+
+    public function agenda2(Request $request){
+      $data = Carbon::now()->format('Y-m-d');
+
+      if($request->dt_escala){
+        $data = $request->dt_escala;
+      }
+
+      $result = DB::table('solicitacaos as s')
+        ->leftJoin('solicitacao_user as su', 'su.solicitacao_id', '=', 's.id' )
+        ->leftJoin('users as u2', 'su.user_id', '=', 'u2.id')
+        ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
+        ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
+        ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+        ->whereNull('s.deleted_at')
+        ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
+        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+        ->select('s.id', 'cs.descricao as descricao', 'cs.max_diario as maximo' ,
+        's.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' ,
+        'u.name as funcionario', 'ss.descricao as status', 'u2.name as tecnico')
+        ->get();
+
+        $solicitacoes = $result;
+
+        $aberto = $result->where('status_solicitacao_id', '=', 1)->count();
+        $encaminhado = $result->where('status_solicitacao_id', '=', 2)->count();
+        $concluido = $result->where('status_solicitacao_id', '=', 3)->count();
+        $retorno = $result->where('status_solicitacao_id', '=', 6)->count();
+
+        $porAtend = $result->groupBy('funcionario');
+        $porServ = $result->groupBy('descricao');
+        $porTec = $result->groupBy('tecnico');
+
+      return view('escalas.agenda2', compact('solicitacoes', 'aberto','encaminhado' ,'retorno', 'concluido', 'porAtend', 'porServ', 'porTec'));
+    }
+
+
 
     public function escala(Request $request){
 
