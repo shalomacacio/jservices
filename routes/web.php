@@ -1,5 +1,7 @@
 <?php
 
+use App\Entities\Solicitacao;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,11 +52,13 @@ Route::group(['middleware'=>['auth']], function(){
     Route::put('comissaos/{id}/autorizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');
     Route::put('comissaos/{id}/nAutorizar', 'ComissaosController@nAutorizar')->name('comissao.nAutorizar')->middleware('needsRole:admin|auditor, true');;
     Route::get('comissaos/pesquisarminhascomissoes', 'ComissaosController@pesquisarMinhasComissoes')->name('comissao.pesquisarMinhasComissoes')->middleware('needsRole:admin|atendimento|vendedor|suporte, true');
-    Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suport|vendedor, true');
+    Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suporte|vendedor, true');
     Route::resource('comissaos', 'ComissaosController');
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
+    Route::get('escalas/agenda2', 'EscalasController@agenda2')->name('escalas.agenda2');
     Route::get('escalas/escala', 'EscalasController@escala')->name('escalas.escala');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
+    Route::get('escalas/search2', 'EscalasController@search2')->name('escalas.search2');
     Route::resource('escalas', 'EscalasController');
     //parametros
     Route::resource('planos', 'PlanosController');
@@ -80,4 +84,15 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('mkPessoas', 'MkPessoasController');
     Route::resource('mkBairros', 'MkBairrosController');
     Route::resource('mkAtendimentos', 'MkAtendimentosController');
+
+    Route::post('/agenda2', function(){
+      $data = Solicitacao::all();
+
+      $response = [
+        'current'  => 1,
+        'rowCount' => 10,
+        'rows'     => $data
+    ];
+      return response()->json($response);
+    });
 });
