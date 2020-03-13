@@ -24,6 +24,7 @@ class Solicitacao extends Model implements Transformable
      */
     protected $fillable = [
         'codpessoa',
+        'codatendimento',
         'cliente_id',
         'nome_razaosocial',
         'user_id',

@@ -184,7 +184,8 @@
   })
 
   $('#search').click(function() {
-    ajaxCliente();
+    // ajaxCliente();
+    ajaxAtendimento();
   });
 
   function ajaxServicos(){
@@ -242,6 +243,22 @@
       success: function(response) {
         console.log(response.vlr_plano)
         $('#vlr_plano').val(response.vlr_plano);
+      }
+    });
+  }
+
+  function ajaxAtendimento() {
+    $.ajax({
+      type: "GET",
+      data: {
+        codatendimento: $("#codatendimento").val()
+      },
+      url: "/solicitacao/ajaxAtendimento",
+      dataType: 'JSON',
+      success: function(response) {
+        // console.log(response.cliente)
+        $('#obs').val(response.atendimento.info_cliente);
+        $('#typeahead').val(response.cliente.nome_razaosocial);
       }
     });
   }

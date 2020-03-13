@@ -1,5 +1,5 @@
 <div class="col-12 col-sm-12 col-md-2">
-  <label>Codigo</label>
+  <label>Cod Atendimento</label>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
       <button type="button" id="search" class="btn btn-info">
@@ -7,9 +7,9 @@
       </button>
     </div>
     <!-- /btn-group -->
-    <input type="text" class="form-control" name="codpessoa" id="codpessoa"
-    @isset($solicitacao->codpessoa)
-      value="{{$solicitacao->codpessoa}}"
+    <input type="text" class="form-control" name="codatendimento" id="codatendimento"
+    @isset($solicitacao->codatendimento)
+      value="{{$solicitacao->codatendimento}}"
     @endisset>
   </div>
 </div>
@@ -17,7 +17,7 @@
 <div class="col-12 col-sm-12 col-md-4">
   <div class="form-group">
     <label>Cliente</label>
-    <input type="text" class="form-control" name="nome_razaosocial" id="typeahead" data-provide="typeahead" data-items="4" required>
+    <input type="text" class="form-control" name="nome_razaosocial" id="typeahead" data-provide="typeahead" data-items="4" required readonly>
   </div>
 </div>
 
@@ -210,6 +210,6 @@
   <!-- textarea -->
   <div class="form-group">
     <label>Observação</label>
-    <textarea class="form-control" name="obs" rows="1" placeholder="Observação ..."></textarea>
+    <textarea class="form-control" name="obs" id="obs" rows="6" placeholder="Observação ..."></textarea>
   </div>
 </div>

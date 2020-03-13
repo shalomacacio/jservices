@@ -22,6 +22,7 @@ use App\Entities\Cliente;
 use App\Entities\Escala;
 use App\Entities\Plano;
 use App\Entities\MkPessoa;
+use App\Entities\MkAtendimento;
 use Illuminate\Validation\Rule;
 
 /**
@@ -126,6 +127,17 @@ class SolicitacaosController extends Controller
     $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
     return response()->json([
       'servicos' => $servicos
+    ]);
+  }
+
+  public function ajaxAtendimento(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    $atendimento  = MkAtendimento::find($request->codatendimento);
+    $cliente = $atendimento->mkPessoa;
+    return response()->json([
+      'atendimento' => $atendimento,
+      'cliente' => $cliente
     ]);
   }
 

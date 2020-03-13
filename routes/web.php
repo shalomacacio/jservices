@@ -29,6 +29,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('solicitacao/{id}/reagendar', 'SolicitacaosController@reagendar')->name('solicitacao.reagendar')->middleware('needsRole:admin|controlador, true');
 
     Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
+    Route::get('solicitacao/ajaxAtendimento', 'SolicitacaosController@ajaxAtendimento');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
     Route::get('solicitacao/ajaxDiferenca', 'SolicitacaosController@ajaxDiferenca');
