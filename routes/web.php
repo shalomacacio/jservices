@@ -1,6 +1,7 @@
 <?php
 
 use App\Entities\Solicitacao;
+use Illuminate\Support\Arr;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,16 @@ use App\Entities\Solicitacao;
 Route::get('/', function () {return redirect()->route('login'); });
 Route::get('/login', 'DashboardController@login')->name('login');
 Route::post('/auth', 'DashboardController@auth')->name('auth');
+Route::post('/agenda2', function(){
+  header('Content-Type: application/json; charset=utf-8');
+  $data = Solicitacao::all();
+  $response = [
+    'current'  => 1,
+    'rowCount' => 10,
+    'rows'     => $data
+  ];
+  return response()->json($response);
+});
 
 Route::group(['middleware'=>['auth']], function(){
     Route::get('/logout', 'DashboardController@logout')->name('logout');
@@ -86,14 +97,4 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('mkBairros', 'MkBairrosController');
     Route::resource('mkAtendimentos', 'MkAtendimentosController');
 
-    Route::post('/agenda2', function(){
-      $data = Solicitacao::all();
-
-      $response = [
-        'current'  => 1,
-        'rowCount' => 10,
-        'rows'     => $data
-    ];
-      return response()->json($response);
-    });
 });

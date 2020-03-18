@@ -209,7 +209,7 @@
 <div class="col-12 col-sm-12 col-md-12">
   <!-- textarea -->
   <div class="form-group">
-    <label>Observação</label>
+    <label>Informações Ticket</label>
     <textarea class="form-control" name="obs" id="obs" rows="6" placeholder="Observação ..."></textarea>
   </div>
 </div>

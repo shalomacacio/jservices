@@ -339,11 +339,11 @@ class SolicitacaosController extends Controller
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
         ->where('dt_conclusao', null)
         ->orderBy('dt_agendamento', 'desc');
-    })->paginate(15);
+    })->paginate(90);
 
     if (request()->wantsJson()) {
       return response()->json([
-        'data' => $solicitacaos,
+        'data' => $solicitacaos->nome_razaosocial,
       ]);
     }
     return view('solicitacaos.fila', compact('solicitacaos'));
