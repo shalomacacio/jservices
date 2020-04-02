@@ -26,7 +26,7 @@ class SolicitacaoValidator extends LaravelValidator
             'codatendimento'        => 'required|unique:solicitacaos',
             'categoria_servico_id'  => 'required',
             'categoria_servico_id'  => 'required',
-            'vlr_servico'           => 'numeric',
+            'vlr_servico'           => 'nullable|numeric',
         ],
         ValidatorInterface::RULE_UPDATE => [],
     ];

@@ -61,6 +61,7 @@
                 <th>Serviço</th>
                 <th>Atendente</th>
                 <th>Bairro</th>
+                <th>Equipe</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -73,10 +74,20 @@
                 <td>{{ $solicitacao->categoriaServico->descricao }}</td>
                 <td>{{ $solicitacao->user->name}}</td>
                 <td>@isset($solicitacao->mkPessoa->bairro){{ $solicitacao->mkPessoa->bairro->bairro }} @endisset</td>
+                <td class="d-none d-sm-table-cell">
+                  @foreach ($solicitacao->users as $tecnico)
+                    @isset($tecnico)
+                      {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
+                    @endisset
+                  @endforeach
+                  @empty($solicitacao->users)
+                    Nenhum técnico atribuido
+                  @endempty
+              </td>
                 <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                 <td>
                   @if($solicitacao->status_solicitacao_id == 1  || $solicitacao->status_solicitacao_id == 6  ){{-- 1=aberto  --}}
-                  <a class="btn btn-info btn-sm" href="{{route('solicitacao.encaminhar', $solicitacao->id)}}"><i class="fa fa-motorcycle"></i></a>
+                <a class="btn btn-info btn-sm" id="btn_encaminhar"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" ><i class="fa fa-motorcycle"></i></a>
                   @endif
 
                   @if($solicitacao->status_solicitacao_id == 2 || $solicitacao->categoria_servico_id == 9 )
@@ -144,6 +155,7 @@
       }
     });
   });
+
 </script>
 
 @stop
