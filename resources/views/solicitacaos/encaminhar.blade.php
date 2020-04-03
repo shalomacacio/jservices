@@ -51,7 +51,6 @@
                         </div>
                         </div>
 
-
                         <div class="col-sm-4">
                             <!-- select -->
                             <div class="form-group">
@@ -62,6 +61,14 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                          <!-- select -->
+                          <div class="form-group">
+                              <label>Informações do Ticket</label>
+                          <textarea class="form-control" name="obs" disabled> {{ $solicitacao->obs }} </textarea>
+                          </div>
                         </div>
                     </div>
                 </div>

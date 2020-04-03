@@ -107,6 +107,7 @@
                 <th>Serviço</th>
                 <th>Atendente</th>
                 <th>Bairro</th>
+                <th>Equipe</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -140,7 +141,7 @@
       "searching": true,
       "ordering": true,
       "info": true,
-      "autoWidth": false,
+      "autoWidth": true,
       "language": {
         search: "Pesquisar" ,
         show: "Mostrar",
