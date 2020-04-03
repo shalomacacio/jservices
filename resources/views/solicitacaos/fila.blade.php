@@ -62,6 +62,7 @@
                 <th>Atendente</th>
                 <th>Bairro</th>
                 <th>Equipe</th>
+                <th>Turno</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -84,6 +85,7 @@
                     Nenhum técnico atribuido
                   @endempty
               </td>
+              <td>@if( $solicitacao->turno == 1 ) MANHÃ @else TARDE @endif</td>
                 <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                 <td>
                   @if($solicitacao->status_solicitacao_id == 1  || $solicitacao->status_solicitacao_id == 6  ){{-- 1=aberto  --}}
@@ -95,6 +97,7 @@
                    <a class="btn btn-success btn-sm" title="concluir"  href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
                  @endif
                </td>
+
                 </tr>
                 @endforeach
 
@@ -108,6 +111,7 @@
                 <th>Atendente</th>
                 <th>Bairro</th>
                 <th>Equipe</th>
+                <th>Turno</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
