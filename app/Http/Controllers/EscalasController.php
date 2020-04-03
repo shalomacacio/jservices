@@ -72,25 +72,25 @@ class EscalasController extends Controller
         return view('escalas.index', compact('escalas', 'users'));
     }
 
+    // public function agenda(Request $request){
+
+    //   $data = Carbon::now()->format('Y-m-d');
+
+    //   $result = DB::table('solicitacaos as s')
+    //     ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
+    //     ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
+    //     ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+    //     ->whereNull('s.deleted_at')
+    //     ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
+    //     ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+    //     ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
+    //     ->orderBy('descricao')
+    //     ->get();
+    //   $solicitacoes = $result->groupBy('descricao', 'maximo');
+    //   return view('escalas.agenda', compact('solicitacoes', 'data'));
+    // }
+
     public function agenda(Request $request){
-
-      $data = Carbon::now()->format('Y-m-d');
-
-      $result = DB::table('solicitacaos as s')
-        ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
-        ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
-        ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
-        ->whereNull('s.deleted_at')
-        ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
-        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
-        ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
-        ->orderBy('descricao')
-        ->get();
-      $solicitacoes = $result->groupBy('descricao', 'maximo');
-      return view('escalas.agenda', compact('solicitacoes', 'data'));
-    }
-
-    public function agenda2(Request $request){
       $data = Carbon::now()->format('Y-m-d');
 
       if($request->dt_escala){

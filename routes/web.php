@@ -17,16 +17,16 @@ use Illuminate\Support\Arr;
 Route::get('/', function () {return redirect()->route('login'); });
 Route::get('/login', 'DashboardController@login')->name('login');
 Route::post('/auth', 'DashboardController@auth')->name('auth');
-Route::post('/agenda2', function(){
-  header('Content-Type: application/json; charset=utf-8');
-  $data = Solicitacao::all();
-  $response = [
-    'current'  => 1,
-    'rowCount' => 10,
-    'rows'     => $data
-  ];
-  return response()->json($response);
-});
+// Route::post('/agenda2', function(){
+//   header('Content-Type: application/json; charset=utf-8');
+//   $data = Solicitacao::all();
+//   $response = [
+//     'current'  => 1,
+//     'rowCount' => 10,
+//     'rows'     => $data
+//   ];
+//   return response()->json($response);
+// });
 
 Route::group(['middleware'=>['auth']], function(){
     Route::get('/logout', 'DashboardController@logout')->name('logout');
@@ -67,7 +67,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suporte|vendedor, true');
     Route::resource('comissaos', 'ComissaosController');
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
-    Route::get('escalas/agenda2', 'EscalasController@agenda2')->name('escalas.agenda2');
+    // Route::get('escalas/agenda', 'EscalasController@agenda2')->name('escalas.agenda2');
     Route::get('escalas/escala', 'EscalasController@escala')->name('escalas.escala');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
     Route::get('escalas/search2', 'EscalasController@search2')->name('escalas.search2');
