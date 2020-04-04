@@ -71,37 +71,43 @@
                 @foreach ($solicitacaos as $solicitacao)
                 <tr>
                   <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($solicitacao->dt_agendamento)->format('d/m') }}</td>
-                <td>{{ $solicitacao->nome_razaosocial }}</td>
-                <td>{{ $solicitacao->categoriaServico->descricao }}</td>
-                <td>{{ $solicitacao->user->name}}</td>
-                <td>@isset($solicitacao->mkPessoa->bairro){{ $solicitacao->mkPessoa->bairro->bairro }} @endisset</td>
-                <td class="d-none d-sm-table-cell">
-                  @foreach ($solicitacao->users as $tecnico)
-                    @isset($tecnico)
-                      {{$tecnico->name}} {{$tecnico->sobrenome}} <br/>
-                    @endisset
-                  @endforeach
-                  @empty($solicitacao->users)
-                    Nenhum técnico atribuido
-                  @endempty
-              </td>
-              <td>@if( $solicitacao->turno == 1 ) MANHÃ @else TARDE @endif</td>
-                <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
-                <td>
-                  @if($solicitacao->status_solicitacao_id == 1  || $solicitacao->status_solicitacao_id == 6  ){{-- 1=aberto  --}}
-                <a class="btn btn-info btn-sm" id="btn_encaminhar"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" ><i class="fa fa-motorcycle"></i></a>
-                  @endif
+                  <td>{{ $solicitacao->nome_razaosocial }}</td>
+                  <td>{{ $solicitacao->categoriaServico->descricao }}</td>
+                  <td>{{ $solicitacao->user->name}}</td>
+                  <td>@isset($solicitacao->mkPessoa->bairro){{ $solicitacao->mkPessoa->bairro->bairro }} @endisset</td>
+                  <td class="d-none d-sm-table-cell">
+                    @foreach ($solicitacao->users as $tecnico)
+                      @isset($tecnico)
+                        {{$tecnico->name}} <br/>
+                      @endisset
+                    @endforeach
+                    @empty($solicitacao->users)
+                      Nenhum técnico atribuido
+                    @endempty
+                  </td>
+                  <td>@if( $solicitacao->turno == 1 ) MANHÃ @else TARDE @endif</td>
+                  <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
+                  <td>
+                    <form action="{{route('solicitacao.concluir', $solicitacao->id)}}" method="POST">
+                      @csrf
+                      @method('PUT')
+                      @if( $solicitacao->categoria_servico_id != 9)
+                        @if($solicitacao->status_solicitacao_id == 1 || $solicitacao->status_solicitacao_id == 6 )
+                          <a class="btn btn-info btn-sm" title="encaminhar" id="btn_encaminhar"  href="{{route('solicitacao.encaminhar', $solicitacao->id)}}" ><i class="fa fa-motorcycle"></i></a>
+                        @endif
+                        @if($solicitacao->status_solicitacao_id == 2)
+                          <a class="btn btn-secondary  btn-sm" title="reagendar" href="{{route('solicitacao.reagendar', $solicitacao->id)}}"><i class="fa fa-calendar"></i></a>
+                        @endif
+                      @endif
 
-                  @if($solicitacao->status_solicitacao_id == 2 || $solicitacao->categoria_servico_id == 9 )
-                   <a class="btn btn-danger  btn-sm" title="reagendar" href="{{route('solicitacao.reagendar', $solicitacao->id)}}"><i class="fa fa-calendar"></i></a>
-                   <a class="btn btn-success btn-sm" title="concluir"  href="{{route('solicitacao.concluir', $solicitacao->id)}}"  onclick="return confirm('Deseja Concluir?')"><i class="fas fa-check"></i></a>
-                 @endif
-               </td>
+                      <button class="btn btn-success btn-sm" type="submit" title="concluir"  onclick="return confirm('Deseja Concluir?')"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-danger btn-sm"  type="button" title="cancelar"   data-toggle="modal" data-target="btnModal"  data-id="{{ $solicitacao->id }}" ><i class="fa fa-times"></i></button>
 
+                    </form>
+                  </td>
                 </tr>
+
                 @endforeach
-
-
               </tbody>
               <tfoot>
               <tr>
@@ -128,7 +134,7 @@
   </section>
     </div>
 </div>
-
+@include('solicitacaos.modal')
 @endsection
 
 @section('javascript')
@@ -159,6 +165,12 @@
         },
       }
     });
+  });
+
+  $('button[type="button"]').click(function(){
+    var id = $(this).attr("data-id");
+    $('#formCancelar').attr('action', 'http://localhost:8000/solicitacao/'+ id +'/cancelar');
+    $('#myModal').modal('show');
   });
 
 </script>

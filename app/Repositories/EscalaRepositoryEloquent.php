@@ -51,6 +51,7 @@ class EscalaRepositoryEloquent extends BaseRepository implements EscalaRepositor
         $users = User::find($request['users']);
         $escala = new Escala();
         $escala->dt_escala = $request['dt_escala'];
+        $escala->total_atend = $request['total_atend'];
         $escala->save();
         $escala->users()->attach($users);
     }
@@ -60,6 +61,7 @@ class EscalaRepositoryEloquent extends BaseRepository implements EscalaRepositor
       $escala = Escala::find($id);
       $escala->users()->detach();
       $escala->dt_escala = $request['dt_escala'];
+      $escala->total_atend = $request['total_atend'];
       $escala->save();
       $escala->users()->attach($request['users']);
   }

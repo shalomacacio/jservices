@@ -62,7 +62,7 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
-                                                <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-default"><i class="fab fa-creative-commons-nc"></i></button>
+                                                <button class="btn btn-danger" type="button" ><i class="fab fa-creative-commons-nc"></i></button>
                                               </form>
                                               @endif
                                         </td>

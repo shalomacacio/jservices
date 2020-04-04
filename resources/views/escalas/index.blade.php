@@ -74,6 +74,15 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="col-sm-1">
+                          <!-- text input -->
+                          <div class="form-group">
+                              <label>Total Atend</label>
+                              <input type="text" class="form-control" name="total_atend" id="total_atend" required>
+
+                          </div>
+                        </div>
                     </div>
                 </div>
                     <!-- /.card-body -->

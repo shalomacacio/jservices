@@ -48,6 +48,7 @@ class Solicitacao extends Model implements Transformable
         'turno_agendamento',
         'origem_venda_id',
         'motivo_cancelamento_id',
+        'total_atendimento',
         'obs'
     ];
 
@@ -130,5 +131,9 @@ class Solicitacao extends Model implements Transformable
     {
         return $this->belongsTo('App\Entities\MotivoCancelamento');
     }
+
+    public function setTotalAtendimentoAttribute(){
+      return false;
+  }
 
 }

@@ -361,6 +361,8 @@ class SolicitacaosController extends Controller
   public function store(SolicitacaoCreateRequest $request)
   {
     try {
+
+
       $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
       $solicitacao = $this->repository->create($request->all());
@@ -486,6 +488,17 @@ class SolicitacaosController extends Controller
       return redirect()->back()->withErrors($e->getMessageBag())->withInput();
     }
 
+  }
+
+  public function cancelar(Request $request, $id){
+    $comissao = $this->comissaoRepository->deleteComissaoGrupo($id);
+    $solicitacao = $this->repository->update($request->all(), $id);
+
+    $response = [
+      'message' => 'Solicitação Cancelada'
+    ];
+
+    return redirect()->back()->with('message', $response['message']);
   }
 
 

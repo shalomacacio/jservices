@@ -17,7 +17,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </head>
 
-<body class="hold-transition sidebar-mini ">
+{{-- <body class="hold-transition sidebar-mini "> --}}
+<body class="sidebar-mini sidebar-collapse sidebar-mini ">
     @guest @yield('content') @else
     <div class="wrapper" id="app">
         <!-- Header -->

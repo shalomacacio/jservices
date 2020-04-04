@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCodatendimentoToSolicitacaos extends Migration
+class AddTotalAtendToEscalas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCodatendimentoToSolicitacaos extends Migration
      */
     public function up()
     {
-        Schema::table('solicitacaos', function (Blueprint $table) {
-          // $table->integer('codatendimento')->nullable();
+        Schema::table('escalas', function (Blueprint $table) {
+            $table->integer('total_atend')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddCodatendimentoToSolicitacaos extends Migration
      */
     public function down()
     {
-        Schema::table('solicitacaos', function (Blueprint $table) {
-          //
+        Schema::table('escalas', function (Blueprint $table) {
+            //
         });
     }
 }
