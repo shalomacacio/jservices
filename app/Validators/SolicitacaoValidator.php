@@ -27,7 +27,7 @@ class SolicitacaoValidator extends LaravelValidator
             'categoria_servico_id'  => 'required',
             'categoria_servico_id'  => 'required',
             'vlr_servico'           => 'nullable|numeric',
-            'total_atendimento'     => 'in:true'
+            'dataValidation'        => 'accepted'
         ],
         ValidatorInterface::RULE_UPDATE => [],
     ];

@@ -108,6 +108,8 @@ class SolicitacaosController extends Controller
     ->whereIn('ru.role_id', [2,7,8])
     ->get();
 
+
+
     $categorias = DB::table('categoria_servicos')->whereNull('deleted_at')->distinct()->get();
     $planos = DB::table('planos')->distinct()->get();
     $tecnologias = DB::table('tecnologias')->distinct()->get();
@@ -138,6 +140,37 @@ class SolicitacaosController extends Controller
     return response()->json([
       'atendimento' => $atendimento,
       'cliente' => $cliente
+    ]);
+  }
+
+  public function ajaxQtdServDia(Request $request)
+  {
+    header('Content-Type: application/json; charset=utf-8');
+    $qtdEscala = DB::table('escalas')->where('dt_escala', $request->dt_agendamento )->select('total_atend')->first();
+    $qtdMarcada = DB::table('solicitacaos as s')->where('dt_agendamento', $request->dt_agendamento)->count();
+    $dataValidation = true;
+    //verifica se existe escala
+    if(!$qtdEscala){
+      $dataValidation = false;
+      return response()->json([
+        'message' => 'Não existe escala para esta data',
+        'dataValidation' => $dataValidation
+      ]);
+    }
+
+    if($qtdEscala->total_atend <= $qtdMarcada  ){
+      $dataValidation = false;
+      return response()->json([
+        'message' => 'Não há vagas neste dia Máximo: '.$qtdEscala->total_atend.' atendimentos' ,
+        'dataValidation' => $dataValidation,
+      ]);
+    }
+
+    return response()->json([
+      'message' => '200',
+      'dataValidation' => $dataValidation,
+      'qtdAgendada' => $qtdMarcada,
+      'qtdEscala' => $qtdEscala->total_atend
     ]);
   }
 

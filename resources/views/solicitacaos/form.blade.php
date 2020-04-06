@@ -188,9 +188,9 @@
 <div class="col-12 col-sm-12 col-md-3">
   <!-- text input -->
   <div class="form-group">
-    <label>Agendar para:
-      <param name="" value=""></label>
-    <input type="date" class="form-control" name="dt_agendamento" required>
+    <label>Agendar para:</label>
+    {{-- <input type="date" class="form-control" name="dt_agendamento" required> --}}
+    <input type="text" class="form-control" name="dt_agendamento" id="dt_agendamento" required>
   </div>
 </div>
 

@@ -1,5 +1,11 @@
 @extends('layouts.master')
 
+@section('css')
+<!-- datepicker3.css -->
+{{-- <link rel="stylesheet" href="/dist/plugins/datepicker/datepicker3.css"> --}}
+<link rel="stylesheet" href="/dist/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+@stop
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -20,6 +26,7 @@
     </div><!-- /.container-fluid -->
     {{-- alerts --}}
     @include('layouts.alerts')
+    <div class="messages"></div>
   </section>
 
   <!-- Main content -->
@@ -48,6 +55,7 @@
               <input type="hidden" name="cliente_id" id="cliente_id" />
               <input type="hidden" name="comissao_equipe" />
               <input type="hidden" name="comissao_supervisor" />
+              <input type="hidden" name="dataValidation" value="true" />
             </form>
           </div><!-- /.card -->
         </div><!-- /.row -->
@@ -59,8 +67,62 @@
 @endsection
 
 @section('javascript')
-
+<!-- datepicker.js -->
+<script src="/dist/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" charset="UTF-8"></script>
 <script type="text/javascript">
+
+function fechaAlert(){
+  setTimeout(function() {
+    $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+        $(this).remove();
+    });
+  }, 3000);
+}
+
+$(document).ready(function(){
+      var date_input=$('input[name="dt_agendamento"]'); //our date input has the name "date"
+      var dates = ['2020-04-15', '2020-04-16'];
+      date_input.datepicker({
+        language: "pt-BR",
+        format: 'yyyy-mm-dd',
+        maxViewMode: 2,
+        todayBtn: false, //"linked",
+        clearBtn: false,
+        forceParse: false,
+        autoclose: true,
+        // datesDisabled: dates
+    });
+    fechaAlert();
+    })
+
+    $('#dt_agendamento').change(function() {
+      // alert($(this).val())
+      $.ajax({
+      type: "GET",
+      data: {
+        dt_agendamento: $("#dt_agendamento").val()
+      },
+      url: "/solicitacao/ajaxQtdServDia",
+      dataType: 'JSON',
+      success: function(response) {
+        var messages = $('.messages');
+        console.log(response)
+        if(response.dataValidation == false){
+          var successHtml = '<div class="alert alert-danger">'+
+                '<button type="button" class="close" data-dismiss="alert">&times;</button>'+
+                '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> '+ response.message +
+                '</div>';
+          $(messages).html(successHtml);
+          $('#dt_agendamento').val(" ");
+          $('#dataValidation').val(false);
+          fechaAlert();
+        }
+
+      }
+    });
+
+  });
+
   $('select[name=categoria_servico_id]').change(function() {
     var item = $(this).val()
     // console.log(item);

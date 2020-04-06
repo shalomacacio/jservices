@@ -42,6 +42,7 @@ Route::group(['middleware'=>['auth']], function(){
 
     Route::get('solicitacao/ajaxCliente', 'SolicitacaosController@ajaxCliente');
     Route::get('solicitacao/ajaxAtendimento', 'SolicitacaosController@ajaxAtendimento');
+    Route::get('solicitacao/ajaxQtdServDia', 'SolicitacaosController@ajaxQtdServDia');
     Route::get('solicitacao/ajaxServicos', 'SolicitacaosController@ajaxServicos');
     Route::get('solicitacao/ajaxValor', 'SolicitacaosController@ajaxValor');
     Route::get('solicitacao/ajaxDiferenca', 'SolicitacaosController@ajaxDiferenca');
