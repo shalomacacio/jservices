@@ -128,7 +128,7 @@ class EscalasController extends Controller
         $porServ = $result->groupBy('descricao');
         $porTec = $result->groupBy('tecnico');
 
-      return view('escalas.agenda2', compact('solicitacoes', 'aberto','encaminhado' ,'retorno', 'concluido', 'porAtend', 'porServ', 'porTec'));
+      return view('escalas.agenda2', compact('solicitacoes', 'aberto','encaminhado' ,'retorno', 'concluido', 'porAtend', 'porServ', 'porTec', 'data'));
     }
 
 
