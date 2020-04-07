@@ -52,10 +52,16 @@ class EscalasController extends Controller
      */
     public function index()
     {
+      $data = Carbon::now()->format('Y-m-d 00:00:00');
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $escalas = $this->repository->all();
-
+        $data =  Carbon::now()->format('Y-m-d 00:00:00');
         // $escalas = $result->where('dt_escala', '>=' , Carbon::now()->format('Y-m-d 00:00:00'));
+        $escalas = $this->repository->scopeQuery(function ($query) use($data) {
+          return $query
+            ->where('dt_escala','>=', $data)
+            ->orderBy('dt_escala', 'desc');
+        })->get();
+
 
         $users = DB::table('users as u')
                       ->join('role_user as ru','u.id','=','ru.user_id')

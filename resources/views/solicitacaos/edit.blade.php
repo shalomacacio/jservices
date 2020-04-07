@@ -57,11 +57,9 @@
         </section>
     </div>
 </div>
-
 @endsection
 
 @section('javascript')
-
 <script type="text/javascript">
 
   $('select[name=categoria_servico_id]').change(function() {
@@ -130,8 +128,6 @@
     }
 
   });
-
-
 
   $('select[name=plano_ant_id]').change(function() {
     ajaxDiferenca();
