@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('css')
+<!-- Bootgrid -->
+<link rel="stylesheet" href="/dist/plugins/bootgrid/jquery.bootgrid.css">
+
 @section('content')
 
 <!-- Content Wrapper. Contains page content -->
@@ -35,7 +39,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                           <div class="table-responsive">
-                          <table class="table table-bordered">
+                          <table class="table table-bordered" id="example1">
                             <thead>
                               <tr>
                                 <th>Data</th>
@@ -44,7 +48,7 @@
                                 <th>Colaborador</th>
                                 <th>Status</th>
                                 <th>Valor</th>
-                                <th style="width: 110px">Ações </th>
+                                <th>Ações </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -62,7 +66,7 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
-                                                <button class="btn btn-danger" type="button" ><i class="fab fa-creative-commons-nc"></i></button>
+                                            <button class="btn btn-danger"     type="button" data-id="{{ $comissao->id }}" ><i class="fab fa-creative-commons-nc"></i></button>
                                               </form>
                                               @endif
                                         </td>
@@ -75,7 +79,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $comissaos->render() }}
+                                {{-- {{ $comissaos->render() }} --}}
                           </ul>
                         </div>
                       </div>
@@ -89,3 +93,44 @@
 </div>
 @include('comissaos.modal')
 @endsection
+
+
+@section('javascript')
+<!-- DataTables -->
+<script src="/dist/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/dist/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+{{-- <script src="/dist/plugins/slimScroll/jquery.slimscroll.min.js"></script> --}}
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "language": {
+        search: "Pesquisar" ,
+        show: "Mostrar",
+        info: "Mostrando pag _PAGE_ de _PAGES_",
+        lengthMenu:    "Mostrar _MENU_ ",
+        paginate: {
+            first:      "Primeiro",
+            previous:   "Anterior",
+            next:       "Próximo",
+            last:       "Último",
+        },
+      }
+    });
+  });
+
+  $('button[type="button"]').click(function(){
+    var id = $(this).attr("data-id");
+    $('#formNautorizar').attr('action', 'http://localhost:8000/comissaos/'+ id +'/nAutorizar');
+    $('#myModal').modal('show');
+  });
+
+</script>
+
+@stop

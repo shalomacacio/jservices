@@ -71,7 +71,7 @@ class ComissaosController extends Controller
         return $query
         ->where('flg_autorizado', '=', 3)
         ->orderBy('dt_referencia', 'desc');
-      })->paginate(10);
+      })->get();
 
       if (request()->wantsJson()) {
         return response()->json([

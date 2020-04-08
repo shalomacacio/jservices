@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-default">
+<div class="modal fade" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,7 +7,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{ route('comissao.nAutorizar', $comissao->id)}}" method="POST">
+      <form id="formNautorizar" method="POST">
         @csrf
         @method('PUT')
       <div class="modal-body">
@@ -15,7 +15,7 @@
         <div class="col-12 col-sm-12 col-md-12">
           <!-- text input -->
           <div class="form-group">
-            <textarea class="form-control" name="motivo" id="motivo" rows="3" placeholder="Ex: não assinou termo "></textarea>
+            <textarea class="form-control" name="motivo" id="motivo" rows="3" ></textarea>
           </div>
         </div>
 
