@@ -452,7 +452,7 @@ class SolicitacaosController extends Controller
 
     $users = DB::table('users as u')
     ->join('role_user as ru','u.id','=','ru.user_id')
-    ->where('ru.role_id', 2)
+    ->whereIn('ru.role_id', [2,7,8])
     ->get();
 
     $categorias = DB::table('categoria_servicos')->distinct()->get();
