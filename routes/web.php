@@ -33,6 +33,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
     Route::get('solicitacoes/pesquisar', 'SolicitacaosController@pesquisar')->name('solicitacoes.pesquisar');
+    Route::get('solicitacoes/searchAtendimento', 'SolicitacaosController@searchAtendimento')->name('solicitacoes.searchAtendimento');
     Route::get('solicitacoes/resultPesquisa', 'SolicitacaosController@resultPesquisa')->name('solicitacoes.resultPesquisa');
     Route::get('solicitacoes', 'SolicitacaosController@solicitacoes')->name('solicitacoes');
     Route::get('solicitacoes/fila', 'SolicitacaosController@fila')->name('solicitacoes.fila');

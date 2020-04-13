@@ -42,6 +42,11 @@ class MkAtendimento extends Model implements Transformable
       return $this->belongsTo('App\Entities\MkAteProcesso', 'cd_processo', 'codprocesso');
     }
 
+    public function mkConexao()
+    {
+      return $this->belongsTo('App\Entities\MkConexoes', 'conexao', 'codconexao');
+    }
+
     // public function getTempoAttribute()
     // {
 
