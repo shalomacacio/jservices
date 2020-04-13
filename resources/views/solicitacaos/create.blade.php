@@ -52,7 +52,7 @@
               </div>
               <input type="hidden" name="comissao_atendimento" />
               <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}" />
-              <input type="hidden" name="cliente_id" id="cliente_id" />
+              <input type="hidden" name="codpessoa" id="codpessoa" />
               <input type="hidden" name="comissao_equipe" />
               <input type="hidden" name="comissao_supervisor" />
               <input type="hidden" name="dataValidation" value="true" />
@@ -268,8 +268,9 @@ $(document).ready(function(){
       url: "/solicitacao/ajaxAtendimento",
       dataType: 'JSON',
       success: function(response) {
-        // console.log(response.cliente)
+        console.log(response)
         $('#obs').val(response.atendimento.info_cliente);
+        $('#codpessoa').val(response.atendimento.cliente_cadastrado);
         $('#typeahead').val(response.cliente.nome_razaosocial);
       }
     });
