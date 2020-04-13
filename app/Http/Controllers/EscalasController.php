@@ -88,7 +88,7 @@ class EscalasController extends Controller
     //     ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
     //     ->whereNull('s.deleted_at')
     //     ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
-    //     ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+    //     ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 23:59:59'))
     //     ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
     //     ->orderBy('descricao')
     //     ->get();
@@ -111,7 +111,7 @@ class EscalasController extends Controller
         ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
         ->whereNull('s.deleted_at')
         ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
-        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 23:59:59'))
         ->select('s.id', 'cs.descricao as descricao', 'cs.max_diario as maximo' ,
         's.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' ,
         'u.name as funcionario', 'ss.descricao as status', 'u2.name as tecnico')
@@ -146,7 +146,7 @@ class EscalasController extends Controller
                       ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
                       ->whereNull('s.deleted_at')
                       ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
-                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
+                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 23:59:59'))
                       ->sum('cs.pontuacao');
 
         $pontosDisponiveis = $totalPontos - $sumPontos;
@@ -177,7 +177,7 @@ class EscalasController extends Controller
         ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
         ->whereNull('s.deleted_at')
         ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
-        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 11:59:59'))
+        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 23:59:59'))
         ->select('cs.descricao as descricao', 'cs.max_diario as maximo' ,'s.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' , 'u.name as funcionario', 'ss.descricao as status')
         ->orderBy('descricao')
         ->get();
@@ -197,14 +197,14 @@ class EscalasController extends Controller
     public function searchEscala(Request $request){
       try {
         $escala = Escala::where('dt_escala', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00' ))
-        ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59' ))
+        ->where('dt_escala', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 23:59:59' ))
         ->firstOrFail();
         $totalPontos =  $escala->users->sum('max_ponto') ;
         $sumPontos = DB::table('solicitacaos as s')
                       ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
                       ->whereNull('s.deleted_at')
                       ->where('s.dt_agendamento', '>=' , Carbon::parse($request->dt_escala)->format('Y-m-d 00:00:00'))
-                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 11:59:59'))
+                      ->where('s.dt_agendamento', '<=' , Carbon::parse($request->dt_escala)->format('Y-m-d 23:59:59'))
                       ->sum('cs.pontuacao');
         $pontosDisponiveis = $totalPontos - $sumPontos;
         return view('escalas.agenda', compact('escala', 'totalPontos', 'sumPontos', 'pontosDisponiveis' ));

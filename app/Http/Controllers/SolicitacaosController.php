@@ -126,7 +126,9 @@ class SolicitacaosController extends Controller
   {
     header('Content-Type: application/json; charset=utf-8');
     // $categoria = DB::table('categoria_servicos')->where('id', $request->categoria_servico_id)->get();
-    $servicos = DB::table('servicos')->where('categoria_servico_id', $request->categoria_servico_id)->get();
+    $servicos = DB::table('servicos')
+      ->where('categoria_servico_id', $request->categoria_servico_id)
+      ->get();
     return response()->json([
       'servicos' => $servicos
     ]);
@@ -147,7 +149,11 @@ class SolicitacaosController extends Controller
   {
     header('Content-Type: application/json; charset=utf-8');
     $qtdEscala = DB::table('escalas')->where('dt_escala', $request->dt_agendamento )->select('total_atend')->first();
-    $qtdMarcada = DB::table('solicitacaos as s')->where('dt_agendamento', $request->dt_agendamento)->count();
+    $qtdMarcada = DB::table('solicitacaos as s')
+      ->where('dt_agendamento', $request->dt_agendamento)
+      ->whereNotIn('categoria_servico_id', [9] )
+      ->whereNull('s.deleted_at')
+      ->count();
     $dataValidation = true;
     //verifica se existe escala
     if(!$qtdEscala){
@@ -214,7 +220,7 @@ class SolicitacaosController extends Controller
 
     try {
       $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
-      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
+      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 23:59:59'))
       ->firstOrFail();
 
       $tecnicos = $escala->users;
@@ -264,7 +270,7 @@ class SolicitacaosController extends Controller
     $solicitacao = $this->repository->find($id);
 
     $escala = Escala::where('dt_escala', '>=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 00:00:00'))
-                      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 11:59:59'))
+                      ->where('dt_escala', '<=', Carbon::parse($solicitacao->dt_agendamento)->format('Y-m-d 23:59:59'))
                       ->firstOrFail();
     try {
       $tecnicos = $escala->users;
@@ -369,8 +375,9 @@ class SolicitacaosController extends Controller
 
     $solicitacaos = $this->repository->scopeQuery(function ($query) {
       return $query
+        // ->whereNotIn('categoria_servico_id', [9])
         ->whereNotIn('status_solicitacao_id', ['4']) // , 4 - cancelada
-        ->where('dt_conclusao', null)
+        ->whereNull('dt_conclusao')
         ->orderBy('dt_agendamento', 'desc');
     })->paginate(90);
 
