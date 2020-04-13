@@ -151,7 +151,7 @@
 
   $('button[type="button"]').click(function(){
     var id = $(this).attr("data-id");
-    $('#formCancelar').attr('action', 'http://localhost:8000/solicitacao/'+ id +'/cancelar');
+    $('#formCancelar').attr('action', 'http://servicos.jnetce.com.br/solicitacao/'+ id +'/cancelar');
     $('#myModal').modal('show');
   });
 
