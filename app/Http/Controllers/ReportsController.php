@@ -135,6 +135,61 @@ class ReportsController extends Controller
         return view('reports.comissoes', compact('comissoes', 'request', 'total'));
     }
 
+    public function relAdesaoForm(){
+      $users = DB::table('users')->get();
+      $tecnicos = DB::table('users as u')
+                    ->join('role_user as ru', 'u.id', '=', 'ru.user_id')
+                    ->where('ru.role_id', '=', 5)
+                    ->get();
+
+      return view('reports.relAdesaoForm', compact('users', 'tecnicos'));
+    }
+
+    public function relAdesao(Request $request){
+
+      if($request->tecnico_id){
+        $tecnicos =[$request->tecnico_id];
+      }
+      else{
+        $result = DB::table('users as u')
+        ->join('role_user as ru', 'u.id', '=', 'ru.user_id')
+        ->where('ru.role_id', 5)
+        ->get();
+
+       foreach($result as $r){
+         $tecnicos[] = $r->id;
+       }
+
+      }
+
+      if($request->funcionario_id){
+        $consultores = [$request->funcionario_id];
+      } else {
+        $result = DB::table('users as u')->where('u.id', '<>', 1)->select('u.id')->get();
+        foreach($result as $r){
+          $consultores[] = $r->id;
+        }
+      }
+
+
+      //Todas as adesões CONCLUIDAS por CONSULTOR e TÉCNICO
+      $solicitacaos = DB::table('solicitacaos as s')
+                    ->join('solicitacao_user as su', 's.id', '=', 'su.solicitacao_id')
+                    ->join('users as ua', 's.user_atendimento_id', '=', 'ua.id')
+                    ->join('users as ut', 'su.user_id', '=', 'ut.id')
+                    ->whereNull('s.deleted_at')
+                    ->whereIn('s.categoria_servico_id', [1,5])
+                    ->whereIn('ut.id', $tecnicos)
+                    ->whereIn('s.user_atendimento_id', $consultores)
+                    ->whereBetween ('s.dt_conclusao', [$request->dt_inicio , $request->dt_fim])
+                    ->select('s.dt_conclusao', 's.nome_razaosocial', 'ua.name as consultor', 'ut.name as tecnico', 's.vlr_plano', 's.vlr_servico')
+                    ->orderBy('s.dt_conclusao')
+                    ->get();
+
+      return view('reports.relAdesao', compact('solicitacaos', 'request'));
+
+    }
+
     public function servicos(Request $request)
     {
         if($request->user_id != 0){
