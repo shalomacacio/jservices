@@ -36,14 +36,14 @@
         <div class="card-body">
           <form role="form" action="{{ route('reports.relAdesao') }}" method="GET">
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Data Início</label>
                   <input type="date" class="form-control" name="dt_inicio" required>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <div class="form-group">
                   <label>Data Fim</label>
                   <input type="date" class="form-control" name="dt_fim" required>
@@ -74,6 +74,20 @@
                   </select>
                 </div>
               </div>
+
+              <div class="col-sm-2">
+                <!-- select -->
+                <div class="form-group">
+                  <label>Serviço</label>
+                  <select class="form-control" name="servico_id">
+                    <option value="0">-- TODOS --</option>
+                    @foreach($servicos as $servico)
+                    <option value="{{$servico->id}}">{{$servico->descricao}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+
             </div>
         </div>
         <div class="card-footer">

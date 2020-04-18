@@ -132,17 +132,18 @@ class ReportsController extends Controller
       $comissoes = $result->groupBy( 'name');
       $total = 0;
 
-        return view('reports.comissoes', compact('comissoes', 'request', 'total'));
+      return view('reports.comissoes', compact('comissoes', 'request', 'total'));
     }
 
     public function relAdesaoForm(){
-      $users = DB::table('users')->get();
+      $users = DB::table('users as u')->where('u.id', '<>', 1)->get();
+      $servicos = DB::table('categoria_servicos as u')->get();
       $tecnicos = DB::table('users as u')
                     ->join('role_user as ru', 'u.id', '=', 'ru.user_id')
                     ->where('ru.role_id', '=', 5)
                     ->get();
 
-      return view('reports.relAdesaoForm', compact('users', 'tecnicos'));
+      return view('reports.relAdesaoForm', compact('users', 'tecnicos', 'servicos'));
     }
 
     public function relAdesao(Request $request){
@@ -171,22 +172,38 @@ class ReportsController extends Controller
         }
       }
 
+      if($request->servico_id){
+        $servicos = [$request->servico_id];
+      } else {
+        $result = DB::table('servicos as s')->select('s.id')->get();
+        foreach($result as $r){
+          $servicos[] = $r->id;
+        }
+      }
+
 
       //Todas as adesões CONCLUIDAS por CONSULTOR e TÉCNICO
-      $solicitacaos = DB::table('solicitacaos as s')
+      $result = DB::table('solicitacaos as s')
                     ->join('solicitacao_user as su', 's.id', '=', 'su.solicitacao_id')
+                    ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
                     ->join('users as ua', 's.user_atendimento_id', '=', 'ua.id')
                     ->join('users as ut', 'su.user_id', '=', 'ut.id')
                     ->whereNull('s.deleted_at')
-                    ->whereIn('s.categoria_servico_id', [1,5])
+                    ->whereIn('s.categoria_servico_id', $servicos)
                     ->whereIn('ut.id', $tecnicos)
                     ->whereIn('s.user_atendimento_id', $consultores)
                     ->whereBetween ('s.dt_conclusao', [$request->dt_inicio , $request->dt_fim])
-                    ->select('s.dt_conclusao', 's.nome_razaosocial', 'ua.name as consultor', 'ut.name as tecnico', 's.vlr_plano', 's.vlr_servico')
-                    ->orderBy('s.dt_conclusao')
-                    ->get();
+                    ->select('s.dt_conclusao', 's.nome_razaosocial', 'ua.name as consultor', 'ut.name as tecnico', 's.vlr_plano', 's.vlr_servico', 'cs.descricao as servico')
+                    ->orderBy('s.dt_conclusao');
 
-      return view('reports.relAdesao', compact('solicitacaos', 'request'));
+      $solicitacaos = $result->get();
+      $totalPlano = $result->sum('vlr_plano');
+      $totalTaxa = $result->sum('vlr_servico');
+      $porConsultor = $result->get()->groupBy('consultor');
+      $porTecnico = $result->get()->groupBy('tecnico');
+
+
+      return view('reports.relAdesao', compact('solicitacaos', 'request', 'totalPlano', 'totalTaxa', 'porConsultor', 'porTecnico'));
 
     }
 

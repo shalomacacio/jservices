@@ -8,12 +8,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Adesões:</h1>
+          <h1>Serviços:</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">relatorios</a></li>
-            <li class="breadcrumb-item active">comissoes</li>
+            <li class="breadcrumb-item active">servicos</li>
           </ol>
         </div>
       </div>
@@ -60,13 +60,13 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
-            <center><h3>RELATÓRIO DE ADESÕES  POR PERÍODO </h3></center>
+            <center><h3>RELATÓRIO DE SERVIÇOS  POR PERÍODO </h3></center>
             <br/>
             <!-- Table row -->
 
 
           <div class="col-12">
-          <p class="lead"><b>Adesão: </b></p>
+          <p class="lead"><b>Serviços: </b></p>
           </div>
 
             <div class="row">
@@ -76,6 +76,7 @@
                   <tr>
                     <th>Data</th>
                     <th>Cliente</th>
+                    <th>Serviço</th>
                     <th>Consultor</th>
                     <th>Técnico</th>
                     <th>Plano</th>
@@ -88,9 +89,13 @@
                   <tr>
                     <td>{{\Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('d/m/Y') }}</td>
                     <td>{{ $solicitacao->nome_razaosocial}}</td>
+                    <td>{{ $solicitacao->servico }}</td>
                     <td>{{ $solicitacao->consultor}} </td>
                     <td>{{ $solicitacao->tecnico}} </td>
-                    <td>R$ {{ $solicitacao->vlr_plano}} </td>
+                    <td>R$
+                      @isset($solicitacao->vlr_plano){{ $solicitacao->vlr_plano}}@endisset
+                      @empty($solicitacao->vlr_plano)  0.00 @endempty
+                    </td>
                     <td>
                       R$ @isset($solicitacao->vlr_servico) {{ $solicitacao->vlr_servico}} @endisset
                          @empty($solicitacao->vlr_servico)  0.00 @endempty
@@ -100,7 +105,8 @@
                   </tbody>
                     <tr>
                       <th colspan="5">Subtotal:</th>
-                    <th >R$ </th>
+                      <th >R$ {{$totalPlano}} </th>
+                      <th >R$ {{$totalTaxa}} </th>
                     </tr>
                 </table>
               </div>
@@ -123,23 +129,26 @@
 
 
               <div class="table-responsive">
-                @if($request->funcionario_id == 0)
-                <table class="table">
-                  <tr>
 
-                    <th colspan="3">Total:</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th><h4>R$ </h4></th>
-                  </tr>
+                <table class="table" >
+                  <th colspan="3">Por Consultor:</th>
+
+                    @foreach ($porConsultor as $consultor => $list)
+                      <tr>
+                        <td>{{ $consultor }}</td>
+                        <td>{{ $list->count() }}</td>
+                      </tr>
+                    @endforeach
+                    <th colspan="3">Por Técnico:</th>
+                    @foreach ($porTecnico as $tecnico => $list)
+                      <tr>
+                        <td>{{ $tecnico }}</td>
+                        <td>{{ $list->count() }}</td>
+                      </tr>
+                    @endforeach
+
                 </table>
-                @endif
+
               </div>
             </div>
             <!-- /.col -->
