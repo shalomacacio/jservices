@@ -34,7 +34,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form role="form" action="{{ route('reports.relAdesao') }}" method="GET">
+          <form role="form" action="{{ route('reports.relServicos') }}" method="GET">
             <div class="row">
               <div class="col-sm-2">
                 <!-- text input -->

@@ -130,15 +130,19 @@
 
               <div class="table-responsive">
 
-                <table class="table" >
+                <table class="table">
                   <th colspan="3">Por Consultor:</th>
-
                     @foreach ($porConsultor as $consultor => $list)
                       <tr>
                         <td>{{ $consultor }}</td>
                         <td>{{ $list->count() }}</td>
                       </tr>
                     @endforeach
+                    <th>Total</th>
+                    <th>{{ $solicitacaos->count() }}</th>
+                </table>
+                <table class="table">
+
                     <th colspan="3">Por Técnico:</th>
                     @foreach ($porTecnico as $tecnico => $list)
                       <tr>
@@ -146,7 +150,8 @@
                         <td>{{ $list->count() }}</td>
                       </tr>
                     @endforeach
-
+                    <th>Total</th>
+                    <th>{{ $solicitacaos->count() }}</th>
                 </table>
 
               </div>

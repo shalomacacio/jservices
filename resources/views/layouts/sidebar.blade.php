@@ -249,9 +249,9 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('reports.relAdesaoForm') }}" class="nav-link">
+              <a href="{{ route('reports.relServicosForm') }}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
-                <p>Adesão</p>
+                <p>Serviços</p>
               </a>
             </li>
           </ul>

@@ -135,7 +135,7 @@ class ReportsController extends Controller
       return view('reports.comissoes', compact('comissoes', 'request', 'total'));
     }
 
-    public function relAdesaoForm(){
+    public function relServicosForm(){
       $users = DB::table('users as u')->where('u.id', '<>', 1)->get();
       $servicos = DB::table('categoria_servicos as u')->get();
       $tecnicos = DB::table('users as u')
@@ -143,10 +143,13 @@ class ReportsController extends Controller
                     ->where('ru.role_id', '=', 5)
                     ->get();
 
-      return view('reports.relAdesaoForm', compact('users', 'tecnicos', 'servicos'));
+      return view('reports.relServicosForm', compact('users', 'tecnicos', 'servicos'));
     }
 
-    public function relAdesao(Request $request){
+    public function relServicos(Request $request){
+
+      $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00') ;
+      $dtFim = Carbon::parse($request->dt_inicio)->format('Y-m-d 23:59:59') ;
 
       if($request->tecnico_id){
         $tecnicos =[$request->tecnico_id];
@@ -192,7 +195,7 @@ class ReportsController extends Controller
                     ->whereIn('s.categoria_servico_id', $servicos)
                     ->whereIn('ut.id', $tecnicos)
                     ->whereIn('s.user_atendimento_id', $consultores)
-                    ->whereBetween ('s.dt_conclusao', [$request->dt_inicio , $request->dt_fim])
+                    ->whereBetween ('s.dt_conclusao', [$dtInicio , $dtFim])
                     ->select('s.dt_conclusao', 's.nome_razaosocial', 'ua.name as consultor', 'ut.name as tecnico', 's.vlr_plano', 's.vlr_servico', 'cs.descricao as servico')
                     ->orderBy('s.dt_conclusao');
 
@@ -203,7 +206,7 @@ class ReportsController extends Controller
       $porTecnico = $result->get()->groupBy('tecnico');
 
 
-      return view('reports.relAdesao', compact('solicitacaos', 'request', 'totalPlano', 'totalTaxa', 'porConsultor', 'porTecnico'));
+      return view('reports.relServicos', compact('solicitacaos', 'request', 'totalPlano', 'totalTaxa', 'porConsultor', 'porTecnico'));
 
     }
 
