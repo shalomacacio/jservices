@@ -149,7 +149,7 @@ class ReportsController extends Controller
     public function relServicos(Request $request){
 
       $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00') ;
-      $dtFim = Carbon::parse($request->dt_inicio)->format('Y-m-d 23:59:59') ;
+      $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59') ;
 
       if($request->tecnico_id){
         $tecnicos =[$request->tecnico_id];

@@ -114,22 +114,12 @@
             </div>
           <br/>
 
-
-
           <div class="row">
             <!-- accepted payments column -->
-            <div class="col-6">
-              <p class="lead"></p>
-              <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-
-              </p>
-            </div>
-            <!-- /.col -->
-            <div class="col-6">
-
-
+            <div class="col-6"></div>
+            <div class="col-3">
+              <p class="lead">Por Consultor</p>
               <div class="table-responsive">
-
                 <table class="table">
                   <th colspan="3">Por Consultor:</th>
                     @foreach ($porConsultor as $consultor => $list)
@@ -141,9 +131,14 @@
                     <th>Total</th>
                     <th>{{ $solicitacaos->count() }}</th>
                 </table>
-                <table class="table">
+              </div>
+            </div>
+            <!-- /.col -->
 
-                    <th colspan="3">Por Técnico:</th>
+            <div class="col-3">
+              <p class="lead">Por Técnico</p>
+              <div class="table-responsive">
+                <table class="table">
                     @foreach ($porTecnico as $tecnico => $list)
                       <tr>
                         <td>{{ $tecnico }}</td>
@@ -153,10 +148,9 @@
                     <th>Total</th>
                     <th>{{ $solicitacaos->count() }}</th>
                 </table>
-
               </div>
             </div>
-            <!-- /.col -->
+
           </div>
           <!-- /.row -->
 
