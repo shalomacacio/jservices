@@ -67,7 +67,7 @@
                       Nenhum técnico atribuido
                     @endempty
                   </td>
-                  <td>@if( $solicitacao->turno == 1 ) MANHÃ @else TARDE @endif</td>
+                  <td>@if( $solicitacao->turno_agendamento == 1 ) MANHÃ @else TARDE @endif</td>
                   <td class="d-none d-sm-table-cell">{{ $solicitacao->statusSolicitacao->descricao}}</td>
                   <td>
                     <form action="{{route('solicitacao.concluir', $solicitacao->id)}}" method="POST">
