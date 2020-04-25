@@ -108,37 +108,71 @@ class ComissaosController extends Controller
         return view('comissaos.autorizarComissoes', compact('solicitacaos'));
     }
 
+    // public function minhasComissoes()
+    // {
+    //     $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+    //     $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
+
+    //     $result = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
+    //       return $query
+    //         ->where('funcionario_id', Auth::user()->id)
+    //         ->whereDate('dt_referencia', '>=', $start)
+    //         ->whereDate('dt_referencia', '<=', $end)
+    //         ->orderBy('dt_referencia', 'desc');
+    //     });
+
+    //     $result2  = DB::table('comissaos')
+    //               ->where('funcionario_id', Auth::user()->id)
+    //               ->whereDate('dt_referencia', '>=', $start)
+    //               ->whereDate('dt_referencia', '<=', $end)
+    //               ->orderBy('dt_referencia', 'desc')->get();
+
+    //     $comissaos = $result->paginate(10);
+
+    //     $aguardando = $result2->where('flg_autorizado','=' , 3 )->sum('comissao_vlr');
+    //     $nAutorizado = $result2->where('flg_autorizado','=' , '0' )->sum('comissao_vlr');
+    //     $autorizado = $result2->where('flg_autorizado','=' , 1 )->sum('comissao_vlr');
+
+    //     if (request()->wantsJson()) {
+    //         return response()->json([
+    //             'data' => $comissaos,
+    //         ]);
+    //     }
+    //     return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
+    // }
+
     public function minhasComissoes()
     {
         $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
         $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
 
-        $result = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
-          return $query
-            ->where('funcionario_id', Auth::user()->id)
-            ->whereDate('dt_referencia', '>=', $start)
-            ->whereDate('dt_referencia', '<=', $end)
-            ->orderBy('dt_referencia', 'desc');
-        });
+        $result = DB::table('solicitacaos as s')
+                    ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+                    ->join('users as u','s.user_atendimento_id', 'u.id')
+                    ->where('user_atendimento_id', Auth::user()->id)
+                    ->whereBetween('dt_conclusao', [$start, $end])
+                    ->select('s.dt_conclusao','s.nome_razaosocial', 's.status_comissao','s.vlr_plano', 's.vlr_servico',
+                    'u.name as colaborador',
+                    'cs.descricao as servico');
 
-        $result2  = DB::table('comissaos')
-                  ->where('funcionario_id', Auth::user()->id)
-                  ->whereDate('dt_referencia', '>=', $start)
-                  ->whereDate('dt_referencia', '<=', $end)
-                  ->orderBy('dt_referencia', 'desc')->get();
+        $result2 = DB::table('solicitacaos as s')
+                    ->where('user_atendimento_id', Auth::user()->id)
+                    ->whereBetween('dt_conclusao', [$start, $end])
+                    ->get();
 
-        $comissaos = $result->paginate(10);
 
-        $aguardando = $result2->where('flg_autorizado','=' , 3 )->sum('comissao_vlr');
-        $nAutorizado = $result2->where('flg_autorizado','=' , '0' )->sum('comissao_vlr');
-        $autorizado = $result2->where('flg_autorizado','=' , 1 )->sum('comissao_vlr');
+        $solicitacaos = $result->orderBy('dt_conclusao', 'desc')->paginate('10');
+
+        $aguardando = $result2->where('status_comissao', null)->count();
+        $nAutorizado = $result2->where('status_comissao', 2)->count();
+        $autorizado = $result2->where('status_comissao', 1)->count();
 
         if (request()->wantsJson()) {
             return response()->json([
-                'data' => $comissaos,
+                'data' => $solicitacaos,
             ]);
         }
-        return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
+        return view('comissaos.minhas_comissoes', compact('solicitacaos', 'aguardando', 'nAutorizado', 'autorizado'));
     }
 
     public function pesquisar()

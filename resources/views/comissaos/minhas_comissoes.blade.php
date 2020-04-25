@@ -46,27 +46,28 @@
                                 <th>Serviço </th>
                                 <th>Colaborador</th>
                                 <th>Status</th>
-                                <th>Valor</th>
+                                <th>Plano</th>
+                                <th>Taxa</th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($comissaos as $comissao)
+                                @foreach ($solicitacaos as $solicitacao)
                                     <tr>
-                                        <td>{{  \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m') }}</td>
-                                        <td>{{ $comissao->solicitacao->nome_razaosocial }}</td>
-                                        <td>{{ $comissao->solicitacao->categoriaServico->descricao }}</td>
-                                        <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
-                                        <td id="motivo" >
-                                          @if($comissao->flg_autorizado == 3)
-                                            Aguardando
-                                          @elseif($comissao->flg_autorizado == 0)
-                                            Não Autorizado<br>
-                                            Motivo: {{$comissao->motivo}}
-                                          @elseif($comissao->flg_autorizado == 1)
-                                            Autorizado
-                                          @endif
+                                        <td>{{  \Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('d/m') }}</td>
+                                        <td>{{ $solicitacao->nome_razaosocial }}</td>
+                                        <td>{{ $solicitacao->servico}}</td>
+                                        <td>{{ $solicitacao->colaborador }}</td>
+                                        <td>
+                                            @if($solicitacao->status_comissao == 1)
+                                            AUTORIZADO
+                                            @elseif($solicitacao->status_comissao == 1)
+                                            NÃO AUTORIZADO
+                                            @else
+                                            AGUARDANDO
+                                            @endif
                                         </td>
-                                        <td>{{ $comissao->comissao_vlr}}</td>
+                                        <td>{{ $solicitacao->vlr_plano }}</td>
+                                        <td>{{ $solicitacao->vlr_servico }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -76,7 +77,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $comissaos->render() }}
+                                {{ $solicitacaos->render() }}
                           </ul>
                         </div>
                       </div>

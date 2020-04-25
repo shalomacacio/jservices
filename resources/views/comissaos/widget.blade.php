@@ -6,8 +6,8 @@
       <div class="info-box-content">
         <span class="info-box-text">AGUARDANDO</span>
         <span class="info-box-number">
-          <small>R$:</small>
-           {{number_format($aguardando, 2) }}
+          <small>Qtd:</small>
+           {{ $aguardando }}
         </span>
       </div>
       <!-- /.info-box-content -->
@@ -22,8 +22,8 @@
       <div class="info-box-content">
         <span class="info-box-text">NÃO AUTORIZADO</span>
         <span class="info-box-number">
-        <small>R$:</small>
-        {{number_format($nAutorizado, 2) }}
+          <small>Qtd:</small>
+          {{ $nAutorizado }}
         </span>
       </div>
       <!-- /.info-box-content -->
@@ -41,8 +41,8 @@
       <div class="info-box-content">
         <span class="info-box-text">AUTORIZADO</span>
         <span class="info-box-number">
-        <small>R$:</small>
-        {{number_format($autorizado, 2) }}
+          <small>Qtd:</small>
+          {{ $autorizado }}
         </span>
       </div>
       <!-- /.info-box-content -->
