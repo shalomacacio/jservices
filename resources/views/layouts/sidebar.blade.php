@@ -107,14 +107,6 @@
                 <p>Pesquisar Comissoes</p>
               </a>
             </li>
-            @is(['admin', 'supervisor', 'controlador', 'auditor'])
-            <li class="nav-item">
-              <a href="{{route('comissao.autorizarComissoes') }}" class="nav-link">
-                <i class="fa fa-circle-o nav-icon"></i>
-                <p>Autorizar Comissões</p>
-              </a>
-            </li>
-            @endis
           </ul>
         </li>
 
@@ -157,21 +149,6 @@
           </ul>
         </li>
         @is(['admin', 'financeiro'])
-        {{-- <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-plus-square"></i>
-            <p>Serviços <i class="fa fa-angle-left right"></i></p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{route('servicos.index')}}" class="nav-link">
-                <i class="fa fa-circle-o nav-icon"></i>
-                <p>Novo Serviço</p>
-              </a>
-            </li>
-          </ul>
-        </li> --}}
-
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-plus-square"></i>
@@ -259,21 +236,18 @@
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-plus-square"></i>
-            <p>Servicos <i class="fa fa-angle-left right"></i></p>
+            <p>Financeiro <i class="fa fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview">
+            @is(['admin', 'financeiro', 'auditor'])
             <li class="nav-item">
-              <a href="{{ route('reports.producaoDiariaForm') }}" class="nav-link">
+              <a href="{{route('comissao.autorizarComissoes') }}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
-                <p>Por Período</p>
+                <p>Autorizar Comissões</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="{{ route('reports.midias') }}" class="nav-link">
-                <i class="fa fa-circle-o nav-icon"></i>
-                <p>Por tipo de Mídia</p>
-              </a>
-            </li>
+            @endis
+
           </ul>
         </li>
         @endis

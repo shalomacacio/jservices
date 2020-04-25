@@ -49,7 +49,10 @@ class Solicitacao extends Model implements Transformable
         'origem_venda_id',
         'motivo_cancelamento_id',
         'total_atendimento',
-        'obs'
+        'obs',
+        'dt_aut_fin',
+        'user_aut_fin',
+        'status_comissao'
     ];
 
     public function setServicoVlrAttribute(){

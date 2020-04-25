@@ -192,6 +192,7 @@ class ReportsController extends Controller
                     ->join('users as ua', 's.user_atendimento_id', '=', 'ua.id')
                     ->join('users as ut', 'su.user_id', '=', 'ut.id')
                     ->whereNull('s.deleted_at')
+                    ->whereNotNull('s.dt_conclusao')
                     ->whereIn('s.categoria_servico_id', $servicos)
                     ->whereIn('ut.id', $tecnicos)
                     ->whereIn('s.user_atendimento_id', $consultores)

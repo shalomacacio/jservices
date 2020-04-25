@@ -18,7 +18,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Comissão</a></li>
-              <li class="breadcrumb-item active">Comissões</li>
+              <li class="breadcrumb-item active">Autorizar Comissões</li>
             </ol>
           </div>
         </div>
@@ -33,7 +33,7 @@
                       <div class="card card-info">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">{{ \Carbon\Carbon::now('America/Fortaleza')->format('d-M-y') }}</h3>
+                                <h3 class="card-title">{{ \Carbon\Carbon::now()->format('d-m-Y') }}</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -43,30 +43,39 @@
                             <thead>
                               <tr>
                                 <th>Data</th>
+                                <th>Código</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th>Colaborador</th>
-                                <th>Status</th>
-                                <th>Valor</th>
+                                <th>Consultor</th>
+                                <th>Técnico</th>
+                                <th>Plano</th>
+                                <th>Taxa</th>
                                 <th>Ações </th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($comissaos as $comissao)
+                                @foreach ($solicitacaos as $solicitacao)
                                     <tr>
-                                        <td>{{  \Carbon\Carbon::parse($comissao->dt_referencia)->format('d/m') }}</td>
-                                        <td>{{ $comissao->solicitacao->nome_razaosocial }}</td>
-                                        <td>{{ $comissao->solicitacao->categoriaServico->descricao }}</td>
-                                        <td>{{ $comissao->user->name}} {{ $comissao->user->sobrenome}}</td>
-                                        <td>{{ $comissao->solicitacao->statusSolicitacao->descricao}}</td>
-                                        <td>{{ $comissao->comissao_vlr}}</td>
+                                        <td>{{  \Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('d/m') }}</td>
                                         <td>
-                                          @if( $comissao->solicitacao->status_solicitacao_id == 3)
-                                            <form action="{{ route('comissao.autorizar', $comissao->id)}}" method="post">
+                                          <a href="http://170.150.200.10:8080/mk/form.jsp?sys=MK0&action=openform&formID=464568140&align=0&mode=-1&goto=-1&filter=mk_atendimento.codatendimento={{ $solicitacao->codatendimento }}&scrolling=no" target="_blank">
+                                           {{ $solicitacao->codatendimento }}
+                                          </a>
+                                        </td>
+                                        <td>{{ $solicitacao->nome_razaosocial }}</td>
+                                        <td>{{ $solicitacao->servico }}</td>
+                                        <td>{{ $solicitacao->consultor }}</td>
+
+                                        <td>{{ $solicitacao->tecnico}}</td>
+                                        <td>{{ $solicitacao->vlr_plano }}</td>
+                                        <td>{{ $solicitacao->vlr_servico }}</td>
+                                        <td>
+                                          @if( $solicitacao->status_solicitacao_id == 3)
+                                            <form action="{{ route('comissao.autorizar', $solicitacao->id)}}" method="post">
                                                 @csrf
                                                 @method('PUT')
-                                                <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "flg_autorizado" value="1"><i class="fas fa-dollar"></i></button>
-                                            <button class="btn btn-danger"     type="button" data-id="{{ $comissao->id }}" ><i class="fab fa-creative-commons-nc"></i></button>
+                                                <button class="btn btn-warning"    type="submit"  onclick="return confirm('Autorizar Solicitação ?')"   name = "status_comissao" value="1"><i class="fas fa-dollar"></i></button>
+                                            <button class="btn btn-danger"     type="button" data-id="{{ $solicitacao->id }}" ><i class="fab fa-creative-commons-nc"></i></button>
                                               </form>
                                               @endif
                                         </td>

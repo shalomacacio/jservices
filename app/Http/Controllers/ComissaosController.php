@@ -13,6 +13,7 @@ use App\Repositories\ComissaoRepository;
 use App\Validators\ComissaoValidator;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
+use App\Entities\Solicitacao;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,20 +66,46 @@ class ComissaosController extends Controller
     }
 
 
+    // --  MODO ANTIGO ---
+    // public function autorizarComissoes()
+    // {
+    //   $comissaos = $this->repository->scopeQuery(function ($query) {
+    //     return $query
+    //     ->where('flg_autorizado', '=', 3)
+    //     ->orderBy('dt_referencia', 'desc');
+    //   })->get();
+
+    //   if (request()->wantsJson()) {
+    //     return response()->json([
+    //       'data' => $comissaos,
+    //     ]);
+    //   }
+    //     return view('comissaos.autorizarComissoes', compact('comissaos'));
+    // }
+
+
     public function autorizarComissoes()
     {
-      $comissaos = $this->repository->scopeQuery(function ($query) {
-        return $query
-        ->where('flg_autorizado', '=', 3)
-        ->orderBy('dt_referencia', 'desc');
-      })->get();
+      $result = DB::table('solicitacaos as s')
+                  ->join('solicitacao_user as su', 's.id', '=', 'su.solicitacao_id')
+                  ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+                  ->join('users as ua', 's.user_atendimento_id', '=', 'ua.id')
+                  ->join('users as ut', 'su.user_id', '=', 'ut.id')
+                  ->whereNull('s.deleted_at')
+                  ->whereNull('s.dt_aut_fin')
+                  ->whereNotNull('s.codatendimento')
+                  ->whereNotNull('s.dt_conclusao')
+                  ->where('dt_conclusao', '>=', '2020-04-01 00:00:00')
+                  ->select(
+                    's.id' ,'s.dt_conclusao', 's.nome_razaosocial','s.status_solicitacao_id','s.vlr_plano', 's.vlr_servico','s.codatendimento',
+                    'cs.descricao as servico',
+                    'ut.name as tecnico',
+                    'ua.name as consultor')
+                    ->orderBy('s.dt_conclusao');
 
-      if (request()->wantsJson()) {
-        return response()->json([
-          'data' => $comissaos,
-        ]);
-      }
-        return view('comissaos.autorizarComissoes', compact('comissaos'));
+      $solicitacaos = $result->get();
+
+        return view('comissaos.autorizarComissoes', compact('solicitacaos'));
     }
 
     public function minhasComissoes()
@@ -143,40 +170,33 @@ class ComissaosController extends Controller
 
     public function autorizar(Request $request, $id)
     {
-      // return dd($request);
-      $comissao = $this->repository->find($id);
-      $comissao->flg_autorizado = $request->flg_autorizado;
-      $comissao->user_id = Auth::user()->id;
-      $comissao->save();
+      // return dd($id);
+      $solicitacao = Solicitacao::find($id);
+      $solicitacao->dt_aut_fin = Carbon::now();
+      $solicitacao->user_aut_fin = Auth::user()->id;
+      $solicitacao->status_comissao = $request->status_comissao;
+      $solicitacao->save();
       $response = [
         'message' => 'Realizado com Sucesso.',
-        'data'    => $comissao->toArray(),
+        'data'    => $solicitacao->toArray(),
       ];
-      if ($request->wantsJson()) {
-          return response()->json($response);
-      }
-    //   return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
       return redirect()->back()->with('message', $response['message']);
     }
 
     public function nAutorizar(Request $request, $id)
     {
-      // return dd($request);
-      $comissao = $this->repository->find($id);
-      $comissao->flg_autorizado = 0;
-      $comissao->motivo = $request->motivo;
-      $comissao->user_id = Auth::user()->id;
-      $comissao->save();
-      $response = [
-        'message' => 'Realizado com Sucesso.',
-        'data'    => $comissao->toArray(),
-      ];
-      if ($request->wantsJson()) {
-          return response()->json($response);
-      }
-    //   return redirect()->route('comissao.autorizarComissoes')->with('message', $response['message']);
-    return redirect()->back()->with('message', $response['message']);
-
+            // return dd($id);
+            $solicitacao = Solicitacao::find($id);
+            $solicitacao->dt_aut_fin = Carbon::now();
+            $solicitacao->user_aut_fin = Auth::user()->id;
+            $solicitacao->status_comissao = $request->status_comissao;
+            $solicitacao->obs = $request->obs;
+            $solicitacao->save();
+            $response = [
+              'message' => 'Realizado com Sucesso.',
+              'data'    => $solicitacao->toArray(),
+            ];
+      return redirect()->back()->with('message', $response['message']);
     }
 
 
