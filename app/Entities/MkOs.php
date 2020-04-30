@@ -53,7 +53,7 @@ class MkOs extends Model implements Transformable
 
     public function mkConexao()
     {
-        return $this->belongsTo('App\Entities\mkConexoes', 'conexao_associada', 'codconexao');
+        return $this->belongsTo('App\Entities\MkConexoes', 'conexao_associada', 'codconexao');
     }
 
 }
