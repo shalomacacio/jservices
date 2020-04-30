@@ -7,11 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class MkPessoa.
+ * Class MkOsTipo.
  *
  * @package namespace App\Entities;
  */
-class MkPessoa extends Model implements Transformable
+class MkOsTipo extends Model implements Transformable
 {
     use TransformableTrait;
 
@@ -21,18 +21,8 @@ class MkPessoa extends Model implements Transformable
      * @var array
      */
     protected $connection = 'pgsql';
-    protected $table = "public.mk_pessoas";
-    protected $primaryKey = 'codpessoa';
-
-    protected $fillable = [
-      'codpessoa',
-      'nome_razaosocial',
-      'codbairro'
-    ];
-
-    public function bairro()
-    {
-        return $this->belongsTo('App\Entities\MkBairro', 'codbairro');
-    }
+    protected $table = "public.mk_os_tipo";
+    protected $primaryKey = 'codostipo';
+    protected $fillable = ['codostipo', 'descricao'];
 
 }

@@ -8,7 +8,9 @@ use App\Http\Requests;
 
 use App\Entities\User;
 use App\Entities\Comissao;
-
+use App\Entities\MkOs;
+use App\Entities\MkOsTipo;
+use App\Entities\MkPessoa;
 use App\Repositories\ReportRepository;
 use App\Repositories\ComissaoRepository;
 use App\Repositories\SolicitacaoRepository;
@@ -306,5 +308,53 @@ class ReportsController extends Controller
             ]);
         }
         return view('reports.midias', compact('solicitacaos'));
+    }
+
+
+    public function relOsForm(){
+      $users = MkPessoa::where('classificacao', 3)->get();
+      // $servicos = DB::table('categoria_servicos as u')->get();
+      $servicos = MkOsTipo::all();
+      $tecnicos = MkPessoa::where('classificacao', 3)->get();
+
+      return view('reports.relOsForm', compact('users', 'tecnicos', 'servicos'));
+    }
+
+    public function relOs(Request $request){
+
+      // Datas
+      $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00') ;
+      $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59') ;
+
+      // Tipos de OS
+      if($request->codostipo){
+        $tipos =[$request->codostipo];
+      }
+      else{
+        $tipos = [2,5,6,111,133,138];
+      }
+
+      //Consultores
+      if($request->consultor_id){
+        $consultores =[$request->consultor_id];
+      }
+      else{
+        $result = MkPessoa::where('classificacao', 3)->select('codpessoa')->get();
+
+        foreach($result as $r){
+          $consultores[] = $r->codpessoa;
+        }
+      }
+
+
+
+      $result = MkOs::whereBetween('data_abertura', [$dtInicio, $dtFim])
+                      ->whereIn('tipo_os', $tipos)
+                      ->whereIn('tecnico_responsavel', $consultores)
+                      ->orderBy('data_abertura', 'asc')
+                      ->get();
+
+      $ordens = $result;
+      return view('reports.relOs', compact('ordens', 'request'));
     }
 }

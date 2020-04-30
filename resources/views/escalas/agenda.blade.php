@@ -1,157 +1,106 @@
 @extends('layouts.master')
-
-@section('css')
-<!-- Bootgrid -->
-<link rel="stylesheet" href="/dist/plugins/bootgrid/jquery.bootgrid.css">
-@stop
-
 @section('content')
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+
+  {{-- alerts --}}
+  @include('layouts.alerts')
   <section class="content-header">
-    <div class="container-fluid">
-
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>AGENDA</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Solicitacoes</a></li>
-            <li class="breadcrumb-item active"> Agenda </li>
-          </ol>
-        </div>
-      </div>
-      @include('escalas.search_form2')
-      @include('escalas.widget')
-    </div><!-- /.container-fluid -->
-
-    {{-- alerts --}}
-    @include('layouts.alerts')
+      <div class="container-fluid">
+          @include('escalas.search_form')
+      </div><!-- /.container-fluid -->
   </section>
+  <!-- /.content-header -->
+
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
+      <!-- Main row -->
       <div class="row">
-        <div class="col-md-12">
+        <!-- Left col -->
+        @foreach ($solicitacoes as $categoria => $todos)
+        <div class="col-md-6">
+          <!-- TABLE: LATEST ORDERS -->
           <div class="card card-info">
-            <div class="card-header">
-              <div class="d-flex justify-content-between">
-                <h3 class="card-title">Serviços</h3>
+            <div class="card-header border-transparent">
+              <h3 class="card-title">{{ $categoria }}  </h3>
+              <div class="card-tools">
+                <span class="badge badge-danger">TOTAL : {{ count($todos) }}   </span>
               </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-
-              <table id="grid-basic" class="table table-condensed table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th data-column-id="cliente">Cliente</th>
-                    <th data-column-id="descricao">Serviço</th>
-                    <th data-column-id="atendente">Atend/Vendedor</th>
-                    <th data-column-id="turno">Turno</th>
-                    <th data-column-id="tecnico">Técnico</th>
-                    <th data-column-id="status">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                @foreach ($solicitacoes as $solicitacao)
-                  <tr>
-                    <td>{{ $solicitacao->cliente }}</td>
-                    <td>{{ $solicitacao->descricao }}</td>
-                    <td>{{ $solicitacao->funcionario }}</td>
-                    <td>@if( $solicitacao->turno == 1 ) MANHÃ @else TARDE @endif</td>
-                    <td>{{ $solicitacao->tecnico }}</td>
-                    <td> {{ $solicitacao->status }} </td>
-                  </tr>
-                @endforeach
-                </tbody>
-              </table>
-
-            </div>
-            <!-- /.card-body -->
-            <!-- /.card-footer -->
-            <div class="card-footer clearfix">
-              <div class="row">
-                <!-- /.col -->
-                <div class="col-3">
-                  <p class="lead">Serviços Por  Atendente</p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      @foreach ($porAtend as $funcionario => $item )
-                      <tr>
-                        <th style="width:50%">{{ $funcionario }}:</th>
-                      <td>{{ $item->count() }}</td>
-                      </tr>
-                      @endforeach
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <!-- /.col -->
-                <div class="col-3">
-                  <p class="lead">Total Por Serviço</p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      @foreach ($porServ as $servico => $item )
-                      <tr>
-                        <th style="width:50%">{{ $servico }}:</th>
-                      <td>{{ $item->count() }}</td>
-                      </tr>
-                      @endforeach
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <!-- /.col -->
-                <div class="col-3">
-                  <p class="lead">Total Por Tecnico</p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      @foreach ($porTec as $tecnico => $item )
-                      <tr>
-                        <th style="width:50%">{{ $tecnico }}:</th>
-                        <td>{{ $item->count() }}</td>
-                      </tr>
-                      @endforeach
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
+            <div class="card-body p-0">
+              <div class="table-responsive ">
+                <table class="table m-0 table-sm">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Atendente</th>
+                      <th>Turno</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($todos->sortBy('turno') as $solicitacao)
+                    <tr>
+                      <td>{{ $solicitacao->cliente }}</td>
+                      <td>{{ $solicitacao->funcionario }}</td>
+                      <td>
+                        @if ($solicitacao->turno == 1)
+                          MANHÃ
+                        @elseif($solicitacao->turno == 2)
+                        TARDE
+                        @endif
+                    </td>
+                      <td>
+                        <span class="badge
+                      @switch($solicitacao->status_solicitacao_id)
+                          @case(1)
+                          badge-secondary {{--  cinza --}}
+                              @break
+                          @case(2)
+                          badge-info {{--  azul --}}
+                              @break
+                          @case(3)
+                          badge-success {{--  verde --}}
+                              @break
+                          @case(4)
+                          badge-success {{--  verde --}}
+                          @case(5)
+                          badge-success {{--  verde --}}
+                          @break
+                          @case(6)
+                          badge-danger {{--  vermelho --}}
+                          @break
+                          @default
+                      @endswitch ">
+                          {{ $solicitacao->status }}
+                      </span>
+                      </td>
+                      {{-- <span class="badge">
+                          SPAN
+                      </span> --}}
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
-              <!-- /.row -->
+            <!-- /.table-responsive -->
             </div>
-            <!-- /.card-footer -->
           </div>
           <!-- /.card -->
         </div>
-      </div><!-- /.row -->
-
+        @endforeach
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
   </section>
-</div>
-</div>
+  <!-- /.content -->
 
+</div>
+<!-- /.content-wrapper -->
 @endsection
-
-@section('javascript')
-<!-- Bootgrid -->
-<script src="/dist/plugins/bootgrid/jquery.bootgrid.js"></script>
-
-<script type="text/javascript">
-$("#grid-basic").bootgrid({
-  columnSelection: false,
-    keepSelection: false,
-    navigation: 1,
-    rowCount	: -1,
-    labels: {
-        all: "Tudo",
-        loading: "Aguardando...",
-        noResults: "Nenhum resultado encontrado!",
-        refresh: "Refresh",
-        search: "Filtro"
-    }
-});
-</script>
-@stop

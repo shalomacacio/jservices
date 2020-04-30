@@ -97,6 +97,8 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('reports/midias', 'ReportsController@midias')->name('reports.midias');
     Route::get('reports/relServicosForm', 'ReportsController@relServicosForm')->name('reports.relServicosForm');
     Route::get('reports/relServicos', 'ReportsController@relServicos')->name('reports.relServicos');
+    Route::get('reports/relOsForm', 'ReportsController@relOsForm')->name('reports.relOsForm');
+    Route::get('reports/relOs', 'ReportsController@relOs')->name('reports.relOs');
 
     Route::resource('mkPessoas', 'MkPessoasController');
     Route::resource('mkBairros', 'MkBairrosController');

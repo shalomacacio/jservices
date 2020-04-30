@@ -24,11 +24,36 @@ class MkOs extends Model implements Transformable
     protected $connection = 'pgsql';
     protected $table = "public.mk_os";
     protected $primaryKey = 'codos';
-    protected $fillable = [];
+    protected $fillable = ['tecncico_responsavel'];
 
     public function mkAtendimento()
     {
       return $this->belongsTo('App\Entities\MkAtendimento', 'cd_processo', 'codprocesso');
+    }
+
+    public function mkPessoa()
+    {
+        return $this->belongsTo('App\Entities\MkPessoa', 'cliente', 'codpessoa');
+    }
+
+    public function consultor()
+    {
+        return $this->belongsTo('App\Entities\MkPessoa','tecnico_responsavel', 'codpessoa' );
+    }
+
+    public function tecnico()
+    {
+        return $this->belongsTo('App\Entities\MkPessoa','tecnico_atendimento', 'codpessoa' );
+    }
+
+    public function mkOsTipo()
+    {
+        return $this->belongsTo('App\Entities\mkOsTipo', 'tipo_os', 'codostipo');
+    }
+
+    public function mkConexao()
+    {
+        return $this->belongsTo('App\Entities\mkConexoes', 'conexao_associada', 'codconexao');
     }
 
 }
