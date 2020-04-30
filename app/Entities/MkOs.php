@@ -48,7 +48,7 @@ class MkOs extends Model implements Transformable
 
     public function mkOsTipo()
     {
-        return $this->belongsTo('App\Entities\mkOsTipo', 'tipo_os', 'codostipo');
+        return $this->belongsTo('App\Entities\MkOsTipo', 'tipo_os', 'codostipo');
     }
 
     public function mkConexao()
