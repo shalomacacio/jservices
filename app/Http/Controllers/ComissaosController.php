@@ -141,10 +141,17 @@ class ComissaosController extends Controller
     //     return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
     // }
 
-    public function minhasComissoes()
+    public function minhasComissoes(Request $request)
     {
         $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
         $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
+
+        if($request->dt_inicio){
+          $start = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
+        }
+        if($request->dt_fim){
+          $end = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
+        }
 
         $result = DB::table('solicitacaos as s')
                     ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
@@ -188,18 +195,20 @@ class ComissaosController extends Controller
     }
 
     public function search(Request $request){
-      $result= $this->repository->scopeQuery(function ($query) use ($request) {
-        return $query
-          ->where('funcionario_id', Auth::user()->id)
-          ->whereDate('dt_referencia', '>=' , $request->dt_inicio)
-          ->whereDate('dt_referencia', '<=' , $request->dt_fim);
-      })->get();
+      $result = DB::table('solicitacaos as s')
+      ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
+      ->join('users as u','s.user_atendimento_id', 'u.id')
+      ->where('user_atendimento_id', Auth::user()->id)
+      ->whereBetween('s.dt_conclusao', [$request->dt_inicio, $request->dt_fim])
+      ->select('s.dt_conclusao','s.nome_razaosocial', 's.status_comissao','s.vlr_plano', 's.vlr_servico',
+      'u.name as colaborador',
+      'cs.descricao as servico');
 
-      $comissaos = $result;
-      $aguardando = $result->where('flg_autorizado', 3 )->sum('comissao_vlr');
-      $nAutorizado = $result->where('flg_autorizado', 0 )->sum('comissao_vlr');
-      $autorizado = $result->where('flg_autorizado', 1 )->sum('comissao_vlr');
-      return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
+      $solicitacaos = $result;
+      $aguardando = 0; //$result->where('flg_autorizado', 3 )->sum('comissao_vlr');
+      $nAutorizado = 0; // $result->where('flg_autorizado', 0 )->sum('comissao_vlr');
+      $autorizado = 0; // $result->where('flg_autorizado', 1 )->sum('comissao_vlr');
+      return view('comissaos.minhas_comissoes', compact('solicitacaos', 'aguardando', 'nAutorizado', 'autorizado'));
     }
 
     public function autorizar(Request $request, $id)

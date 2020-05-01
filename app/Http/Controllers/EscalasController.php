@@ -13,7 +13,9 @@ use App\Repositories\EscalaRepository;
 use App\Validators\EscalaValidator;
 use DB;
 use Carbon\Carbon;
+use App\Entities\MkOs;
 use App\Entities\Escala;
+use App\Entities\MkPessoa;
 use App\Entities\Solicitacao;
 
 /**
@@ -78,7 +80,7 @@ class EscalasController extends Controller
         return view('escalas.index', compact('escalas', 'users'));
     }
 
-    // public function agenda(Request $request){
+    // public function agenda1(Request $request){
 
     //   $data = Carbon::now()->format('Y-m-d');
 
@@ -96,6 +98,41 @@ class EscalasController extends Controller
     //   return view('escalas.agenda', compact('solicitacoes', 'data'));
     // }
 
+    // public function agenda2(Request $request){
+    //   $data = Carbon::now()->format('Y-m-d');
+
+    //   if($request->dt_escala){
+    //     $data = $request->dt_escala;
+    //   }
+
+    //   $result = DB::table('solicitacaos as s')
+    //     ->leftJoin('solicitacao_user as su', 'su.solicitacao_id', '=', 's.id' )
+    //     ->leftJoin('users as u2', 'su.user_id', '=', 'u2.id')
+    //     ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
+    //     ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
+    //     ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
+    //     ->whereNull('s.deleted_at')
+    //     ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
+    //     ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 23:59:59'))
+    //     ->select('s.id', 'cs.descricao as descricao', 'cs.max_diario as maximo' ,
+    //     's.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' ,
+    //     'u.name as funcionario', 'ss.descricao as status', 'u2.name as tecnico')
+    //     ->get();
+
+    //     $solicitacoes = $result;
+
+    //     $aberto = $result->where('status_solicitacao_id', '=', 1)->count();
+    //     $encaminhado = $result->where('status_solicitacao_id', '=', 2)->count();
+    //     $concluido = $result->where('status_solicitacao_id', '=', 3)->count();
+    //     $retorno = $result->where('status_solicitacao_id', '=', 6)->count();
+
+    //     $porAtend = $result->groupBy('funcionario');
+    //     $porServ = $result->groupBy('descricao');
+    //     $porTec = $result->groupBy('tecnico');
+
+    //   return view('escalas.agenda2', compact('solicitacoes', 'aberto','encaminhado' ,'retorno', 'concluido', 'porAtend', 'porServ', 'porTec', 'data'));
+    // }
+
     public function agenda(Request $request){
       $data = Carbon::now()->format('Y-m-d');
 
@@ -103,35 +140,26 @@ class EscalasController extends Controller
         $data = $request->dt_escala;
       }
 
-      $result = DB::table('solicitacaos as s')
-        ->leftJoin('solicitacao_user as su', 'su.solicitacao_id', '=', 's.id' )
-        ->leftJoin('users as u2', 'su.user_id', '=', 'u2.id')
-        ->join('status_solicitacaos as ss', 's.status_solicitacao_id', '=', 'ss.id')
-        ->join('categoria_servicos as cs', 'cs.id', '=', 's.categoria_servico_id')
-        ->join('users as u', 's.user_atendimento_id', '=', 'u.id')
-        ->whereNull('s.deleted_at')
-        ->where('s.dt_agendamento', '>=' , Carbon::parse($data)->format('Y-m-d 00:00:00'))
-        ->where('s.dt_agendamento', '<=' , Carbon::parse($data)->format('Y-m-d 23:59:59'))
-        ->select('s.id', 'cs.descricao as descricao', 'cs.max_diario as maximo' ,
-        's.nome_razaosocial as cliente', 's.turno_agendamento as turno', 's.status_solicitacao_id' ,
-        'u.name as funcionario', 'ss.descricao as status', 'u2.name as tecnico')
-        ->get();
+      // Tipos de OS
+      $tipos = [2,5,6,111,133,138];
+      $result = MkOs::where('data_ent_lab', $data)
+                      //  ->whereIn('tipo_os', $tipos)
+                       ->orderBy('data_abertura', 'asc')
+                       ->get();
 
-        $solicitacoes = $result;
+      $ordens = $result;
+      $aberto = $result->where('status', 1)->count();
+      $encaminhado = $result->where('status', 2)->count();
+      $concluido = $result->where('status', 3)->count();
 
-        $aberto = $result->where('status_solicitacao_id', '=', 1)->count();
-        $encaminhado = $result->where('status_solicitacao_id', '=', 2)->count();
-        $concluido = $result->where('status_solicitacao_id', '=', 3)->count();
-        $retorno = $result->where('status_solicitacao_id', '=', 6)->count();
+      $porAtend = $result->groupBy('mkPessoa.nome_razaosocial');
+      $porServ = 0;
+      $porTec = 0;
 
-        $porAtend = $result->groupBy('funcionario');
-        $porServ = $result->groupBy('descricao');
-        $porTec = $result->groupBy('tecnico');
+      return view('escalas.agenda2', compact('ordens', 'aberto','encaminhado' , 'concluido', 'porAtend', 'porServ', 'porTec', 'data'));
 
-      return view('escalas.agenda2', compact('solicitacoes', 'aberto','encaminhado' ,'retorno', 'concluido', 'porAtend', 'porServ', 'porTec', 'data'));
+
     }
-
-
 
     public function escala(Request $request){
 

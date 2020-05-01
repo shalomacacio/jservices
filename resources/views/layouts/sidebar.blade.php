@@ -41,13 +41,14 @@
                 <p>Agenda</p>
               </a>
             </li>
+            @is(['admin','controlador'])
             <li class="nav-item">
               <a href="{{route('solicitacao.create')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
                 <p>Nova Solicitação</p>
               </a>
             </li>
-            @is(['admin','controlador'])
+
             <li class="nav-item">
               <a href="{{route('solicitacoes.pesquisar')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>

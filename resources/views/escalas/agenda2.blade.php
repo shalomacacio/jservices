@@ -48,7 +48,8 @@
               <table id="grid-basic" class="table table-condensed table-hover table-striped">
                 <thead>
                   <tr>
-                    <th data-column-id="cliente">Cliente</th>
+                    <th data-column-id="os" data-width="80px">O.S</th>
+                    <th data-column-id="cliente" data-width="300px">Cliente</th>
                     <th data-column-id="descricao">Serviço</th>
                     <th data-column-id="atendente">Atend/Vendedor</th>
                     <th data-column-id="turno">Turno</th>
@@ -57,14 +58,33 @@
                   </tr>
                 </thead>
                 <tbody>
-                @foreach ($solicitacoes as $solicitacao)
+                @foreach ($ordens as $os)
                   <tr>
-                    <td>{{ $solicitacao->cliente }}</td>
-                    <td>{{ $solicitacao->descricao }}</td>
-                    <td>{{ $solicitacao->funcionario }}</td>
-                    <td>@if( $solicitacao->turno == 1 ) MANHÃ @else TARDE @endif</td>
-                    <td>{{ $solicitacao->tecnico }}</td>
-                    <td> {{ $solicitacao->status }} </td>
+                    <td> {{ $os->codos}}</td>
+                    <td> {{ $os->mkPessoa->nome_razaosocial }}</td>
+                    <td>{{ $os->mkOsTipo->descricao }}</td>
+                    <td>{{ $os->consultor->nome_razaosocial }}</td>
+                    <td>
+                      @if( $os->hora_ent_lab < 12 )
+                        Manhã
+                      @else
+                        Tarde
+                      @endif
+                    </td>
+                    <td>@isset($os->tecnico->nome_razaosocial){{ $os->tecnico->nome_razaosocial }}@endisset</td>
+
+                      @switch($os->status)
+                        @case(1)
+                        <td><code>Aberto</code></td>
+                        @break
+                        @case(2)
+                        <td>Encaminhado</td>
+                        @break
+                        @case(3)dat
+                        <td>Encerrado</td>
+                        @break
+                      @endswitch
+
                   </tr>
                 @endforeach
                 </tbody>
@@ -72,63 +92,10 @@
 
             </div>
             <!-- /.card-body -->
-            <!-- /.card-footer -->
-            <div class="card-footer clearfix">
-              <div class="row">
-                <!-- /.col -->
-                <div class="col-3">
-                  <p class="lead">Serviços Por  Atendente</p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      @foreach ($porAtend as $funcionario => $item )
-                      <tr>
-                        <th style="width:50%">{{ $funcionario }}:</th>
-                      <td>{{ $item->count() }}</td>
-                      </tr>
-                      @endforeach
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <!-- /.col -->
-                <div class="col-3">
-                  <p class="lead">Total Por Serviço</p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      @foreach ($porServ as $servico => $item )
-                      <tr>
-                        <th style="width:50%">{{ $servico }}:</th>
-                      <td>{{ $item->count() }}</td>
-                      </tr>
-                      @endforeach
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <!-- /.col -->
-                <div class="col-3">
-                  <p class="lead">Total Por Tecnico</p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      @foreach ($porTec as $tecnico => $item )
-                      <tr>
-                        <th style="width:50%">{{ $tecnico }}:</th>
-                        <td>{{ $item->count() }}</td>
-                      </tr>
-                      @endforeach
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.card-footer -->
           </div>
           <!-- /.card -->
         </div>
       </div><!-- /.row -->
-
   </section>
 </div>
 </div>

@@ -50,7 +50,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form role="form" action="{{ route('comissao.search') }}" method="GET">
+          <form role="form" action="{{ route('comissao.minhasComissoes') }}" method="GET">
             <div class="row">
               <div class="col-sm-4">
                 <!-- text input -->

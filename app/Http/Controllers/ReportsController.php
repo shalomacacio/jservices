@@ -340,13 +340,10 @@ class ReportsController extends Controller
       }
       else{
         $result = MkPessoa::where('classificacao', 3)->select('codpessoa')->get();
-
         foreach($result as $r){
           $consultores[] = $r->codpessoa;
         }
       }
-
-
 
       $result = MkOs::whereBetween('data_abertura', [$dtInicio, $dtFim])
                       ->whereIn('tipo_os', $tipos)
