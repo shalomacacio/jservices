@@ -80,7 +80,6 @@
                     <th>Serviço</th>
                     <th>Consultor</th>
                     <th>Técnico</th>
-                    <th>Responsável</th>
                     <th>Plano</th>
                     <th>Taxa</th>
                   </tr>
@@ -88,7 +87,7 @@
                   <tbody>
                   @foreach($ordens as $os)
                   <tr>
-                    <td>{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
+                    <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
                     <td>{{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
 
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
@@ -96,10 +95,8 @@
                       @isset($os->tipo ) {{ $os->tipo }} @endisset
                     </td>
                     <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td>
-                    <td>@isset($os->tecnico ) {{ $os->tecnico }} @endisset </td>
-                    <td>
-                      @isset($os->responsavel_cliente_visita ) {{ $os->responsavel_cliente_visita }} @endisset
-                    </td>
+                    <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->tecnico ) {{ $os->tecnico }} @endisset </td>
+
                     <td>
                       @isset($os->vlr_mensalidade ) {{ $os->vlr_mensalidade }} @endisset
                     </td>

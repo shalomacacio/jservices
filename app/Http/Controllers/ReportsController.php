@@ -359,23 +359,25 @@ class ReportsController extends Controller
       $result = DB::connection('pgsql')->table('mk_os as  os')
       ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
       ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
-      ->leftJoin('mk_pessoas as tec', 'os.tecnico_atendimento', 'tec.codpessoa')
+      ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
       ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
       ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
       ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
       ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
       ->whereIn('tipo_os', $tipos)
-        // ->whereIn('tecnico_responsavel', $consultores)
-        ->select(
-          'os.codos',
-          'os.data_abertura',
-          'os.dt_hr_fechamento_tec',
-          'os.tx_extra',
-          'cliente.nome_razaosocial as cliente',
-          'consul.nome_razaosocial as consultor',
-          'tec.nome_razaosocial as tecnico',
-          'tip.descricao as tipo',
-          'plan.vlr_mensalidade'
+      // ->whereIn('tecnico_responsavel', $consultores)
+      ->select(
+        'os.codos',
+        'os.data_abertura',
+        'os.dt_hr_fechamento_tec',
+        'os.tx_extra',
+        'os.operador_fech_tecnico',
+        'os.operador',
+        'cliente.nome_razaosocial as cliente',
+        'consul.nome_razaosocial as consultor',
+        'tec.nome_razaosocial as tecnico',
+        'tip.descricao as tipo',
+        'plan.vlr_mensalidade'
         )
         ->orderBy('os.data_abertura', 'asc')
         ->get();
@@ -385,7 +387,7 @@ class ReportsController extends Controller
       $result = DB::connection('pgsql')->table('mk_os as  os')
         ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
         ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
-        ->leftJoin('mk_pessoas as tec', 'os.tecnico_atendimento', 'tec.codpessoa')
+        ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
         ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
         ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
         ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
@@ -397,7 +399,8 @@ class ReportsController extends Controller
           'os.data_abertura',
           'os.dt_hr_fechamento_tec',
           'os.tx_extra',
-          'os.responsavel_cliente_visita',
+          'os.operador_fech_tecnico',
+          'os.operador',
           'cliente.nome_razaosocial as cliente',
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
