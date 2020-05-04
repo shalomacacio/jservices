@@ -88,16 +88,16 @@
                   @foreach($ordens as $os)
                   <tr>
                     <td>{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
-                    <td>{{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}</td>
+                    <td>{{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
 
-                  <td title="O.S: {{ $os->codos }}" >{{ $os->mkPessoa->nome_razaosocial}}</td>
+                  <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
                     <td>
-                      @isset($os->mkOsTipo->descricao ) {{ $os->mkOsTipo->descricao }} @endisset
+                      @isset($os->tipo ) {{ $os->tipo }} @endisset
                     </td>
-                    <td>@isset($os->tecnico_responsavel ) {{ $os->consultor->nome_razaosocial }} @endisset </td>
-                    <td>@isset($os->tecnico_atendimento ) {{ $os->tecnico->nome_razaosocial }} @endisset </td>
+                    <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td>
+                    <td>@isset($os->tecnico ) {{ $os->tecnico }} @endisset </td>
                     <td>
-                      @isset($os->mkConexao ) {{ $os->mkConexao->mkPlanoAcesso->vlr_mensalidade }} @endisset
+                      @isset($os->vlr_mensalidade ) {{ $os->vlr_mensalidade }} @endisset
                     </td>
                     <td>{{ $os->tx_extra}}</td>
                   </tr>

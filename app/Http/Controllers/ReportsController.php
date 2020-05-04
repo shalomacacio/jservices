@@ -331,7 +331,7 @@ class ReportsController extends Controller
         $tipos =[$request->codostipo];
       }
       else{
-        $tipos = [2,5,6,111,133,138];
+        $tipos = [2,5,6,23,73,82,86,88,92,109,110,111,133,137,138,139];
       }
 
       //Consultores
@@ -345,11 +345,49 @@ class ReportsController extends Controller
         }
       }
 
-      $result = MkOs::whereBetween('data_abertura', [$dtInicio, $dtFim])
-                      ->whereIn('tipo_os', $tipos)
-                      ->whereIn('tecnico_responsavel', $consultores)
-                      ->orderBy('data_abertura', 'asc')
-                      ->get();
+    $result2 = DB::connection('pgsql')->table('mk_os')
+                    ->whereBetween('data_abertura', [$dtInicio, $dtFim])
+                    ->get();
+
+
+
+
+      if($request->tipo_pesquisa == 1){
+        $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->join('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->join('mk_pessoas as tec', 'os.tecnico_atendimento', 'tec.codpessoa')
+
+        ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
+        ->whereIn('tipo_os', $tipos)
+
+        // ->whereIn('tecnico_responsavel', $consultores)
+        ->select('os.codos','os.data_abertura', 'os.dt_hr_fechamento_tec',
+        'cliente.nome_razaosocial as cliente', 'consul.nome_razaosocial as consultor', 'tec.nome_razaosocial as tecnico')
+        ->orderBy('cliente', 'asc')
+        ->get();
+      }
+
+      if($request->tipo_pesquisa == 2){
+        $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->join('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->join('mk_pessoas as tec', 'os.tecnico_atendimento', 'tec.codpessoa')
+        ->join('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+        ->join('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
+        ->join('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
+
+        ->whereBetween('os.dt_hr_fechamento_tec', [$dtInicio, $dtFim])
+        // ->whereIn('tipo_os', $tipos)
+        // ->whereIn('tecnico_responsavel', $consultores)
+        ->select('os.codos','os.data_abertura', 'os.dt_hr_fechamento_tec','os.tx_extra',
+        'cliente.nome_razaosocial as cliente', 'consul.nome_razaosocial as consultor', 'tec.nome_razaosocial as tecnico',
+        'tip.descricao as tipo', 'plan.vlr_mensalidade')
+        ->orderBy('cliente', 'asc')
+        ->get();
+      }
+
+      // return dd($result->count());
 
       $ordens = $result;
       return view('reports.relOs', compact('ordens', 'request'));
