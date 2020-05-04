@@ -66,7 +66,7 @@
 
 
           <div class="col-12">
-          <p class="lead"><b>Serviços: </b></p>
+          <p class="lead"><b>Serviços: {{$totalServicos}}</b></p>
           </div>
 
             <div class="row">
@@ -103,11 +103,11 @@
                   </tr>
                   @endforeach
                   </tbody>
-                    <tr>
+                    {{-- <tr>
                       <th colspan="6">Subtotal:</th>
                       <th >R$ </th>
                       <th >R$ </th>
-                    </tr>
+                    </tr> --}}
                 </table>
               </div>
               <!-- /.col -->
