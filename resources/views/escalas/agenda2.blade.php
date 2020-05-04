@@ -61,9 +61,9 @@
                 @foreach ($ordens as $os)
                   <tr>
                     <td> {{ $os->codos}}</td>
-                    <td> {{ $os->mkPessoa->nome_razaosocial }}</td>
+                    <td> @if($os->mkPessoa) {{ $os->mkPessoa->nome_razaosocial }} @endif</td>
                     <td>{{ $os->mkOsTipo->descricao }}</td>
-                    <td>{{ $os->consultor->nome_razaosocial }}</td>
+                    <td>@if($os->consultor) {{ $os->consultor->nome_razaosocial }}@endif</td>
                     <td>
                       @if( $os->hora_ent_lab < 12 )
                         Manhã
