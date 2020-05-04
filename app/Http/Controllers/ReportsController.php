@@ -353,7 +353,7 @@ class ReportsController extends Controller
       }
     }
 
-    return dd($consultores);
+    // return dd($consultores);
 
     if ($request->tipo_pesquisa == 1) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
