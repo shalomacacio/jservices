@@ -80,6 +80,7 @@
                     <th>Serviço</th>
                     <th>Consultor</th>
                     <th>Técnico</th>
+                    <th>Responsável</th>
                     <th>Plano</th>
                     <th>Taxa</th>
                   </tr>
@@ -96,6 +97,9 @@
                     </td>
                     <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td>
                     <td>@isset($os->tecnico ) {{ $os->tecnico }} @endisset </td>
+                    <td>
+                      @isset($os->responsavel_cliente_visita ) {{ $os->responsavel_cliente_visita }} @endisset
+                    </td>
                     <td>
                       @isset($os->vlr_mensalidade ) {{ $os->vlr_mensalidade }} @endisset
                     </td>

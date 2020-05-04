@@ -389,12 +389,13 @@ class ReportsController extends Controller
         ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
         ->whereBetween('os.dt_hr_fechamento_tec', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
-        // ->whereIn('tecnico_responsavel', $consultores)
+        ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
           'os.data_abertura',
           'os.dt_hr_fechamento_tec',
           'os.tx_extra',
+          'os.responsavel_cliente_visita',
           'cliente.nome_razaosocial as cliente',
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
