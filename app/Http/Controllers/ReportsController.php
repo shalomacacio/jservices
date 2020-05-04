@@ -353,23 +353,16 @@ class ReportsController extends Controller
       }
     }
 
-    $result2 = DB::connection('pgsql')->table('mk_os')
-      ->whereBetween('data_abertura', [$dtInicio, $dtFim])
-      ->get();
-
-
-
-
     if ($request->tipo_pesquisa == 1) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
-        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
-        ->join('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
-        ->join('mk_pessoas as tec', 'os.tecnico_atendimento', 'tec.codpessoa')
-        ->join('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
-        ->join('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
-        ->join('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
-        ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
-        ->whereIn('tipo_os', $tipos)
+      ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+      ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+      ->leftJoin('mk_pessoas as tec', 'os.tecnico_atendimento', 'tec.codpessoa')
+      ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+      ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
+      ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
+      ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
+      ->whereIn('tipo_os', $tipos)
         // ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
@@ -395,7 +388,7 @@ class ReportsController extends Controller
         ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
         ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
         ->whereBetween('os.dt_hr_fechamento_tec', [$dtInicio, $dtFim])
-        // ->whereIn('tipo_os', $tipos)
+        ->whereIn('tipo_os', $tipos)
         // ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
