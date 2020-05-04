@@ -353,6 +353,8 @@ class ReportsController extends Controller
       }
     }
 
+    return dd($consultores);
+
     if ($request->tipo_pesquisa == 1) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
       ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
@@ -389,7 +391,7 @@ class ReportsController extends Controller
         ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
         ->whereBetween('os.dt_hr_fechamento_tec', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
-        ->whereIn('tecnico_responsavel', $consultores)
+        // ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
           'os.data_abertura',

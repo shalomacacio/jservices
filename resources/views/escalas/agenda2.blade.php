@@ -71,7 +71,7 @@
                         Tarde
                       @endif
                     </td>
-                    {{-- <td>@isset($os->tecnico->nome_razaosocial){{ $os->tecnico->nome_razaosocial }}@endisset</td> --}}
+                    <td>@isset($os->tecnico->nome_razaosocial){{ $os->tecnico->nome_razaosocial }}@endisset</td>
 
                       @switch($os->status)
                         @case(1)
