@@ -78,6 +78,7 @@
                     <th>Dt Encer</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
+                    <th>Operador</th>
                     <th>Consultor</th>
                     <th>Técnico</th>
                     <th>Plano</th>
@@ -91,6 +92,9 @@
                     <td>{{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
 
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
+                  <td>
+                    @isset($os->operador_abertura ) {{ $os->operador_abertura }} @endisset
+                  </td>
                     <td>
                       @isset($os->tipo ) {{ $os->tipo }} @endisset
                     </td>
