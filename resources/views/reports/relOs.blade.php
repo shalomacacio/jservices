@@ -92,12 +92,13 @@
                     <td>{{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
 
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
-                  <td>
-                    @isset($os->operador_abertura ) {{ $os->operador_abertura }} @endisset
-                  </td>
                     <td>
                       @isset($os->tipo ) {{ $os->tipo }} @endisset
                     </td>
+                    <td>
+                      @isset($os->operador_abertura ) {{ strtoupper($os->operador_abertura) }} @endisset
+                    </td>
+
                     <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td>
                     <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->tecnico ) {{ $os->tecnico }} @endisset </td>
 
