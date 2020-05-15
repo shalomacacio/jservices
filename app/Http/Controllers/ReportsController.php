@@ -322,7 +322,7 @@ class ReportsController extends Controller
 
     $users = MkPessoa::where('classificacao', 3)->get();
     // $servicos = DB::table('categoria_servicos as u')->get();
-    $servicos = MkOsTipo::whereIn('codostipo', $servList)->get();
+    $servicos = MkOsTipo::whereIn('codostipo', $servList)->orderBy('descricao', 'asc')->get();
     $tecnicos = MkPessoa::where('classificacao', 3)->get();
 
     return view('reports.relOsForm', compact('users', 'tecnicos', 'servicos'));
