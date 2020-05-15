@@ -318,9 +318,11 @@ class ReportsController extends Controller
 
   public function relOsForm()
   {
+    $servList = [2,5,6,23,76,82,86,88,92,104,109,110,111,132,133,137,138,139];
+
     $users = MkPessoa::where('classificacao', 3)->get();
     // $servicos = DB::table('categoria_servicos as u')->get();
-    $servicos = MkOsTipo::all();
+    $servicos = MkOsTipo::whereIn('codostipo', $servList)->get();
     $tecnicos = MkPessoa::where('classificacao', 3)->get();
 
     return view('reports.relOsForm', compact('users', 'tecnicos', 'servicos'));
