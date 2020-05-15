@@ -83,6 +83,7 @@
                     <th>Técnico</th>
                     <th>Plano</th>
                     <th>Taxa</th>
+                    <th>Pendencia</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -106,6 +107,7 @@
                       @isset($os->vlr_mensalidade ) {{ $os->vlr_mensalidade }} @endisset
                     </td>
                     <td>{{ $os->tx_extra}}</td>
+                    <td>{{ $os->em_laboratorio}}</td>
                   </tr>
                   @endforeach
                   </tbody>
