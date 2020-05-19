@@ -337,7 +337,7 @@ class ReportsController extends Controller
 
     // Tipos de OS
     if ($request->codostipo) {
-      $tipos = [$request->codostipo];
+      $tipos = $request->codostipo;
     } else {
       $result = MkOsTipo::select('codostipo')->get();
       foreach ($result as $r) {

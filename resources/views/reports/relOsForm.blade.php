@@ -1,5 +1,10 @@
 @extends('layouts.master')
 
+@section('css')
+<link rel="stylesheet" href="/dist/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="/dist/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+@stop
+
 @section('content')
 
 <!-- Content Wrapper. Contains page content -->
@@ -62,7 +67,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <!-- select -->
                 <div class="form-group">
                   <label>Técnico</label>
@@ -75,7 +80,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-2">
+              {{-- <div class="col-sm-2">
                 <!-- select -->
                 <div class="form-group">
                   <label>Serviço</label>
@@ -86,7 +91,20 @@
                     @endforeach
                   </select>
                 </div>
+              </div> --}}
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>Serviço</label>
+                  <select class="select2bs4"  name="codostipo[]" multiple="multiple" data-placeholder="  -- TODOS --"
+                          style="width: 100%;">
+                    @foreach($servicos as $servico)
+                      <option value="{{$servico->codostipo}}">{{$servico->descricao}}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
+
             </div>
             {{-- row flags --}}
             <div class="row">
@@ -119,3 +137,20 @@
 </div>
 
 @endsection
+
+
+@section('javascript')
+<!-- Bootgrid -->
+<script src="/dist/plugins/select2/select2.full.min.js"></script>
+
+<script type="text/javascript">
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+</script>
+@stop
+
