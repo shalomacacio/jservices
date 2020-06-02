@@ -71,7 +71,7 @@
 
                   <div class="form-check">
                     <input type="checkbox" name="roles[]" value="2" />
-                    <label class="form-check-label">Atendimento</label>
+                    <label class="form-check-label">Atendimento TEste</label>
                   </div>
 
                   <div class="form-check">
