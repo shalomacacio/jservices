@@ -332,8 +332,10 @@ class ReportsController extends Controller
   {
 
     // Datas
-    $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
-    $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
+    // $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
+    // $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
+    $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d');
+    $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d');
 
     // Tipos de OS
     if ($request->codostipo) {
@@ -371,7 +373,7 @@ class ReportsController extends Controller
       ->select(
         'os.codos',
         'os.data_abertura',
-        'os.dt_hr_fechamento_tec',
+        'os.data_fechamento',
         'os.tx_extra',
         'os.operador_fech_tecnico',
         'os.operador',
@@ -379,8 +381,8 @@ class ReportsController extends Controller
         'cliente.nome_razaosocial as cliente',
         'consul.nome_razaosocial as consultor',
         'tec.nome_razaosocial as tecnico',
-        'tip.descricao as tipo',
-        'plan.vlr_mensalidade'
+        'tip.descricao as tipo'
+        // 'plan.vlr_mensalidade'
         )
         ->orderBy('os.data_abertura', 'asc')
         ->get();
@@ -393,16 +395,16 @@ class ReportsController extends Controller
         ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
         ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
         ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
-        ->leftJoin('mk_contratos as cont', 'os.cliente', 'cont.cliente')
+        ->leftJoin('mk_contratos as cont', 'os.cd_contrato', 'cont.codcontrato')
         // ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
-        ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
-        ->whereBetween('os.dt_hr_fechamento_tec', [$dtInicio, $dtFim])
+        // ->leftJoin('mk_planos_acesso as plan', 'os.codplano_acesso', 'plan.codplano')
+        ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
         // ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
           'os.data_abertura',
-          'os.dt_hr_fechamento_tec',
+          'os.data_fechamento',
           'os.tx_extra',
           'os.operador_fech_tecnico',
           'os.operador',
@@ -412,9 +414,9 @@ class ReportsController extends Controller
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
-          'plan.vlr_mensalidade'
+          'cont.vlr_renovacao'
         )
-        ->orderBy('os.dt_hr_fechamento_tec', 'asc')
+        ->orderBy('os.data_fechamento', 'asc')
         ->get();
     }
 
