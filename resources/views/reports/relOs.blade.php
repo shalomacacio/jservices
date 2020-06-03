@@ -79,10 +79,12 @@
                     <th>Cliente</th>
                     <th>Serviço</th>
                     <th>Operador</th>
-                    <th>Consultor</th>
+                    <th>Consultor2.0</th>
+                    <th>Consultor3.0</th>
                     <th>Técnico</th>
                     <th>Plano</th>
-                    <th>Taxa</th>
+                    <th>Taxa 2.0</th>
+                    <th>Taxa 3.0</th>
                     <th>Pendencia</th>
                   </tr>
                   </thead>
@@ -97,16 +99,21 @@
                       @isset($os->tipo ) {{ $os->tipo }} @endisset
                     </td>
                     <td>
-                      @isset($os->operador_abertura ) {{ strtoupper($os->operador_abertura) }} @endisset
+                      @isset($os->operador ) {{ strtoupper($os->operador) }} @endisset
                     </td>
 
                     <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td>
-                    <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->tecnico ) {{ $os->tecnico }} @endisset </td>
+                    <td>@isset($os->consult2) {{ $os->consult2 }} @endisset</td>
+                    <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
+
 
                     <td>
                       @isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset
                     </td>
                     <td>{{ $os->tx_extra}}</td>
+                    <td>
+                      @isset($os->indicacoes ) {{ $os->indicacoes }} @endisset
+                    </td>
                     <td>{{ $os->em_laboratorio}}</td>
                   </tr>
                   @endforeach

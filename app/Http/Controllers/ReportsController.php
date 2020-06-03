@@ -365,25 +365,31 @@ class ReportsController extends Controller
       ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
       ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
       ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
-      ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
-      ->leftJoin('mk_planos_acesso as plan', 'conex.codplano_acesso', 'plan.codplano')
-      ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
+      ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
+      ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+      ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+      // ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
+      ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
       ->whereIn('tipo_os', $tipos)
+      // ->where('cont.cancelado', 'N')
       // ->whereIn('tecnico_responsavel', $consultores)
       ->select(
         'os.codos',
         'os.data_abertura',
         'os.data_fechamento',
         'os.tx_extra',
+        'os.indicacoes',
         'os.operador_fech_tecnico',
         'os.operador',
         'os.em_laboratorio',
+        'atend.operador_abertura',
         'cliente.nome_razaosocial as cliente',
         'consul.nome_razaosocial as consultor',
         'tec.nome_razaosocial as tecnico',
-        'tip.descricao as tipo'
+        'tip.descricao as tipo',
+        'cont.vlr_renovacao'
         // 'plan.vlr_mensalidade'
-        )
+      )
         ->orderBy('os.data_abertura', 'asc')
         ->get();
     }
@@ -391,22 +397,28 @@ class ReportsController extends Controller
     if ($request->tipo_pesquisa == 2) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
         ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
+        ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
         ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
         ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
         ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
         ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
-        ->leftJoin('mk_contratos as cont', 'os.cd_contrato', 'cont.codcontrato')
-        // ->leftJoin('mk_conexoes as conex', 'os.conexao_associada', 'conex.codconexao')
-        // ->leftJoin('mk_planos_acesso as plan', 'os.codplano_acesso', 'plan.codplano')
+        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        // ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
         ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
+        // ->where('cont.cancelado', 'N')
         // ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
           'os.data_abertura',
           'os.data_fechamento',
           'os.tx_extra',
+          'os.indicacoes',
           'os.operador_fech_tecnico',
+          'u.usr_nome',
+          'u2.usr_nome as consult2',
           'os.operador',
           'os.em_laboratorio',
           'atend.operador_abertura',
@@ -415,6 +427,7 @@ class ReportsController extends Controller
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
           'cont.vlr_renovacao'
+          // 'plan.vlr_mensalidade'
         )
         ->orderBy('os.data_fechamento', 'asc')
         ->get();
