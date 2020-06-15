@@ -96,7 +96,7 @@
                   <tr>
                     <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
                     <td>{{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}</td>
-                    <td>{{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
+                    <td>@isset($os->dt_hr_fechamento_tec){{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}@endisset</td>
 
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
                     <td>
@@ -122,9 +122,9 @@
                     @if($os->classificacao_encerramento == 25)
                     <td>Concluido<td>
                     @elseif($os->classificacao_encerramento == 27)
-                    <td>Cancelado<td>
+                    <td>Cancelado</td>
                     @elseif($os->classificacao_encerramento == 29)
-                    <td>N Autorizado<td>
+                    <td>N Autorizado</td>
                     @else
                     <td> {{ $os->classificacao_encerramento }} </td>
                     @endif
