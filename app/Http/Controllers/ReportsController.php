@@ -414,19 +414,22 @@ class ReportsController extends Controller
           'os.codos',
           'os.data_abertura',
           'os.data_fechamento',
+          'os.dt_hr_fechamento_tec',
           'os.tx_extra',
           'os.indicacoes',
           'os.operador_fech_tecnico',
           'u.usr_nome',
           'u2.usr_nome as consult2',
           'os.operador',
-          'os.em_laboratorio',
+          'cliente.inativo',
           'atend.operador_abertura',
           'cliente.nome_razaosocial as cliente',
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
-          'cont.vlr_renovacao'
+          'cont.vlr_renovacao',
+          'os.classificacao_encerramento',
+          'os.servico_prestado'
           // 'plan.vlr_mensalidade'
         )
         ->orderBy('os.data_fechamento', 'asc')

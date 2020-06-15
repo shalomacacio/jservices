@@ -76,6 +76,7 @@
                   <tr>
                     <th>Dt Abert</th>
                     <th>Dt Encer</th>
+                    <th>Dt Encer 2.0</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
                     <th>Operador</th>
@@ -85,7 +86,9 @@
                     <th>Plano</th>
                     <th>Taxa 2.0</th>
                     <th>Taxa 3.0</th>
-                    <th>Pendencia</th>
+                    <th>Inativo</th>
+                    <th>Classificacao</th>
+                    <th>Serv Prestado</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -93,6 +96,7 @@
                   <tr>
                     <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
                     <td>{{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}</td>
+                    <td>{{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
 
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
                     <td>
@@ -114,7 +118,17 @@
                     <td>
                       @isset($os->indicacoes ) {{ $os->indicacoes }} @endisset
                     </td>
-                    <td>{{ $os->em_laboratorio}}</td>
+                    <td>{{ $os->inativo}}</td>
+                    @if($os->classificacao_encerramento == 25)
+                    <td>Concluido<td>
+                    @elseif($os->classificacao_encerramento == 27)
+                    <td>Cancelado<td>
+                    @elseif($os->classificacao_encerramento == 29)
+                    <td>N Autorizado<td>
+                    @else
+                    <td> {{ $os->classificacao_encerramento }} </td>
+                    @endif
+                    <td> {{ $os->servico_prestado }} </td>
                   </tr>
                   @endforeach
                   </tbody>
