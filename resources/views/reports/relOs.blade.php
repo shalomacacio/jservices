@@ -75,13 +75,13 @@
                   <thead>
                   <tr>
                     <th>Dt Abert</th>
+                    {{-- <th>Dt Encer</th> --}}
                     <th>Dt Encer</th>
-                    <th>Dt Encer 2.0</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
                     <th>Operador</th>
-                    <th>Consultor2.0</th>
-                    <th>Consultor3.0</th>
+                    {{-- <th>Consultor2.0</th> --}}
+                    <th>Consultor</th>
                     <th>Técnico</th>
                     <th>Plano</th>
                     <th>Taxa 2.0</th>
@@ -95,7 +95,7 @@
                   @foreach($ordens as $os)
                   <tr>
                     <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
-                    <td>{{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}</td>
+                    {{-- <td>{{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}</td> --}}
                     <td>@isset($os->dt_hr_fechamento_tec){{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}@endisset</td>
 
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
@@ -106,7 +106,7 @@
                       @isset($os->operador ) {{ strtoupper($os->operador) }} @endisset
                     </td>
 
-                    <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td>
+                    {{-- <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td> --}}
                     <td>@isset($os->consult2) {{ $os->consult2 }} @endisset</td>
                     <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
 
@@ -126,7 +126,7 @@
                     @elseif($os->classificacao_encerramento == 29)
                     <td>N Autorizado</td>
                     @else
-                    <td> {{ $os->classificacao_encerramento }} </td>
+                    <td> SEM CLASSIFICACAO </td>
                     @endif
                     <td> {{ $os->servico_prestado }} </td>
                   </tr>
