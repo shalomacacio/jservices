@@ -84,8 +84,8 @@
                     <th>Consultor</th>
                     <th>Técnico</th>
                     <th>Plano</th>
-                    <th>Taxa 2.0</th>
-                    <th>Taxa 3.0</th>
+                    {{-- <th>Taxa 2.0</th> --}}
+                    <th>Taxa </th>
                     <th>Inativo </th>
                     <th>Classificacao</th>
                     <th>Serv Prestado</th>
@@ -111,9 +111,7 @@
                     <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
 
 
-                    <td>
-                      @isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset
-                    </td>
+                    {{-- <td>@isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset </td> --}}
                     <td>{{ $os->tx_extra}}</td>
                     <td>
                       @isset($os->indicacoes ) {{ $os->indicacoes }} @endisset
