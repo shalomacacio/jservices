@@ -55,8 +55,6 @@
                 <p>Pesquisar</p>
               </a>
             </li>
-
-
             @endis
           </ul>
         </li>
@@ -236,6 +234,12 @@
               <a href="{{ route('reports.relOsForm') }}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
                 <p>Ordens de Serviços</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('reports.formContCanc') }}" class="nav-link">
+                <i class="fa fa-circle-o nav-icon"></i>
+                <p>Contratos Cancelados</p>
               </a>
             </li>
           </ul>

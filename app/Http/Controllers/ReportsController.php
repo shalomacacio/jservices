@@ -448,4 +448,38 @@ class ReportsController extends Controller
     $ordens = $result;
     return view('reports.relOs', compact('ordens', 'request', 'totalServicos'));
   }
+
+  public function formContCanc()
+  {
+    return view('reports.formContCanc');
+  }
+
+  public function relContCanc(Request $request)
+  {
+
+    $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d');
+    $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d');
+
+    $result = DB::connection('pgsql')->table('mk_contratos as  c')
+      ->join('mk_pessoas as cliente', 'c.cliente', 'cliente.codpessoa')
+      ->rightJoin('mk_motivo_cancelamento as motivo', 'c.motivo_cancelamento_2', 'motivo.codmotcancel')
+      ->where('c.cancelado', 'S')
+      ->whereBetween('c.dt_cancelamento', [$dtInicio, $dtFim])
+      ->select
+      ( 'c.codcontrato',
+        'cliente.nome_razaosocial',
+        'cliente.fone01',
+        'cliente.fone02',
+        'c.adesao',
+        'c.dt_cancelamento',
+        'motivo.descricao_mot_cancel',
+        'c.vlr_renovacao'
+      )
+      ->get();
+
+    $contratos = $result;
+    return view('reports.relContCanc', compact('contratos', 'request'));
+  }
+
+
 }
