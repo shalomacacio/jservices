@@ -86,7 +86,7 @@
                     <th>Plano</th>
                     <th>Taxa 2.0</th>
                     <th>Taxa 3.0</th>
-                    <th>Inativo</th>
+                    <th>Inativo </th>
                     <th>Classificacao</th>
                     <th>Serv Prestado</th>
                   </tr>

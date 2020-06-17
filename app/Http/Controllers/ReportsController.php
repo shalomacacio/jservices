@@ -361,41 +361,6 @@ class ReportsController extends Controller
 
     if ($request->tipo_pesquisa == 1) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
-      ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
-      ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
-      ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
-      ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
-      ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
-      ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
-      ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
-      // ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
-      ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
-      ->whereIn('tipo_os', $tipos)
-      // ->where('cont.cancelado', 'N')
-      // ->whereIn('tecnico_responsavel', $consultores)
-      ->select(
-        'os.codos',
-        'os.data_abertura',
-        'os.data_fechamento',
-        'os.tx_extra',
-        'os.indicacoes',
-        'os.operador_fech_tecnico',
-        'os.operador',
-        'os.em_laboratorio',
-        'atend.operador_abertura',
-        'cliente.nome_razaosocial as cliente',
-        'consul.nome_razaosocial as consultor',
-        'tec.nome_razaosocial as tecnico',
-        'tip.descricao as tipo',
-        'cont.vlr_renovacao'
-        // 'plan.vlr_mensalidade'
-      )
-        ->orderBy('os.data_abertura', 'asc')
-        ->get();
-    }
-
-    if ($request->tipo_pesquisa == 2) {
-      $result = DB::connection('pgsql')->table('mk_os as  os')
         ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
         ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
         ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
@@ -406,7 +371,7 @@ class ReportsController extends Controller
         ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
         ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
         // ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
-        ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
+        ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
         // ->where('cont.cancelado', 'N')
         // ->whereIn('tecnico_responsavel', $consultores)
@@ -432,7 +397,49 @@ class ReportsController extends Controller
           'os.servico_prestado'
           // 'plan.vlr_mensalidade'
         )
-        ->orderBy('os.data_fechamento', 'asc')
+        ->orderBy('os.data_abertura', 'asc')
+        ->get();
+    }
+
+    if ($request->tipo_pesquisa == 2) {
+      $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
+        ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
+        ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
+        ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+        ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
+        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        // ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
+        ->whereBetween('os.dt_hr_fechamento_tec', [$dtInicio, $dtFim])
+        ->whereIn('tipo_os', $tipos)
+        // ->where('cont.cancelado', 'N')
+        // ->whereIn('tecnico_responsavel', $consultores)
+        ->select(
+          'os.codos',
+          'os.data_abertura',
+          'os.data_fechamento',
+          'os.dt_hr_fechamento_tec',
+          'os.tx_extra',
+          'os.indicacoes',
+          'os.operador_fech_tecnico',
+          'u.usr_nome',
+          'u2.usr_nome as consult2',
+          'os.operador',
+          'cliente.inativo',
+          'atend.operador_abertura',
+          'cliente.nome_razaosocial as cliente',
+          'consul.nome_razaosocial as consultor',
+          'tec.nome_razaosocial as tecnico',
+          'tip.descricao as tipo',
+          'cont.vlr_renovacao',
+          'os.classificacao_encerramento',
+          'os.servico_prestado'
+          // 'plan.vlr_mensalidade'
+        )
+        ->orderBy('os.dt_hr_fechamento_tec', 'asc')
         ->get();
     }
 
