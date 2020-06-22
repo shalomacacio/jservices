@@ -370,11 +370,8 @@ class ReportsController extends Controller
         ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
         ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
         ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
-        // ->leftJoin('mk_planos_acesso as plan', 'cont.plano_acesso', 'plan.codplano')
         ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
-        // ->where('cont.cancelado', 'N')
-        // ->whereIn('tecnico_responsavel', $consultores)
         ->select(
           'os.codos',
           'os.data_abertura',
@@ -395,6 +392,7 @@ class ReportsController extends Controller
           'cont.vlr_renovacao',
           'os.classificacao_encerramento',
           'os.servico_prestado'
+          // 'plan.vlr_mensalidade'
         )
         ->orderBy('os.data_abertura', 'asc')
         ->get();
@@ -470,6 +468,7 @@ class ReportsController extends Controller
         'c.dt_cancelamento',
         'c.motivo_cancelamento',
         'motivo.descricao_mot_cancel',
+        'cliente.inativo',
         'c.vlr_renovacao'
       )
       ->get();

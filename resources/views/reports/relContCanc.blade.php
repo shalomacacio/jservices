@@ -74,8 +74,9 @@
                     <th>Contato 2</th>
                     <th>Dt Adesao</th>
                     <th>Dt Cancel</th>
-                    <th>Motivo</th>
-                    <th>Obs: </th>
+                    <th>Tipo Motivo</th>
+                    <th>Desc Motivo </th>
+                    <th>Inativo </th>
                     <th>Valor</th>
                   </tr>
                   </thead>
@@ -90,6 +91,7 @@
                     <td> {{\Carbon\Carbon::parse($contrato->dt_cancelamento)->format('d/m/Y') }} </td>
                     <td>{{ $contrato->descricao_mot_cancel }}</td>
                     <td>{{ $contrato->motivo_cancelamento }}</td>
+                    <td>{{ $contrato->inativo }}</td>
                     <td>{{ $contrato->vlr_renovacao }}</td>
                   </tr>
                   @endforeach
