@@ -332,10 +332,10 @@ class ReportsController extends Controller
   {
 
     // Datas
-    // $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
-    // $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
-    $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d');
-    $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d');
+    $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
+    $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
+    // $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d');
+    // $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d');
 
     // Tipos de OS
     if ($request->codostipo) {
