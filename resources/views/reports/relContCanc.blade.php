@@ -24,12 +24,6 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          {{-- <div class="callout callout-info">
-            <h5><i class="fas fa-info"></i> Note:</h5>
-            This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
-          </div> --}}
-
-
           <!-- Main content -->
           <div class="invoice p-3 mb-3">
             <!-- title row -->
@@ -81,6 +75,7 @@
                     <th>Dt Adesao</th>
                     <th>Dt Cancel</th>
                     <th>Motivo</th>
+                    <th>Obs: </th>
                     <th>Valor</th>
                   </tr>
                   </thead>
@@ -94,6 +89,7 @@
                     <td> {{\Carbon\Carbon::parse($contrato->adesao)->format('d/m/Y') }} </td>
                     <td> {{\Carbon\Carbon::parse($contrato->dt_cancelamento)->format('d/m/Y') }} </td>
                     <td>{{ $contrato->descricao_mot_cancel }}</td>
+                    <td>{{ $contrato->motivo_cancelamento }}</td>
                     <td>{{ $contrato->vlr_renovacao }}</td>
                   </tr>
                   @endforeach
@@ -102,57 +98,11 @@
               </div>
             </div>
           <br/>
-
-          {{-- <div class="row">
-            <!-- accepted payments column -->
-            <div class="col-6"></div>
-            <div class="col-3">
-              <p class="lead">Por Consultor</p>
-              <div class="table-responsive">
-                <table class="table">
-                  <th colspan="3">Por Consultor:</th>
-                    @foreach ($porConsultor as $consultor => $list)
-                      <tr>
-                        <td>{{ $consultor }}</td>
-                        <td>{{ $list->count() }}</td>
-                      </tr>
-                    @endforeach
-                    <th>Total</th>
-                    <th>{{ $solicitacaos->count() }}</th>
-                </table>
-              </div>
-            </div>
-            <!-- /.col -->
-
-            <div class="col-3">
-              <p class="lead">Por Técnico</p>
-              <div class="table-responsive">
-                <table class="table">
-                    @foreach ($porTecnico as $tecnico => $list)
-                      <tr>
-                        <td>{{ $tecnico }}</td>
-                        <td>{{ $list->count() }}</td>
-                      </tr>
-                    @endforeach
-                    <th>Total</th>
-                    <th>{{ $solicitacaos->count() }}</th>
-                </table>
-              </div>
-            </div>
-
-          </div> --}}
           <!-- /.row -->
-
             <!-- this row will not appear when printing -->
             <div class="row no-print">
               <div class="col-12">
                 <a href="javascript:void(0)" onClick="window.print()" class="btn btn-default float-right"><i class="fas fa-print"></i> Imprimir</a>
-                {{-- <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card" disabled></i> Submit
-                  Payment
-                </button>
-                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                  <i class="fas fa-download"></i> Generate PDF
-                </button> --}}
               </div>
             </div>
           </div>

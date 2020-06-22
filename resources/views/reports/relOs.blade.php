@@ -71,20 +71,17 @@
 
             <div class="row">
               <div class="col-12 table-responsive">
-                <table class="table table-striped table-sm ">
+                <table class="table table-striped table-sm" >
                   <thead>
                   <tr>
                     <th>Dt Abert</th>
-                    {{-- <th>Dt Encer</th> --}}
                     <th>Dt Encer</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
                     <th>Operador</th>
-                    {{-- <th>Consultor2.0</th> --}}
                     <th>Consultor</th>
                     <th>Técnico</th>
                     <th>Plano</th>
-                    {{-- <th>Taxa 2.0</th> --}}
                     <th>Taxa </th>
                     <th>Inativo </th>
                     <th>Classificacao</th>
@@ -105,36 +102,26 @@
                     <td>
                       @isset($os->operador ) {{ strtoupper($os->operador) }} @endisset
                     </td>
-
-                    {{-- <td>@isset($os->consultor ) {{ $os->consultor }} @endisset </td> --}}
                     <td>@isset($os->consult2) {{ $os->consult2 }} @endisset</td>
-                    <td title="Cod: {{ $os->operador_fech_tecnico }}">@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
-
-
-                    {{-- <td>@isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset </td> --}}
-                    <td>{{ $os->tx_extra}}</td>
+                    <td>@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
+                    <td>@isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset </td>
+                    <td>@isset($os->indicacoes ) {{ $os->indicacoes }} @endisset </td>
+                    <td>{{ $os->inativo }}</td>
                     <td>
-                      @isset($os->indicacoes ) {{ $os->indicacoes }} @endisset
-                    </td>
-                    <td>{{ $os->inativo}}</td>
                     @if($os->classificacao_encerramento == 25)
-                    <td>Concluido<td>
-                    @elseif($os->classificacao_encerramento == 27)
-                    <td>Cancelado</td>
-                    @elseif($os->classificacao_encerramento == 29)
-                    <td>N Autorizado</td>
-                    @else
-                    <td> SEM CLASSIFICACAO </td>
+                      Concluido
+                      @elseif($os->classificacao_encerramento == 27)
+                      Cancelado
+                      @elseif($os->classificacao_encerramento == 29)
+                      N Autorizado
+                      @else
+                      SEM CLASSIFICACAO
+                      </td>
                     @endif
                     <td> {{ $os->servico_prestado }} </td>
                   </tr>
                   @endforeach
                   </tbody>
-                    {{-- <tr>
-                      <th colspan="6">Subtotal:</th>
-                      <th >R$ </th>
-                      <th >R$ </th>
-                    </tr> --}}
                 </table>
               </div>
               <!-- /.col -->
