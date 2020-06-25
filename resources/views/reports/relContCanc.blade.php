@@ -73,6 +73,7 @@
                     <th>Contato 1</th>
                     <th>Contato 2</th>
                     <th>Endereco </th>
+                    <th>Bairro </th>
                     <th>Dt Adesao</th>
                     <th>Dt Cancel</th>
                     <th>Tipo Motivo</th>
@@ -89,6 +90,7 @@
                     <td>{{ $contrato->fone01 }}</td>
                     <td>{{ $contrato->fone02 }}</td>
                     <td>{{ $contrato->logradouro}}</td>
+                    <td>{{ $contrato->bairro}}</td>
                     <td> {{\Carbon\Carbon::parse($contrato->adesao)->format('d/m/Y') }} </td>
                     <td> {{\Carbon\Carbon::parse($contrato->dt_cancelamento)->format('d/m/Y') }} </td>
                     <td>{{ $contrato->descricao_mot_cancel }}</td>
