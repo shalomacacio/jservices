@@ -457,7 +457,7 @@ class ReportsController extends Controller
     $result = DB::connection('pgsql')->table('mk_contratos as  c')
       ->join('mk_pessoas as cliente', 'c.cliente', 'cliente.codpessoa')
       ->leftJoin('mk_logradouros as log', 'cliente.codlogradouro', 'log.codlogradouro')
-      ->leftJoin('mk_bairros as bairro', 'cliente.codbairro', 'bairro.bairro')
+      ->leftJoin('mk_bairros as b', 'cliente.codbairro', 'b.codbairro')
       ->rightJoin('mk_motivo_cancelamento as motivo', 'c.motivo_cancelamento_2', 'motivo.codmotcancel')
       ->where('c.cancelado', 'S')
       ->whereBetween('c.dt_cancelamento', [$dtInicio, $dtFim])
@@ -480,6 +480,4 @@ class ReportsController extends Controller
     $contratos = $result;
     return view('reports.relContCanc', compact('contratos', 'request'));
   }
-
-
 }
