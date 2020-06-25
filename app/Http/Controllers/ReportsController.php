@@ -470,7 +470,7 @@ class ReportsController extends Controller
         'c.motivo_cancelamento',
         'motivo.descricao_mot_cancel',
         'cliente.inativo',
-        'c.vlr_renovacao'
+        'c.vlr_renovacao',
         'log.logradouro'
       )
       ->get();
