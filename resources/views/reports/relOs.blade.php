@@ -75,7 +75,8 @@
                   <thead>
                   <tr>
                     <th>Dt Abert</th>
-                    <th>Dt Encer</th>
+                    <th>Dt Encer Mob</th>
+                    <th>Dt Encer O.S</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
                     <th>Operador</th>
@@ -92,9 +93,8 @@
                   @foreach($ordens as $os)
                   <tr>
                     <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
-                    {{-- <td>{{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}</td> --}}
                     <td>@isset($os->dt_hr_fechamento_tec){{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}@endisset</td>
-
+                    <td>@isset($os->data_fechamento) {{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}@endisset</td>
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
                     <td>
                       @isset($os->tipo ) {{ $os->tipo }} @endisset
