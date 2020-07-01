@@ -433,7 +433,8 @@ class ReportsController extends Controller
           'os.servico_prestado'
           // 'plan.vlr_mensalidade'
         )
-        ->orderBy('os.dt_hr_fechamento_tec', 'asc')
+        // ->orderBy('os.dt_hr_fechamento_tec', 'asc')
+        ->orderBy('os.data_fechamento', 'asc')
         ->get();
     }
 
