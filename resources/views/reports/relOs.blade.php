@@ -93,7 +93,7 @@
                   @foreach($ordens as $os)
                   <tr>
                     <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
-                    <td>@isset($os->dt_hr_fechamento_tec){{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}@endisset</td>
+                    <td>($os->dt_hr_fechamento_tec){{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}</td>
                     <td>@isset($os->data_fechamento) {{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}@endisset</td>
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
                     <td>
