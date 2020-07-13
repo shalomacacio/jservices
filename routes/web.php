@@ -70,7 +70,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suporte|vendedor, true');
     Route::resource('comissaos', 'ComissaosController');
     Route::get('escalas/agenda', 'EscalasController@agenda')->name('escalas.agenda');
-    // Route::get('escalas/agenda', 'EscalasController@agenda2')->name('escalas.agenda2');
+    Route::get('agenda', 'MkCompromissosController@agenda')->name('agenda');
     Route::get('escalas/escala', 'EscalasController@escala')->name('escalas.escala');
     Route::get('escalas/search', 'EscalasController@search')->name('escalas.search');
     Route::get('escalas/search2', 'EscalasController@search2')->name('escalas.search2');

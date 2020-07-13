@@ -36,7 +36,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('escalas.agenda')}}" class="nav-link">
+              <a href="{{route('agenda')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
                 <p>Agenda</p>
               </a>
@@ -66,7 +66,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('escalas.agenda')}}" class="nav-link">
+              <a href="{{route('agenda')}}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>
                 <p>Escala</p>
               </a>

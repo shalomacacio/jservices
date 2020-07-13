@@ -11,6 +11,8 @@ use App\Http\Requests\MkOsCreateRequest;
 use App\Http\Requests\MkOsUpdateRequest;
 use App\Repositories\MkOsRepository;
 use App\Validators\MkOsValidator;
+use App\Entities\MkOs;
+use Carbon\Carbon;
 
 /**
  * Class MkOsController.
@@ -177,6 +179,34 @@ class MkOsController extends Controller
 
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
+    }
+
+    public function agenda(Request $request){
+      $data = Carbon::now()->format('Y-m-d');
+
+      if($request->dt_escala){
+        $data = $request->dt_escala;
+      }
+
+      // Tipos de OS
+      $tipos = [2,5,6,111,133,138];
+      $result = MkOs::where('data_abertura', $data)
+                      //  ->whereIn('tipo_os', $tipos)
+                       ->orderBy('data_abertura', 'asc')
+                       ->get();
+
+      $ordens = $result;
+      $aberto = $result->where('status', 1)->count();
+      $encaminhado = $result->where('status', 2)->count();
+      $concluido = $result->where('status', 3)->count();
+
+      $porAtend = $result->groupBy('mkPessoa.nome_razaosocial');
+      $porServ = 0;
+      $porTec = 0;
+
+      return view('agenda.index', compact('ordens', 'aberto','encaminhado' , 'concluido', 'porAtend', 'porServ', 'porTec', 'data'));
+
+
     }
 
 
