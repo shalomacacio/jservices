@@ -56,16 +56,21 @@
                 </thead>
                 <tbody>
                   @foreach($comp as $c)
-                  <tr>
+                  <tr 
+                    @switch($c->ultimo_status_app_mk)
+                        @case(001)
+                            style="background-color: orange"
+                            @break
+                        @case(002)
+                            style="background-color: palegreen"
+                            @break
+                        @default
+                            style="background-color: gray"
+                    @endswitch
+                  >
                     <td> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} </td>
                     <td> {!! \Illuminate\Support\Str::after($c->servico, ')')  !!} </td>
-                    @if(!$c->dh_inicio_atividade)
-                    <td> Aguardando </td>
-                    @elseif($c->dh_inicio_atividade && $c->dh_fim_atividade == null)
-                    <td> Iniciado </td>
-                    @elseif($c->dh_fim_atividade)
-                    <td> Finalizado </td>
-                    @endif
+                    <td> {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
                   </tr>
                   @endforeach
                 </tbody>

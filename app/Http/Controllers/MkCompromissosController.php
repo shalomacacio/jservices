@@ -77,16 +77,19 @@ class MkCompromissosController extends Controller
       $tipos = [2,5,6,111,133,138];
 
       $result = DB::connection('pgsql')->table('mk_compromissos as comp')
+                ->join('mk_compromisso_pessoa as compessoa', 'compessoa.codcompromisso', '=', 'comp.codcompromisso')
                 ->join('mk_os as os', 'os.codos','=', 'comp.cd_integracao')
                 ->join('mk_os_tipo as tipoOs', 'tipoOs.codostipo','=', 'os.tipo_os')
-                ->leftJoin('mk_pessoas as func', 'func.codpessoa', '=','comp.cd_funcionario')
+                ->leftJoin('mk_pessoas as func', 'func.codpessoa', '=','compessoa.cdpessoa')
                 ->whereBetween('comp.com_inicio', [$inicio, $fim])
                 ->select
                   ('comp.com_titulo',
                   'func.nome_razaosocial',
                   'tipoOs.descricao as servico',
                   'os.dh_inicio_atividade',
-                  'os.dh_fim_atividade'
+                  'os.dh_fim_atividade',
+                  'os.ultimo_status_app_mk',
+                  'os.ultimo_status_app_mk_tx'
                   )
                 ->get();
       $comps = $result->groupBy('nome_razaosocial');
