@@ -13,6 +13,7 @@ use App\Repositories\MkCompromissoRepository;
 use App\Validators\MkCompromissoValidator;
 use Carbon\Carbon;
 use App\Entities\MkCompromisso;
+use App\Entities\MkAgendaGrupo;
 use DB;
 
 /**
@@ -65,6 +66,7 @@ class MkCompromissosController extends Controller
     }
 
     public function agenda(Request $request){
+      // return dd($request);
       $inicio = Carbon::now()->format('Y-m-d 00:00:00');
       $fim = Carbon::now()->format('Y-m-d 23:59:59');
 
@@ -73,8 +75,15 @@ class MkCompromissosController extends Controller
         $fim = Carbon::parse($request->dt_escala)->format('Y-m-d 23:59:59');
       }
 
+      $agendaGrupo = MkAgendaGrupo::all();
+
       // Tipos de OS
       $tipos = [2,5,6,111,133,138];
+      $grupos = [2,4,5,7];
+      if($request->grupo){
+        $grupos = $request->grupo;
+      }
+
 
       $result = DB::connection('pgsql')->table('mk_compromissos as comp')
                 ->join('mk_compromisso_pessoa as compessoa', 'compessoa.codcompromisso', '=', 'comp.codcompromisso')
@@ -82,6 +91,7 @@ class MkCompromissosController extends Controller
                 ->join('mk_os_tipo as tipoOs', 'tipoOs.codostipo','=', 'os.tipo_os')
                 ->leftJoin('mk_pessoas as func', 'func.codpessoa', '=','compessoa.cdpessoa')
                 ->whereBetween('comp.com_inicio', [$inicio, $fim])
+                ->whereIn('os.cdagendagrupo', $grupos)
                 ->select
                   ('comp.com_titulo',
                   'func.nome_razaosocial',
@@ -94,6 +104,6 @@ class MkCompromissosController extends Controller
                 ->get();
       $comps = $result->groupBy('nome_razaosocial');
 
-      return view('agenda.index', compact('comps'));
+      return view('agenda.index', compact('comps', 'agendaGrupo'));
     }
 }

@@ -56,13 +56,16 @@
                 </thead>
                 <tbody>
                   @foreach($comp as $c)
-                  <tr 
+                  <tr
                     @switch($c->ultimo_status_app_mk)
-                        @case(001)
+                        @case("001")
                             style="background-color: orange"
                             @break
-                        @case(002)
+                        @case("002")
                             style="background-color: palegreen"
+                            @break
+                        @case("011")
+                            style="background-color: red"
                             @break
                         @default
                             style="background-color: gray"
@@ -70,7 +73,7 @@
                   >
                     <td> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} </td>
                     <td> {!! \Illuminate\Support\Str::after($c->servico, ')')  !!} </td>
-                    <td> {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
+                    <td title="{{ $c->ultimo_status_app_mk }}" > {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
                   </tr>
                   @endforeach
                 </tbody>
