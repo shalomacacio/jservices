@@ -76,7 +76,6 @@ class MkCompromissosController extends Controller
       }
 
       $agendaGrupo = MkAgendaGrupo::all();
-
       // Tipos de OS
       $tipos = [2,5,6,111,133,138];
       $grupos = [2,4,5,7];
@@ -84,12 +83,15 @@ class MkCompromissosController extends Controller
         $grupos = $request->grupo;
       }
 
-
       $result = DB::connection('pgsql')->table('mk_compromissos as comp')
                 ->join('mk_compromisso_pessoa as compessoa', 'compessoa.codcompromisso', '=', 'comp.codcompromisso')
                 ->join('mk_os as os', 'os.codos','=', 'comp.cd_integracao')
                 ->join('mk_os_tipo as tipoOs', 'tipoOs.codostipo','=', 'os.tipo_os')
                 ->leftJoin('mk_pessoas as func', 'func.codpessoa', '=','compessoa.cdpessoa')
+                ->leftJoin('mk_bairros as bairro', 'bairro.codbairro', '=','os.cd_bairro')
+                ->leftJoin('mk_logradouros as logradouro', 'logradouro.codlogradouro', '=','os.cd_logradouro')
+                ->leftJoin('mk_conexoes as conex', 'conex.codconexao', '=','os.conexao_associada')
+                ->leftJoin('mk_os_classificacao_encerramento as classif', 'classif.codclassifenc', '=','os.classificacao_encerramento')
                 ->whereBetween('comp.com_inicio', [$inicio, $fim])
                 ->whereIn('os.cdagendagrupo', $grupos)
                 ->select
@@ -99,8 +101,14 @@ class MkCompromissosController extends Controller
                   'os.dh_inicio_atividade',
                   'os.dh_fim_atividade',
                   'os.ultimo_status_app_mk',
-                  'os.ultimo_status_app_mk_tx'
+                  'os.ultimo_status_app_mk_tx',
+                  'os.num_endereco',
+                  'classif.classificacao',
+                  'conex.username',
+                  'bairro.bairro',
+                  'logradouro.logradouro'
                   )
+                ->orderBy('comp.com_inicio')
                 ->get();
       $comps = $result->groupBy('nome_razaosocial');
 

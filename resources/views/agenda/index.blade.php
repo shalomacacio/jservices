@@ -50,6 +50,7 @@
                 <thead>
                   <tr>
                     <th data-column-id="cliente" data-width="300px">Cliente</th>
+                    <th data-column-id="descricao">Bairro</th>
                     <th data-column-id="descricao">Serviço</th>
                     <th data-column-id="status">Status</th>
                   </tr>
@@ -71,9 +72,11 @@
                             style="background-color: gray"
                     @endswitch
                   >
-                    <td> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} </td>
+                    <td title="{{$c->username}}"> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} - {{$c->username}} </td>
+                <td title="{{$c->logradouro}} , {{ $c->num_endereco}}">  {{$c->bairro}} </td>
                     <td> {!! \Illuminate\Support\Str::after($c->servico, ')')  !!} </td>
                     <td title="{{ $c->ultimo_status_app_mk }}" > {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
+                    <td> {!!  $c->classificacao !!} </td>
                   </tr>
                   @endforeach
                 </tbody>
