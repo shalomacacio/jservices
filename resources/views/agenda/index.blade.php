@@ -40,7 +40,10 @@
           <div class="card card-info">
             <div class="card-header">
               <div class="d-flex justify-content-between">
-              <h3 class="card-title">{{ $funcionario }}</h3>
+              <h3 class="card-title">{{ $funcionario }} </h3>
+              <div class="card-tools">
+                {{ $comp->count()}}
+              </div>
               </div>
             </div>
             <!-- /.card-header -->
@@ -72,12 +75,14 @@
                             style="background-color: gray"
                     @endswitch
                   >
-                    <td title="{{$c->username}}"> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} - {{$c->username}} </td>
-                <td title="{{$c->logradouro}} , {{ $c->num_endereco}}">  {{$c->bairro}} </td>
+                    <td title="{{$c->username}}"> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} </td>
+                    <td title="{{$c->logradouro}} , {{ $c->num_endereco}}">  {{$c->bairro}} </td>
                     <td> {!! \Illuminate\Support\Str::after($c->servico, ')')  !!} </td>
-                    <td title="{{ $c->ultimo_status_app_mk }}" > {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
+                    <td> {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
                     <td> {!!  $c->classificacao !!} </td>
                   </tr>
+                  <tfoot>
+                </tfoot>
                   @endforeach
                 </tbody>
               </table>

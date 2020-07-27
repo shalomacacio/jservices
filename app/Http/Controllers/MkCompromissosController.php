@@ -90,7 +90,8 @@ class MkCompromissosController extends Controller
                 ->leftJoin('mk_pessoas as func', 'func.codpessoa', '=','compessoa.cdpessoa')
                 ->leftJoin('mk_bairros as bairro', 'bairro.codbairro', '=','os.cd_bairro')
                 ->leftJoin('mk_logradouros as logradouro', 'logradouro.codlogradouro', '=','os.cd_logradouro')
-                ->leftJoin('mk_conexoes as conex', 'conex.codconexao', '=','os.conexao_associada')
+                ->leftJoin('mk_conexoes as conex', 'conex.codcliente', '=','os.cliente')
+                // ->leftJoin('mk_os_mobile_atu_status as status_tx', 'status_tx.cd_os', '=','os.codos')
                 ->leftJoin('mk_os_classificacao_encerramento as classif', 'classif.codclassifenc', '=','os.classificacao_encerramento')
                 ->whereBetween('comp.com_inicio', [$inicio, $fim])
                 ->whereIn('os.cdagendagrupo', $grupos)
@@ -103,8 +104,11 @@ class MkCompromissosController extends Controller
                   'os.ultimo_status_app_mk',
                   'os.ultimo_status_app_mk_tx',
                   'os.num_endereco',
+                  'os.servico_prestado',
+                  'classif.codclassifenc',
                   'classif.classificacao',
                   'conex.username',
+                  // 'status_tx.tx_extra',
                   'bairro.bairro',
                   'logradouro.logradouro'
                   )
