@@ -75,7 +75,7 @@
                             style="background-color: gray"
                     @endswitch
                   >
-                    <td title="{{$c->username}}"> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} </td>
+                    <td> {!! \Illuminate\Support\Str::before($c->com_titulo, 'Aberta')  !!} </td>
                     <td title="{{$c->logradouro}} , {{ $c->num_endereco}}">  {{$c->bairro}} </td>
                     <td> {!! \Illuminate\Support\Str::after($c->servico, ')')  !!} </td>
                     <td> {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
