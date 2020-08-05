@@ -79,7 +79,7 @@
                     <td title="{{$c->logradouro}} , {{ $c->num_endereco}}">  {{$c->bairro}} </td>
                     <td> {!! \Illuminate\Support\Str::after($c->servico, ')')  !!} </td>
                     <td> {!! \Illuminate\Support\Str::before($c->ultimo_status_app_mk_tx, 'O.S')  !!} </td>
-                    <td> {!!  $c->classificacao !!} </td>
+                <td title="{{ $c->servico_prestado }}"> {!! $c->classificacao !!} </td>
                   </tr>
                   <tfoot>
                 </tfoot>
