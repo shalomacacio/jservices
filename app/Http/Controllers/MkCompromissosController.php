@@ -112,7 +112,7 @@ class MkCompromissosController extends Controller
                   'bairro.bairro',
                   'logradouro.logradouro'
                   )
-                ->orderBy('comp.com_inicio')
+                ->orderBy('bairro')
                 ->get();
       $comps = $result->groupBy('nome_razaosocial');
 

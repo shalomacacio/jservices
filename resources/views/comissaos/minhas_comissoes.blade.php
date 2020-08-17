@@ -19,10 +19,9 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
+      @include('comissaos.search_form')
       @include('comissaos.widget')
     </section>
-
-
 
     <!-- Main content -->
     <section class="content">
@@ -44,30 +43,20 @@
                                 <th>Data</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
-                                <th>Colaborador</th>
+                                <th>Técnico</th>
+                                <th>Comissão</th>
                                 <th>Status</th>
-                                <th>Plano</th>
-                                <th>Taxa</th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($solicitacaos as $solicitacao)
+                                @foreach ($ordens as $os)
                                     <tr>
-                                        <td>{{  \Carbon\Carbon::parse($solicitacao->dt_conclusao)->format('d/m') }}</td>
-                                        <td>{{ $solicitacao->nome_razaosocial }}</td>
-                                        <td>{{ $solicitacao->servico}}</td>
-                                        <td>{{ $solicitacao->colaborador }}</td>
-                                        <td>
-                                            @if($solicitacao->status_comissao == 1)
-                                            AUTORIZADO
-                                            @elseif($solicitacao->status_comissao == 1)
-                                            NÃO AUTORIZADO
-                                            @else
-                                            AGUARDANDO
-                                            @endif
-                                        </td>
-                                        <td>{{ $solicitacao->vlr_plano }}</td>
-                                        <td>{{ $solicitacao->vlr_servico }}</td>
+                                      <td title=" {{$os->codos}} ">{{ \Carbon\Carbon::parse($os->data_fechamento)->format('d/m') }}</td>
+                                      <td>{{ $os->cliente }}</td>
+                                      <td>{{ $os->tipo }}</td>
+                                      <td>{{ $os->usr_nome }}</td>
+                                      <td>  # </td>
+                                    <td title="{{ $os->codclassifenc}}">{{ $os->classificacao }} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -77,7 +66,7 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <ul class="pagination pagination-sm m-0 float-right">
-                                {{ $solicitacaos->render() }}
+                                {{-- {{ $ordens->render() }} --}}
                           </ul>
                         </div>
                       </div>
@@ -85,7 +74,6 @@
                     </div>
                   </div>
                 </div>
-            </div>
         </section>
     </div>
 </div>

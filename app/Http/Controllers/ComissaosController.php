@@ -65,25 +65,6 @@ class ComissaosController extends Controller
         return view('comissaos.minhas_comissoes', compact('comissaos', 'tipoComissaos'));
     }
 
-
-    // --  MODO ANTIGO ---
-    // public function autorizarComissoes()
-    // {
-    //   $comissaos = $this->repository->scopeQuery(function ($query) {
-    //     return $query
-    //     ->where('flg_autorizado', '=', 3)
-    //     ->orderBy('dt_referencia', 'desc');
-    //   })->get();
-
-    //   if (request()->wantsJson()) {
-    //     return response()->json([
-    //       'data' => $comissaos,
-    //     ]);
-    //   }
-    //     return view('comissaos.autorizarComissoes', compact('comissaos'));
-    // }
-
-
     public function autorizarComissoes()
     {
       $result = DB::table('solicitacaos as s')
@@ -105,41 +86,8 @@ class ComissaosController extends Controller
 
       $solicitacaos = $result->get();
 
-        return view('comissaos.autorizarComissoes', compact('solicitacaos'));
+      return view('comissaos.autorizarComissoes', compact('solicitacaos'));
     }
-
-    // public function minhasComissoes()
-    // {
-    //     $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
-    //     $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
-
-    //     $result = $this->repository->scopeQuery(function ($query) use(  $start, $end )  {
-    //       return $query
-    //         ->where('funcionario_id', Auth::user()->id)
-    //         ->whereDate('dt_referencia', '>=', $start)
-    //         ->whereDate('dt_referencia', '<=', $end)
-    //         ->orderBy('dt_referencia', 'desc');
-    //     });
-
-    //     $result2  = DB::table('comissaos')
-    //               ->where('funcionario_id', Auth::user()->id)
-    //               ->whereDate('dt_referencia', '>=', $start)
-    //               ->whereDate('dt_referencia', '<=', $end)
-    //               ->orderBy('dt_referencia', 'desc')->get();
-
-    //     $comissaos = $result->paginate(10);
-
-    //     $aguardando = $result2->where('flg_autorizado','=' , 3 )->sum('comissao_vlr');
-    //     $nAutorizado = $result2->where('flg_autorizado','=' , '0' )->sum('comissao_vlr');
-    //     $autorizado = $result2->where('flg_autorizado','=' , 1 )->sum('comissao_vlr');
-
-    //     if (request()->wantsJson()) {
-    //         return response()->json([
-    //             'data' => $comissaos,
-    //         ]);
-    //     }
-    //     return view('comissaos.minhas_comissoes', compact('comissaos', 'aguardando', 'nAutorizado', 'autorizado'));
-    // }
 
     public function minhasComissoes(Request $request)
     {
@@ -153,33 +101,55 @@ class ComissaosController extends Controller
           $end = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
         }
 
-        $result = DB::table('solicitacaos as s')
-                    ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
-                    ->join('users as u','s.user_atendimento_id', 'u.id')
-                    ->where('user_atendimento_id', Auth::user()->id)
-                    ->whereBetween('dt_conclusao', [$start, $end])
-                    ->select('s.dt_conclusao','s.nome_razaosocial', 's.status_comissao','s.vlr_plano', 's.vlr_servico',
-                    'u.name as colaborador',
-                    'cs.descricao as servico');
+        // $tipos = [2,5,6,111,133,138];
 
-        $result2 = DB::table('solicitacaos as s')
-                    ->where('user_atendimento_id', Auth::user()->id)
-                    ->whereBetween('dt_conclusao', [$start, $end])
-                    ->get();
+        $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
+        ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
+        ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
+        ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+        ->leftJoin('mk_os_classificacao_encerramento as classificacao', 'os.classificacao_encerramento', 'classificacao.codclassifenc')
+        ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
+        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        ->where('os.data_fechamento', $end)
+        // ->whereBetween('os.data_fechamento', [$start, $end])
+        // ->whereIn('tipo_os', $tipos)
+        ->select(
+          'os.codos',
+          'os.data_abertura',
+          'os.data_fechamento',
+          'os.dt_hr_fechamento_tec',
+          'os.tx_extra',
+          'os.indicacoes',
+          'os.operador_fech_tecnico',
+          'u.usr_nome',
+          'u2.usr_nome as consult2',
+          'os.operador',
+          'cliente.inativo',
+          'atend.operador_abertura',
+          'cliente.nome_razaosocial as cliente',
+          'consul.nome_razaosocial as consultor',
+          'tec.nome_razaosocial as tecnico',
+          'tip.descricao as tipo',
+          'cont.vlr_renovacao',
+          'os.classificacao_encerramento',
+          'classificacao.classificacao',
+          'classificacao.codclassifenc',
+          'os.servico_prestado'
+        );
+        // ->orderBy('os.data_fechamento', 'asc')
+        // ->get();
+
+        $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('u.usr_nome')->get();
 
 
-        $solicitacaos = $result->orderBy('dt_conclusao', 'desc')->paginate('10');
+        $autorizado = $result->where('codclassifenc', '40' )->count();
+        $nAutorizado = $result->where('codclassifenc', '29' )->count();
 
-        $aguardando = $result2->where('status_comissao', null)->count();
-        $nAutorizado = $result2->where('status_comissao', 2)->count();
-        $autorizado = $result2->where('status_comissao', 1)->count();
-
-        if (request()->wantsJson()) {
-            return response()->json([
-                'data' => $solicitacaos,
-            ]);
-        }
-        return view('comissaos.minhas_comissoes', compact('solicitacaos', 'aguardando', 'nAutorizado', 'autorizado'));
+        return view('comissaos.minhas_comissoes', compact('ordens', 'nAutorizado', 'autorizado', 'request'));
     }
 
     public function pesquisar()
@@ -200,7 +170,8 @@ class ComissaosController extends Controller
       ->join('users as u','s.user_atendimento_id', 'u.id')
       ->where('user_atendimento_id', Auth::user()->id)
       ->whereBetween('s.dt_conclusao', [$request->dt_inicio, $request->dt_fim])
-      ->select('s.dt_conclusao','s.nome_razaosocial', 's.status_comissao','s.vlr_plano', 's.vlr_servico',
+      ->select(
+      's.dt_conclusao','s.nome_razaosocial', 's.status_comissao','s.vlr_plano', 's.vlr_servico',
       'u.name as colaborador',
       'cs.descricao as servico');
 
