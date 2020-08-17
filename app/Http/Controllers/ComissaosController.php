@@ -65,29 +65,73 @@ class ComissaosController extends Controller
         return view('comissaos.minhas_comissoes', compact('comissaos', 'tipoComissaos'));
     }
 
-    public function autorizarComissoes()
+    public function autorizarComissoes(Request $request)
     {
-      $result = DB::table('solicitacaos as s')
-                  ->join('solicitacao_user as su', 's.id', '=', 'su.solicitacao_id')
-                  ->join('categoria_servicos as cs', 's.categoria_servico_id', '=', 'cs.id')
-                  ->join('users as ua', 's.user_atendimento_id', '=', 'ua.id')
-                  ->join('users as ut', 'su.user_id', '=', 'ut.id')
-                  ->whereNull('s.deleted_at')
-                  ->whereNull('s.dt_aut_fin')
-                  ->whereNotNull('s.codatendimento')
-                  ->whereNotNull('s.dt_conclusao')
-                  ->where('dt_conclusao', '>=', '2020-04-01 00:00:00')
-                  ->select(
-                    's.id' ,'s.dt_conclusao', 's.nome_razaosocial','s.status_solicitacao_id','s.vlr_plano', 's.vlr_servico','s.codatendimento',
-                    'cs.descricao as servico',
-                    'ut.name as tecnico',
-                    'ua.name as consultor')
-                    ->orderBy('s.dt_conclusao');
+        $start = Carbon::now()->startOfMonth()->format('Y-m-d 00:00:00');
+        $end = Carbon::now()->endOfMonth()->format('Y-m-d 23:59:59');
 
-      $solicitacaos = $result->get();
+        if($request->dt_inicio){
+          $start = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
+        }
+        if($request->dt_fim){
+          $end = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
+        }
 
-      return view('comissaos.autorizarComissoes', compact('solicitacaos'));
+        // $tipos = [2,5,6,111,133,138];
+
+        $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
+        ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
+        ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
+        ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+        ->leftJoin('mk_os_classificacao_encerramento as classificacao', 'os.classificacao_encerramento', 'classificacao.codclassifenc')
+        ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
+        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        ->leftJoin('mk_planos_acesso as plan',  'plan.codplano', 'conex.codplano_acesso')
+        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        ->where('os.data_fechamento', $end)
+        // ->whereBetween('os.data_fechamento', [$start, $end])
+        // ->whereIn('tipo_os', $tipos)
+        ->select(
+          'os.codos',
+          'os.data_abertura',
+          'os.data_fechamento',
+          'os.dt_hr_fechamento_tec',
+          'os.tx_extra',
+          'os.indicacoes',
+          'os.operador_fech_tecnico',
+          'os.servico_prestado',
+          'os.tipo_os',
+          'os.operador',
+          'u.usr_nome',
+          'u2.usr_nome as vendedor',
+          'cliente.inativo',
+          'atend.operador_abertura',
+          'cliente.nome_razaosocial as cliente',
+          'consul.nome_razaosocial as consultor',
+          'tec.nome_razaosocial as tecnico',
+          'plan.vlr_mensalidade as plano',
+          'tip.descricao as tipo',
+          'cont.vlr_renovacao',
+          'os.classificacao_encerramento',
+          'classificacao.classificacao',
+          'classificacao.codclassifenc'
+
+        );
+        // ->orderBy('os.data_fechamento', 'asc')
+        // ->get();
+
+        $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('os.tipo_os')->get();
+
+
+        $autorizado = $result->where('codclassifenc', '40' )->count();
+        $nAutorizado = $result->where('codclassifenc', '29' )->count();
+
+        return view('comissaos.autorizarComissoes', compact('ordens', 'nAutorizado', 'autorizado', 'request'));
     }
+
 
     public function minhasComissoes(Request $request)
     {
@@ -125,9 +169,11 @@ class ComissaosController extends Controller
           'os.tx_extra',
           'os.indicacoes',
           'os.operador_fech_tecnico',
-          'u.usr_nome',
-          'u2.usr_nome as consult2',
+          'os.servico_prestado',
+          'os.tipo_os',
           'os.operador',
+          'u.usr_nome',
+          'u2.usr_nome as vendedor',
           'cliente.inativo',
           'atend.operador_abertura',
           'cliente.nome_razaosocial as cliente',
@@ -137,13 +183,13 @@ class ComissaosController extends Controller
           'cont.vlr_renovacao',
           'os.classificacao_encerramento',
           'classificacao.classificacao',
-          'classificacao.codclassifenc',
-          'os.servico_prestado'
+          'classificacao.codclassifenc'
+
         );
         // ->orderBy('os.data_fechamento', 'asc')
         // ->get();
 
-        $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('u.usr_nome')->get();
+        $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('os.tipo_os')->get();
 
 
         $autorizado = $result->where('codclassifenc', '40' )->count();

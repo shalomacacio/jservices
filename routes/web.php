@@ -17,16 +17,6 @@ use Illuminate\Support\Arr;
 Route::get('/', function () {return redirect()->route('login'); });
 Route::get('/login', 'DashboardController@login')->name('login');
 Route::post('/auth', 'DashboardController@auth')->name('auth');
-// Route::post('/agenda2', function(){
-//   header('Content-Type: application/json; charset=utf-8');
-//   $data = Solicitacao::all();
-//   $response = [
-//     'current'  => 1,
-//     'rowCount' => 10,
-//     'rows'     => $data
-//   ];
-//   return response()->json($response);
-// });
 
 Route::group(['middleware'=>['auth']], function(){
     Route::get('/logout', 'DashboardController@logout')->name('logout');

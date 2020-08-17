@@ -44,6 +44,7 @@
                                 <th>Cliente</th>
                                 <th>Serviço </th>
                                 <th>Técnico</th>
+                                <th>Consltor</th>
                                 <th>Comissão</th>
                                 <th>Status</th>
                               </tr>
@@ -55,6 +56,7 @@
                                       <td>{{ $os->cliente }}</td>
                                       <td>{{ $os->tipo }}</td>
                                       <td>{{ $os->usr_nome }}</td>
+                                      <td>{{ $os->vendedor }}</td>
                                       <td>  # </td>
                                     <td title="{{ $os->codclassifenc}}">{{ $os->classificacao }} </td>
                                     </tr>
