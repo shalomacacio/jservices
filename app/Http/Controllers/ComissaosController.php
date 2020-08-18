@@ -118,11 +118,7 @@ class ComissaosController extends Controller
           'os.classificacao_encerramento',
           'classificacao.classificacao',
           'classificacao.codclassifenc'
-
         );
-        // ->orderBy('os.data_fechamento', 'asc')
-        // ->get();
-
         $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('os.tipo_os')->get();
 
 

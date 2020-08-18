@@ -89,3 +89,43 @@
 </div>
 
 @endsection
+
+
+@section('javascript')
+<!-- DataTables -->
+<script src="/dist/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/dist/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+{{-- <script src="/dist/plugins/slimScroll/jquery.slimscroll.min.js"></script> --}}
+
+<script>
+  $(function () {
+    $("#ordenacao").DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "language": {
+        search: "Pesquisar" ,
+        show: "Mostrar",
+        info: "Mostrando pag _PAGE_ de _PAGES_",
+        lengthMenu:    "Mostrar _MENU_ ",
+        paginate: {
+            first:      "Primeiro",
+            previous:   "Anterior",
+            next:       "Próximo",
+            last:       "Último",
+        },
+      }
+    });
+  });
+  $('button[type="button"]').click(function(){
+    var id = $(this).attr("data-id");
+    $('#formNautorizar').attr('action', 'http://servicos.jnetce.com.br/comissaos/'+ id +'/nAutorizar');
+    $('#myModal').modal('show');
+  });
+</script>
+
+@stop
+

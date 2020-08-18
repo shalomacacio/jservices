@@ -20,7 +20,7 @@
         </div>
       </div><!-- /.container-fluid -->
       @include('comissaos.search_form')
-      {{-- @include('comissaos.widget') --}}
+      @include('comissaos.widget')
     </section>
 
     <!-- Main content -->
@@ -37,7 +37,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                           <div class="table-responsive">
-                          <table class="table table-bordered">
+                          <table class="table table-bordered" id="ordenacao">
                             <thead>
                               <tr>
                                 <th>Data</th>
@@ -81,3 +81,38 @@
 </div>
 
 @endsection
+
+
+
+@section('javascript')
+<!-- DataTables -->
+<script src="/dist/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/dist/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+<script>
+  $(function () {
+    $("#ordenacao").DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "language": {
+        search: "Pesquisar" ,
+        show: "Mostrar",
+        info: "Mostrando pag _PAGE_ de _PAGES_",
+        lengthMenu:    "Mostrar _MENU_ ",
+        paginate: {
+            first:      "Primeiro",
+            previous:   "Anterior",
+            next:       "Próximo",
+            last:       "Último",
+        },
+      }
+    });
+  });
+</script>
+
+@stop
+

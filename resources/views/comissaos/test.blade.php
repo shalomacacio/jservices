@@ -136,7 +136,6 @@
   $('button[type="button"]').click(function(){
     var id = $(this).attr("data-id");
     $('#formNautorizar').attr('action', 'http://servicos.jnetce.com.br/comissaos/'+ id +'/nAutorizar');
-    // $('#formNautorizar').attr('action', 'http://localhost:8000/comissaos/'+ id +'/nAutorizar');
     $('#myModal').modal('show');
   });
 </script>
