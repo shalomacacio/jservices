@@ -50,7 +50,7 @@
                       </div>
                       <div class="col-6">
                         <div class="input-group input-group-sm" style="width: 200px;">
-                          <input type="date" name="dt_fim" class="form-control" placeholder="Search" @isset($request) value="{{\Carbon\Carbon::parse($request->dt_fim)->format('Y-m-d')}}" @endisset required>
+                          <input type="date" name="dt_escala" class="form-control" placeholder="Search" @isset($request) value="{{\Carbon\Carbon::parse($request->dt_escala)->format('Y-m-d')}}" @endisset required>
                           <div class="input-group-append">
                             <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                           </div>

@@ -117,6 +117,6 @@ class MkCompromissosController extends Controller
                 ->get();
       $comps = $result->groupBy('nome_razaosocial');
 
-      return view('agenda.index', compact('comps', 'agendaGrupo'));
+      return view('agenda.index', compact('comps', 'agendaGrupo', 'request'));
     }
 }
