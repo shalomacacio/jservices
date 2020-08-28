@@ -46,6 +46,7 @@
                                 <th>Técnico</th>
                                 <th>Consultor</th>
                                 <th>Plano</th>
+                                <th>Taxa</th>
                                 <th>Status</th>
                               </tr>
                             </thead>
@@ -58,6 +59,7 @@
                                       <td>{{ $os->usr_nome }}</td>
                                       <td>{{ $os->vendedor }}</td>
                                       <td>{{ $os->plano }}</td>
+                                      <td>{{ $os->indicacoes }}</td>
                                     <td title="{{ $os->codclassifenc}}">{{ $os->classificacao }} </td>
                                     </tr>
                                 @endforeach
@@ -78,7 +80,7 @@
                 </div>
         </section>
     </div>
-</div>
+
 
 @endsection
 
@@ -112,6 +114,7 @@
       }
     });
   });
+
 </script>
 
 @stop

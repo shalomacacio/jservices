@@ -77,7 +77,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('statusSolicitacao', 'StatusSolicitacaosController');
     Route::resource('categoriaServicos', 'CategoriaServicosController');
     Route::resource('comissaoServicos', 'ComissaoServicosController');
-  //Report
+    //Report
     Route::get('reports/comissaoForm', 'ReportsController@comissaoForm')->name('reports.comissaos.form');
     Route::get('reports/producaoDiaria', 'ReportsController@producaoDiaria')->name('reports.producaoDiaria');
     Route::get('reports/producaoDiariaForm', 'ReportsController@producaoDiariaForm')->name('reports.producaoDiariaForm');
@@ -90,7 +90,6 @@ Route::group(['middleware'=>['auth']], function(){
     Route::get('reports/relOsForm', 'ReportsController@relOsForm')->name('reports.relOsForm');
     Route::get('reports/formContCanc', 'ReportsController@formContCanc')->name('reports.formContCanc');
     Route::get('reports/relContCanc', 'ReportsController@relContCanc')->name('reports.relContCanc');
-
 
     Route::get('reports/relOs', 'ReportsController@relOs')->name('reports.relOs');
 

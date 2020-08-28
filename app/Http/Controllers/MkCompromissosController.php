@@ -97,6 +97,7 @@ class MkCompromissosController extends Controller
                 ->whereIn('os.cdagendagrupo', $grupos)
                 ->select
                   ('comp.com_titulo',
+                  'comp.com_inicio',
                   'func.nome_razaosocial',
                   'tipoOs.descricao as servico',
                   'os.dh_inicio_atividade',
@@ -112,7 +113,7 @@ class MkCompromissosController extends Controller
                   'bairro.bairro',
                   'logradouro.logradouro'
                   )
-                ->orderBy('bairro')
+                ->orderBy('com_inicio')
                 ->get();
       $comps = $result->groupBy('nome_razaosocial');
 

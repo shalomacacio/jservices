@@ -15,11 +15,11 @@
             <div class="input-group-append">
                 <button class="btn btn-navbar" type="submit">
     <i class="fa fa-search"></i>
-  </button>
+    </button>
             </div>
         </div>
     </form>
--->
+    -->
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Notifications Dropdown Menu -->

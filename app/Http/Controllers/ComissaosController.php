@@ -77,7 +77,28 @@ class ComissaosController extends Controller
           $end = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
         }
 
-        // $tipos = [2,5,6,111,133,138];
+        $agendaGrupo = MkAgendaGrupo::all();
+
+        switch ($request->grupo) {
+          case "":
+            $tipos = [2,5,6,13,77,78,86,88,108,109,111,133,137,138,139];
+            break;
+          case '1':
+            $tipos = [2,108,6,138,133,78,77,137];
+            break;
+          case '2':
+            $tipos = [86,110,109,88,13,137];
+              break;
+          case '3':
+            $tipos =  [139];
+            break;
+          case '4':
+            $tipos = [86,110,109,88,13,137];
+              break;
+          default:
+            # code...
+            break;
+        }
 
         $result = DB::connection('pgsql')->table('mk_os as  os')
         ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
@@ -104,6 +125,7 @@ class ComissaosController extends Controller
           'os.operador_fech_tecnico',
           'os.servico_prestado',
           'os.tipo_os',
+          'os.indicacoes',
           'os.operador',
           'u.usr_nome',
           'u2.usr_nome as vendedor',
@@ -186,10 +208,10 @@ class ComissaosController extends Controller
         // ->get();
 
         $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('os.tipo_os')->get();
-
-
         $autorizado = $result->where('codclassifenc', '40' )->count();
         $nAutorizado = $result->where('codclassifenc', '29' )->count();
+
+        $tipos = DB::connection('pgsql')->table('mk_os as  os');
 
         return view('comissaos.minhas_comissoes', compact('ordens', 'nAutorizado', 'autorizado', 'request'));
     }
