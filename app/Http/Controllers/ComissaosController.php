@@ -14,6 +14,7 @@ use App\Validators\ComissaoValidator;
 use Illuminate\Support\Facades\DB;
 use App\Entities\Comissao;
 use App\Entities\Solicitacao;
+use App\Entities\MkAgendaGrupo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
