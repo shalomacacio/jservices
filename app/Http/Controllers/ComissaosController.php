@@ -82,7 +82,8 @@ class ComissaosController extends Controller
 
         switch ($request->grupo) {
           case "":
-            $tipos = [2,5,6,13,77,78,86,88,108,109,111,133,137,138,139];
+            $tipos = [2,5,6,12,13,18,23,33,55,73,76,77,78,82,86,88,89,90,92,98,104,108,109,110,
+            111,132,133,137,138,139,142,143,144,145,146,147,148,149,151,152,154,156];
             break;
           case '1':
             $tipos = [2,108,6,138,133,78,77,137];
@@ -115,7 +116,7 @@ class ComissaosController extends Controller
         ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
         ->where('os.data_fechamento', $end)
         // ->whereBetween('os.data_fechamento', [$start, $end])
-        // ->whereIn('tipo_os', $tipos)
+        ->whereIn('tipo_os', $tipos)
         ->select(
           'os.codos',
           'os.data_abertura',
