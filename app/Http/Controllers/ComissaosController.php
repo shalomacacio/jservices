@@ -88,11 +88,11 @@ class ComissaosController extends Controller
             break;
           //SERVIÇO
           case '1':
-            $tipos = [2,6,82,108,137,138,133,78,77,137];
+            $tipos = [2,6,77,78,82,108,133,137,138];
             break;
           //SUPORTE
           case '2':
-            $tipos = [86,110,109,88,13,137];
+            $tipos = [13,86,88,109,110,137];
               break;
           //CANCELAMENTO
           case '3':
@@ -149,8 +149,6 @@ class ComissaosController extends Controller
           'classificacao.codclassifenc'
         );
         $ordens = $result->orderBy('os.data_fechamento', 'asc')->orderBy('os.tipo_os')->get();
-
-
         $autorizado = $result->where('codclassifenc', '40' )->count();
         $nAutorizado = $result->where('codclassifenc', '29' )->count();
 

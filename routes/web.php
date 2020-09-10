@@ -42,7 +42,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::post('solicitacao/atribuir', 'SolicitacaosController@atribuir')->name('solicitacao.atribuir')->middleware('needsRole:admin|controlador, true');
     Route::post('solicitacao/reatribuir', 'SolicitacaosController@reatribuir')->name('solicitacao.reatribuir')->middleware('needsRole:admin|controlador, true');
     Route::put('solicitacao/{id}/concluir', 'SolicitacaosController@concluir')->name('solicitacao.concluir')->middleware('needsRole:admin|controlador, true');
-
+    
     Route::get('users/groups', 'UsersController@groups')->name('user.groups')->middleware('needsRole:admin');
     Route::post('users/groupStore', 'UsersController@groupStore')->name('user.groups.store')->middleware('needsRole:admin');
     Route::resource('users', 'UsersController');
@@ -54,7 +54,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::resource('clientes', 'ClientesController');
     Route::get('comissaos/autorizarComissoes', 'ComissaosController@autorizarComissoes')->name('comissao.autorizarComissoes')->middleware('needsRole:admin|auditor|atendimento, true');
     Route::get('comissaos/minhasComissoes', 'ComissaosController@minhasComissoes')->name('comissao.minhasComissoes');
-    Route::put('comissaos/{id}/autominhasComissoesrizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor, true');
+    Route::put('comissaos/{id}/autominhasComissoesrizar', 'ComissaosController@autorizar')->name('comissao.autorizar')->middleware('needsRole:admin|auditor|financeiro, true');
     Route::put('comissaos/{id}/nAutorizar', 'ComissaosController@nAutorizar')->name('comissao.nAutorizar')->middleware('needsRole:admin|auditor, true');;
     Route::get('comissaos/pesquisarminhascomissoes', 'ComissaosController@pesquisarMinhasComissoes')->name('comissao.pesquisarMinhasComissoes')->middleware('needsRole:admin|atendimento|vendedor|suporte, true');
     Route::get('comissaos/search', 'ComissaosController@search')->name('comissao.search')->middleware('needsRole:admin|atendimento|suporte|vendedor, true');
