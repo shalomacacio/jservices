@@ -8,10 +8,10 @@
                 <div class="pull-right input-group-sm" style="width: 200px;">
                   <select class="form-control" name="grupo" >
                     <option value="">--Selecione--</option>
-                    <option value="1">Instalação</option>
-                    <option value="2">Suporte</option>
-                    <option value="3">Cancelamento</option>
-                    <option value="4">Vendas</option>
+                    <option value="1">SERVIÇOS</option>
+                    <option value="2">SUPORTE</option>
+                    <option value="3">CANCELAMENTO</option>
+                    <option value="4">VEND EQUIPAMENTO</option>
                   </select>
                 </div>
             </div>
@@ -25,7 +25,6 @@
             </div>
           </div>
         </form>
-
     </div>
   </div>
 </div>

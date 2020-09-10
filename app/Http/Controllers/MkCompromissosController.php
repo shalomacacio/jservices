@@ -56,7 +56,6 @@ class MkCompromissosController extends Controller
         $mkCompromissos = $this->repository->all();
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $mkCompromissos,
             ]);

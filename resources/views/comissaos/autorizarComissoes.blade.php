@@ -41,6 +41,7 @@
                             <thead>
                               <tr>
                                 <th>Data</th>
+                                <th>O.S</th>
                                 <th>Cliente</th>
                                 <th>Serviço </th>
                                 <th>Técnico</th>
@@ -53,7 +54,8 @@
                             <tbody>
                                 @foreach ($ordens as $os)
                                     <tr>
-                                      <td title=" {{$os->codos}} ">{{ \Carbon\Carbon::parse($os->data_fechamento)->format('d/m') }}</td>
+                                      <td>{{ \Carbon\Carbon::parse($os->data_fechamento)->format('d/m') }}</td>
+                                      <td>{{ $os->codos }}</td>
                                       <td>{{ $os->cliente }}</td>
                                       <td>{{ $os->tipo }}</td>
                                       <td>{{ $os->usr_nome }}</td>

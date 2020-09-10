@@ -81,21 +81,26 @@ class ComissaosController extends Controller
         $agendaGrupo = MkAgendaGrupo::all();
 
         switch ($request->grupo) {
+          //TODOS
           case "":
             $tipos = [2,5,6,12,13,18,23,33,55,73,76,77,78,82,86,88,89,90,92,98,104,108,109,110,
             111,132,133,137,138,139,142,143,144,145,146,147,148,149,151,152,154,156];
             break;
+          //SERVIÇO
           case '1':
-            $tipos = [2,108,6,138,133,78,77,137];
+            $tipos = [2,6,82,108,137,138,133,78,77,137];
             break;
+          //SUPORTE
           case '2':
             $tipos = [86,110,109,88,13,137];
               break;
+          //CANCELAMENTO
           case '3':
-            $tipos =  [139];
+            $tipos =  [89,90,111,132];
             break;
+            //VENDA
           case '4':
-            $tipos = [86,110,109,88,13,137];
+            $tipos = [139];
               break;
           default:
             # code...
