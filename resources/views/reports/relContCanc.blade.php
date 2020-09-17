@@ -89,7 +89,7 @@
                     <td>{{ $contrato->nome_razaosocial }}</td>
                     <td>{{ $contrato->fone01 }}</td>
                     <td>{{ $contrato->fone02 }}</td>
-                    <td>{{ $contrato->logradouro}}</td>
+                    <td>{{ $contrato->logradouro}} {{ $contrato->numero}}</td>
                     <td>{{ $contrato->bairro}}</td>
                     <td> {{\Carbon\Carbon::parse($contrato->adesao)->format('d/m/Y') }} </td>
                     <td> {{\Carbon\Carbon::parse($contrato->dt_cancelamento)->format('d/m/Y') }} </td>

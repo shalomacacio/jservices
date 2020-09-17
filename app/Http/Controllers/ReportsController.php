@@ -474,6 +474,7 @@ class ReportsController extends Controller
         'cliente.inativo',
         'c.vlr_renovacao',
         'log.logradouro',
+        'cliente.numero',
         'b.bairro'
       )
       ->get();

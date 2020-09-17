@@ -27,12 +27,10 @@ class MkCompromissosController extends Controller
      * @var MkCompromissoRepository
      */
     protected $repository;
-
     /**
      * @var MkCompromissoValidator
      */
     protected $validator;
-
     /**
      * MkCompromissosController constructor.
      *
@@ -65,7 +63,7 @@ class MkCompromissosController extends Controller
     }
 
     public function agenda(Request $request){
-      // return dd($request);
+
       $inicio = Carbon::now()->format('Y-m-d 00:00:00');
       $fim = Carbon::now()->format('Y-m-d 23:59:59');
 
