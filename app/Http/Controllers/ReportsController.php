@@ -368,8 +368,9 @@ class ReportsController extends Controller
         ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
         ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
         ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
-        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
-        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        // ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        // ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        ->where('os.operador_fech_tecnico', 1318)
         ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
         ->select(
@@ -389,7 +390,7 @@ class ReportsController extends Controller
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
-          'cont.vlr_renovacao',
+          // 'cont.vlr_renovacao',
           'os.classificacao_encerramento',
           'os.servico_prestado'
           // 'plan.vlr_mensalidade'
@@ -407,9 +408,10 @@ class ReportsController extends Controller
         ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
         ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
         ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
-        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
-        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        // ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        // ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
         ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
+        ->where('os.operador_fech_tecnico', 1318)
         ->whereIn('tipo_os', $tipos)
         ->select(
           'os.codos',
@@ -428,7 +430,7 @@ class ReportsController extends Controller
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
-          'cont.vlr_renovacao',
+          // 'cont.vlr_renovacao',
           'os.classificacao_encerramento',
           'os.servico_prestado'
           // 'plan.vlr_mensalidade'
@@ -483,3 +485,6 @@ class ReportsController extends Controller
     return view('reports.relContCanc', compact('contratos', 'request'));
   }
 }
+
+
+

@@ -104,7 +104,8 @@
                     </td>
                     <td>@isset($os->consult2) {{ $os->consult2 }} @endisset</td>
                     <td>@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
-                    <td>@isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset </td>
+                    <td> -- </td>
+                    {{-- <td>@isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset </td> --}}
                     <td>@isset($os->indicacoes ) {{ $os->indicacoes }} @endisset </td>
                     <td>{{ $os->inativo }}</td>
                     <td>
@@ -114,6 +115,8 @@
                       Cancelado
                       @elseif($os->classificacao_encerramento == 29)
                       N Autorizado
+                      @elseif($os->classificacao_encerramento == 40)
+                      Autorizado
                       @else
                       SEM CLASSIFICACAO
                       </td>
