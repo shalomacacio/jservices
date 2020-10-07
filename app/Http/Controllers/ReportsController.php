@@ -370,7 +370,7 @@ class ReportsController extends Controller
         ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
         // ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
         // ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
-        ->where('os.operador_fech_tecnico', 1318)
+        // ->where('os.operador_fech_tecnico', 1318)
         ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
         ->whereIn('tipo_os', $tipos)
         ->select(
