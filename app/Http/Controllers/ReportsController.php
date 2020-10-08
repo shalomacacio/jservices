@@ -370,14 +370,12 @@ class ReportsController extends Controller
       $consultores[] = $request->consultor_id;
     } else {
       $result = FrUsuario::select('usr_codigo')->get();
-
       foreach ($result as $r) {
         $consultores[] = $r->usr_codigo;
       }
     }
 
     // return dd($consultores);
-
     if ($request->tipo_pesquisa == 1) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
         ->leftjoin('mk_contratos as contrato', 'os.cd_contrato', 'contrato.codcontrato')
@@ -505,6 +503,141 @@ class ReportsController extends Controller
     $contratos = $result;
     return view('reports.relContCanc', compact('contratos', 'request'));
   }
+
+
+  public function relOs2(Request $request)
+  {
+    // Datas
+    $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
+    $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
+
+    if ($request->tecnico_id) {
+      $tecnicos[] = $request->tecnico_id;
+    } else {
+      $result = FrUsuario::select('usr_codigo')->get();
+
+      foreach ($result as $r) {
+        $tecnicos[] = $r->usr_codigo;
+      }
+    }
+
+    // Tipos de OS
+    if ($request->codostipo) {
+      $tipos = $request->codostipo;
+    } else {
+      $result = MkOsTipo::select('codostipo')->get();
+      foreach ($result as $r) {
+        $tipos[] = $r->codostipo;
+      }
+    }
+
+    //Consultores
+    if ($request->consultor_id) {
+      $consultores[] = $request->consultor_id;
+    } else {
+      $result = FrUsuario::select('usr_codigo')->get();
+      foreach ($result as $r) {
+        $consultores[] = $r->usr_codigo;
+      }
+    }
+
+    // return dd($consultores);
+    if ($request->tipo_pesquisa == 1) {
+      $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->leftjoin('mk_os_classificacao_encerramento as classificacao', 'os.classificacao_encerramento', 'classificacao.codclassifenc')
+        ->leftjoin('mk_contratos as contrato', 'os.cd_contrato', 'contrato.codcontrato')
+        ->leftjoin('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
+        ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
+        ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
+        ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+        ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
+        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
+        ->whereIn('os.operador_fech_tecnico', $tecnicos)
+        // ->whereIn('os.tecnico_responsavel', $consultores)
+        ->whereIn('tipo_os', $tipos)
+        ->select(
+          'os.codos',
+          'os.data_abertura',
+          'os.data_fechamento',
+          'os.dt_hr_fechamento_tec',
+          'os.tx_extra',
+          'os.indicacoes',
+          'os.operador_fech_tecnico',
+          'u.usr_nome',
+          'u2.usr_nome as consult2',
+          'os.operador',
+          'cliente.inativo',
+          'atend.operador_abertura',
+          'cliente.nome_razaosocial as cliente',
+          'consul.nome_razaosocial as consultor',
+          'tec.nome_razaosocial as tecnico',
+          'tip.descricao as tipo',
+          'contrato.vlr_renovacao as plano',
+          'cont.vlr_renovacao as plano2',
+          'classificacao.classificacao as classificacao',
+          'os.servico_prestado'
+        )
+        ->orderBy('os.data_abertura', 'asc')
+        ->get();
+    }
+
+    if ($request->tipo_pesquisa == 2) {
+      $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->leftjoin('mk_os_classificacao_encerramento as classificacao', 'os.classificacao_encerramento', 'classificacao.codclassifenc')
+        ->leftjoin('mk_contratos as contrato', 'os.cd_contrato', 'contrato.codcontrato')
+        ->leftjoin('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
+        ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
+        ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
+        ->leftJoin('mk_pessoas as tec', 'os.operador_fech_tecnico', 'tec.id_alternativo')
+        ->leftJoin('mk_os_tipo as tip', 'os.tipo_os', 'tip.codostipo')
+        ->leftJoin('mk_atendimento as atend', 'os.cd_atendimento', 'atend.codatendimento')
+        ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
+        ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
+        ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
+        ->whereIn('os.operador_fech_tecnico', $tecnicos)
+        // ->whereIn('os.tecnico_responsavel', $consultores)
+        ->whereIn('tipo_os', $tipos)
+        ->select(
+          'os.codos',
+          'os.data_abertura',
+          'os.data_fechamento',
+          'os.dt_hr_fechamento_tec',
+          'os.tx_extra',
+          'os.indicacoes',
+          'os.operador_fech_tecnico',
+          'u.usr_nome',
+          'u2.usr_nome as consult2',
+          'os.operador',
+          'cliente.inativo',
+          'atend.operador_abertura',
+          'cliente.nome_razaosocial as cliente',
+          'consul.nome_razaosocial as consultor',
+          'tec.nome_razaosocial as tecnico',
+          'tip.descricao as tipo',
+          'contrato.vlr_renovacao as plano',
+          'cont.vlr_renovacao as plano2',
+          'classificacao.classificacao as classificacao',
+          'os.servico_prestado'
+        )
+        ->orderBy('os.data_fechamento', 'asc')
+        ->get();
+    }
+
+    // return dd($result->count());
+    $totalServicos = $result->count();
+    $ordens = $result;
+    return view('reports.relOs2', compact('ordens', 'request', 'totalServicos'));
+  }
+
+
+
+
+
 }
 
 
