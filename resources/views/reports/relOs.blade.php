@@ -2,6 +2,20 @@
 
 @section('content')
 
+@section('css')
+<style>
+    td {
+      font-size: 11px;
+    }
+    th {
+      font-size: 11px;
+    }
+    .card-header {
+      padding: .4rem 1.25rem;
+    }
+  </style>
+@endsection
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -86,13 +100,12 @@
                     <th>Taxa </th>
                     <th>Inativo </th>
                     <th>Classificacao</th>
-                    <th>Serv Prestado</th>
                   </tr>
                   </thead>
                   <tbody>
                   @foreach($ordens as $os)
                   <tr>
-                    <td title="Cod: {{ $os->operador }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
+                    <td title="Cod: {{ $os->codos }}" >{{\Carbon\Carbon::parse($os->data_abertura)->format('d/m/Y') }}</td>
                     <td>@isset($os->dt_hr_fechamento_tec){{\Carbon\Carbon::parse($os->dt_hr_fechamento_tec)->format('d/m/Y') }}@endisset</td>
                     <td>@isset($os->data_fechamento) {{\Carbon\Carbon::parse($os->data_fechamento)->format('d/m/Y') }}@endisset</td>
                   <td title="O.S: {{ $os->codos }}" >{{ $os->cliente}}</td>
@@ -104,24 +117,12 @@
                     </td>
                     <td>@isset($os->consult2) {{ $os->consult2 }} @endisset</td>
                     <td>@isset($os->usr_nome ) {{ $os->usr_nome }} @endisset </td>
-                    <td> -- </td>
+                    <td>@isset($os->plano ) {{ $os->plano }} @endisset </td>
                     {{-- <td>@isset($os->vlr_renovacao ) {{ $os->vlr_renovacao }} @endisset </td> --}}
                     <td>@isset($os->indicacoes ) {{ $os->indicacoes }} @endisset </td>
                     <td>{{ $os->inativo }}</td>
                     <td>
-                    @if($os->classificacao_encerramento == 25)
-                      Concluido
-                      @elseif($os->classificacao_encerramento == 27)
-                      Cancelado
-                      @elseif($os->classificacao_encerramento == 29)
-                      N Autorizado
-                      @elseif($os->classificacao_encerramento == 40)
-                      Autorizado
-                      @else
-                      SEM CLASSIFICACAO
-                      </td>
-                    @endif
-                    <td> {{ $os->servico_prestado }} </td>
+                    @if($os->classificacao) {{ $os->classificacao }}   @endif
                   </tr>
                   @endforeach
                   </tbody>

@@ -60,8 +60,8 @@
                   <label>Consultor</label>
                   <select class="form-control" name="consultor_id">
                     <option value="0">-- TODOS --</option>
-                    @foreach($users as $user)
-                    <option value="{{$user->codpessoa}}">{{$user->nome_razaosocial}}</option>
+                    @foreach($consultores as $consultor)
+                    <option value="{{$consultor->usr_codigo}}">{{$consultor->usr_nome}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -72,9 +72,9 @@
                 <div class="form-group">
                   <label>Técnico</label>
                   <select class="form-control" name="tecnico_id">
-                    <option value="0">-- TODOS --</option>
+                    <option disabled selected value>-- TODOS --</option>
                     @foreach($tecnicos as $tecnico)
-                    <option value="{{$tecnico->codpessoa}}">{{$tecnico->nome_razaosocial}}</option>
+                    <option value="{{$tecnico->usr_codigo}}">{{$tecnico->usr_nome}}</option>
                     @endforeach
                   </select>
                 </div>

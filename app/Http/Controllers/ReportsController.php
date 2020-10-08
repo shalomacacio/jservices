@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Entities\User;
 use App\Entities\Comissao;
+use App\Entities\FrUsuario;
 use App\Entities\MkOs;
 use App\Entities\MkOsTipo;
 use App\Entities\MkPessoa;
@@ -16,6 +17,7 @@ use App\Repositories\ComissaoRepository;
 use App\Repositories\SolicitacaoRepository;
 use App\Repositories\TipoMidiaRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Arr;
 
 use DB;
 
@@ -318,24 +320,40 @@ class ReportsController extends Controller
 
   public function relOsForm()
   {
-    $servList = [2,5,6,23,76,82,86,88,92,104,109,110,111,132,133,137,138,139];
+    $servList = [2,5,6,23,76,82,86,88,92,104,108,109,110,111,132,133,137,138,139];
 
-    $users = MkPessoa::where('classificacao', 3)->get();
+    $consultores = FrUsuario::select('usr_codigo')
+                    ->where('setor_associado', 'ATE')
+                    ->whereNull('usr_inicio_expiracao')
+                    ->select('usr_codigo', 'usr_nome')
+                    ->get();
     // $servicos = DB::table('categoria_servicos as u')->get();
     $servicos = MkOsTipo::whereIn('codostipo', $servList)->orderBy('descricao', 'asc')->get();
-    $tecnicos = MkPessoa::where('classificacao', 3)->get();
+    $tecnicos = DB::connection('pgsql')->table('fr_usuario')
+                        ->where('setor_associado', 'TEC')
+                        ->where('cd_perfil_acesso', 6)
+                        ->whereNull('usr_inicio_expiracao')
+                        ->select('usr_codigo', 'usr_nome')
+                        ->get();
 
-    return view('reports.relOsForm', compact('users', 'tecnicos', 'servicos'));
+    return view('reports.relOsForm', compact('consultores', 'tecnicos', 'servicos'));
   }
 
   public function relOs(Request $request)
   {
-
     // Datas
     $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d 00:00:00');
     $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d 23:59:59');
-    // $dtInicio = Carbon::parse($request->dt_inicio)->format('Y-m-d');
-    // $dtFim = Carbon::parse($request->dt_fim)->format('Y-m-d');
+
+    if ($request->tecnico_id) {
+      $tecnicos[] = $request->tecnico_id;
+    } else {
+      $result = FrUsuario::select('usr_codigo')->get();
+
+      foreach ($result as $r) {
+        $tecnicos[] = $r->usr_codigo;
+      }
+    }
 
     // Tipos de OS
     if ($request->codostipo) {
@@ -349,11 +367,12 @@ class ReportsController extends Controller
 
     //Consultores
     if ($request->consultor_id) {
-      $consultores = [$request->consultor_id];
+      $consultores[] = $request->consultor_id;
     } else {
-      $result = MkPessoa::where('classificacao', 3)->select('codpessoa')->get();
+      $result = FrUsuario::select('usr_codigo')->get();
+
       foreach ($result as $r) {
-        $consultores[] = $r->codpessoa;
+        $consultores[] = $r->usr_codigo;
       }
     }
 
@@ -361,6 +380,7 @@ class ReportsController extends Controller
 
     if ($request->tipo_pesquisa == 1) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
+        ->leftjoin('mk_contratos as contrato', 'os.cd_contrato', 'contrato.codcontrato')
         ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
         ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
         ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
@@ -372,7 +392,7 @@ class ReportsController extends Controller
         // ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
         // ->where('os.operador_fech_tecnico', 1318)
         ->whereBetween('os.data_abertura', [$dtInicio, $dtFim])
-        ->whereIn('tipo_os', $tipos)
+        // ->whereIn('tipo_os', $tipos)
         ->select(
           'os.codos',
           'os.data_abertura',
@@ -390,7 +410,7 @@ class ReportsController extends Controller
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
-          // 'cont.vlr_renovacao',
+          'os.cd_contrato as plano',
           'os.classificacao_encerramento',
           'os.servico_prestado'
           // 'plan.vlr_mensalidade'
@@ -401,7 +421,9 @@ class ReportsController extends Controller
 
     if ($request->tipo_pesquisa == 2) {
       $result = DB::connection('pgsql')->table('mk_os as  os')
-        ->join('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
+        ->leftjoin('mk_os_classificacao_encerramento as classificacao', 'os.classificacao_encerramento', 'classificacao.codclassifenc')
+        ->leftjoin('mk_contratos as contrato', 'os.cd_contrato', 'contrato.codcontrato')
+        ->leftjoin('mk_pessoas as cliente', 'os.cliente', 'cliente.codpessoa')
         ->leftJoin('fr_usuario as u', 'os.operador_fech_tecnico', 'u.usr_codigo')
         ->leftJoin('fr_usuario as u2', 'os.tecnico_responsavel', 'u2.usr_codigo')
         ->leftJoin('mk_pessoas as consul', 'os.tecnico_responsavel', 'consul.codpessoa')
@@ -411,7 +433,8 @@ class ReportsController extends Controller
         // ->leftJoin('mk_conexoes as conex',  'cliente.codpessoa', 'conex.codcliente')
         // ->leftJoin('mk_contratos as cont', 'conex.contrato', 'cont.codcontrato' )
         ->whereBetween('os.data_fechamento', [$dtInicio, $dtFim])
-        // ->where('os.operador_fech_tecnico', 1318)
+        ->whereIn('os.operador_fech_tecnico', $tecnicos)
+        // ->whereIn('os.tecnico_responsavel', $consultores)
         ->whereIn('tipo_os', $tipos)
         ->select(
           'os.codos',
@@ -430,12 +453,10 @@ class ReportsController extends Controller
           'consul.nome_razaosocial as consultor',
           'tec.nome_razaosocial as tecnico',
           'tip.descricao as tipo',
-          // 'cont.vlr_renovacao',
-          'os.classificacao_encerramento',
+          'contrato.vlr_renovacao as plano',
+          'classificacao.classificacao as classificacao',
           'os.servico_prestado'
-          // 'plan.vlr_mensalidade'
         )
-        // ->orderBy('os.dt_hr_fechamento_tec', 'asc')
         ->orderBy('os.data_fechamento', 'asc')
         ->get();
     }
